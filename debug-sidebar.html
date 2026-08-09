@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Debug Sidebar</title>
+<style>
+body{margin:0;font:14px/1.5 Inter,sans-serif;background:#1a1a1e;color:#d5d5d5;padding:24px}
+pre{background:#111;border:1px solid #333;border-radius:8px;padding:16px;overflow-x:auto;font-size:12px;white-space:pre-wrap;max-height:70vh;overflow-y:auto}
+h2{color:#a08bff;margin:20px 0 8px}
+button.run{padding:8px 16px;border:none;border-radius:8px;background:#643cc1;color:#fcfcfc;cursor:pointer;font-weight:500;margin:8px 4px}
+button.run:hover{background:#7f56d9}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin:2px}
+.ok{background:rgba(106,210,117,.2);color:#6ad275}
+.fail{background:rgba(255,107,94,.2);color:#ff6b5e}
+.info{background:rgba(90,176,255,.2);color:#5ab0ff}
+</style>
+</head>
+<body>
+<h1>Sidebar DOM Debugger</h1>
+<p>Click buttons to inspect the rendered sidebar DOM:</p>
+<button class="run" onclick="showSidebar()">1. Show sidebar element</button>
+<button class="run" onclick="showXimports()">2. Find x-import elements</button>
+<button class="run" onclick="showButtons()">3. Find all buttons</button>
+<button class="run" onclick="showButtonsText()">4. Show button text content</button>
+<button class="run" onclick="testTooltip()">5. Test tooltip creation</button>
+<button class="run" onclick="runAll()">RUN ALL</button>
+<pre id="out">Click a button above...</pre>
+
+<script>
+var out = document.getElementById('out');
+
+function log(msg, cls) {
+  if (typeof msg === 'object') msg = JSON.stringify(msg, null, 2);
+  out.textContent += '\n' + msg;
+}
+
+function showSidebar() {
+  out.textContent = '--- SIDEBAR ELEMENT ---\n';
+  var sb = document.querySelector('[data-tour="sidebar"]');
+  if (!sb) { log('NOT FOUND: [data-tour="sidebar"]', 'fail'); return; }
+  log('Found sidebar: ' + sb.tagName + ' (children: ' + sb.children.length + ')');
+  log('Inner HTML length: ' + sb.innerHTML.length);
+  log('First 500 chars of innerHTML:\n' + sb.innerHTML.substring(0, 500));
+}
+
+function showXimports() {
+  out.textContent = '--- X-IMPORT ELEMENTS ---\n';
+  var sb = document.querySelector('[data-tour="sidebar"]');
+  if (!sb) { log('No sidebar found'); return; }
+  var xis = sb.querySelectorAll('x-import');
+  log('x-import count: ' + xis.length);
+  xis.forEach(function(xi, i) {
+    var label = xi.getAttribute('label');
+    var childCount = xi.children.length;
+    var innerSnippet = xi.innerHTML.substring(0, 200);
+    log('[' + i + '] label="' + label + '" children=' + childCount + ' tagName=' + xi.tagName);
+    log('    innerHTML: ' + innerSnippet);
+  });
+}
+
+function showButtons() {
+  out.textContent = '--- ALL BUTTONS IN SIDEBAR ---\n';
+  var sb = document.querySelector('[data-tour="sidebar"]');
+  if (!sb) { log('No sidebar found'); return; }
+  var btns = sb.querySelectorAll('button');
+  log('button count: ' + btns.length);
+  btns.forEach(function(b, i) {
+    var rect = b.getBoundingClientRect();
+    log('[' + i + '] visible=' + (rect.width > 0) + ' size=' + Math.round(rect.width) + 'x' + Math.round(rect.height) + ' text="' + b.textContent.substring(0, 50).replace(/\s+/g, ' ').trim() + '"');
+  });
+}
+
+function showButtonsText() {
+  out.textContent = '--- BUTTON SPAN TEXT ---\n';
+  var sb = document.querySelector('[data-tour="sidebar"]');
+  if (!sb) { log('No sidebar found'); return; }
+  var btns = sb.querySelectorAll('button');
+  btns.forEach(function(b, i) {
+    var spans = b.querySelectorAll('span');
+    var spanTexts = [];
+    spans.forEach(function(s, j) {
+      spanTexts.push('span[' + j + ']="' + s.textContent.trim().substring(0, 40) + '"');
+    });
+    log('button[' + i + ']: ' + spanTexts.join(' | '));
+  });
+}
+
+function testTooltip() {
+  out.textContent = '--- TOOLTIP TEST ---\n';
+  var tip = document.querySelector('.flb-sidebar-tooltip');
+  if (tip) {
+    log('Tooltip element exists: YES');
+    log('Visible: ' + tip.hasAttribute('data-visible'));
+    log('Computed display: ' + getComputedStyle(tip).display);
+    log('Computed opacity: ' + getComputedStyle(tip).opacity);
+    log('Computed z-index: ' + getComputedStyle(tip).zIndex);
+    log('Computed position: ' + getComputedStyle(tip).position);
+    log('Offset size: ' + tip.offsetWidth + 'x' + tip.offsetHeight);
+  } else {
+    log('Tooltip element: NOT FOUND (script may not have run)');
+  }
+  // Test creating one manually
+  log('\n--- Creating test tooltip ---');
+  var test = document.createElement('div');
+  test.style.cssText = 'position:fixed;top:50px;left:50px;z-index:99999;background:red;color:white;padding:20px;font-size:20px;border-radius:8px;';
+  test.textContent = 'DEBUG: Can you see this red box?';
+  test.id = 'debug-tooltip-test';
+  document.body.appendChild(test);
+  log('Created red debug box at top:50px left:50px');
+  setTimeout(function() { test.remove(); }, 5000);
+  log('It will auto-remove in 5 seconds');
+}
+
+function runAll() {
+  showSidebar();
+  log('\n');
+  showXimports();
+  log('\n');
+  showButtons();
+  log('\n');
+  showButtonsText();
+  log('\n');
+  testTooltip();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://design-tokens.org/format",
+  "name": "flable.ai — AI CMO Design System",
+  "version": "1.0.0",
+  "description": "Exact token spec for flable.ai. Dark-first, violet accent. Semantic --flb-* tokens flip on class=light / [data-theme=light].",
+  "font": {
+    "family": {
+      "display": "\"Poppins\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "body": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "mono": "\"Geist\", \"Inter\", ui-monospace, \"SF Mono\", Menlo, monospace"
+    },
+    "googleImport": "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Geist:wght@400;500;600&display=swap",
+    "weight": { "normal": 400, "medium": 500, "semibold": 600, "bold": 700 },
+    "displayWeightMax": 600,
+    "tracking": { "display": "-0.02em", "heading": "-0.01em", "normal": "0" },
+    "size": {
+      "desktop": { "xs": 12, "sm": 14, "base": 16, "lg": 18, "xl": 20, "2xl": 24, "3xl": 30, "4xl": 36, "5xl": 48, "6xl": 60, "7xl": 72, "8xl": 96, "9xl": 128 },
+      "tablet":  { "xs": 11, "sm": 13, "base": 15, "lg": 16, "xl": 18, "2xl": 20, "3xl": 24, "4xl": 28, "5xl": 36, "6xl": 48, "7xl": 48, "8xl": 84, "9xl": 112 },
+      "mobile":  { "xs": 10, "sm": 12, "base": 14, "lg": 15, "xl": 16, "2xl": 18, "3xl": 20, "4xl": 24, "5xl": 30, "6xl": 36, "7xl": 56, "8xl": 72, "9xl": 96 }
+    },
+    "lineHeight": { "xs": 16, "sm": 20, "base": 24, "lg": 28, "2xl": 30, "3xl": 36, "4xl": 44, "5xl": 52, "6xl": 80 }
+  },
+  "color": {
+    "brand": {
+      "violet": "#643CC1",
+      "violetLight": "#A08BFF",
+      "purple": "#7F56D9",
+      "magenta": "#E9348B",
+      "blue": "#009EFF"
+    },
+    "primary": {
+      "50": "#F4F0FF", "100": "#E9E1FF", "200": "#D8CFFF", "300": "#BEADFF",
+      "400": "#A08BFF", "500": "#643CC1", "600": "#6941C6", "700": "#53389E",
+      "800": "#422C7A", "900": "#362564"
+    },
+    "accent": {
+      "50": "#FFE8F3", "100": "#FFD1E7", "200": "#FFA3CF", "300": "#FF75B7",
+      "400": "#FB479F", "500": "#E9348B", "600": "#C42C75", "700": "#9E245F",
+      "800": "#781C48", "900": "#5C1537"
+    },
+    "secondary": {
+      "50": "#E6F6FF", "100": "#CCEFFF", "200": "#99DFFF", "300": "#66CFFF",
+      "400": "#33BFFF", "500": "#009EFF", "600": "#0086D9", "700": "#0064A1",
+      "800": "#004B78", "900": "#003A5C"
+    },
+    "grey": {
+      "50": "#FAFAFA", "100": "#F5F5F5", "200": "#EAEAEA", "300": "#D5D5D5",
+      "400": "#898989", "500": "#8C8C91", "600": "#6A6A6F", "700": "#4A4A4F",
+      "800": "#2D2D31", "900": "#151517", "1000": "#0D0D0E"
+    },
+    "status": {
+      "dark":  { "success": "#6AD275", "warning": "#FFA20C", "error": "#FF6B5E", "info": "#5AB0FF" },
+      "light": { "success": "#2E8C48", "warning": "#C2410C", "error": "#D32F2F", "info": "#1976D2" }
+    }
+  },
+  "semantic": {
+    "dark": {
+      "bg": "#0D0D0E", "surface": "#151517", "surface-2": "#1F1F22", "surface-3": "#2D2D31",
+      "line": "#2D2D31", "line-soft": "rgba(237,241,245,0.08)",
+      "border-default": "#2D2D31", "border-muted": "rgba(237,241,245,0.06)",
+      "ink": "#FAFAFA", "ink-2": "#D5D5D5", "ink-3": "#8C8C91", "ink-4": "#6A6A6F", "ink-invert": "#151517",
+      "success": "#6AD275", "warning": "#FFA20C", "error": "#FF6B5E", "info": "#5AB0FF",
+      "tint-violet": "rgba(160,139,255,0.14)",  "on-violet": "#BEADFF",
+      "tint-success": "rgba(106,210,117,0.14)", "on-success": "#6AD275",
+      "tint-warning": "rgba(255,162,12,0.14)",  "on-warning": "#FFA20C",
+      "tint-error": "rgba(255,107,94,0.14)",    "on-error": "#FF6B5E",
+      "tint-info": "rgba(90,176,255,0.14)",     "on-info": "#5AB0FF",
+      "tint-neutral": "rgba(237,241,245,0.08)"
+    },
+    "light": {
+      "bg": "#FAFAFA", "surface": "#FFFFFF", "surface-2": "#F5F5F5", "surface-3": "#EAEAEA",
+      "line": "#E5E5E7", "line-soft": "rgba(10,13,18,0.06)",
+      "border-default": "#E5E5E7", "border-muted": "rgba(10,13,18,0.05)",
+      "ink": "#151517", "ink-2": "#4A4A4F", "ink-3": "#898989", "ink-4": "#AAAAB0", "ink-invert": "#FAFAFA",
+      "success": "#2E8C48", "warning": "#C2410C", "error": "#D32F2F", "info": "#1976D2",
+      "tint-violet": "rgba(100,60,193,0.10)",  "on-violet": "#53389E",
+      "tint-success": "rgba(46,140,72,0.12)",  "on-success": "#226E37",
+      "tint-warning": "rgba(194,65,12,0.12)",  "on-warning": "#B43C0A",
+      "tint-error": "rgba(211,47,47,0.10)",    "on-error": "#BE2828",
+      "tint-info": "rgba(25,118,210,0.10)",    "on-info": "#1565B4",
+      "tint-neutral": "rgba(10,13,18,0.05)"
+    }
+  },
+  "gradient": {
+    "hero": "radial-gradient(120% 130% at 0% 4%, #E9348B 0%, #7F56D9 51.43%, #009EFF 100%)",
+    "energetic": "radial-gradient(130% 130% at 0% 0%, #FB479F 0%, #7F56D9 100%)",
+    "primary-focus": "radial-gradient(110% 110% at 4% 5%, #A08BFF 0%, #6941C6 100%)",
+    "primary-focus-dark": "radial-gradient(90% 140% at 89% -11%, #4A259A 0%, #1B0D38 100%)",
+    "chart": "linear-gradient(179deg, #7F56D9 -5%, rgba(127,86,217,0) 100%)",
+    "onboarding": "linear-gradient(166deg, #F4F0FF 26%, #D8CFFF 92%)",
+    "text": "linear-gradient(92deg, #E9348B 0%, #7F56D9 52%, #009EFF 100%)"
+  },
+  "radius": { "sm": 4, "md": 8, "lg": 12, "xl": 16, "2xl": 20, "full": 9999,
+    "usage": { "input": "8-12", "button": "8-12", "card": "14-16", "brandPanel": 20, "chipBadgeAvatarToggle": "full" } },
+  "spacing": { "1": 4, "2": 8, "3": 12, "4": 16, "5": 20, "6": 24, "8": 32, "10": 40, "12": 48, "16": 64, "base": 4 },
+  "elevation": {
+    "dark": {
+      "sm": "0 1px 2px rgba(0,0,0,0.4), 0 0 0 1px rgba(237,241,245,0.05)",
+      "md": "0 6px 20px rgba(0,0,0,0.45), 0 0 0 1px rgba(237,241,245,0.06)",
+      "lg": "0 20px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(237,241,245,0.08)",
+      "glow-violet": "0 0 0 1px rgba(160,139,255,0.4), 0 8px 28px rgba(100,60,193,0.35)"
+    },
+    "light": {
+      "sm": "0 1px 2px rgba(10,13,18,0.06), 0 0 0 1px rgba(10,13,18,0.05)",
+      "md": "0 6px 20px rgba(10,13,18,0.10), 0 0 0 1px rgba(10,13,18,0.05)",
+      "lg": "0 20px 48px rgba(10,13,18,0.16), 0 0 0 1px rgba(10,13,18,0.06)",
+      "glow-violet": "0 0 0 1px rgba(100,60,193,0.35), 0 8px 28px rgba(100,60,193,0.22)"
+    }
+  },
+  "motion": {
+    "ease": "cubic-bezier(0.4, 0, 0.2, 1)",
+    "ease-out": "cubic-bezier(0.16, 1, 0.3, 1)",
+    "duration": "180ms",
+    "hoverLift": "1px",
+    "disabledOpacity": 0.45
+  },
+  "focus": { "border": "#A08BFF", "ring": "0 0 0 3px rgba(160,139,255,0.18)" },
+  "icon": {
+    "set": "Phosphor",
+    "weight": "regular",
+    "stroke": "1.7px",
+    "color": "currentColor",
+    "sizes": { "xs": 16, "nav": 18, "base": 20, "lg": 24 },
+    "muted": "ink-3",
+    "active": "primary-400"
+  },
+  "breakpoints": { "mobile": 375, "tablet": 768, "desktop": 1440 }
+}

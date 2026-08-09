@@ -1,0 +1,8 @@
+/* flable.ai — Design System global entry.
+   Consumers link THIS file. Import order matters: fonts → raw Figma
+   variables (primitives) → brand semantic layer. Keep this file as
+   @import lines only. */
+
+@import "./tokens/fonts.css";
+@import "./tokens/primitives.css";
+@import "./tokens/brand.css";

@@ -1,0 +1,175 @@
+================================================================================
+FLABLE AI — PROJECT CONTEXT
+Documented: July 5, 2026
+================================================================================
+
+--------------------------------------------------------------------------------
+1. WHAT THE PRODUCT IS
+--------------------------------------------------------------------------------
+flable.ai is "the AI CMO" — an autonomous Chief Marketing Officer for D2C brands
+and agencies. It connects a brand's marketing stack (Meta, Google, Amazon Ads,
+plus commerce/email sources) and acts as an always-on analyst that optimizes for
+PROFIT, not vanity metrics.
+
+Users converse with it ("Ask AI CMO"): it diagnoses root causes, surfaces
+low-ROAS ad groups, and returns concrete reallocation plans with projected lift.
+
+Headline outcomes the brand sells:
+  - 40% reduction in wasted ad spend
+  - 25%+ lift in ROAS
+  - 2x faster decisions
+Traction: 50+ D2C brands, 20 agencies (India, EU, MENA, US).
+Offices: Bangalore and Munich.
+
+Core positioning: "Your current tools show you WHAT happened. Flable AI shows
+you WHY it happened."
+
+--------------------------------------------------------------------------------
+2. DESIGN SYSTEM (BOUND)
+--------------------------------------------------------------------------------
+This project is bound to the flable.ai Design System:
+  _ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/
+
+Every Design Component must load the bundle in <helmet>:
+  - tokens/fonts.css       (Poppins / Inter / Geist)
+  - tokens/primitives.css  (raw color/spacing/radius variables)
+  - tokens/brand.css       (semantic --flb-* layer — PREFER these tokens)
+  - styles.css             (global entry)
+  - _ds_bundle.js          (React component library, window.FlableAiDesignSystem_c17dff)
+
+VISUAL FOUNDATIONS
+  Mood: dark-first, premium, analytical. Near-black canvas (--flb-bg #0D0D0E),
+        graphite cards (#151517), violet as the single decisive accent.
+  Color:
+    - Primary violet #643CC1 (UI/link lighter tone #A08BFF, mid-violet #7F56D9)
+    - Gradient bookends: magenta #E9348B, blue #009EFF (used sparingly as flat fills)
+    - True-grey neutrals (grey-50 -> grey-1000)
+    - Status (brightened for dark): success #6AD275, warning #FFA20C,
+      error #FF6B5E, info #5AB0FF
+  Themes: Dark is primary; a full LIGHT theme ships. All --flb-* semantics flip
+          under class="light" / [data-theme="light"]. App shell has a persisted
+          sun/moon toggle.
+  Type: Poppins (display/headings/wordmark, 400-600, tight tracking),
+        Inter (body/UI/data 400-600), Geist (numeric/label accent).
+        Display rarely exceeds 600 weight.
+  Gradients: hero (magenta->violet->blue radial) for brand surfaces;
+             energetic (pink->violet) for primary CTAs;
+             primary-focus-dark (deep violet) card glow behind recommendations;
+             chart (violet->transparent) area fills; onboarding (soft lilac).
+  Backgrounds: flat dark fills, not photography. Depth via surface layering
+               (bg -> surface -> surface-2 -> surface-3) + hairline borders
+               (--flb-line #2D2D31).
+  Corners: inputs/buttons 8-12px, cards 14-16px, brand panels 20px,
+           chips/badges/avatars/toggles fully round.
+  Elevation: 1px hairline + soft dark shadow; faint light inset rim on top edge;
+             violet glow (--flb-glow-violet) for focus/active/AI moments.
+  Motion: quick, restrained ~180ms cubic-bezier(.4,0,.2,1); entrances ease-out.
+          Nothing loops except the loading spinner.
+  Focus: violet 400 border + 3px rgba(160,139,255,0.18) ring.
+
+ICONOGRAPHY
+  Primary set: Phosphor (regular, ~1.7px stroke, rounded joins). NO emoji,
+  no unicode-as-icon. Channel/brand logos as colored monogram tiles.
+  Brand mark: flable.ai swoosh (FlableMark / BrandLogo components).
+
+VOICE / COPY
+  Sharp, senior operator — a CMO briefing a founder. Confident, specific,
+  outcome-led. Never hypey. Addresses user as "you/your"; product as
+  "Flable AI" / "AI CMO" / "I" in conversation. Always quantified (numbers +
+  deltas + timeframe). Structure: Insight -> Recommendation -> a button that
+  does the thing. Profit framing over vanity. Title Case for product nouns/
+  headers, sentence case for body. Em dashes and "->" arrows used freely.
+
+COMPONENT LIBRARY (window.FlableAiDesignSystem_c17dff)
+  brand:      BrandLogo, FlableMark
+  forms:      Button, IconButton, Input, Textarea, Checkbox, Radio, Switch, Select
+  data:       Badge, Chip, Avatar, Card (+CardHeader), Table
+  feedback:   Alert, ProgressBar, Tooltip, Spinner
+  navigation: Tabs, NavItem, Pagination
+
+TEMPLATE AVAILABLE
+  Weekly Performance Report:
+  /projects/c17dff3e-2e5d-498e-8908-1f9cc234e012/templates/performance-report/
+  (branded one-page AI CMO performance report — metrics, insight, campaign
+  table, recommendation)
+
+Full design-system source tree:
+  /projects/c17dff3e-2e5d-498e-8908-1f9cc234e012/
+
+--------------------------------------------------------------------------------
+3. MAIN DELIVERABLE — "index.html"
+--------------------------------------------------------------------------------
+A single Design Component (preview 1440x940) recreating the AI CMO web app plus
+its full signup/onboarding flow. It is a state-driven flow with these screens
+(state.screen):
+
+  login     -> Returning-user sign-in (Google SSO or email/password)
+  signup    -> Create account
+  otp       -> OTP verification
+  connect   -> Connect ad accounts (Meta / Google / Amazon)
+  confirm   -> Confirm brand
+  plans     -> PAYG pricing / add credits
+  settingup -> Provisioning progress screen (animated 0->100%)
+  app       -> The core AI CMO web app
+
+FLOW LOGIC
+  - Email signup path: signup -> otp -> connect -> confirm -> plans -> settingup -> app
+  - Google SSO: skips password + OTP, goes straight to connect
+  - Returning sign-in: login -> straight to app
+  - onboardingOpen = screen in [connect, confirm, plans, settingup]
+  - Referral: optional modal (referralOpen) applied before plans; unlocks
+    250 free credits when all onboarding steps complete
+  - settingup runs an interval that advances settingProgress by 20 each tick;
+    at 100% transitions to app and starts the interactive tour (tourStep 0)
+
+APP SHELL STATE
+  theme (dark/light), nav (chats/…), draft, web (toggle), banner, checklistOpen,
+  insightsOpen, menu, model (Standard), effort (Medium), collapsible groups
+  (workspace/analytics/…). Standard nav rows: active reads brighter/bolder label
+  on surface-3, no violet fill.
+
+INTERACTIVE PRODUCT TOUR
+  After provisioning, a step-based coach-mark tour runs on the app screen.
+  tourStep 0 = welcome card; tourStep >= 1 = anchored highlight ring measured
+  against live DOM rects (measureTour / tourRect), re-measured on step change.
+
+DEMO PERSONA
+  Sarah Chen, sarah@luminaryskincare.com, company luminaryskincare.com.
+
+--------------------------------------------------------------------------------
+4. PROJECT FILES
+--------------------------------------------------------------------------------
+  index.html            Main deliverable (Design Component; entry file)
+  support.js            DC runtime (do not edit)
+  PROJECT-CONTEXT.txt   This document
+
+  assets/               Project-local SVGs used by the design
+    ai-cmo-grad.svg, ai-cmo.svg, flable-logo.svg, flable-mark.svg,
+    google-g.svg, orion.svg
+
+  screenshots/
+    home.png            Rendered home capture
+
+  uploads/              Source material the user provided
+    Onboarding reference screens (login, sign-up, OTP, add-accounts, confirm,
+      plans, referral, setting-up) — 1..8 PNG/JPG
+    Logos: full logo.svg, logo only.svg, Brand Logo.svg, AI CMO.svg,
+      orion light.svg, Google_G_logo.svg, Nvidia_logo.svg, brand-logo-inline.txt
+    Dashboards / frames: Dashboard 3.png, Frame 2147224858.png,
+      Sign Up.png, SignIn.png, pasted-*.png
+    Stripe reference examples: stripe-example1/2/3.png
+    PDFs (onboarding research):
+      "Onboarding Tours - How to Create Them & 4 Examples - UserOnBoarding.pdf"
+      "User Onboarding Best Practices in 2026_ A Practical Guide.pdf"
+
+--------------------------------------------------------------------------------
+5. WORKING NOTES / CONVENTIONS
+--------------------------------------------------------------------------------
+  - Build everything as Design Components (.dc.html). Load the DS bundle in
+    <helmet> of every DC. Compose with DS components; do not restyle raw HTML
+    to imitate them.
+  - Inline styles only; style against --flb-* tokens. No emoji.
+  - Orion = the agent cube mark used in the onboarding flow.
+  - The design system's example brands/people (e.g. Luminary Skincare, Sarah
+    Chen) are demo content only — not facts about the actual user.
+================================================================================

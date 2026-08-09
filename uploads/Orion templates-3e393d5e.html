@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Flable · Orion</title>
+<style>
+  :root{
+    --bg:#F7F6F3; --panel:#FFFFFF; --ink:#1C1A26; --muted:#6E6A7E; --faint:#A19DAF;
+    --violet:#7C5CFF; --violet-press:#5B3FD1; --pink:#EC3D82;
+    --grad:linear-gradient(135deg,#7C5CFF 0%,#EC3D82 100%);
+    --green:#12B76A;
+    --line:#ECEAF1; --line-soft:#F3F2F7;
+    --chip-v-bg:#F1EDFF; --chip-v-tx:#5B3FD1;
+    --chip-p-bg:#FDEBF3; --chip-p-tx:#C2185B;
+    --chip-g-bg:#E7F9F0; --chip-g-tx:#0E7A4E;
+    --shadow-card:0 2px 10px rgba(28,26,38,.05);
+    --shadow-pop:0 24px 70px rgba(28,26,38,.28);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+  .app{display:flex;min-height:100vh}
+
+  /* ===== SIDEBAR (matches live UI) ===== */
+  .side{width:196px;flex:0 0 196px;background:#FBFAF8;border-right:1px solid var(--line);
+    display:flex;flex-direction:column;padding:16px 12px;position:sticky;top:0;height:100vh}
+  .brand{display:flex;align-items:center;gap:7px;padding:2px 4px}
+  .logo{width:22px;height:22px;border-radius:6px;background:var(--grad);display:grid;place-items:center;
+    color:#fff;font-weight:800;font-size:13px;font-style:italic}
+  .brand b{font-size:14.5px;font-weight:700;letter-spacing:-.2px}
+  .dev{font-size:9px;font-weight:700;color:#D46A2E;border:1px solid #F0C9A8;border-radius:20px;padding:2px 7px;margin-left:4px}
+  .backed{font-size:9px;color:var(--faint);letter-spacing:.8px;font-weight:700;padding:6px 4px 14px}
+  .newchat{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;font-size:13px;
+    color:var(--violet-press);font-weight:600;background:var(--chip-v-bg);width:100%;text-align:left}
+  .newchat .kbd{margin-left:auto;font-size:9.5px;color:var(--faint);border:1px solid var(--line);
+    border-radius:4px;padding:1px 4px;background:#fff}
+  .sec{font-size:10px;font-weight:600;letter-spacing:.4px;color:var(--faint);padding:16px 6px 5px;
+    display:flex;align-items:center}
+  .sec::after{content:"⌄";margin-left:auto;font-size:10px}
+  .nav{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:8px;font-size:12.5px;
+    color:var(--muted);font-weight:500;width:100%;text-align:left}
+  .nav:hover{background:var(--line-soft)}
+  .nav .ic{width:15px;text-align:center;font-size:12px;opacity:.75}
+  .nav .badge{margin-left:auto;background:var(--violet);color:#fff;font-size:9px;font-weight:700;
+    border-radius:10px;padding:2px 6px;display:none}
+  .nav .badge.show{display:inline}
+
+  /* ===== MAIN ===== */
+  .main{flex:1;display:flex;flex-direction:column;min-width:0}
+  .topbar{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);
+    padding:10px 18px;gap:14px}
+  .topbar .part{margin:0 auto;display:flex;align-items:center;gap:10px;border:1px solid var(--line);
+    border-radius:10px;padding:5px 12px;font-size:9px;letter-spacing:1px;color:var(--faint);font-weight:700}
+  .topbar .right{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted)}
+  .avatar{width:26px;height:26px;border-radius:50%;background:#E8E5F2;display:grid;place-items:center;
+    font-size:11px;font-weight:700;color:var(--violet-press)}
+
+  .canvas{flex:1;padding:18px 26px 60px;max-width:880px;width:100%;margin:0 auto}
+  .agent{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);
+    border-radius:10px;padding:7px 12px;font-size:12.5px;font-weight:600}
+  .agent .a-ic{width:16px;height:16px;border-radius:5px;background:var(--violet);color:#fff;display:grid;
+    place-items:center;font-size:9px}
+  .canvas .row{display:flex;align-items:center}
+  .canvas .row .spacer{flex:1}
+  .newbtn{border:1px solid var(--line);background:var(--panel);border-radius:9px;padding:7px 13px;
+    font-size:12.5px;font-weight:600}
+
+  .greet{text-align:center;font-size:27px;font-weight:700;letter-spacing:-.4px;margin:64px 0 22px}
+
+  /* Composer */
+  .composer{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    box-shadow:var(--shadow-card);max-width:620px;margin:0 auto;overflow:hidden}
+  .composer textarea{width:100%;border:none;outline:none;resize:none;font:inherit;font-size:13.5px;
+    padding:16px 16px 6px;min-height:54px;color:var(--ink)}
+  .composer textarea::placeholder{color:var(--faint)}
+  .composer .bar{display:flex;align-items:center;padding:6px 10px 10px;gap:8px}
+  .composer .plus{width:26px;height:26px;border:1px solid var(--line);border-radius:8px;display:grid;
+    place-items:center;color:var(--muted);font-size:14px}
+  .composer .mode{margin-left:auto;font-size:12px;color:var(--muted)}
+  .composer .mode b{color:var(--ink)}
+  .composer .send{width:32px;height:32px;border-radius:10px;background:var(--violet);color:#fff;
+    display:grid;place-items:center;font-size:14px}
+  .composer .send:hover{background:var(--violet-press)}
+  .composer .hint{border-top:1px solid var(--line-soft);padding:8px 14px;font-size:11px;color:var(--faint);
+    display:flex;align-items:center;gap:6px}
+  .composer .hint .dot{width:6px;height:6px;border-radius:50%;background:#E4572E}
+
+  .caps{display:flex;justify-content:center;gap:8px;margin:16px auto 0;flex-wrap:wrap}
+  .cap{border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:6px 13px;
+    font-size:11.5px;color:var(--muted);font-weight:500}
+
+  /* ===== TEMPLATES BELOW CHAT ===== */
+  .tsec{max-width:620px;margin:34px auto 0;display:none}
+  .tsec.show{display:block;animation:up .35s ease}
+  @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .thead{display:flex;align-items:baseline;gap:8px;margin-bottom:11px;padding:0 2px}
+  .thead b{font-size:13px}
+  .thead small{font-size:11px;color:var(--faint)}
+  .thead .edit{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--violet-press)}
+  .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:640px){.tgrid{grid-template-columns:1fr}}
+  .tcard{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 14px;
+    text-align:left;box-shadow:var(--shadow-card);transition:border-color .12s, transform .12s;width:100%}
+  .tcard:hover{border-color:#C9BEF7;transform:translateY(-1px)}
+  .tcard .t1{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+  .tcard .t1 b{font-size:12.5px;flex:1}
+  .chip{font-size:9px;font-weight:700;padding:2.5px 8px;border-radius:20px;letter-spacing:.4px}
+  .chip.daily{background:var(--chip-v-bg);color:var(--chip-v-tx)}
+  .chip.weekly{background:var(--chip-p-bg);color:var(--chip-p-tx)}
+  .chip.monthly{background:var(--chip-g-bg);color:var(--chip-g-tx)}
+  .chip.now{background:#FFF3E8;color:#C2660F}
+  .tcard p{font-size:11px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;
+    -webkit-box-orient:vertical;overflow:hidden}
+  .tcard .sched{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--chip-g-tx);
+    font-weight:600;margin-top:7px}
+  .tcard .sched .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+  .setupcta{max-width:620px;margin:34px auto 0;border:1.5px dashed var(--line);border-radius:14px;
+    background:var(--panel);padding:18px;display:flex;align-items:center;gap:14px}
+  .setupcta .big{width:38px;height:38px;border-radius:12px;background:var(--grad);display:grid;
+    place-items:center;color:#fff;font-size:16px;flex:0 0 38px}
+  .setupcta b{font-size:13px;display:block}
+  .setupcta span{font-size:11.5px;color:var(--muted)}
+  .setupcta .go{margin-left:auto;background:var(--violet);color:#fff;border-radius:9px;padding:9px 15px;
+    font-size:12.5px;font-weight:600;flex:0 0 auto}
+
+  /* ===== WIZARD (same as before) ===== */
+  .scrim{position:fixed;inset:0;background:rgba(28,26,38,.45);backdrop-filter:blur(3px);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+  .scrim.show{display:flex}
+  .wiz{background:var(--panel);border-radius:20px;box-shadow:var(--shadow-pop);width:560px;max-width:100%;
+    max-height:92vh;overflow:auto;padding:26px 28px 24px}
+  .dots{display:flex;gap:6px;margin-bottom:20px}
+  .dots i{height:4px;flex:1;border-radius:4px;background:var(--line)}
+  .dots i.done{background:var(--violet)}
+  .step{display:none}
+  .step.on{display:block;animation:up .25s ease}
+  .step .eyebrow{font-size:10.5px;font-weight:700;letter-spacing:1.4px;color:var(--violet);margin-bottom:6px}
+  .step h3{font-size:18px;letter-spacing:-.2px;margin-bottom:4px}
+  .step .hint{font-size:12.5px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+  .opts{display:grid;gap:10px}
+  .opt{border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;text-align:left;width:100%;
+    transition:border-color .12s, background .12s}
+  .opt:hover{border-color:#C9BEF7}
+  .opt.sel{border-color:var(--violet);background:var(--chip-v-bg)}
+  .opt b{font-size:13.5px;display:block}
+  .opt span{font-size:11.5px;color:var(--muted);display:block;margin-top:2px;line-height:1.4}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .mchip{border:1.5px solid var(--line);border-radius:20px;padding:8px 13px;font-size:12.5px;font-weight:600;
+    position:relative;transition:all .12s}
+  .mchip:hover{border-color:#C9BEF7}
+  .mchip.sel{border-color:var(--violet);background:var(--chip-v-bg);color:var(--violet-press)}
+  .mchip.sel::after{content:attr(data-ord);position:absolute;top:-7px;right:-5px;width:16px;height:16px;
+    border-radius:50%;background:var(--violet);color:#fff;font-size:9.5px;font-weight:700;display:grid;place-items:center}
+  textarea.pain{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px;font:inherit;
+    font-size:13px;min-height:88px;resize:vertical;outline:none}
+  textarea.pain:focus{border-color:var(--violet)}
+  .exchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .exchip{border:1px dashed var(--line);border-radius:20px;padding:6px 11px;font-size:11.5px;color:var(--muted)}
+  .exchip:hover{border-color:var(--violet);color:var(--violet-press)}
+  .sliderbox{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+  .sliderbox label{font-size:12.5px;font-weight:600;display:flex;justify-content:space-between}
+  .sliderbox label output{color:var(--violet-press)}
+  .sliderbox input[type=range]{width:100%;accent-color:var(--violet);margin-top:10px}
+  .smart{font-size:11px;color:var(--chip-g-tx);background:var(--chip-g-bg);border-radius:8px;
+    padding:6px 9px;margin-top:9px;display:inline-block}
+  .seg{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+  .seg button{flex:1;padding:9px;font-size:12.5px;font-weight:600;color:var(--muted)}
+  .seg button.sel{background:var(--violet);color:#fff}
+  .fieldrow{display:flex;gap:10px;margin-bottom:14px}
+  .fieldrow>div{flex:1}
+  .flabel{font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block}
+  select,input[type=number]{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;
+    font:inherit;font-size:13px;outline:none;background:#fff}
+  select:focus,input[type=number]:focus{border-color:var(--violet)}
+  .camp{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:10px;
+    padding:10px 12px;margin-bottom:8px;font-size:12.5px;width:100%;text-align:left}
+  .camp.sel{border-color:var(--violet);background:var(--chip-v-bg)}
+  .camp .box{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--faint);display:grid;
+    place-items:center;font-size:10px;color:#fff;flex:0 0 16px}
+  .camp.sel .box{background:var(--violet);border-color:var(--violet)}
+  .camp small{margin-left:auto;color:var(--faint)}
+  .receipt{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:6px}
+  .rrow{display:flex;padding:10px 13px;font-size:12.5px;border-bottom:1px solid var(--line-soft);gap:12px}
+  .rrow:last-child{border-bottom:none}
+  .rrow .k{width:120px;flex:0 0 120px;color:var(--faint);font-weight:600}
+  .rrow .v{color:var(--ink);line-height:1.45}
+  .rrow .v i{color:var(--pink)}
+  .wfoot{display:flex;align-items:center;gap:10px;margin-top:20px}
+  .back{font-size:13px;font-weight:600;color:var(--muted);padding:10px 6px}
+  .wfoot .spacer{flex:1}
+  .skip{font-size:12px;color:var(--faint)}
+  .next{background:var(--violet);color:#fff;border-radius:10px;padding:11px 22px;font-size:13.5px;font-weight:600}
+  .next:hover{background:var(--violet-press)}
+  .next:disabled{opacity:.4;cursor:not-allowed}
+  .next.gen{background:var(--grad)}
+
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);
+    color:#fff;font-size:13px;font-weight:500;padding:12px 18px;border-radius:12px;opacity:0;
+    transition:all .3s ease;z-index:99;box-shadow:var(--shadow-pop)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media(max-width:860px){.side{display:none}.canvas{padding:16px 14px 60px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brand"><div class="logo">f</div><b>flable.ai</b><span class="dev">DEV</span></div>
+    <div class="backed">BACKED BY&nbsp; ◼ ◼ ◼</div>
+    <button class="newchat">＋ New Chats<span class="kbd">⌘ K</span></button>
+    <div class="sec">Analytics</div>
+    <button class="nav"><span class="ic">▦</span>Dashboard</button>
+    <button class="nav"><span class="ic">∿</span>Pulse</button>
+    <button class="nav"><span class="ic">⇆</span>Attribution</button>
+    <button class="nav"><span class="ic">▤</span>Insights</button>
+    <div class="sec">Setup</div>
+    <button class="nav"><span class="ic">✳</span>Integrations</button>
+    <button class="nav" onclick="toast('Your 3 scheduled reports live here')"><span class="ic">▢</span>Bookmarks<span class="badge" id="bmBadge">3</span></button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <span style="color:var(--faint)">▣</span>
+      <div class="part">AUTHORISED PARTNER &nbsp;·&nbsp; ∞ &nbsp; ◉ &nbsp; G &nbsp; ◆</div>
+      <div class="right">☾ &nbsp; 🔔 <span class="avatar">A</span><span style="font-size:12.5px;font-weight:600;color:var(--ink)">Abbas</span></div>
+    </div>
+
+    <div class="canvas">
+      <div class="row">
+        <div class="agent"><span class="a-ic">◈</span>Orion <span style="color:var(--faint);font-size:11px">⌄</span></div>
+        <div class="spacer"></div>
+        <button class="newbtn">＋ New Chat</button>
+      </div>
+
+      <h1 class="greet">Good morning, Harsha</h1>
+
+      <!-- COMPOSER -->
+      <div class="composer">
+        <textarea id="composer" placeholder="Plan and execute your campaigns... or type / for commands"></textarea>
+        <div class="bar">
+          <span class="plus">＋</span>
+          <span class="mode"><b>Standard</b> Medium ⌄</span>
+          <button class="send" onclick="toast('Sent to Orion')">↑</button>
+        </div>
+        <div class="hint"><span class="dot"></span>Enter to send · Shift+Enter for new line · / for commands · Upload creative(s)</div>
+      </div>
+
+      <div class="caps">
+        <span class="cap">Live ad data</span>
+        <span class="cap">Executes with approval</span>
+        <span class="cap">AI-scored creatives</span>
+      </div>
+
+      <!-- SETUP CTA (before onboarding) -->
+      <div class="setupcta" id="setupCta">
+        <div class="big">✦</div>
+        <div><b>Personalize Orion in 90 seconds</b><span>8 quick questions → your own prompt templates appear here, reports auto-scheduled</span></div>
+        <button class="go" onclick="openWiz()">Set up</button>
+      </div>
+
+      <!-- MY TEMPLATES (after onboarding) -->
+      <div class="tsec" id="tsec">
+        <div class="thead"><b>My Orion templates</b><small id="tsub"></small><button class="edit" onclick="openWiz()">Edit setup</button></div>
+        <div class="tgrid" id="tgrid"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ===== WIZARD ===== -->
+<div class="scrim" id="scrim">
+  <div class="wiz">
+    <div class="dots" id="dots"></div>
+
+    <div class="step" data-s="0">
+      <div class="eyebrow">STEP 1 · ABOUT YOU</div>
+      <h3>What is your role?</h3>
+      <p class="hint">This sets smart defaults for everything else — you can change any of them.</p>
+      <div class="opts" id="roleOpts"></div>
+    </div>
+
+    <div class="step" data-s="1">
+      <div class="eyebrow">STEP 2 · GOAL</div>
+      <h3>Your #1 goal for the next 90 days?</h3>
+      <p class="hint">Orion frames every recommendation around this.</p>
+      <div class="opts" id="goalOpts"></div>
+    </div>
+
+    <div class="step" data-s="2">
+      <div class="eyebrow">STEP 3 · BIGGEST PAIN</div>
+      <h3>What frustrates you most about managing ads today?</h3>
+      <p class="hint">In your own words — Orion will speak to this directly.</p>
+      <textarea class="pain" id="pain" placeholder="e.g. I only find out about wasted spend after the month ends…" oninput="state.pain=this.value;valid()"></textarea>
+      <div class="exchips">
+        <button class="exchip" onclick="fillPain(this)">I only find out about wasted spend after the month ends</button>
+        <button class="exchip" onclick="fillPain(this)">My agency reports ROAS I cannot reconcile with Shopify</button>
+        <button class="exchip" onclick="fillPain(this)">COD returns eat my margin and no tool accounts for it</button>
+      </div>
+    </div>
+
+    <div class="step" data-s="3">
+      <div class="eyebrow">STEP 4 · DAILY METRICS</div>
+      <h3>Pick up to 5 metrics for your daily briefing</h3>
+      <p class="hint">Selection order = order in the briefing. We pre-picked based on your role.</p>
+      <div class="chips" id="metricChips"></div>
+    </div>
+
+    <div class="step" data-s="4">
+      <div class="eyebrow">STEP 5 · ALERTS</div>
+      <h3>When should Orion wake you up?</h3>
+      <p class="hint">Suggested from your connected account&#8217;s last 30 days.</p>
+      <div class="sliderbox">
+        <label>Alert if True ROAS drops below <output id="roasOut">2.1</output></label>
+        <input type="range" min="1" max="5" step="0.1" value="2.1" oninput="state.roas=this.value;roasOut.value=this.value"/>
+        <span class="smart">✓ Suggested 2.1 — your 30-day avg True ROAS is 2.6</span>
+      </div>
+      <div class="sliderbox">
+        <label>Alert if spend rises <output id="spendOut">30</output>% with no sales</label>
+        <input type="range" min="10" max="100" step="5" value="30" oninput="state.spike=this.value;spendOut.value=this.value"/>
+        <span class="smart">✓ Suggested 30% — catches spend spikes same-day, not month-end</span>
+      </div>
+    </div>
+
+    <div class="step" data-s="5">
+      <div class="eyebrow">STEP 6 · CADENCE &amp; VOICE</div>
+      <h3>Where and how should Orion talk to you?</h3>
+      <p class="hint">Daily briefing channel, timing, and tone.</p>
+      <span class="flabel">Daily briefing channel</span>
+      <div class="seg" id="chanSeg">
+        <button data-v="WhatsApp" class="sel">WhatsApp</button>
+        <button data-v="Email">Email</button>
+        <button data-v="WhatsApp + Email">Both</button>
+      </div>
+      <div class="fieldrow">
+        <div><span class="flabel">Daily time</span>
+          <select id="timeSel"><option>7:00 AM</option><option selected>8:00 AM</option><option>9:00 AM</option><option>6:00 PM</option></select></div>
+        <div><span class="flabel">Weekly deep-dive day</span>
+          <select id="daySel"><option selected>Monday</option><option>Wednesday</option><option>Friday</option><option>Saturday</option></select></div>
+      </div>
+      <span class="flabel">Orion&#8217;s tone</span>
+      <div class="seg" id="toneSeg">
+        <button data-v="blunt" class="sel">Blunt actions</button>
+        <button data-v="detailed">Detailed reasoning</button>
+      </div>
+    </div>
+
+    <div class="step" data-s="6">
+      <div class="eyebrow">STEP 7 · GUARDRAILS</div>
+      <h3>Anything Orion should never touch?</h3>
+      <p class="hint">Pulled live from your connected ad account.</p>
+      <div id="campList"></div>
+      <div class="fieldrow" style="margin-top:12px">
+        <div><span class="flabel">Minimum POAS floor (Orion never recommends below this)</span>
+          <input type="number" id="poasFloor" value="1.5" step="0.1" min="0.5" oninput="state.floor=this.value"/></div>
+      </div>
+    </div>
+
+    <div class="step" data-s="7">
+      <div class="eyebrow">STEP 8 · YOUR ORION SETUP</div>
+      <h3>Here&#8217;s what Orion learned about you</h3>
+      <p class="hint">Confirm and your templates appear below the chat — reports get scheduled automatically.</p>
+      <div class="receipt" id="receipt"></div>
+    </div>
+
+    <div class="wfoot">
+      <button class="back" id="backBtn" onclick="go(-1)">← Back</button>
+      <div class="spacer"></div>
+      <button class="skip" id="skipBtn" onclick="go(1,true)">Skip</button>
+      <button class="next" id="nextBtn" onclick="go(1)">Continue</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+var ROLES=[
+ {v:"Founder / CEO",d:"P&L view — POAS, contribution margin, cash burn on ads",m:["POAS","True ROAS","Spend","RTO %","Revenue"]},
+ {v:"Marketing Head",d:"Channel mix, budget pacing, team-ready summaries",m:["True ROAS","Spend","CAC","Revenue","Creative fatigue"]},
+ {v:"Performance Marketer",d:"Campaign-level granularity, creative and audience signals",m:["True ROAS","CAC","Creative fatigue","CTR","Spend"]},
+ {v:"Agency",d:"Multi-brand reporting, client-ready outputs",m:["True ROAS","Spend","CAC","Revenue","POAS"]}
+];
+var GOALS=[
+ {v:"Profitable scaling",d:"Grow spend only where POAS holds — scale 2x without margin bleed"},
+ {v:"Cut wasted spend",d:"Catch RTO-heavy and fatigued campaigns before month end, not after"},
+ {v:"Fix attribution / COD mess",d:"Reconcile platform ROAS with Shopify + COD reality — India-native attribution"},
+ {v:"Reduce agency dependency",d:"Orion does the daily analysis your agency bills you for"}
+];
+var METRICS=["True ROAS","POAS","Spend","CAC","RTO %","Revenue","Creative fatigue","CTR","New vs repeat","AOV"];
+var CAMPS=[
+ {n:"Brand Search — Always On",s:"₹1.2L/mo"},
+ {n:"Festive Launch — UGC",s:"₹3.4L/mo"},
+ {n:"Prospecting Broad — Meta",s:"₹2.1L/mo"},
+ {n:"Retargeting 7D — Meta",s:"₹0.9L/mo"}
+];
+
+var state={role:null,goal:null,pain:"",metrics:[],roas:"2.1",spike:"30",
+  chan:"WhatsApp",time:"8:00 AM",day:"Monday",tone:"blunt",guards:[],floor:"1.5"};
+var cur=0, TOTAL=8;
+
+/* ============ BUILD WIZARD ============ */
+var dots=document.getElementById("dots");
+for(var i=0;i<TOTAL;i++){var d=document.createElement("i");dots.appendChild(d);}
+
+var roleOpts=document.getElementById("roleOpts");
+ROLES.forEach(function(r){
+  var b=document.createElement("button");b.className="opt";
+  b.innerHTML="<b>"+r.v+"</b><span>"+r.d+"</span>";
+  b.onclick=function(){selOne(roleOpts,b);state.role=r.v;state.metrics=r.m.slice();renderMetrics();valid();};
+  roleOpts.appendChild(b);
+});
+var goalOpts=document.getElementById("goalOpts");
+GOALS.forEach(function(g){
+  var b=document.createElement("button");b.className="opt";
+  b.innerHTML="<b>"+g.v+"</b><span>"+g.d+"</span>";
+  b.onclick=function(){selOne(goalOpts,b);state.goal=g.v;valid();};
+  goalOpts.appendChild(b);
+});
+function selOne(wrap,el){wrap.querySelectorAll(".opt").forEach(function(o){o.classList.remove("sel")});el.classList.add("sel");}
+
+function renderMetrics(){
+  var w=document.getElementById("metricChips");w.innerHTML="";
+  METRICS.forEach(function(m){
+    var c=document.createElement("button");c.className="mchip";c.textContent=m;
+    var idx=state.metrics.indexOf(m);
+    if(idx>-1){c.classList.add("sel");c.setAttribute("data-ord",idx+1);}
+    c.onclick=function(){
+      var i=state.metrics.indexOf(m);
+      if(i>-1){state.metrics.splice(i,1);}
+      else{if(state.metrics.length>=5){toast("Max 5 — remove one first");return;}state.metrics.push(m);}
+      renderMetrics();valid();
+    };
+    w.appendChild(c);
+  });
+}
+renderMetrics();
+
+var campList=document.getElementById("campList");
+CAMPS.forEach(function(c){
+  var b=document.createElement("button");b.className="camp";
+  b.innerHTML="<span class='box'>✓</span>"+c.n+"<small>"+c.s+"</small>";
+  b.onclick=function(){
+    var i=state.guards.indexOf(c.n);
+    if(i>-1){state.guards.splice(i,1);b.classList.remove("sel");}
+    else{state.guards.push(c.n);b.classList.add("sel");}
+  };
+  campList.appendChild(b);
+});
+
+document.getElementById("chanSeg").querySelectorAll("button").forEach(function(b){
+  b.onclick=function(){segSel("chanSeg",b);state.chan=b.getAttribute("data-v");};
+});
+document.getElementById("toneSeg").querySelectorAll("button").forEach(function(b){
+  b.onclick=function(){segSel("toneSeg",b);state.tone=b.getAttribute("data-v");};
+});
+function segSel(id,el){document.getElementById(id).querySelectorAll("button").forEach(function(x){x.classList.remove("sel")});el.classList.add("sel");}
+document.getElementById("timeSel").onchange=function(){state.time=this.value;};
+document.getElementById("daySel").onchange=function(){state.day=this.value;};
+
+function fillPain(el){var t=document.getElementById("pain");t.value=el.textContent;state.pain=t.value;valid();}
+
+/* ============ NAV ============ */
+function openWiz(){cur=0;show();document.getElementById("scrim").classList.add("show");}
+function show(){
+  document.querySelectorAll(".step").forEach(function(s){s.classList.toggle("on",+s.getAttribute("data-s")===cur)});
+  var ds=dots.querySelectorAll("i");
+  ds.forEach(function(d,i){d.classList.toggle("done",i<=cur)});
+  document.getElementById("backBtn").style.visibility=cur===0?"hidden":"visible";
+  var nb=document.getElementById("nextBtn");
+  nb.textContent=cur===TOTAL-1?"Generate my templates ✦":"Continue";
+  nb.classList.toggle("gen",cur===TOTAL-1);
+  document.getElementById("skipBtn").style.display=(cur===2||cur===6)?"inline":"none";
+  if(cur===7)buildReceipt();
+  valid();
+}
+function valid(){
+  var ok=true;
+  if(cur===0)ok=!!state.role;
+  if(cur===1)ok=!!state.goal;
+  if(cur===3)ok=state.metrics.length>0;
+  document.getElementById("nextBtn").disabled=!ok;
+}
+function go(dir,skip){
+  if(dir>0&&cur===TOTAL-1){finish();return;}
+  cur=Math.min(TOTAL-1,Math.max(0,cur+dir));
+  show();
+}
+
+function buildReceipt(){
+  var r=document.getElementById("receipt");
+  var rows=[
+    ["Role",state.role],
+    ["Goal",state.goal],
+    ["Your pain",state.pain?"<i>&#8220;"+esc(state.pain)+"&#8221;</i>":"—"],
+    ["Daily metrics",state.metrics.join(" → ")],
+    ["Alerts","ROAS &lt; "+state.roas+" · Spend +"+state.spike+"% no sales"],
+    ["Cadence","Daily "+state.time+" via "+state.chan+" · Weekly "+state.day],
+    ["Guardrails",(state.guards.length?state.guards.join(", "):"None")+" · POAS floor "+state.floor],
+    ["Tone",state.tone==="blunt"?"Blunt actions":"Detailed reasoning"]
+  ];
+  r.innerHTML=rows.map(function(x){return "<div class='rrow'><div class='k'>"+x[0]+"</div><div class='v'>"+x[1]+"</div></div>"}).join("");
+}
+function esc(s){return s.replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+/* ============ FINISH → TEMPLATES BELOW CHAT ============ */
+function finish(){
+  document.getElementById("scrim").classList.remove("show");
+  document.getElementById("setupCta").style.display="none";
+  document.getElementById("bmBadge").classList.add("show");
+  document.getElementById("tsub").textContent="tuned for "+state.role;
+  renderTemplates();
+  document.getElementById("tsec").classList.add("show");
+  setTimeout(function(){toast("✓ Templates ready · 3 reports scheduled in Bookmarks")},400);
+}
+
+function pain(){return state.pain||"my biggest ad-management pain";}
+function tone(){return state.tone==="blunt"
+  ?"Tone: blunt, action-first. Lead with the decision, one line per action."
+  :"Tone: show the reasoning and data trail behind every recommendation.";}
+function guards(){return "Never touch: "+(state.guards.length?state.guards.join(", "):"none")+". Keep POAS above "+state.floor+".";}
+
+function templates(){
+  var mets=state.metrics.join(", ");
+  return [
+   {t:"My Daily Briefing",c:"daily",sched:"Auto-runs daily "+state.time+" · "+state.chan,
+    p:"Run my daily briefing. Report in this order: "+mets+". Flag anything with True ROAS below "+state.roas+" or spend up "+state.spike+"% with no sales. My goal: "+state.goal+". "+guards()+" "+tone()},
+   {t:"Solve: "+(state.pain?state.pain.slice(0,34)+"…":"my biggest pain"),c:"now",sched:null,
+    p:"My biggest problem: \u201C"+pain()+"\u201D. Analyze my account right now for every instance of this pattern, quantify what it cost me in the last 30 days, and give me ranked fixes. "+tone()},
+   {t:"My Weekly Deep-dive",c:"weekly",sched:"Auto-runs every "+state.day+" · Email",
+    p:"Run my "+state.day+" deep-dive: budget reallocation ranked by POAS impact, creative fatigue refresh list, scaling candidates holding ROAS ≥ "+state.roas+" for 7 days, and WoW movement on "+mets+". End with 3 actions for next week. "+guards()},
+   {t:"My Monthly Report",c:"monthly",sched:"Auto-runs 1st of month · Email",
+    p:"Prepare my monthly report: P&L per channel with True ROAS reconciled to store revenue, COD/RTO impact on real margin, new vs repeat cohort quality, MoM trend on "+mets+". Score progress on my goal: "+state.goal+". Client-ready format."}
+  ];
+}
+
+function renderTemplates(){
+  var g=document.getElementById("tgrid");g.innerHTML="";
+  templates().forEach(function(tp){
+    var el=document.createElement("button");el.className="tcard";
+    el.innerHTML="<div class='t1'><b>"+esc(tp.t)+"</b><span class='chip "+tp.c+"'>"+
+      (tp.c==="now"?"ON-DEMAND":tp.c.toUpperCase())+"</span></div>"+
+      "<p>"+esc(tp.p)+"</p>"+
+      (tp.sched?"<div class='sched'><span class='d'></span>"+esc(tp.sched)+"</div>":"");
+    el.onclick=function(){
+      var c=document.getElementById("composer");
+      c.value=tp.p;c.focus();c.style.minHeight="120px";
+      window.scrollTo({top:0,behavior:"smooth"});
+      toast("Template loaded — hit send");
+    };
+    g.appendChild(el);
+  });
+}
+
+/* ============ TOAST ============ */
+var tt;
+function toast(msg){
+  var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");
+  clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("show")},2600);
+}
+
+window.addEventListener("load",function(){setTimeout(openWiz,600)});
+document.getElementById("scrim").addEventListener("click",function(e){
+  if(e.target===this)this.classList.remove("show");
+});
+</script>
+</body>
+</html>

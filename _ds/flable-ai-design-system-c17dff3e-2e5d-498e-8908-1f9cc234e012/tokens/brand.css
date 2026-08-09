@@ -1,0 +1,135 @@
+/* flable.ai — Brand layer
+   Convenience semantic tokens, signature gradients, elevation and radii in
+   ready-to-use px. Sits on top of tokens/primitives.css (the raw Figma
+   variables). Prefer these in components and product screens. */
+
+:root {
+  /* ── Brand core ─────────────────────────────────────────── */
+  --flb-magenta:  rgb(233,52,139);   /* accent-500 / brand pink   */
+  --flb-purple:   rgb(127,86,217);   /* signature violet (#7F56D9) */
+  --flb-violet:   rgb(100,60,193);   /* primary-500 brand          */
+  --flb-violet-light: rgb(160,139,255); /* primary-400 — accents/links */
+  --flb-blue:     rgb(0,158,255);    /* secondary-500 brand        */
+
+  /* ── Signature gradients ────────────────────────────────── */
+  --flb-gradient-hero: radial-gradient(120% 130% at 0% 4%, rgb(233,52,139) 0%, rgb(127,86,217) 51.43%, rgb(0,158,255) 100%); /* @kind color */
+  --flb-gradient-energetic: radial-gradient(130% 130% at 0% 0%, rgb(251,71,159) 0%, rgb(127,86,217) 100%); /* @kind color */
+  --flb-gradient-primary-focus: radial-gradient(110% 110% at 4% 5%, rgb(160,139,255) 0%, rgb(105,65,198) 100%); /* @kind color */
+  --flb-gradient-primary-focus-dark: radial-gradient(90% 140% at 89% -11%, rgb(74,37,154) 0%, rgb(27,13,56) 100%); /* @kind color */
+  --flb-gradient-chart: linear-gradient(179deg, rgb(127,86,217) -5%, rgba(127,86,217,0) 100%); /* @kind color */
+  --flb-gradient-onboarding: linear-gradient(166deg, rgb(244,240,255) 26%, rgb(216,207,255) 92%); /* @kind color */
+  --flb-gradient-text: linear-gradient(92deg, rgb(233,52,139) 0%, rgb(127,86,217) 52%, rgb(0,158,255) 100%); /* @kind color */
+
+  /* ── Surfaces (dark-first) ──────────────────────────────── */
+  --flb-bg:          rgb(13,13,14);   /* app background / grey-1000 */
+  --flb-surface:     rgb(21,21,23);   /* cards / grey-900           */
+  --flb-surface-2:   rgb(31,31,34);   /* nested surface             */
+  --flb-surface-3:   rgb(45,45,49);   /* raised / hover / grey-800  */
+  --flb-line:        rgb(45,45,49);   /* hairline border            */
+  --flb-line-soft:   rgba(237,241,245,0.08);
+  /* ── Borders (2 dynamic, both subtle) ───────────────────── */
+  --flb-border-default: rgb(45,45,49);          /* default subtle hairline */
+  --flb-border-muted:   rgba(237,241,245,0.06); /* even quieter, for nested/rest states */
+
+  /* ── Text ───────────────────────────────────────────────── */
+  --flb-ink:         rgb(250,250,250);  /* headings — grey-50  */
+  --flb-ink-2:       rgb(213,213,213);  /* body — grey-300     */
+  --flb-ink-3:       rgb(140,140,145);  /* muted — grey-500    */
+  --flb-ink-4:       rgb(106,106,111);  /* faint — grey-600    */
+  --flb-ink-invert:  rgb(21,21,23);
+
+  /* ── Status (dark-tuned solids) ─────────────────────────── */
+  --flb-success: rgb(106,210,117);
+  --flb-warning: rgb(255,162,12);
+  --flb-error:   rgb(255,107,94);
+  --flb-info:    rgb(90,176,255);
+
+  /* ── Status tint + foreground pairs (theme-aware) ───────── */
+  /* `tint` = soft fill behind, `on` = readable text/icon on that tint.
+     Components (Badge, Alert, Chip, NavItem…) read these so they flip
+     correctly between dark and light. The icon-ink trick: a solid status
+     circle uses --flb-bg as its glyph color so it always contrasts. */
+  --flb-tint-violet:  rgba(160,139,255,0.14);  --flb-on-violet:  rgb(190,173,255);
+  --flb-tint-success: rgba(106,210,117,0.14);  --flb-on-success: rgb(106,210,117);
+  --flb-tint-warning: rgba(255,162,12,0.14);   --flb-on-warning: rgb(255,162,12);
+  --flb-tint-error:   rgba(255,107,94,0.14);   --flb-on-error:   rgb(255,107,94);
+  --flb-tint-info:    rgba(90,176,255,0.14);   --flb-on-info:    rgb(90,176,255);
+  --flb-tint-neutral: rgba(237,241,245,0.08);  --flb-on-neutral: var(--flb-ink-2);
+
+  /* ── Radii (px) ─────────────────────────────────────────── */
+  --flb-r-sm: 4px;
+  --flb-r-md: 8px;
+  --flb-r-lg: 12px;
+  --flb-r-xl: 16px;
+  --flb-r-2xl: 20px;
+  --flb-r-full: 9999px;
+
+  /* ── Spacing scale (px) ─────────────────────────────────── */
+  --flb-sp-1: 4px;
+  --flb-sp-2: 8px;
+  --flb-sp-3: 12px;
+  --flb-sp-4: 16px;
+  --flb-sp-5: 20px;
+  --flb-sp-6: 24px;
+  --flb-sp-8: 32px;
+  --flb-sp-10: 40px;
+  --flb-sp-12: 48px;
+  --flb-sp-16: 64px;
+
+  /* ── Elevation — light glows on dark ground ─────────────── */
+  --flb-shadow-sm: 0 1px 2px rgba(0,0,0,0.4), 0 0 0 1px rgba(237,241,245,0.05);
+  --flb-shadow-md: 0 6px 20px rgba(0,0,0,0.45), 0 0 0 1px rgba(237,241,245,0.06);
+  --flb-shadow-lg: 0 20px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(237,241,245,0.08);
+  --flb-glow-violet: 0 0 0 1px rgba(160,139,255,0.4), 0 8px 28px rgba(100,60,193,0.35);
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --flb-ease: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --flb-ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --flb-dur: 180ms; /* @kind other */
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LIGHT THEME
+   Apply with class="light" or [data-theme="light"] on any element
+   (or the app root). All --flb-* semantic tokens flip; components that
+   read them adapt automatically. The brand violet, gradients and radii
+   are shared across themes.
+   ───────────────────────────────────────────────────────────── */
+.light, [data-theme="light"] {
+  /* Surfaces — light, layered on warm white */
+  --flb-bg:        rgb(250,250,250);   /* grey-50  */
+  --flb-surface:   rgb(252,252,252);   /* white cards */
+  --flb-surface-2: rgb(245,245,245);   /* grey-100 */
+  --flb-surface-3: rgb(234,234,234);   /* grey-200 */
+  --flb-line:      rgb(229,229,231);
+  --flb-line-soft: rgba(10,13,18,0.06);
+  --flb-border-default: rgb(229,229,231);
+  --flb-border-muted:   rgba(10,13,18,0.05);
+
+  /* Text */
+  --flb-ink:        rgb(21,21,23);     /* grey-900 headings */
+  --flb-ink-2:      rgb(74,74,79);     /* grey-700 body */
+  --flb-ink-3:      rgb(137,137,137);  /* grey-400 muted */
+  --flb-ink-4:      rgb(170,170,176);  /* faint */
+  --flb-ink-invert: rgb(250,250,250);
+
+  /* Status solids — saturated for light ground */
+  --flb-success: rgb(46,140,72);
+  --flb-warning: rgb(194,65,12);
+  --flb-error:   rgb(211,47,47);
+  --flb-info:    rgb(25,118,210);
+
+  /* Status tint + foreground pairs */
+  --flb-tint-violet:  rgba(100,60,193,0.10);  --flb-on-violet:  rgb(83,56,158);
+  --flb-tint-success: rgba(46,140,72,0.12);   --flb-on-success: rgb(34,110,55);
+  --flb-tint-warning: rgba(194,65,12,0.12);   --flb-on-warning: rgb(180,60,10);
+  --flb-tint-error:   rgba(211,47,47,0.10);   --flb-on-error:   rgb(190,40,40);
+  --flb-tint-info:    rgba(25,118,210,0.10);  --flb-on-info:    rgb(21,101,180);
+  --flb-tint-neutral: rgba(10,13,18,0.05);    --flb-on-neutral: var(--flb-ink-2);
+
+  /* Elevation — soft dark shadows on light ground */
+  --flb-shadow-sm: 0 1px 2px rgba(10,13,18,0.06), 0 0 0 1px rgba(10,13,18,0.05);
+  --flb-shadow-md: 0 6px 20px rgba(10,13,18,0.10), 0 0 0 1px rgba(10,13,18,0.05);
+  --flb-shadow-lg: 0 20px 48px rgba(10,13,18,0.16), 0 0 0 1px rgba(10,13,18,0.06);
+  --flb-glow-violet: 0 0 0 1px rgba(100,60,193,0.35), 0 8px 28px rgba(100,60,193,0.22);
+}

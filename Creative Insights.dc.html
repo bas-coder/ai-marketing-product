@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/primitives.css">
+  <link rel="stylesheet" href="_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/brand.css">
+  <link rel="stylesheet" href="_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/styles.css">
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;height:100%}
+    ::-webkit-scrollbar{width:10px;height:10px}
+    ::-webkit-scrollbar-thumb{background:var(--flb-surface-3);border-radius:9999px;border:3px solid transparent;background-clip:padding-box}
+    ::-webkit-scrollbar-track{background:transparent}
+    a{color:var(--flb-violet-light);text-decoration:none}
+    a:hover{color:var(--flb-purple)}
+    @keyframes flbRise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes flbFade{from{opacity:0}to{opacity:1}}
+    @keyframes flbScaleIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+  </style>
+</helmet>
+
+<div class="{{ themeClass }}" style="height:100vh;width:100%;display:flex;background:var(--flb-bg);color:var(--flb-ink);font-family:var(--flb-font-body);overflow:hidden">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside style="{{ sidebarStyle }}">
+    <div style="display:flex;align-items:center;gap:9px;padding:6px 8px 2px">
+      <svg width="24" height="24" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.34 12.6641H27.2616C26.6618 17.1915 23.1016 19.9872 19.7022 21.0785C17.0919 21.9166 14.6326 21.4709 13.34 21.7284C10.676 22.2592 8.22052 23.0242 5.67807 25.2174C3.91145 26.7413 2.17362 29.0181 0 32.2295V21.7969C2.77062 15.5031 7.90141 12.6641 13.34 12.6641Z" fill="url(#pg0)"></path><path d="M5.64386 25.2517C3.87725 26.7756 2.17362 29.1208 0 32.3321C2.12072 32.3321 4.68612 31.5553 6.80684 29.7325C10.9457 26.1752 8.41449 23.1651 13.3742 21.7285C10.7102 22.2592 8.18632 23.0585 5.64386 25.2517Z" fill="url(#pg1)"></path><path d="M0 13.5191V21.7284C0.410469 20.9074 0.684111 20.3602 1.19718 19.505C3.9336 12.8692 9.20121 10.2696 13.8189 10.2696L24.5594 10.2012C26.0087 10.2012 28.5599 9.35318 30.4769 7.70423C32.5864 5.88966 34 3.16838 34 1H13.5453C7.93561 1 0.855131 5.5835 0 13.5191Z" fill="url(#pg2)"></path><defs><linearGradient id="pg0" x1="0" y1="22.4" x2="27.26" y2="22.4" gradientUnits="userSpaceOnUse"><stop stop-color="#E9348B"></stop><stop offset=".5" stop-color="#7F56D9"></stop><stop offset="1" stop-color="#009EFF"></stop></linearGradient><linearGradient id="pg1" x1="0" y1="27" x2="13.37" y2="27" gradientUnits="userSpaceOnUse"><stop stop-color="#E9348B"></stop><stop offset="1" stop-color="#7F56D9"></stop></linearGradient><linearGradient id="pg2" x1="0" y1="11.4" x2="34" y2="11.4" gradientUnits="userSpaceOnUse"><stop stop-color="#E9348B"></stop><stop offset=".5" stop-color="#7F56D9"></stop><stop offset="1" stop-color="#009EFF"></stop></linearGradient></defs></svg>
+      <span style="font:500 19px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">flable.ai</span>
+    </div>
+
+    <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;gap:2px;margin-top:16px">
+
+      <div style="font:500 10.5px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-4);padding:0 10px 6px">WORKSPACE</div>
+      <button style="{{ navPlain }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-chat-circle" style="font-size:18px"></i><span>Chats</span></button>
+
+      <div style="font:500 10.5px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-4);padding:14px 10px 6px">ANALYTICS</div>
+      <button style="{{ navPlain }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-squares-four" style="font-size:18px"></i><span>Dashboard</span></button>
+      <button style="{{ navPlain }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-wave-sine" style="font-size:18px"></i><span>Pulse</span></button>
+      <button style="{{ navPlain }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-share-network" style="font-size:18px"></i><span>Attribution</span></button>
+
+      <button onClick="{{ toggleInsights }}" style="{{ navGroup }}" style-hover="background:var(--flb-surface-2)">
+        <i class="ph ph-chart-bar" style="font-size:18px"></i><span style="flex:1;text-align:left">Insights</span>
+        <i class="{{ insightsCaret }}" style="font-size:11px;color:var(--flb-ink-3)"></i>
+      </button>
+      <sc-if value="{{ insightsOpen }}" hint-placeholder-val="{{ true }}">
+      <div style="margin:2px 0 2px 22px;padding-left:13px;border-left:1px solid var(--flb-line);display:flex;flex-direction:column;gap:2px">
+        <button onClick="{{ goProductInsights }}" style="{{ subPlain }}" style-hover="background:var(--flb-surface-2)"><span>Product Insights</span></button>
+        <button onClick="{{ goCreative }}" style="{{ creativeSubStyle }}" style-hover="background:var(--flb-surface-2)">
+          <span style="width:5px;height:5px;border-radius:9999px;background:{{ creativeDot }};flex-shrink:0"></span><span>Creative Insights</span>
+        </button>
+      </div>
+      </sc-if>
+
+      <div style="font:500 10.5px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-4);padding:14px 10px 6px">SETUP</div>
+      <button style="{{ navPlain }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-crosshair-simple" style="font-size:18px"></i><span>Integrations</span></button>
+      <button onClick="{{ toggleOpt }}" style="{{ navGroup }}" style-hover="background:var(--flb-surface-2)">
+        <i class="ph ph-chart-line-up" style="font-size:18px"></i><span style="flex:1;text-align:left">Optimizations</span>
+        <i class="{{ optCaret }}" style="font-size:11px;color:var(--flb-ink-3)"></i>
+      </button>
+      <sc-if value="{{ optOpen }}" hint-placeholder-val="{{ true }}">
+      <div style="margin:2px 0 2px 22px;padding-left:13px;border-left:1px solid var(--flb-line);display:flex;flex-direction:column;gap:2px">
+        <button onClick="{{ goUtm }}" style="{{ utmSubStyle }}" style-hover="background:var(--flb-surface-2)">
+          <span style="width:5px;height:5px;border-radius:9999px;background:{{ utmDot }};flex-shrink:0"></span><span>UTM Status</span>
+        </button>
+      </div>
+      </sc-if>
+      <button style="{{ navPlain }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-gear" style="font-size:18px"></i><span>Settings</span></button>
+    </div>
+
+    <div style="border-radius:14px;padding:11px 12px;background:var(--flb-tint-violet);margin-top:8px">
+      <div style="display:flex;align-items:center;gap:9px">
+        <svg width="18" height="18" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M26.5371 2.78426C27.4502 2.29473 28.5478 2.29473 29.4609 2.78426L50.6152 14.1251C51.6201 14.6638 52.2479 15.7115 52.248 16.8516V39.1485C52.248 40.2887 51.6201 41.3364 50.6152 41.8751L29.4609 53.2169C28.5479 53.7063 27.4501 53.7063 26.5371 53.2169L5.38281 41.8751C4.37794 41.3364 3.75006 40.2887 3.75 39.1485V16.8516C3.75012 15.7115 4.37799 14.6638 5.38281 14.1251L26.5371 2.78426Z" fill="var(--flb-on-violet)"></path></svg>
+        <span style="font:500 13px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Orion</span>
+      </div>
+      <div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-3);margin-top:5px">{{ orionSub }}</div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN ================= -->
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;position:relative;background:var(--flb-surface);margin:10px 12px 12px 2px;border-radius:18px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.14)">
+
+    <!-- header -->
+    <header style="height:56px;flex-shrink:0;border-bottom:1px solid var(--flb-line-soft);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 18px">
+      <button title="Toggle sidebar" onClick="{{ toggleSidebar }}" style="width:34px;height:34px;border-radius:9px;border:none;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:var(--flb-surface-2)"><i class="ph ph-sidebar-simple" style="font-size:17px"></i></button>
+      <div style="display:flex;align-items:center;gap:14px">
+        <span style="display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;border-radius:9999px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12.5px var(--flb-font-body)"><span style="width:7px;height:7px;border-radius:9999px;background:var(--flb-success)"></span>Amazon Ads Ready</span>
+        <button style="{{ iconBtn }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-flag" style="font-size:17px"></i></button>
+        <button onClick="{{ toggleTheme }}" style="{{ iconBtn }}" style-hover="background:var(--flb-surface-2)"><i class="{{ themeIcon }}" style="font-size:17px"></i></button>
+        <button style="{{ iconBtn }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-bell" style="font-size:17px"></i></button>
+        <div style="display:flex;align-items:center;gap:9px;padding-left:4px">
+          <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-2)">karmikh</span>
+          <span style="width:30px;height:30px;border-radius:9999px;background:var(--flb-gradient-energetic);display:inline-flex;align-items:center;justify-content:center;font:600 13px var(--flb-font-display);color:#fcfcfc">H</span>
+        </div>
+      </div>
+    </header>
+
+    <div style="flex:1;min-height:0;overflow-y:auto">
+    <!-- ============ CREATIVE INSIGHTS ============ -->
+    <sc-if value="{{ isCreative }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:30px 34px 40px;max-width:1120px;margin:0 auto;animation:flbFade .25s var(--flb-ease-out)">
+
+      <!-- title row -->
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <h1 style="margin:0;font:600 30px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Creative Insights</h1>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 11px;border-radius:9999px;background:var(--flb-surface-2);border:1px solid var(--flb-line);font:500 12px var(--flb-font-body);color:var(--flb-ink-3)"><i class="ph ph-stack" style="font-size:14px"></i>18 creatives</span>
+          </div>
+          <div style="margin-top:8px;font:400 14px var(--flb-font-body);color:var(--flb-ink-3)">{{ creativeSubtitle }}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:10px;padding:3px">
+            <button onClick="{{ setPerformance }}" style="{{ perfTabStyle }}"><i class="ph ph-table" style="font-size:15px"></i>Performance</button>
+            <button onClick="{{ setScoring }}" style="{{ scoreTabStyle }}"><i class="ph ph-gauge" style="font-size:15px"></i>Scoring</button>
+          </div>
+          <button style="{{ ghostBtn }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-export" style="font-size:16px"></i>Export</button>
+          <button style="{{ gradBtn }}" style-hover="filter:brightness(1.06)"><i class="ph ph-target" style="font-size:16px"></i>Set Targets</button>
+        </div>
+      </div>
+
+      <!-- toolbar -->
+      <div style="display:flex;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px;display:flex;align-items:center;gap:9px;height:42px;padding:0 14px;border-radius:11px;background:var(--flb-surface-2);border:1px solid var(--flb-line)"><i class="ph ph-magnifying-glass" style="font-size:16px;color:var(--flb-ink-4)"></i><span style="font:400 13.5px var(--flb-font-body);color:var(--flb-ink-4)">Search ad name...</span></div>
+        <div style="display:flex;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:10px;padding:3px">
+          <button onClick="{{ setMeta }}" style="{{ metaTabStyle }}"><i class="ph ph-meta-logo" style="font-size:15px"></i>Meta</button>
+          <button onClick="{{ setGoogle }}" style="{{ googleTabStyle }}"><i class="ph ph-google-logo" style="font-size:14px"></i>Google</button>
+        </div>
+        <button style="{{ filterChip }}" style-hover="background:var(--flb-surface-3)">All<i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-4)"></i></button>
+        <sc-if value="{{ isScoring }}" hint-placeholder-val="{{ true }}">
+          <button style="{{ filterChip }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-gauge" style="font-size:14px;color:var(--flb-ink-3)"></i>Creative Score<i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-4)"></i></button>
+          <button style="{{ filterChip }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-sort-descending" style="font-size:14px;color:var(--flb-ink-3)"></i>High to low<i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-4)"></i></button>
+        </sc-if>
+        <sc-if value="{{ isPerformance }}" hint-placeholder-val="{{ false }}">
+          <button style="{{ filterChip }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-calendar-blank" style="font-size:14px;color:var(--flb-ink-3)"></i>Last 7 days<i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-4)"></i></button>
+          <button style="{{ filterChip }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-circles-three" style="font-size:14px;color:var(--flb-ink-3)"></i>Overlap</button>
+          <button style="{{ filterChipActive }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-funnel" style="font-size:14px;color:var(--flb-on-violet)"></i>Filters</button>
+          <button style="{{ filterChip }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-columns" style="font-size:14px;color:var(--flb-ink-3)"></i>Columns<i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-4)"></i></button>
+        </sc-if>
+      </div>
+
+      <!-- ===== SCORING VIEW ===== -->
+      <sc-if value="{{ isScoring }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+        <sc-for list="{{ decisionTabs }}" as="t" hint-placeholder-count="6">
+          <button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}<span style="{{ t.countStyle }}">{{ t.count }}</span></button>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:16px;padding:20px 22px;border-radius:16px;background:var(--flb-surface-2);border:1px solid var(--flb-line)">
+        <div>
+          <div style="font:600 16px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Creative Intelligence</div>
+          <div style="margin-top:5px;font:400 13px var(--flb-font-body);color:var(--flb-ink-3)">Active ads scored by decision, funnel health, and fatigue.</div>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:38px">
+          <div style="text-align:right"><div style="font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">CREATIVES</div><div style="font:600 26px var(--flb-font-display);color:var(--flb-ink);margin-top:3px">{{ summaryCount }}</div></div>
+          <div style="text-align:right"><div style="font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">AVERAGE SCORE</div><div style="font:600 26px var(--flb-font-display);color:var(--flb-ink);margin-top:3px">62</div></div>
+          <div style="text-align:right"><div style="font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">NEEDS ACTION</div><div style="font:600 26px var(--flb-font-display);color:var(--flb-error);margin-top:3px">4</div></div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;margin-top:14px">
+        <sc-for list="{{ scoreCards }}" as="c" hint-placeholder-count="3">
+          <div style="border-radius:16px;background:var(--flb-surface);border:1px solid var(--flb-line);padding:18px 20px;box-shadow:var(--flb-shadow-sm)">
+            <div style="display:flex;align-items:flex-start;gap:16px">
+              <div style="width:64px;height:64px;border-radius:12px;background:{{ c.thumb }};flex-shrink:0;border:1px solid var(--flb-line)"></div>
+              <div style="flex:1;min-width:0">
+                <div style="font:400 13.5px var(--flb-font-body);color:var(--flb-ink-3)">Ad: <span style="font-weight:600;color:var(--flb-ink)">{{ c.name }}</span></div>
+                <div style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-4);margin-top:2px">Campaign: {{ c.campaign }}</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap">
+                  <span style="{{ c.badgeStyle }}"><i class="{{ c.badgeIcon }}" style="font-size:13px"></i>{{ c.decision }}</span>
+                  <span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:7px;background:var(--flb-surface-2);border:1px solid var(--flb-line);font:500 11.5px var(--flb-font-body);color:var(--flb-ink-3)">{{ c.format }}</span>
+                  <span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:7px;background:var(--flb-tint-violet);font:500 11.5px var(--flb-font-body);color:var(--flb-on-violet)">{{ c.reco }}</span>
+                </div>
+              </div>
+              <div style="text-align:right;flex-shrink:0"><div style="font:500 10px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">CREATIVE SCORE</div><div style="font:600 34px var(--flb-font-display);color:{{ c.scoreColor }};margin-top:2px;line-height:1">{{ c.score }}</div></div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px">
+              <sc-for list="{{ c.subscores }}" as="s" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:11px;background:var(--flb-surface-2)">
+                  <span style="font:500 11px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-3)">{{ s.label }}</span>
+                  <span style="width:34px;height:34px;border-radius:9999px;border:2px solid {{ s.color }};display:inline-flex;align-items:center;justify-content:center;font:600 13px var(--flb-font-display);color:{{ s.color }}">{{ s.value }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:18px;padding-bottom:16px;border-bottom:1px solid var(--flb-line-soft)">
+              <div><div style="font:500 10px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-4)">SPEND</div><div style="font:600 15px var(--flb-font-display);color:var(--flb-ink);margin-top:4px">{{ c.spend }}</div></div>
+              <div><div style="font:500 10px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-4)">REVENUE</div><div style="font:600 15px var(--flb-font-display);color:var(--flb-ink);margin-top:4px">{{ c.revenue }}</div></div>
+              <div><div style="font:500 10px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-4)">ROAS</div><div style="font:600 15px var(--flb-font-display);color:var(--flb-success);margin-top:4px">{{ c.roas }}</div></div>
+              <div><div style="font:500 10px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-4)">CTR</div><div style="font:600 15px var(--flb-font-display);color:var(--flb-ink);margin-top:4px">{{ c.ctr }}</div></div>
+              <div><div style="font:500 10px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-4)">PURCHASES</div><div style="font:600 15px var(--flb-font-display);color:var(--flb-ink);margin-top:4px">{{ c.purchases }}</div></div>
+              <div><div style="font:500 10px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-4)">FREQUENCY</div><div style="font:600 15px var(--flb-font-display);color:var(--flb-ink);margin-top:4px">{{ c.freq }}</div></div>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font:500 10px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-ink-4);margin-right:2px">DECISION SIGNALS</span>
+                <sc-for list="{{ c.signals }}" as="sig" hint-placeholder-count="3">
+                  <span style="display:inline-flex;align-items:center;height:26px;padding:0 11px;border-radius:8px;background:var(--flb-tint-violet);font:500 11.5px var(--flb-font-body);color:var(--flb-ink-2)">{{ sig }}</span>
+                </sc-for>
+              </div>
+              <button style="{{ gradBtn }}" style-hover="filter:brightness(1.06)"><i class="ph ph-sparkle" style="font-size:15px"></i>Deep Dive<i class="ph ph-arrow-right" style="font-size:14px"></i></button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <!-- ===== PERFORMANCE VIEW ===== -->
+      <sc-if value="{{ isPerformance }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:20px">
+        <sc-for list="{{ perfMetrics }}" as="m" hint-placeholder-count="5">
+          <div style="border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);padding:16px 18px">
+            <div style="font:500 12px var(--flb-font-body);color:var(--flb-ink-3)">{{ m.label }}</div>
+            <div style="font:600 27px var(--flb-font-display);color:var(--flb-ink);margin-top:8px;letter-spacing:-.01em">{{ m.value }}</div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:8px;font:500 12px var(--flb-font-body);color:{{ m.deltaColor }}"><i class="{{ m.deltaIcon }}" style="font-size:12px"></i>{{ m.delta }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:16px;border-radius:16px;background:var(--flb-surface);border:1px solid var(--flb-line);overflow:hidden">
+        <div style="display:grid;grid-template-columns:1.6fr .7fr .7fr .7fr 1fr 44px;gap:12px;padding:14px 20px;border-bottom:1px solid var(--flb-line);font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">
+          <span style="display:flex;gap:14px"><span>CREATIVE</span><span>AD NAME</span></span><span>ROAS</span><span>SPEND</span><span>CTR</span><span>FATIGUE <i class="ph ph-arrow-down" style="font-size:11px"></i></span><span></span>
+        </div>
+        <sc-for list="{{ perfRows }}" as="r" hint-placeholder-count="4">
+          <div style="border-bottom:1px solid var(--flb-line-soft)">
+            <div onClick="{{ r.toggle }}" style="display:grid;grid-template-columns:1.6fr .7fr .7fr .7fr 1fr 44px;gap:12px;align-items:center;padding:16px 20px;cursor:pointer" style-hover="background:var(--flb-surface-2)">
+              <div style="display:flex;align-items:center;gap:14px;min-width:0">
+                <div style="width:42px;height:42px;border-radius:9px;background:{{ r.thumb }};flex-shrink:0;border:1px solid var(--flb-line)"></div>
+                <span style="font:600 14px var(--flb-font-body);color:var(--flb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
+              </div>
+              <span style="font:600 14px var(--flb-font-display);color:var(--flb-success)">{{ r.roas }}</span>
+              <span style="font:500 14px var(--flb-font-body);color:var(--flb-ink-2)">{{ r.spend }}</span>
+              <span style="font:500 14px var(--flb-font-body);color:var(--flb-ink-2)">{{ r.ctr }}</span>
+              <div><div style="display:flex;align-items:center;gap:7px;font:600 11px var(--flb-font-body);letter-spacing:.04em;color:{{ r.fatigueColor }}"><span style="width:7px;height:7px;border-radius:9999px;background:{{ r.fatigueColor }}"></span>{{ r.fatigueLabel }}</div><div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4);margin-top:4px">{{ r.fatigueSub }}</div></div>
+              <span style="width:30px;height:30px;border-radius:8px;background:var(--flb-surface-2);border:1px solid var(--flb-line);display:inline-flex;align-items:center;justify-content:center;color:var(--flb-ink-3)"><i class="{{ r.caret }}" style="font-size:13px"></i></span>
+            </div>
+            <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:280px 1fr;gap:32px;padding:8px 20px 26px 76px;animation:flbRise .2s var(--flb-ease-out)">
+                <div>
+                  <div style="font:600 11px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-violet-light);margin-bottom:10px">CREATIVE PREVIEW</div>
+                  <div style="width:100%;aspect-ratio:1;border-radius:12px;background:{{ r.thumb }};border:1px solid var(--flb-line)"></div>
+                </div>
+                <div>
+                  <div style="font:600 11px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-violet-light)">STORY &amp; MESSAGE</div>
+                  <div style="height:1px;background:var(--flb-line);margin:12px 0 18px"></div>
+                  <div style="font:600 11px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-violet-light);margin-bottom:8px">CAPTION</div>
+                  <div style="font:400 14px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5;max-width:640px">{{ r.caption }}</div>
+                  <div style="font:600 11px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-violet-light);margin:18px 0 8px">TITLE</div>
+                  <span style="display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:8px;background:var(--flb-surface-2);border:1px solid var(--flb-line);font:500 13px var(--flb-font-mono, var(--flb-font-body));color:var(--flb-ink-2)">{{ r.title }}</span>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+    </div>
+    </sc-if>
+
+    <!-- ============ UTM STATUS ============ -->
+    <sc-if value="{{ isUtm }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:30px 34px 40px;max-width:1120px;margin:0 auto;animation:flbFade .25s var(--flb-ease-out)">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap">
+        <div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <h1 style="margin:0;font:600 30px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">UTM Status</h1>
+            <span style="display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 11px;border-radius:9999px;background:var(--flb-tint-warning);font:500 12px var(--flb-font-body);color:var(--flb-on-warning)"><span style="width:6px;height:6px;border-radius:9999px;background:var(--flb-warning)"></span>90% healthy</span>
+          </div>
+          <div style="margin-top:8px;font:400 14px var(--flb-font-body);color:var(--flb-ink-3)">Tracking-parameter health for live Meta ads · scanned 6 min ago</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:10px;padding:3px">
+            <button style="{{ utmMetaTab }}"><i class="ph ph-meta-logo" style="font-size:15px"></i>Meta</button>
+            <button style="{{ utmGoogleTab }}"><i class="ph ph-google-logo" style="font-size:14px"></i>Google</button>
+          </div>
+          <button style="{{ gradBtn }}" style-hover="filter:brightness(1.06)"><i class="ph ph-arrows-clockwise" style="font-size:16px"></i>Refresh UTM Data</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px">
+        <div style="border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);padding:16px 18px">
+          <div style="display:flex;align-items:center;gap:8px;color:var(--flb-ink-3)"><i class="ph ph-link" style="font-size:16px"></i><span style="font:500 12.5px var(--flb-font-body)">Total tracked</span></div>
+          <div style="font:600 32px var(--flb-font-display);color:var(--flb-ink);margin-top:8px">42</div>
+          <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4);margin-top:4px">Meta · live ads</div>
+        </div>
+        <div style="border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);padding:16px 18px">
+          <div style="display:flex;align-items:center;gap:8px;color:var(--flb-on-success)"><i class="ph ph-check-circle" style="font-size:16px"></i><span style="font:500 12.5px var(--flb-font-body)">Correct</span></div>
+          <div style="font:600 32px var(--flb-font-display);color:var(--flb-ink);margin-top:8px">38</div>
+          <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4);margin-top:4px">Complete UTMs</div>
+        </div>
+        <div style="border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);padding:16px 18px">
+          <div style="display:flex;align-items:center;gap:8px;color:var(--flb-on-warning)"><i class="ph ph-warning-circle" style="font-size:16px"></i><span style="font:500 12.5px var(--flb-font-body)">Partial</span></div>
+          <div style="font:600 32px var(--flb-font-display);color:var(--flb-ink);margin-top:8px">2</div>
+          <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4);margin-top:4px">Missing some params</div>
+        </div>
+        <div style="border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);padding:16px 18px">
+          <div style="display:flex;align-items:center;gap:8px;color:var(--flb-on-error)"><i class="ph ph-x-circle" style="font-size:16px"></i><span style="font:500 12.5px var(--flb-font-body)">Needs fix</span></div>
+          <div style="font:600 32px var(--flb-font-display);color:var(--flb-ink);margin-top:8px">2</div>
+          <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4);margin-top:4px">Broken or absent</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px;display:flex;align-items:center;gap:9px;height:44px;padding:0 14px;border-radius:11px;background:var(--flb-surface-2);border:1px solid var(--flb-line)"><i class="ph ph-magnifying-glass" style="font-size:16px;color:var(--flb-ink-4)"></i><span style="font:400 13.5px var(--flb-font-body);color:var(--flb-ink-4)">Search campaign, ad set or ad...</span></div>
+        <div style="display:flex;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:10px;padding:3px">
+          <sc-for list="{{ utmTabs }}" as="t" hint-placeholder-count="3">
+            <button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}<sc-if value="{{ t.hasCount }}" hint-placeholder-val="{{ true }}"><span style="{{ t.countStyle }}">{{ t.count }}</span></sc-if></button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;border-radius:16px;background:var(--flb-surface);border:1px solid var(--flb-line);overflow:hidden">
+        <div style="display:grid;grid-template-columns:1.3fr 1.1fr 1fr .9fr 110px;gap:12px;padding:14px 20px;border-bottom:1px solid var(--flb-line);font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">
+          <span>CAMPAIGN</span><span>AD SET</span><span>AD</span><span>STATUS</span><span>HOW TO FIX</span>
+        </div>
+        <sc-for list="{{ utmRows }}" as="u" hint-placeholder-count="4">
+          <div style="display:grid;grid-template-columns:1.3fr 1.1fr 1fr .9fr 110px;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--flb-line-soft)" style-hover="background:var(--flb-surface-2)">
+            <div style="display:flex;align-items:center;gap:11px;min-width:0">
+              <span style="width:22px;height:22px;border-radius:9999px;background:{{ u.statusTint }};display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><i class="{{ u.statusIcon }}" style="font-size:14px;color:{{ u.statusColor }}"></i></span>
+              <div style="min-width:0"><div style="font:600 13.5px var(--flb-font-body);color:var(--flb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.campaign }}</div><div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-4)">{{ u.acct }}</div></div>
+            </div>
+            <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-2)">{{ u.adset }}</span>
+            <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.ad }}</span>
+            <div><div style="display:flex;align-items:center;gap:6px;font:600 11px var(--flb-font-body);letter-spacing:.04em;color:{{ u.statusColor }}"><span style="width:6px;height:6px;border-radius:9999px;background:{{ u.statusColor }}"></span>{{ u.status }}</div><div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4);margin-top:4px">{{ u.note }}</div></div>
+            <button onClick="{{ u.openFix }}" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;height:34px;padding:0 14px;border-radius:9px;background:var(--flb-surface-2);border:1px solid var(--flb-line);font:500 13px var(--flb-font-body);color:var(--flb-ink);cursor:pointer" style-hover="background:var(--flb-surface-3)">View<i class="ph ph-arrow-right" style="font-size:13px"></i></button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+    </div>
+
+    <!-- ============ FIX UTM MODAL ============ -->
+    <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeFix }}" style="position:absolute;inset:0;z-index:60;background:rgba(10,10,12,.55);display:flex;align-items:center;justify-content:center;padding:24px;animation:flbFade .18s ease">
+      <div onClick="{{ stop }}" style="width:660px;max-width:100%;max-height:100%;overflow-y:auto;border-radius:18px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-lg);animation:flbScaleIn .22s var(--flb-ease-out)">
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:22px 24px 18px;border-bottom:1px solid var(--flb-line-soft)">
+          <span style="width:40px;height:40px;border-radius:11px;background:var(--flb-tint-violet);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ph ph-wrench" style="font-size:20px;color:var(--flb-on-violet)"></i></span>
+          <div style="flex:1"><div style="font:600 18px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Fix UTM · {{ modalAd }}</div><div style="font:400 13px var(--flb-font-body);color:var(--flb-ink-3);margin-top:3px">Review and repair the tracking parameters for this ad.</div></div>
+          <button onClick="{{ closeFix }}" style="width:32px;height:32px;border-radius:8px;border:none;background:transparent;color:var(--flb-ink-3);cursor:pointer;display:inline-flex;align-items:center;justify-content:center" style-hover="background:var(--flb-surface-2)"><i class="ph ph-x" style="font-size:17px"></i></button>
+        </div>
+        <div style="padding:20px 24px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="padding:12px 14px;border-radius:11px;background:var(--flb-surface-2);border:1px solid var(--flb-line)"><div style="font:500 10px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">AD ACCOUNT</div><div style="font:600 14px var(--flb-font-body);color:var(--flb-ink);margin-top:4px">{{ modalAcctName }}</div><div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-4);margin-top:1px">{{ modalAcct }}</div></div>
+            <div style="padding:12px 14px;border-radius:11px;background:var(--flb-surface-2);border:1px solid var(--flb-line)"><div style="font:500 10px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">CAMPAIGN</div><div style="font:600 14px var(--flb-font-body);color:var(--flb-ink);margin-top:4px">{{ modalCampaign }}</div></div>
+            <div style="padding:12px 14px;border-radius:11px;background:var(--flb-surface-2);border:1px solid var(--flb-line)"><div style="font:500 10px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">AD SET</div><div style="font:600 14px var(--flb-font-body);color:var(--flb-ink);margin-top:4px">{{ modalAdset }}</div></div>
+            <div style="padding:12px 14px;border-radius:11px;background:var(--flb-surface-2);border:1px solid var(--flb-line)"><div style="font:500 10px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4)">AD</div><div style="font:600 14px var(--flb-font-body);color:var(--flb-ink);margin-top:4px">{{ modalAd }}</div></div>
+          </div>
+
+          <div style="font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-4);margin:20px 0 10px">ISSUES FOUND</div>
+          <div style="font:400 13px var(--flb-font-body);color:var(--flb-ink-3);margin-bottom:8px">Missing parameters</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{ modalMissing }}" as="p" hint-placeholder-count="1">
+              <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:8px;background:var(--flb-tint-error);font:500 12px var(--flb-font-mono, var(--flb-font-body));color:var(--flb-on-error)"><i class="ph ph-minus-circle" style="font-size:13px"></i>{{ p }}</span>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:7px;margin:20px 0 8px;font:600 11px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-on-error)"><i class="ph ph-x-circle" style="font-size:14px"></i>CURRENT UTM STRING</div>
+          <div style="padding:13px 15px;border-radius:11px;background:var(--flb-tint-error);border:1px solid color-mix(in srgb, var(--flb-error) 30%, transparent);font:400 12.5px var(--flb-font-mono, var(--flb-font-body));color:var(--flb-ink-2);word-break:break-all;line-height:1.5">{{ modalCurrent }}</div>
+          <div style="text-align:center;color:var(--flb-ink-4);margin:8px 0"><i class="ph ph-arrow-down" style="font-size:15px"></i></div>
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px;font:600 11px var(--flb-font-body);letter-spacing:.05em;color:var(--flb-on-success)"><i class="ph ph-check-circle" style="font-size:14px"></i>SUGGESTED UTM STRING</div>
+          <div style="padding:13px 15px;border-radius:11px;background:var(--flb-tint-success);border:1px solid color-mix(in srgb, var(--flb-success) 30%, transparent);font:400 12.5px var(--flb-font-mono, var(--flb-font-body));color:var(--flb-ink-2);word-break:break-all;line-height:1.5">{{ modalSuggested }}</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 24px;border-top:1px solid var(--flb-line-soft)">
+          <button style="{{ ghostBtn }}" style-hover="background:var(--flb-surface-2)"><i class="ph ph-copy" style="font-size:15px"></i>Copy String</button>
+          <div style="display:flex;align-items:center;gap:10px">
+            <button style="{{ ghostBtn }}" style-hover="background:var(--flb-surface-2)">Apply Manually</button>
+            <button onClick="{{ closeFix }}" style="{{ gradBtn }}" style-hover="filter:brightness(1.06)"><i class="ph ph-magic-wand" style="font-size:15px"></i>Auto Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1366,&quot;height&quot;:768},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;light&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;defaultView&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;scoring&quot;,&quot;performance&quot;],&quot;default&quot;:&quot;scoring&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Creative Insights&quot;},&quot;channel&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;meta&quot;,&quot;google&quot;],&quot;default&quot;:&quot;google&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Creative Insights&quot;}}">
+class Component extends DCLogic {
+  state = {
+    theme: null, screen: "creative", mode: null, channel: null,
+    decision: "all", insightsOpen: true, optOpen: true,
+    openRow: "0707DCSIFTBL", collapsed: false, modal: null,
+    utmFilter: "all",
+  };
+
+  scoreColor(v){ return v >= 75 ? "var(--flb-success)" : v >= 55 ? "var(--flb-warning)" : "var(--flb-error)"; }
+
+  decisionMeta(d){
+    const m = {
+      "Replicate":    { c:"var(--flb-on-success)", t:"var(--flb-tint-success)", i:"ph ph-copy-simple" },
+      "Monitor":      { c:"var(--flb-on-info)",    t:"var(--flb-tint-info)",    i:"ph ph-eye" },
+      "Refresh/Test": { c:"var(--flb-on-warning)", t:"var(--flb-tint-warning)", i:"ph ph-arrows-clockwise" },
+      "Reduce/Pause": { c:"var(--flb-on-error)",   t:"var(--flb-tint-error)",   i:"ph ph-pause" },
+    };
+    return m[d] || m["Monitor"];
+  }
+
+  get data(){
+    return [
+      { name:"0707DCSIFTBL", campaign:"0707DCSIFTBL", decision:"Refresh/Test", format:"Static", reco:"Needs refresh or test before more budget", score:63, attention:53, conv:69, fatigue:63, spend:"₹7.4K", revenue:"₹29K", roas:"3.89×", ctr:"1.06%", purchases:"38", freq:"1.21", signals:["Carts are not becoming purchases","Purchases are slipping","CTR trend needs attention"], thumb:"linear-gradient(135deg,#c9bfae,#8f8a82)", fatigueLabel:"WATCH", fatigueKind:"watch", caption:"Photoshoot outfits for the cutest baby. Customize your baby's name and create picture-perfect memories — soft, safe and baby-friendly fabric. Shop now.", title:"{{product_name}}" },
+      { name:"1307DCFTBLSI", campaign:"1307DCFTBLSI", decision:"Replicate", format:"Video", reco:"Scale winner — increase budget", score:81, attention:78, conv:84, fatigue:80, spend:"₹2.1K", revenue:"₹9K", roas:"4.27×", ctr:"1.19%", purchases:"21", freq:"1.17", signals:["Strong hook retention","Efficient conversions"], thumb:"linear-gradient(135deg,#b6c7a8,#7f9a6f)", fatigueLabel:"HIGH", fatigueKind:"high", caption:"Meet the softest organic cotton onesie your little one will live in. Gentle on skin, built for playtime — now with free personalisation.", title:"{{product_name}}" },
+      { name:"2306DCPHSHTCRSL", campaign:"2306DCPHSHTCRSL", decision:"Monitor", format:"Carousel", reco:"Healthy — keep an eye on frequency", score:72, attention:70, conv:74, fatigue:71, spend:"₹5.6K", revenue:"₹17K", roas:"3.05×", ctr:"1.36%", purchases:"29", freq:"2.17", signals:["Frequency climbing","Stable ROAS"], thumb:"linear-gradient(135deg,#c3b3c9,#8a7f96)", fatigueLabel:"NO FATIGUE", fatigueKind:"none", caption:"Swipe through our best-selling nursery bundles. Everything you need for the first 6 months, curated by parents.", title:"{{product_name}}" },
+      { name:"0207DCONAM_MNCRSL", campaign:"0207DCONAM_MNCRSL", decision:"Refresh/Test", format:"Carousel", reco:"Needs refresh or test before more budget", score:58, attention:55, conv:61, fatigue:57, spend:"₹5.8K", revenue:"₹18K", roas:"3.10×", ctr:"0.76%", purchases:"24", freq:"2.01", signals:["CTR below benchmark","Fatigue rising"], thumb:"linear-gradient(135deg,#c9a8a8,#96706f)", fatigueLabel:"WATCH", fatigueKind:"watch", caption:"Monogrammed keepsakes that grow with your child. Add a name, pick a colour, and make it theirs.", title:"{{product_name}}" },
+      { name:"2706DCFTBLCRSL", campaign:"2706DCFTBLCRSL", decision:"Refresh/Test", format:"Static", reco:"Needs refresh or test before more budget", score:60, attention:58, conv:64, fatigue:59, spend:"₹3.4K", revenue:"₹11K", roas:"3.24×", ctr:"0.98%", purchases:"16", freq:"1.64", signals:["Creative wear-out","Watch spend"], thumb:"linear-gradient(135deg,#aeb9c9,#727f96)", fatigueLabel:"WATCH", fatigueKind:"watch", caption:"Playtime, upgraded. Durable, washable and endlessly cute — the essentials bundle parents keep re-ordering.", title:"{{product_name}}" },
+      { name:"0907DC_SI_ONAM", campaign:"0907DC_SI_ONAM", decision:"Reduce/Pause", format:"Video", reco:"Cut budget — underperforming", score:41, attention:38, conv:44, fatigue:40, spend:"₹4.2K", revenue:"₹6K", roas:"1.42×", ctr:"0.61%", purchases:"7", freq:"2.63", signals:["ROAS below 1.5","Wasted spend risk"], thumb:"linear-gradient(135deg,#c9c1a8,#968f70)", fatigueLabel:"HIGH", fatigueKind:"high", caption:"Limited-run seasonal drop. Grab the fan favourites before they're gone for good.", title:"{{product_name}}" },
+    ];
+  }
+
+  get utmData(){
+    return [
+      { campaign:"Retargeting_ATC_7d", acct:"act_882401", acctName:"Meta Business", adset:"Add-to-cart 7d", ad:"0707DCSIFTBL", status:"PARTIAL", note:"Missing 1 param", missing:["utm_content"], current:"utm_source=facebook&utm_medium=paid_social&utm_campaign=retargeting_atc_7d", suggested:"utm_source=facebook&utm_medium=paid_social&utm_campaign=retargeting_atc_7d&utm_content=0707dcsiftbl" },
+      { campaign:"Broad_Interest_Test", acct:"act_882401", acctName:"Meta Business", adset:"Interest · Parenting", ad:"0207DCONAM_MNCRSL", status:"NEEDS FIX", note:"Missing 2 params", missing:["utm_campaign","utm_content"], current:"utm_source=facebook&utm_medium=paid_social", suggested:"utm_source=facebook&utm_medium=paid_social&utm_campaign=broad_interest_test&utm_content=0207dconam_mncrsl" },
+      { campaign:"Catalog_DPA_All", acct:"act_771902", acctName:"Meta Business", adset:"DPA · All products", ad:"2706DCFTBLCRSL", status:"PARTIAL", note:"Missing 1 param", missing:["utm_content"], current:"utm_source=facebook&utm_medium=paid_social&utm_campaign=catalog_dpa_all", suggested:"utm_source=facebook&utm_medium=paid_social&utm_campaign=catalog_dpa_all&utm_content=2706dcftblcrsl" },
+      { campaign:"Reels_Awareness_IN", acct:"act_771902", acctName:"Meta Business", adset:"Reels · Broad", ad:"0907DC_SI_ONAM", status:"NEEDS FIX", note:"Missing 4 params", missing:["utm_source","utm_medium","utm_campaign","utm_content"], current:"—", suggested:"utm_source=facebook&utm_medium=paid_social&utm_campaign=reels_awareness_in&utm_content=0907dc_si_onam" },
+    ];
+  }
+
+  fatigueColor(kind){ return kind === "high" ? "var(--flb-error)" : kind === "watch" ? "var(--flb-warning)" : "var(--flb-success)"; }
+
+  renderVals(){
+    const theme = this.state.theme || this.props.theme || "light";
+    const mode = this.state.mode || this.props.defaultView || "scoring";
+    const channel = this.state.channel || this.props.channel || "google";
+    const isScoring = mode === "scoring";
+    const dec = this.state.decision;
+
+    const seg = (active) => ({ display:"inline-flex", alignItems:"center", gap:"7px", height:"34px", padding:"0 15px", borderRadius:"8px", border:"none", cursor:"pointer", font:"500 13px var(--flb-font-body)", background: active ? "var(--flb-violet)" : "transparent", color: active ? "#fcfcfc" : "var(--flb-ink-2)" });
+    const chip = (active) => ({ display:"inline-flex", alignItems:"center", gap:"7px", height:"42px", padding:"0 15px", borderRadius:"10px", cursor:"pointer", font:"500 13px var(--flb-font-body)", color: active ? "var(--flb-on-violet)" : "var(--flb-ink-2)", background: active ? "var(--flb-tint-violet)" : "var(--flb-surface-2)", border:"1px solid " + (active ? "color-mix(in srgb, var(--flb-violet-light) 45%, transparent)" : "var(--flb-line)") });
+
+    // decision tabs
+    const counts = { all: this.data.length };
+    ["Replicate","Monitor","Refresh/Test","Reduce/Pause","Insufficient Data"].forEach(k => counts[k] = this.data.filter(c => c.decision === k).length);
+    const tabDef = [["all","All"],["Replicate","Replicate"],["Monitor","Monitor"],["Refresh/Test","Refresh/Test"],["Reduce/Pause","Reduce/Pause"],["Insufficient Data","Insufficient Data"]];
+    const decisionTabs = tabDef.map(([key,label]) => {
+      const active = dec === key;
+      return {
+        label, count: counts[key] ?? 0, onClick: () => this.setState({ decision: key }),
+        style: { display:"inline-flex", alignItems:"center", gap:"8px", height:"36px", padding:"0 14px", borderRadius:"9px", border:"none", cursor:"pointer", font:"500 13px var(--flb-font-body)", background: active ? "var(--flb-violet)" : "var(--flb-surface-2)", color: active ? "#fcfcfc" : "var(--flb-ink-2)" },
+        countStyle: { display:"inline-flex", alignItems:"center", justifyContent:"center", minWidth:"18px", height:"18px", padding:"0 5px", borderRadius:"9999px", font:"600 11px var(--flb-font-body)", background: active ? "rgba(255,255,255,.22)" : "var(--flb-surface-3)", color: active ? "#fcfcfc" : "var(--flb-ink-3)" },
+      };
+    });
+
+    const filtered = dec === "all" ? this.data : this.data.filter(c => c.decision === dec);
+    const scoreCards = filtered.map(c => {
+      const m = this.decisionMeta(c.decision);
+      return {
+        ...c,
+        scoreColor: this.scoreColor(c.score),
+        badgeIcon: m.i,
+        badgeStyle: { display:"inline-flex", alignItems:"center", gap:"6px", height:"24px", padding:"0 10px", borderRadius:"7px", background:m.t, color:m.c, font:"600 11.5px var(--flb-font-body)" },
+        subscores: [
+          { label:"ATTENTION", value:c.attention, color:this.scoreColor(c.attention) },
+          { label:"CONVERSION QUALITY", value:c.conv, color:this.scoreColor(c.conv) },
+          { label:"FATIGUE", value:c.fatigue, color:this.scoreColor(c.fatigue) },
+        ],
+      };
+    });
+
+    // performance
+    const perfMetrics = [
+      { label:"Spend", value:"₹40.8K", delta:"+8.2%", up:true },
+      { label:"ROAS", value:"2.24×", delta:"+0.31", up:true },
+      { label:"CPP", value:"₹370.5", delta:"−4.1%", up:false },
+      { label:"CTR", value:"1.14%", delta:"+0.12pt", up:true },
+      { label:"Frequency", value:"1.21", delta:"+0.05", up:true },
+    ].map(m => ({ ...m, deltaColor: m.up ? "var(--flb-on-success)" : "var(--flb-on-error)", deltaIcon: m.up ? "ph ph-arrow-up" : "ph ph-arrow-down" }));
+
+    const perfRows = this.data.slice(0,5).map(r => {
+      const open = this.state.openRow === r.name;
+      const fc = this.fatigueColor(r.fatigueKind);
+      return {
+        name:r.name, roas:r.roas, spend:r.spend, ctr:r.ctr, thumb:r.thumb, caption:r.caption, title:r.title,
+        fatigueLabel:r.fatigueLabel, fatigueColor:fc, fatigueSub:"Freq " + r.freq + " · CTR " + r.ctr,
+        open, caret: open ? "ph ph-caret-up" : "ph ph-caret-down",
+        toggle: () => this.setState({ openRow: open ? null : r.name }),
+      };
+    });
+
+    // utm
+    const utmCounts = { all: this.utmData.length, Partial: this.utmData.filter(u=>u.status==="PARTIAL").length, "Needs fix": this.utmData.filter(u=>u.status==="NEEDS FIX").length };
+    const utmTabDef = [["all","All",true],["Partial","Partial",false],["Needs fix","Needs fix",false]];
+    const utmTabs = utmTabDef.map(([key,label,hasCount]) => {
+      const active = this.state.utmFilter === key;
+      return { label, hasCount, count: utmCounts.all, onClick: () => this.setState({ utmFilter:key }),
+        style: { display:"inline-flex", alignItems:"center", gap:"7px", height:"34px", padding:"0 15px", borderRadius:"8px", border:"none", cursor:"pointer", font:"500 13px var(--flb-font-body)", background: active ? "var(--flb-violet)" : "transparent", color: active ? "#fcfcfc" : "var(--flb-ink-2)" },
+        countStyle: { display:"inline-flex", alignItems:"center", justifyContent:"center", minWidth:"18px", height:"18px", padding:"0 5px", borderRadius:"9999px", font:"600 11px var(--flb-font-body)", background: active ? "rgba(255,255,255,.22)" : "var(--flb-surface-3)", color: active ? "#fcfcfc" : "var(--flb-ink-3)" } };
+    });
+
+    let utmSource = this.utmData;
+    if (this.state.utmFilter === "Partial") utmSource = utmSource.filter(u=>u.status==="PARTIAL");
+    if (this.state.utmFilter === "Needs fix") utmSource = utmSource.filter(u=>u.status==="NEEDS FIX");
+    const utmRows = utmSource.map(u => {
+      const partial = u.status === "PARTIAL";
+      return { ...u,
+        statusColor: partial ? "var(--flb-on-warning)" : "var(--flb-on-error)",
+        statusTint: partial ? "var(--flb-tint-warning)" : "var(--flb-tint-error)",
+        statusIcon: partial ? "ph ph-warning" : "ph ph-x",
+        openFix: () => this.setState({ modal: u }),
+      };
+    });
+
+    const mo = this.state.modal;
+    const navPlain = { display:"flex", alignItems:"center", gap:"11px", width:"100%", padding:"8px 10px", border:"none", cursor:"pointer", borderRadius:"9px", background:"transparent", font:"400 13.5px var(--flb-font-body)", color:"var(--flb-ink-2)", textAlign:"left" };
+    const navGroup = { ...navPlain };
+    const subPlain = { display:"flex", alignItems:"center", gap:"9px", width:"100%", padding:"7px 10px", border:"none", cursor:"pointer", borderRadius:"8px", background:"transparent", font:"400 13px var(--flb-font-body)", color:"var(--flb-ink-2)", textAlign:"left" };
+    const subActive = (active) => ({ ...subPlain, background: active ? "var(--flb-tint-violet)" : "transparent", color: active ? "var(--flb-on-violet)" : "var(--flb-ink-2)", fontWeight: active ? 600 : 400 });
+
+    return {
+      themeClass: theme === "light" ? "light" : "",
+      sidebarStyle: { width: this.state.collapsed ? "0px" : "236px", flexShrink:0, overflow:"hidden", display:"flex", flexDirection:"column", padding: this.state.collapsed ? "0" : "16px 12px", transition:"width .2s var(--flb-ease)" },
+      themeIcon: theme === "light" ? "ph ph-moon" : "ph ph-sun",
+      iconBtn: { width:"34px", height:"34px", borderRadius:"9px", border:"none", background:"transparent", color:"var(--flb-ink-3)", display:"inline-flex", alignItems:"center", justifyContent:"center", cursor:"pointer" },
+      toggleTheme: () => this.setState({ theme: theme === "light" ? "dark" : "light" }),
+      toggleSidebar: () => this.setState({ collapsed: !this.state.collapsed }),
+
+      // nav
+      navPlain, navGroup, subPlain,
+      insightsOpen: this.state.insightsOpen, optOpen: this.state.optOpen,
+      insightsCaret: this.state.insightsOpen ? "ph ph-caret-down" : "ph ph-caret-right",
+      optCaret: this.state.optOpen ? "ph ph-caret-down" : "ph ph-caret-right",
+      toggleInsights: () => this.setState({ insightsOpen: !this.state.insightsOpen }),
+      toggleOpt: () => this.setState({ optOpen: !this.state.optOpen }),
+      goCreative: () => this.setState({ screen:"creative" }),
+      goProductInsights: () => this.setState({ screen:"creative" }),
+      goUtm: () => this.setState({ screen:"utm" }),
+      creativeSubStyle: subActive(this.state.screen === "creative"),
+      utmSubStyle: subActive(this.state.screen === "utm"),
+      creativeDot: this.state.screen === "creative" ? "var(--flb-violet-light)" : "transparent",
+      utmDot: this.state.screen === "utm" ? "var(--flb-violet-light)" : "transparent",
+      orionSub: this.state.screen === "utm" ? "3 UTM issues flagged" : "Scoring 18 live creatives",
+
+      // screens
+      isCreative: this.state.screen === "creative",
+      isUtm: this.state.screen === "utm",
+
+      // creative header
+      isScoring, isPerformance: !isScoring,
+      creativeSubtitle: isScoring ? "Recommendations for ads active as of yesterday" : "Performance by Ad Name · Last 7 days",
+      setScoring: () => this.setState({ mode:"scoring" }),
+      setPerformance: () => this.setState({ mode:"performance" }),
+      perfTabStyle: seg(!isScoring),
+      scoreTabStyle: seg(isScoring),
+      setMeta: () => this.setState({ channel:"meta" }),
+      setGoogle: () => this.setState({ channel:"google" }),
+      metaTabStyle: seg(channel === "meta"),
+      googleTabStyle: seg(channel === "google"),
+      ghostBtn: { display:"inline-flex", alignItems:"center", gap:"7px", height:"40px", padding:"0 15px", borderRadius:"10px", background:"transparent", border:"1px solid var(--flb-line)", font:"500 13px var(--flb-font-body)", color:"var(--flb-ink)", cursor:"pointer" },
+      gradBtn: { display:"inline-flex", alignItems:"center", gap:"7px", height:"40px", padding:"0 16px", borderRadius:"10px", background:"var(--flb-gradient-energetic)", border:"none", font:"600 13px var(--flb-font-body)", color:"#fcfcfc", cursor:"pointer", boxShadow:"var(--flb-glow-violet)" },
+      filterChip: chip(false),
+      filterChipActive: chip(true),
+
+      decisionTabs, summaryCount: filtered.length, scoreCards,
+      perfMetrics, perfRows,
+
+      // utm
+      utmMetaTab: seg(true), utmGoogleTab: seg(false),
+      utmTabs, utmRows,
+
+      // modal
+      modalOpen: !!mo,
+      closeFix: () => this.setState({ modal:null }),
+      stop: (e) => e.stopPropagation(),
+      modalAd: mo ? mo.ad : "",
+      modalAcct: mo ? mo.acct : "",
+      modalAcctName: mo ? mo.acctName : "",
+      modalCampaign: mo ? mo.campaign : "",
+      modalAdset: mo ? mo.adset : "",
+      modalMissing: mo ? mo.missing : [],
+      modalCurrent: mo ? mo.current : "",
+      modalSuggested: mo ? mo.suggested : "",
+    };
+  }
+}
+</script>
+</body>
+</html>

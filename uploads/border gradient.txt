@@ -1,0 +1,43 @@
+The animation is a Houdini trick. Here's the isolated piece:
+
+css
+@property --angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
+.media-object {
+  --border-width: 1px;
+  border: var(--border-width) solid;
+  border-image: conic-gradient(
+    from var(--angle),
+    #381D6A 80%, #E0D1FF 88%, #E0D1FF 92%, #381D6A 100%
+  ) 1;
+  animation: spin 3s linear infinite paused;
+}
+
+.media-object:hover { animation-play-state: running; }
+
+@keyframes spin {
+  to { --angle: 1turn; }
+}
+
+Why each part exists
+
+conic-gradient(from <angle>, …) sweeps color around a center point. The stops are placed so most of the ring is the dark base (
+#381D6A) with a narrow bright band between 88% and 92% — that band is what reads as the "comet" streak travelling around the edge.
+border-image: <gradient> 1 paints that gradient into the border box instead of a background. The trailing 1 is the slice value: it tells the browser to cut the image at 1 unit from each edge and stretch the middle sections, which for a gradient effectively means "fill the whole border." This technique gives you a transparent background and no extra element, but it doesn't support border-radius. 
+bejamas
+The actual animation trick: a plain CSS custom property is just a token string, so --angle: 0turn → 1turn would snap rather than interpolate. @property registers it with syntax: "<angle>", which makes the browser treat it as a typed value it knows how to tween. inherits: true matters if the gradient lives on a pseudo-element that needs to read the parent's angle. Now @keyframes spin animating --angle produces smooth rotation, and the gradient recomputes each frame.
+paused + animation-play-state: running on hover is just gating — the animation is declared but frozen until hover.
+Fallback, since Houdini isn't everywhere: @supports not (background: paint(something)) serves a static gradient border so non-supporting browsers still get the look without the motion. 
+bejamas
+css
+@supports not (background: paint(something)) {
+  .media-object {
+    border-image: conic-gradient(#381D6A 80%, #E0D1FF 88%, #E0D1FF 92%, #381D6A 100%) 1;
+  }
+}
+
+The catch: border-image kills border-radius. If you want rounded corners and the spin, move the conic gradient onto a ::before pinned at inset: calc(var(--border-width) * -1) with border-radius: inherit, then either sit it behind an opaque background (background-clip: padding-box) or cut the center out with mask-composite: exclude. The --angle animation logic stays identical — only the delivery mechanism for the gradient changes.

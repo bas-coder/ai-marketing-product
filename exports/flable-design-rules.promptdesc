@@ -1,0 +1,79 @@
+# flable.ai — AI CMO · Design Rules (STRICT)
+# Continue / VS Code system rules. Obey verbatim. Every visual must ground in the token file (flable-tokens.json / flable-tokens.css). Never invent values.
+
+## 0. NON-NEGOTIABLES
+- Dark-first, premium, analytical. Near-black canvas, graphite cards, ONE decisive accent (violet). Brand gradient reserved for hero/CTA moments only.
+- Never invent colors, type, spacing, radii, or shadows outside the token set. If a value is missing, pick the nearest token — do not hardcode a new one.
+- NO emoji. Ever. Status/emphasis is carried by color, badges and icons.
+- NO AI-slop tropes: no rainbow gradient backgrounds, no rounded card + left-accent-border cliché, no Inter/Roboto for display, no decorative loops.
+- Both themes ship. Every color must be a semantic --flb-* token so class="light" / [data-theme="light"] flips cleanly. Never hardcode a hex where a semantic token exists.
+
+## 1. COLOR
+- Primary accent: violet #643CC1 (--flb-violet / primary-500). Lighter UI+links: #A08BFF (--flb-violet-light / primary-400). Signature mid: #7F56D9 (--flb-purple).
+- Gradient bookends, flat + sparing: magenta #E9348B, blue #009EFF. Use as flat fills, not everywhere.
+- Neutrals: true-grey ramp grey-50 → grey-1000. No blue-grey, no warm-grey mixing.
+- Surfaces layer for depth (never shadows-as-depth on their own): bg → surface → surface-2 → surface-3.
+    dark:  bg #0D0D0E · surface #151517 · surface-2 #1F1F22 · surface-3 #2D2D31
+    light: bg #FAFAFA · surface #FFFFFF · surface-2 #F5F5F5 · surface-3 #EAEAEA
+- Text ramp: heading (ink) → body (ink-2) → muted (ink-3) → faint (ink-4). Body is never pure white.
+- Status (dark-tuned): success #6AD275 · warning #FFA20C · error #FF6B5E · info #5AB0FF. Light theme deepens them for contrast — use the token, not the hex.
+- Status usage = tint + on pair. Soft --flb-tint-* fill behind, readable --flb-on-* text/icon on top. Never a full-saturation status background behind body text.
+- Hairlines carry structure: --flb-line #2D2D31 (dark). Borders are subtle by default; never a bright 1px.
+
+## 2. GRADIENTS (named, fixed — do not improvise angles)
+- hero (brand surfaces, splash): radial magenta→violet→blue.
+- energetic (primary CTA fill): radial pink→violet.
+- primary-focus-dark (glow behind a recommendation card): deep violet radial.
+- chart (area fills): violet→transparent vertical.
+- onboarding (rare light surface): soft lilac.
+- text (gradient wordmark/keyword only): magenta→violet→blue horizontal.
+- Rule: at most ONE gradient moment per view. Everything else is flat.
+
+## 3. TYPE
+- Display / headings / wordmark: Poppins, 400–600 ONLY (never 700+ for display — clean, not heavy). Tracking -0.01 to -0.02em.
+- Body / UI / data: Inter, 400–600.
+- Numeric / label accent: Geist.
+- Scale (desktop px): xs 12 · sm 14 · base 16 · lg 18 · xl 20 · 2xl 24 · 3xl 30 · 4xl 36 · 5xl 48 · 6xl 60 · 7xl 72.
+- Section headers & product nouns = Title Case ("AI CMO Insights"). Body & helper = sentence case.
+- Responsive: type/spacing/radius step down at tablet (768) and mobile (375) — use the responsive token modes, don't eyeball.
+
+## 4. SPACING & RADIUS
+- 4px base grid. Scale: 4·8·12·16·20·24·32·40·48·64. Never off-grid margins.
+- Layout uses flex/grid + gap. Never bare inline siblings or per-element margins for groups.
+- Radius: inputs/buttons 8–12 · cards 14–16 · large brand panels 20 · chips/badges/avatars/toggles/switches fully round (9999).
+
+## 5. ELEVATION & BORDERS
+- Every elevated surface = 1px hairline + soft dark shadow. On dark ground shadows read as depth; add a faint light inset rim (rgba(237,241,245,0.05–0.08)) on the top edge.
+- Shadow tiers: sm (rest cards) · md (menus/popovers) · lg (modals). Don't exceed the tier for the surface.
+- Violet glow (--flb-glow-violet) marks focus, active, and AI moments only. Not decorative.
+
+## 6. MOTION
+- Quick, restrained: ~180ms, cubic-bezier(.4,0,.2,1). Entrances use softer ease-out cubic-bezier(.16,1,.3,1).
+- Progress bars and chart area fills animate in. Nothing loops except the loading spinner.
+- Hover: buttons lift 1px + deepen color (gradient CTAs add violet glow); ghost/nav rows fill to surface-3; active nav gains violet inset ring + violet icon.
+- Press: no bounce. Disabled drops to ~45% opacity.
+
+## 7. FOCUS (accessibility — mandatory)
+- Inputs/selects on focus: violet-400 border + 3px rgba(160,139,255,0.18) ring. Never remove the ring without a replacement.
+
+## 8. ICONOGRAPHY
+- Phosphor, regular weight, ~1.7px stroke, rounded joins, currentColor. Sizes 16/18/20/24.
+- Muted icons use ink-3; active/AI icons use violet-400.
+- No emoji, no unicode-as-icon. Channel/brand logos as colored monogram tiles until real marks are swapped in.
+
+## 9. COPY / VOICE (product surfaces)
+- Voice: a sharp senior operator briefing a founder. Confident, specific, outcome-led. Never hypey, never cute.
+- Address the user as "you"/"your". The product is "Flable AI" / "AI CMO" (or "I" in-conversation).
+- ALWAYS quantified: every claim carries a metric + timeframe ("last 30 days", "ROAS < 1.5", "+25% ROAS", "$7K reallocation").
+- Structure: Insight → Recommendation → a button that does the thing ("Pause Ad Set Now"). 
+- Frame on profit, not vanity metrics.
+- Em dashes and "→" allowed for rhythm. No emoji.
+
+## 10. LAYOUT / IMAGERY
+- Flat dark fills, not photography. Depth = surface layering + hairlines, not heavy shadow.
+- Imagery, where present, is product UI + data — cool, dark, high-contrast. Avatars fall back to brand-gradient monograms.
+- Transparency: tints over solids (e.g. rgba(160,139,255,0.12) secondary fill / selected chip). Blur is NOT a core motif.
+
+## 11. ENFORCEMENT
+- Building a slide/report/screen: pick section-header, card, and status-badge patterns up front and reuse them. Max 1–2 background colors per artifact.
+- If a request needs a value not in the tokens, use the nearest token and flag it — never silently hardcode.
