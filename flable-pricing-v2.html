@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flable — Choose your plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12101A; --ink-2:#4B4A57; --ink-3:#8A889A;
+  --line:#E8E6F0; --line-2:#F1EFF7; --bg:#FBFAFD; --card:#FFF;
+  --violet:#6D4AE0; --violet-soft:#EEEBFD; --pink:#E0489B;
+  --grad:linear-gradient(96deg,#E0489B 0%,#6D4AE0 68%);
+  --green:#0E9F6E;
+  --shadow:0 1px 2px rgba(18,16,26,.04),0 8px 24px -12px rgba(18,16,26,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Poppins',system-ui,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:1200px;margin:0 auto;padding:34px 28px 110px}
+
+.steps{display:flex;align-items:center;justify-content:flex-end;gap:14px;margin-bottom:30px}
+.steps span{font-size:13px;color:var(--ink-3)}
+.bar{width:180px;height:7px;border-radius:99px;background:var(--line)}
+.bar i{display:block;width:75%;height:100%;border-radius:99px;background:var(--grad)}
+
+h1{font-size:36px;letter-spacing:-.02em;font-weight:600;margin:0 0 6px}
+.sub{color:var(--ink-2);font-size:14.5px;margin:0}
+
+.detected{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:20px 0 14px;
+  padding:10px 15px;background:var(--violet-soft);border:1px solid #DCD5FA;border-radius:12px;
+  font-size:13px;color:#3B2E7A}
+.detected b{font-weight:600}
+.linkish{background:none;border:0;padding:0;font:inherit;font-size:13px;color:var(--violet);
+  cursor:pointer;text-decoration:underline;text-underline-offset:3px;margin-left:auto}
+
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:22px}
+.bands{display:flex;flex:1 1 600px;background:#F3F1F9;border-radius:13px;padding:5px;gap:4px}
+.band{flex:1;border:0;background:none;cursor:pointer;font:inherit;font-size:13.5px;font-weight:500;
+  color:var(--ink-2);padding:10px 6px;border-radius:10px}
+.band:hover{background:#EAE6F6}
+.band[aria-pressed="true"]{background:var(--grad);color:#fff}
+.band[aria-pressed="true"]:hover{background:var(--grad)}
+.band:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.seg{display:flex;background:#F3F1F9;border-radius:11px;padding:4px;gap:3px}
+.seg button{border:0;background:none;font:inherit;font-size:12.5px;font-weight:500;color:var(--ink-2);
+  padding:7px 13px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(18,16,26,.1)}
+.seg button:focus-visible{outline:2px solid var(--violet);outline-offset:1px}
+.savepill{background:#E6F6EF;color:var(--green);font-size:11px;font-weight:600;padding:2px 6px;border-radius:99px;margin-left:5px}
+
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:stretch}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px 20px;
+  position:relative;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.plan.hi{border:1.5px solid var(--violet)}
+.tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--grad);color:#fff;
+  font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;border-radius:99px;white-space:nowrap}
+.pname{font-size:16px;font-weight:600;margin:0 0 2px}
+.ptag{font-size:12.5px;color:var(--ink-3);margin:0 0 14px}
+.price .amt{font-size:31px;font-weight:600;letter-spacing:-.02em}
+.price .per{font-size:12.5px;color:var(--ink-3)}
+.billed{font-size:11.5px;color:var(--ink-3);margin:3px 0 0}
+
+.credits{margin:14px 0;padding:9px 12px;border-radius:10px;
+  background:linear-gradient(180deg,#FDF4F9,#F6F2FE);border:1px solid #F0DCEC;font-size:12px;color:#6B3E6B}
+.credits b{font-size:15px;color:var(--ink);font-weight:600}
+.credits span{display:block;color:var(--ink-3);font-size:11.5px}
+
+.map{margin-bottom:14px;border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;background:#FCFBFE}
+.map h4{margin:0 0 8px;font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.map ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.map li{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#C7C4D4}
+.map li .dot{width:6px;height:6px;border-radius:99px;background:#E3E0EE;flex:none}
+.map li.on{color:var(--ink)}
+.map li.on .dot{background:var(--violet)}
+.map li.new .dot{background:var(--pink);box-shadow:0 0 0 3px rgba(224,72,155,.14)}
+.map li.sub{padding-left:12px;font-size:12px}
+
+.feat{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:8px;flex:1}
+.feat li{display:flex;gap:8px;font-size:12.5px;color:var(--ink-2)}
+.feat li::before{content:"";width:5px;height:5px;border-radius:99px;background:var(--violet);flex:none;margin-top:7px}
+.feat b{color:var(--ink);font-weight:500}
+
+.save{font-size:11.8px;color:var(--ink-3);margin:0 0 13px;padding-top:11px;border-top:1px solid var(--line-2);line-height:1.4}
+.cta{width:100%;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:14px;
+  font-weight:500;padding:11px;border-radius:11px;cursor:pointer}
+.cta:hover{border-color:#C9C2EC;background:#FAF9FE}
+.cta.solid{background:var(--grad);color:#fff;border-color:transparent;font-weight:600}
+.cta:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+.strip{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:18px;
+  padding:18px 24px;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+.strip h3{margin:0 0 3px;font-size:15px;font-weight:600}
+.strip p{margin:0;font-size:13px;color:var(--ink-2)}
+.strip .l{flex:1 1 380px}
+.strip .cta{width:auto;padding:11px 20px}
+.rates{display:grid;grid-template-columns:repeat(3,minmax(120px,1fr));gap:9px;flex:1 1 400px}
+.rate{border:1px solid var(--line-2);border-radius:11px;padding:9px 13px;background:#FCFBFE}
+.rate b{display:block;font-size:17px;font-weight:600}
+.rate span{font-size:11.5px;color:var(--ink-3);line-height:1.35;display:block}
+.strip .fineline{margin-top:6px;font-size:12px;color:var(--ink-3)}
+.nums{display:flex;gap:16px;align-items:center;flex:1 1 400px;flex-wrap:wrap}
+.nums b{display:block;font-size:20px;font-weight:600;letter-spacing:-.01em}
+.nums b.risk{color:var(--pink)}
+.nums span{font-size:11.5px;color:var(--ink-3)}
+.nums .arrow{color:#C7C4D4;font-size:17px}
+.strip .note{flex:1 1 300px;font-size:12.5px;color:var(--ink-2);margin:0}
+
+details.cmp{margin-top:16px;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow)}
+details.cmp>summary{cursor:pointer;list-style:none;padding:16px 24px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px}
+details.cmp>summary::-webkit-details-marker{display:none}
+details.cmp>summary::after{content:"▾";color:var(--ink-3);font-size:12px}
+details.cmp[open]>summary::after{content:"▴"}
+details.cmp>summary:focus-visible{outline:2px solid var(--violet);outline-offset:-2px;border-radius:18px}
+.tblwrap{overflow-x:auto;border-top:1px solid var(--line-2)}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:12.8px}
+th,td{padding:10px 16px;text-align:left;border-bottom:1px solid var(--line-2)}
+thead th{background:#F8F6FD;font-weight:600;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
+th:first-child,td:first-child{width:32%}
+td:not(:first-child),th:not(:first-child){text-align:center}
+tr.sec td{background:#FCFBFE;font-weight:600;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.yes{color:var(--green);font-weight:600}
+.no{color:#CFCCDD}
+.val{font-weight:500}
+.hint{display:block;font-weight:400;font-size:11.3px;color:var(--ink-3);margin-top:2px}
+
+.footer{position:sticky;bottom:0;margin:30px -28px -110px;padding:15px 28px;
+  background:rgba(251,250,253,.93);backdrop-filter:blur(10px);border-top:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.footer .fine{font-size:12.5px;color:var(--ink-3);flex:1 1 300px;margin:0}
+.footer .back{border:0;background:none;font:inherit;font-size:14px;color:var(--ink-2);cursor:pointer;padding:8px 4px}
+.footer .go{background:var(--grad);color:#fff;border:0;font:inherit;font-size:15px;font-weight:600;
+  padding:12px 26px;border-radius:11px;cursor:pointer}
+.footer button:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+@media (max-width:1060px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){
+  .wrap{padding:22px 16px 120px} h1{font-size:27px} .grid{grid-template-columns:1fr}
+  .bands{flex-wrap:wrap}.band{flex:1 1 45%}.rates{justify-content:flex-start}
+  .footer{margin:26px -16px -120px;padding:14px 16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="steps"><span>Step 3 of 4</span><div class="bar"><i></i></div></div>
+
+  <h1>Choose your plan</h1>
+  <p class="sub">Your plan decides which modules open in the sidebar. Credits are spent whenever Orion does the thinking: a chat, an AI Lens, a root cause, a custom report. Price scales with your ad spend, because that is what Flable is protecting.</p>
+
+
+  <div class="controls">
+    <div class="bands" role="group" aria-label="Monthly ad spend">
+      <button class="band" aria-pressed="false" data-b="0">$0–10K</button>
+      <button class="band" aria-pressed="true"  data-b="1">$10–30K</button>
+      <button class="band" aria-pressed="false" data-b="2">$30–60K</button>
+      <button class="band" aria-pressed="false" data-b="3">$60–100K</button>
+    </div>
+    <div class="seg" role="group" aria-label="Billing period">
+      <button data-cycle="yr" aria-pressed="true">Annual<span class="savepill">−17%</span></button>
+      <button data-cycle="mo" aria-pressed="false">Monthly</button>
+    </div>
+    <div class="seg" role="group" aria-label="Currency">
+      <button data-cur="usd" aria-pressed="true">USD</button>
+      <button data-cur="inr" aria-pressed="false">INR</button>
+    </div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="strip">
+    <div class="l">
+      <h3>What uses credits</h3>
+      <p>Anything that asks Orion to reason costs credits, at a flat rate whatever the answer takes to produce. Reading a dashboard, opening a report or receiving an alert costs nothing.</p>
+      <p class="fineline">Answers are cached for the day, so if a teammate already ran it you see the same result free. Top up any time: 1,500 for $10, 5,000 for $30. Unused credits roll over for a month.</p>
+    </div>
+    <div class="rates">
+      <div class="rate"><b>60</b><span>Fast answer<br>one metric, one platform</span></div>
+      <div class="rate"><b>200</b><span>Standard answer<br>cross-platform analysis</span></div>
+      <div class="rate"><b>350</b><span>Reasoning<br>full root cause, cites data</span></div>
+      <div class="rate"><b>50</b><span>AI Lens<br>why this number moved</span></div>
+      <div class="rate"><b>150</b><span>Alert root cause<br>the “Know why?” button</span></div>
+      <div class="rate"><b>400</b><span>Custom report<br>built to your brief</span></div>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="l">
+      <h3>Over $100K a month, or running several brands?</h3>
+      <p>More than one brand, hourly data refresh, 10 connectors including custom ones, an uptime SLA and a dedicated CSM.</p>
+    </div>
+    <button class="cta">Talk to sales →</button>
+  </div>
+
+  <details class="cmp">
+    <summary>Compare plans</summary>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Orion</th><th>Control</th><th>Intelligence</th><th>Complete</th></tr></thead>
+        <tbody>
+          <tr class="sec"><td colspan="5">Orion</td></tr>
+          <tr><td>Credits a month</td><td class="val">4,000</td><td class="val">11,000</td><td class="val">19,000</td><td class="val">30,000</td></tr>
+          <tr><td>Reasoning runs, if spent all one way</td><td class="val">11</td><td class="val">31</td><td class="val">54</td><td class="val">85</td></tr>
+          <tr><td>Fast · Standard · Pro modes</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Credits roll over</td><td class="val">1 month</td><td class="val">1 month</td><td class="val">1 month</td><td class="val">2 months</td></tr>
+          <tr><td>Auto top-up</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+
+          <tr class="sec"><td colspan="5">Modules in your plan</td></tr>
+          <tr><td>Dashboard · blended revenue and profit</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Pulse · campaign scorecards, AI Lens</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Scheduler · email, Slack, WhatsApp</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Creative Insights · scoring and themes</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Landing page overlap</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Product Insights · Shopify, Meta, Google</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Inventory Health · spend at risk</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+          <tr><td>Attribution · journeys and touchpoints</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>POAS · profit on ad spend</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>COD and RTO aware revenue</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>UTM Status</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+          <tr><td>Daily digest and alerts · no credits</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+
+          <tr class="sec"><td colspan="5">Data and support</td></tr>
+          <tr><td>Seats</td><td class="val">2</td><td class="val">3</td><td class="val">5</td><td class="val">8</td></tr>
+          <tr><td>Connectors</td><td class="val">5</td><td class="val">5</td><td class="val">6</td><td class="val">8</td></tr>
+          <tr><td>History on import<span class="hint">Orion can search further back in chats</span></td><td class="val">1 mo</td><td class="val">2 mo</td><td class="val">2 mo</td><td class="val">2 mo</td></tr>
+          <tr><td>Data refresh</td><td class="val">Daily</td><td class="val">Daily</td><td class="val">Daily</td><td class="val">Daily</td></tr>
+          <tr><td>Support</td><td class="val">Email</td><td class="val">Email + chat</td><td class="val">Priority</td><td class="val">Priority + onboarding</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <div class="footer">
+    <button class="back">← Back</button>
+    <p class="fine"><b id="sel-name">Intelligence</b> · <b id="sel-price">$179/mo</b> · <b id="sel-cr">19,000 credits</b>. Prices exclude 18% GST. Change plan any time. Your data stays intact for 90 days after a downgrade.</p>
+    <button class="go">Continue →</button>
+  </div>
+
+</div>
+
+<script>
+const NAV=['Chats','Dashboard','Pulse','Attribution','Product Insights','Creative Insights','Inventory Health','UTM Status','Scheduler','Integrations'];
+const SUBS=['Product Insights','Creative Insights','UTM Status'];
+
+const PLANS=[
+ {id:'orion',name:'Orion',tag:'Just the answers.',
+  on:['Chats','Integrations'],add:['Chats','Integrations'],
+  cr:[4000,4000,4000,4000],
+  save:'Replaces the morning spent pulling numbers out of three dashboards.',
+  feats:['Ask Orion anything about Meta, Google Ads, Shopify and GA4',
+         'Answers read from your own data, not platform estimates',
+         'Fast, Standard and Reasoning modes for different depths of question',
+         'Daily digest and alerts, no credits used'],
+  usd:[20,20,20,20],inr:[1699,1699,1699,1699]},
+
+ {id:'control',name:'Control',tag:'See what happened, and why.',
+  on:['Chats','Dashboard','Pulse','Scheduler','Integrations'],add:['Dashboard','Pulse','Scheduler'],
+  cr:[9000,11000,14000,18000],
+  save:'Catches CPP drift the day it starts, not at month end.',
+  feats:['Everything in Orion, plus 3 seats',
+         '<b>Dashboard</b>: blended revenue against blended spend, with profit',
+         '<b>Pulse</b>: campaign scorecards, with AI Lens on any metric that moved',
+         '<b>Scheduler</b>: reports to email, Slack or WhatsApp'],
+  usd:[59,99,149,229],inr:[4999,8499,12999,19999]},
+
+ {id:'intel',name:'Intelligence',tag:'Know what to back.',
+  on:['Chats','Dashboard','Pulse','Product Insights','Creative Insights','Inventory Health','Scheduler','Integrations'],
+  add:['Product Insights','Creative Insights','Inventory Health'],
+  cr:[15000,19000,24000,30000],
+  save:'Finds budget going to out of stock SKUs. One brand: 57% of ₹1.4L.',
+  feats:['Everything in Control, plus 5 seats',
+         '<b>Creative Insights</b>: every ad scored to replicate, refresh or pause',
+         'Themes read by vision AI, and landing pages where your ads overlap',
+         '<b>Product Insights</b>: Shopify, Meta Catalog and Google Shopping',
+         '<b>Inventory Health</b>: spend pushing traffic to out of stock SKUs'],
+  usd:[99,179,279,429],inr:[8499,14999,23999,36999]},
+
+ {id:'complete',name:'Complete',tag:'Order level truth.',
+  on:NAV,add:['Attribution','UTM Status'],
+  cr:[24000,30000,38000,48000],
+  save:'Stops Meta and Google both claiming credit for the same order.',
+  feats:['Everything in Intelligence, plus 8 seats',
+         '<b>Attribution</b>: every touchpoint before every order',
+         'COD and RTO aware revenue, with multi touch models',
+         '<b>POAS</b>: profit on ad spend, once your orders are attributed',
+         '<b>UTM Status</b>: broken tracking found before it costs you'],
+  usd:[149,249,399,599],inr:[12999,21999,33999,49999]}
+];
+
+let band=1, cycle='yr', cur='usd', chosen='intel';
+const BEST=['control','intel','complete','complete'];
+const fmt=n=>cur==='usd'?'$'+n.toLocaleString('en-US'):'₹'+n.toLocaleString('en-IN');
+const step=()=>cur==='usd'?1:100;
+const monthly=b=>Math.round(b*1.2/step())*step();
+const priceOf=p=>{const b=(cur==='usd'?p.usd:p.inr)[band];return cycle==='yr'?b:monthly(b);};
+
+function render(){
+  document.getElementById('grid').innerHTML=PLANS.map(p=>{
+    const base=(cur==='usd'?p.usd:p.inr)[band], now=priceOf(p), best=BEST[band]===p.id;
+    return `<div class="plan ${best?'hi':''}">
+      ${best?'<span class="tag">Best fit</span>':''}
+      <p class="pname">${p.name}</p>
+      <p class="ptag">${p.tag}</p>
+      <div class="price"><span class="amt">${fmt(now)}</span> <span class="per">/month</span></div>
+      <p class="billed">${cycle==='yr'?`billed annually · ${fmt(monthly(base))} monthly`:'billed monthly'}</p>
+      <div class="credits">
+        <b>${p.cr[band].toLocaleString('en-IN')}</b> credits a month
+        <span>${Math.round(p.cr[band]/350)} reasoning runs, ${Math.round(p.cr[band]/200)} standard answers or ${Math.round(p.cr[band]/50)} AI Lens taps</span>
+      </div>
+      <div class="map">
+        <h4>Opens in your sidebar</h4>
+        <ul>${NAV.map(n=>`<li class="${p.on.includes(n)?'on':''} ${p.add.includes(n)?'new':''} ${SUBS.includes(n)?'sub':''}"><span class="dot"></span>${n}</li>`).join('')}</ul>
+      </div>
+      <ul class="feat">${p.feats.map(f=>`<li><span>${f}</span></li>`).join('')}</ul>
+      <p class="save">${p.save}</p>
+      <button class="cta ${p.id===chosen?'solid':''}" data-pick="${p.id}">${p.id===chosen?'Selected':'Choose'}</button>
+    </div>`;
+  }).join('');
+
+  const s=PLANS.find(p=>p.id===chosen);
+  document.getElementById('sel-name').textContent=s.name;
+  document.getElementById('sel-price').textContent=fmt(priceOf(s))+'/mo';
+  document.getElementById('sel-cr').textContent=s.cr[band].toLocaleString('en-IN')+' credits';
+  document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{chosen=b.dataset.pick;render();});
+}
+const bind=(sel,fn)=>document.querySelectorAll(sel).forEach(b=>b.onclick=()=>{
+  fn(b);document.querySelectorAll(sel).forEach(x=>x.setAttribute('aria-pressed',x===b));render();});
+bind('.band',b=>band=+b.dataset.b);
+bind('[data-cycle]',b=>cycle=b.dataset.cycle);
+bind('[data-cur]',b=>cur=b.dataset.cur);
+render();
+</script>
+</body>
+</html>

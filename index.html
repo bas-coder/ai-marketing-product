@@ -100,6 +100,8 @@
     .light [data-tour="composer"]{--flb-shadow-md:0 6px 20px rgba(10,13,18,0.10), 0 0 0 1px rgba(10,13,18,0.05)}
     /* Sidebar nav hover: no fill, prefix icon brightens instead */
     [data-tour="sidebar"] button:hover > span:first-child{color:var(--flb-ink) !important}
+    /* Partner logos: blend against the isolated logo-group backdrop (header stacking otherwise ignores mix-blend-mode) */
+    [data-tour="partners"] [data-partner-logo]{mix-blend-mode:luminosity}
 
     /* ── Contextual Sidebar Tooltips ─────────────────────────── */
     [data-sidebar-tip]{position:relative}
@@ -148,6 +150,10 @@
     .flb-sidebar-tooltip__learn:hover{color:var(--flb-violet-2)}
     .flb-sidebar-tooltip__learn svg{width:12px;height:12px;transition:transform 120ms var(--flb-ease)}
     .flb-sidebar-tooltip__learn:hover svg{transform:translateX(2px)}
+    [data-locked="true"]{opacity:.78}
+    .flb-explain{height:100%;overflow-y:auto;padding:36px 40px 48px}
+    .flb-explain-grid{display:grid;grid-template-columns:1fr minmax(280px,420px);gap:36px;max-width:1080px;margin:0 auto;align-items:start}
+    @media (max-width:900px){.flb-explain-grid{grid-template-columns:1fr}}
   </style>
 </helmet>
 
@@ -384,7 +390,7 @@
   <!-- ══════════ ONBOARDING GUIDE - Stripe-style modal over the live dashboard ══════════ -->
   <sc-if value="{{ onboardingOpen }}" hint-placeholder-val="{{ false }}">
   <div style="position:fixed;inset:0;z-index:70;background:rgba(6,6,8,.66);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:24px;font-family:var(--flb-font-body)">
-    <div style="width:100%;max-width:1080px;height:calc(100vh - 48px);max-height:912px;display:flex;flex-direction:column;background:var(--flb-surface);border-radius:22px;box-shadow:0 40px 110px rgba(8,6,24,.5);overflow:hidden;animation:flbRise 300ms var(--flb-ease-out) backwards">
+    <div style="width:100%;max-width:1200px;height:calc(100vh - 48px);max-height:912px;display:flex;flex-direction:column;background:var(--flb-surface);border-radius:22px;box-shadow:0 40px 110px rgba(8,6,24,.5);overflow:hidden;animation:flbRise 300ms var(--flb-ease-out) backwards">
       <sc-if value="{{ obShowSteps }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 34px;flex-shrink:0">
         <span></span>
@@ -500,77 +506,58 @@
 
     <sc-if value="{{ screenPlans }}" hint-placeholder-val="{{ false }}">
     <div style="flex:1;min-height:0;display:flex;flex-direction:column">
-      <div style="flex:1;min-height:0;overflow-y:auto;padding:6px 34px 24px"><div style="max-width:960px;margin:0 auto">
-        <h1 style="margin:0;font:500 27px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Add credits to get started</h1>
-        <p style="margin:7px 0 0;font:400 13px var(--flb-font-body);color:var(--flb-ink-3)">Pay only for what you use. Credits never expire.</p>
-        <div style="font:500 10px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-3);margin:26px 0 12px">AGENT MODE PRICING</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
-          <div style="position:relative;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-border-default);padding:16px 18px">
-            <div style="display:flex;align-items:center;gap:11px">
-              <span style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:var(--flb-surface-3);color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center"><i class="ph-fill ph-lightning" style="font-size:16px;line-height:1"></i></span>
-              <div style="flex:1;min-width:0"><div style="font:500 14.5px var(--flb-font-display);color:var(--flb-ink)">Fast</div><div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3)">Reflex · read-only</div></div>
-              <span style="font:500 11.5px var(--flb-font-body);color:var(--flb-ink-3);white-space:nowrap">1× credit</span>
-            </div>
-            <p style="margin:11px 0 0;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Instant answers - spots spikes, pulls numbers fast.</p>
+      <div style="flex:1;min-height:0;overflow-y:auto;padding:6px 28px 24px"><div style="max-width:1140px;margin:0 auto">
+        <h1 style="margin:0;font:500 27px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Choose your plan</h1>
+        <p style="margin:7px 0 0;max-width:720px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Your plan decides which modules open in the sidebar. Credits are spent whenever Orion does the thinking: a chat, an AI Lens, a root cause, a custom report.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 16px">
+          <div style="display:flex;flex:1 1 520px;gap:4px;padding:4px;border-radius:12px;background:var(--flb-surface-2)">
+            <sc-for list="{{ pricingBands }}" as="b" hint-placeholder-count="4"><button onClick="{{ b.onClick }}" style="{{ b.style }}">{{ b.label }}</button></sc-for>
           </div>
-          <div style="position:relative;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-border-default);padding:16px 18px">
-            <div style="display:flex;align-items:center;gap:11px">
-              <span style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:var(--flb-surface-3);color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center"><i class="ph-fill ph-star" style="font-size:16px;line-height:1"></i></span>
-              <div style="flex:1;min-width:0"><div style="font:500 14.5px var(--flb-font-display);color:var(--flb-ink)">Standard</div><div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3)">Judgment · full access</div></div>
-              <span style="font:500 11.5px var(--flb-font-body);color:var(--flb-ink-3);white-space:nowrap">2× credit</span>
-            </div>
-            <p style="margin:11px 0 0;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Pauses bleeders, shifts budgets, executes with judgment.</p>
+          <div style="display:flex;gap:3px;padding:4px;border-radius:11px;background:var(--flb-surface-2)">
+            <button onClick="{{ setCycleYr }}" style="{{ cycleYrStyle }}">Annual<span style="margin-left:5px;padding:1px 6px;border-radius:9999px;background:var(--flb-tint-success);color:var(--flb-on-success);font:600 10px var(--flb-font-body)">−17%</span></button>
+            <button onClick="{{ setCycleMo }}" style="{{ cycleMoStyle }}">Monthly</button>
           </div>
-          <div style="position:relative;border-radius:14px;border:1.5px solid transparent;background:radial-gradient(130% 160% at 100% 0%, rgba(233,52,139,.09) 0%, rgba(160,139,255,.08) 40%, rgba(160,139,255,0) 68%) padding-box, linear-gradient(var(--flb-surface),var(--flb-surface)) padding-box, var(--flb-gradient-energetic) border-box;padding:16px 18px"><span style="position:absolute;top:-9px;right:16px;padding:3px 10px;border-radius:9999px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:500 9px var(--flb-font-body);letter-spacing:.07em;box-shadow:0 2px 6px rgba(127,86,217,.18)">RECOMMENDED</span>
-            <div style="display:flex;align-items:center;gap:11px">
-              <span style="width:34px;height:34px;flex-shrink:0;border-radius:9px;background:var(--flb-gradient-energetic);color:#fcfcfc;display:inline-flex;align-items:center;justify-content:center"><i class="ph-fill ph-sparkle" style="font-size:16px;line-height:1"></i></span>
-              <div style="flex:1;min-width:0"><div style="font:500 14.5px var(--flb-font-display);color:var(--flb-ink)">Pro</div><div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3)">Strategy · deep reasoning</div></div>
-              <span style="font:500 11.5px var(--flb-font-body);color:var(--flb-ink-3);white-space:nowrap">3× credit</span>
-            </div>
-            <p style="margin:11px 0 0;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Structures launches, writes briefs, runs full audits.</p>
+          <div style="display:flex;gap:3px;padding:4px;border-radius:11px;background:var(--flb-surface-2)">
+            <button onClick="{{ setCurUsd }}" style="{{ curUsdStyle }}">USD</button>
+            <button onClick="{{ setCurInr }}" style="{{ curInrStyle }}">INR</button>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1.12fr 1fr;gap:14px;margin-top:14px;align-items:stretch">
-          <div style="border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-border-default);padding:20px">
-            <div style="font:500 10px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-3)">TYPICAL SPEND</div>
-            <div style="margin-top:18px">
-            <div style="font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-3)">WHERE BRANDS START</div>
-            <div style="display:flex;align-items:baseline;gap:7px;margin-top:5px"><span style="font:500 27px var(--flb-font-display);color:var(--flb-ink)">$6</span><span style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4)">min · 1,200 cr</span></div>
-            <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font:500 12px var(--flb-font-body);color:var(--flb-success)"><span style="width:6px;height:6px;border-radius:9999px;background:var(--flb-success)"></span>$5,000+ saved</div></div>
-            <div style="height:1px;background:var(--flb-border-muted);margin:20px 0"></div>
-            <div>
-            <div style="font:500 10.5px var(--flb-font-body);letter-spacing:.06em;color:var(--flb-ink-3)">SWEET SPOT TODAY</div>
-            <div style="display:flex;align-items:baseline;gap:7px;margin-top:5px"><span style="font:500 27px var(--flb-font-display);color:var(--flb-ink)">$20</span><span style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4)">avg · 4,000 cr</span></div>
-            <div style="display:flex;align-items:center;gap:6px;margin-top:8px;font:500 12px var(--flb-font-body);color:var(--flb-success)"><span style="width:6px;height:6px;border-radius:9999px;background:var(--flb-success)"></span>$12,000+ saved</div></div>
-          </div>
-          <div style="border-radius:14px;border:1.5px solid transparent;background:radial-gradient(120% 95% at 50% 0%, rgba(233,52,139,.07) 0%, rgba(160,139,255,.08) 34%, rgba(160,139,255,0) 64%) padding-box, linear-gradient(var(--flb-surface),var(--flb-surface)) padding-box, var(--flb-gradient-energetic) border-box;padding:22px;box-shadow:0 4px 14px rgba(100,60,193,.12)">
-            <div style="display:flex;align-items:center;justify-content:space-between"><span style="font:500 10px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-3)">SELECT AMOUNT</span><span style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">$1 = 200 credits</span></div>
-            <div style="display:flex;align-items:center;gap:8px;margin:14px 0;padding:14px 16px;border-radius:12px;background:radial-gradient(120% 180% at 0% 0%, rgba(160,139,255,.07) 0%, rgba(160,139,255,0) 70%), var(--flb-surface-2);border:1px solid var(--flb-border-default)"><span style="font:500 21px var(--flb-font-display);color:var(--flb-ink-3)">$</span><span style="font:500 30px var(--flb-font-display);color:var(--flb-ink)">{{ planAmtNum }}</span></div>
-            <div style="display:flex;gap:8px">
-              <button onClick="{{ setPlan0 }}" style="flex:1;height:40px;border-radius:10px;border:1px solid {{ p0Border }};background:{{ p0Bg }};color:{{ p0Color }};font:500 13px var(--flb-font-body);cursor:pointer">$6</button>
-              <button onClick="{{ setPlan1 }}" style="flex:1;height:40px;border-radius:10px;border:1px solid {{ p1Border }};background:{{ p1Bg }};color:{{ p1Color }};font:500 13px var(--flb-font-body);cursor:pointer">$20</button>
-              <button onClick="{{ setPlan2 }}" style="flex:1;height:40px;border-radius:10px;border:1px solid {{ p2Border }};background:{{ p2Bg }};color:{{ p2Color }};font:500 13px var(--flb-font-body);cursor:pointer">$50</button>
-              <button onClick="{{ setPlan3 }}" style="flex:1;height:40px;border-radius:10px;border:1px solid {{ p3Border }};background:{{ p3Bg }};color:{{ p3Color }};font:500 13px var(--flb-font-body);cursor:pointer">$100</button>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch">
+          <sc-for list="{{ pricingCards }}" as="p" hint-placeholder-count="4">
+            <div style="{{ p.cardStyle }}">
+              <sc-if value="{{ p.isBest }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-9px;left:50%;transform:translateX(-50%);padding:3px 11px;border-radius:9999px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 9px var(--flb-font-body);letter-spacing:.07em;white-space:nowrap">Best fit</span></sc-if>
+              <div style="font:600 16px var(--flb-font-display);color:var(--flb-ink)">{{ p.name }}</div>
+              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin:2px 0 12px">{{ p.tag }}</div>
+              <div><span style="font:600 28px/1 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">{{ p.price }}</span><span style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3)"> /month</span></div>
+              <div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4);margin-top:4px">{{ p.billed }}</div>
+              <div style="margin:12px 0;padding:8px 11px;border-radius:10px;background:var(--flb-tint-violet);border:1px solid color-mix(in srgb, var(--flb-violet) 22%, transparent)"><b style="font:600 14px var(--flb-font-body);color:var(--flb-ink)">{{ p.credits }}</b><span style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3)"> credits a month</span><div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4);margin-top:2px">{{ p.creditHint }}</div></div>
+              <div style="margin-bottom:12px;padding:9px 11px;border-radius:11px;background:var(--flb-surface-2);border:1px solid var(--flb-line-soft)">
+                <div style="font:600 9.5px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-4);margin-bottom:7px">OPENS IN YOUR SIDEBAR</div>
+                <sc-for list="{{ p.navRows }}" as="n" hint-placeholder-count="10"><div style="{{ n.rowStyle }}"><span style="{{ n.dotStyle }}"></span>{{ n.label }}</div></sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px;flex:1;margin-bottom:12px">
+                <sc-for list="{{ p.feats }}" as="f" hint-placeholder-count="4"><div style="display:flex;gap:8px;font:400 12px/1.4 var(--flb-font-body);color:var(--flb-ink-2)"><i class="ph-bold ph-check" style="font-size:12px;line-height:1.4;color:var(--flb-on-violet);flex-shrink:0"></i><span>{{ f.text }}</span></div></sc-for>
+              </div>
+              <div style="font:400 11.5px/1.4 var(--flb-font-body);color:var(--flb-ink-4);padding-top:10px;border-top:1px solid var(--flb-line-soft);margin-bottom:12px">{{ p.save }}</div>
+              <button onClick="{{ p.onPick }}" style="{{ p.ctaStyle }}">{{ p.ctaLabel }}</button>
             </div>
-            <div style="text-align:center;margin:22px 0 8px"><div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3)">You'll receive</div><div style="margin-top:2px;font:500 34px var(--flb-font-display);color:var(--flb-ink)"><span style="color:var(--flb-ink)">{{ planCredits }}</span><span style="font:500 14px var(--flb-font-body);color:var(--flb-on-violet);margin-left:6px">credits</span></div></div>
-            <div style="text-align:center;font:400 11px var(--flb-font-body);color:var(--flb-ink-4)"><i class="ph ph-lock-simple"></i> Secure via Razorpay</div>
+          </sc-for>
+        </div>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:16px 20px;border-radius:16px;background:var(--flb-surface-2);border:1px solid var(--flb-line)">
+          <div style="flex:1 1 280px"><div style="font:600 14px var(--flb-font-display);color:var(--flb-ink)">What uses credits</div><p style="margin:4px 0 0;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Anything that asks Orion to reason. Reading a dashboard or receiving an alert costs nothing. Unused credits roll over for a month.</p></div>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(110px,1fr));gap:8px;flex:1 1 360px">
+            <div style="padding:8px 11px;border-radius:10px;background:var(--flb-surface);border:1px solid var(--flb-line-soft)"><b style="font:600 16px var(--flb-font-display);color:var(--flb-ink)">60</b><span style="display:block;font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">Fast answer</span></div>
+            <div style="padding:8px 11px;border-radius:10px;background:var(--flb-surface);border:1px solid var(--flb-line-soft)"><b style="font:600 16px var(--flb-font-display);color:var(--flb-ink)">200</b><span style="display:block;font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">Standard answer</span></div>
+            <div style="padding:8px 11px;border-radius:10px;background:var(--flb-surface);border:1px solid var(--flb-line-soft)"><b style="font:600 16px var(--flb-font-display);color:var(--flb-ink)">350</b><span style="display:block;font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">Reasoning</span></div>
           </div>
-          <div style="border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-border-default);padding:20px;display:flex;flex-direction:column">
-            <div style="font:500 10px var(--flb-font-body);letter-spacing:.09em;color:var(--flb-ink-3)">ENTERPRISE</div>
-            <h3 style="margin:14px 0 4px;font:500 17px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Unlimited credits</h3>
-            <p style="margin:0 0 16px;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Everything included. No per-query caps.</p>
-            <div style="display:flex;flex-direction:column;gap:11px">
-            <div style="display:flex;align-items:center;gap:9px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-2)"><i class="ph ph-check" style="color:var(--flb-ink-3);font-size:14px;line-height:1"></i>360 Dashboard</div>
-            <div style="display:flex;align-items:center;gap:9px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-2)"><i class="ph ph-check" style="color:var(--flb-ink-3);font-size:14px;line-height:1"></i>Shopify · Meta · Google Ads</div>
-            <div style="display:flex;align-items:center;gap:9px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-2)"><i class="ph ph-check" style="color:var(--flb-ink-3);font-size:14px;line-height:1"></i>GA4 + GSC · Attribution</div>
-            <div style="display:flex;align-items:center;gap:9px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-2)"><i class="ph ph-check" style="color:var(--flb-ink-3);font-size:14px;line-height:1"></i>Dedicated Support · SLA</div>
-            </div>
-            <button style="width:100%;height:42px;margin-top:auto;border-radius:11px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink);font:500 13.5px var(--flb-font-body);cursor:pointer" style-hover="background:var(--flb-surface-3)">Talk to Sales →</button>
-          </div>
+        </div>
+        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:16px 20px;border-radius:16px;background:var(--flb-surface-2);border:1px solid var(--flb-line)">
+          <div style="flex:1 1 380px"><div style="font:600 14px var(--flb-font-display);color:var(--flb-ink)">Over $100K a month, or running several brands?</div><p style="margin:4px 0 0;font:400 13px var(--flb-font-body);color:var(--flb-ink-3)">Hourly refresh, 10 connectors, an uptime SLA and a dedicated CSM.</p></div>
+          <button style="height:42px;padding:0 18px;border-radius:11px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink);font:500 13.5px var(--flb-font-body);cursor:pointer" style-hover="background:var(--flb-surface-3)">Talk to sales →</button>
         </div>
       </div></div>
       
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;border-top:1px solid var(--flb-border-muted);flex-shrink:0;background:var(--flb-surface)"><a href="#" onClick="{{ planBack }}" style="font:500 13px var(--flb-font-body);color:var(--flb-ink-3);text-decoration:none">← Back</a><button onClick="{{ addCredits }}" style="position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 26px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:500 15px var(--flb-font-body);cursor:pointer;box-shadow:0 3px 10px rgba(127,86,217,.20)" style-after="content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(100deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.3) 50%,rgba(255,255,255,0) 62%);background-size:240% 100%;animation:flbSheen 3.8s var(--flb-ease) 1.1s infinite;pointer-events:none"><i class="ph ph-credit-card" style="font-size:18px"></i>Add Credits →</button></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;border-top:1px solid var(--flb-border-muted);flex-shrink:0;background:var(--flb-surface)"><a href="#" onClick="{{ planBack }}" style="font:500 13px var(--flb-font-body);color:var(--flb-ink-3);text-decoration:none">← Back</a><button onClick="{{ startTrial }}" style="position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:9px;height:46px;padding:0 26px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:500 15px var(--flb-font-body);cursor:pointer;box-shadow:0 3px 10px rgba(127,86,217,.20)" style-after="content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(100deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.3) 50%,rgba(255,255,255,0) 62%);background-size:240% 100%;animation:flbSheen 3.8s var(--flb-ease) 1.1s infinite;pointer-events:none">Continue →</button></div>
     </div>
     </sc-if>
 
@@ -646,11 +633,12 @@
         </button>
       </sc-if>
       <sc-if value="{{ showAnalyticsItems }}" hint-placeholder-val="{{ true }}">
-      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ dashIcon }}" label="Dashboard" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goDashboard }}" dc-props="{{ dashExtra }}" hint-size="100%,38px" data-sidebar-tip="Dashboard"></x-import>
-      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ pulseIcon }}" label="Pulse" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goPulse }}" dc-props="{{ pulseExtra }}" hint-size="100%,38px" data-sidebar-tip="Pulse"></x-import>
-      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ attrIcon }}" label="Attribution" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goAttribution }}" dc-props="{{ attrExtra }}" hint-size="100%,38px" data-sidebar-tip="Attribution"></x-import>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ dashIcon }}" label="Dashboard" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goDashboard }}" dc-props="{{ dashExtra }}" hint-size="100%,38px" data-sidebar-tip="Dashboard" data-locked="{{ dashLocked }}"></x-import>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ pulseIcon }}" label="Pulse" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goPulse }}" dc-props="{{ pulseExtra }}" hint-size="100%,38px" data-sidebar-tip="Pulse" data-locked="{{ pulseLocked }}"></x-import>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ schedulerIcon }}" label="Scheduler" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goScheduler }}" dc-props="{{ schedulerExtra }}" hint-size="100%,38px" data-sidebar-tip="Scheduler" data-locked="{{ schedulerLocked }}"></x-import>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ attrIcon }}" label="Attribution" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goAttribution }}" dc-props="{{ attrExtra }}" hint-size="100%,38px" data-sidebar-tip="Attribution" data-locked="{{ attrLocked }}"></x-import>
         <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
-          <button onClick="{{ toggleInsights }}" data-sidebar-tip="Insights" style="{{ insightsBtnStyle }}" style-hover="color:var(--flb-ink)">
+          <button onClick="{{ toggleInsights }}" data-sidebar-tip="Insights" data-locked="{{ insightsLocked }}" style="{{ insightsBtnStyle }}" style-hover="color:var(--flb-ink)">
             <span style="display:inline-flex;flex-shrink:0;color:var(--flb-ink-3)">{{ insightsIcon }}</span>
             <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Insights</span>
             <sc-if value="{{ insightsOpen }}" hint-placeholder-val="{{ true }}"><i class="ph-bold ph-caret-down" style="font-size:11px;color:var(--flb-ink-3);line-height:1"></i></sc-if>
@@ -658,13 +646,13 @@
           </button>
           <sc-if value="{{ insightsOpen }}" hint-placeholder-val="{{ true }}">
           <div style="margin:2px 0 2px 23px;padding-left:13px;border-left:1px solid color-mix(in srgb, var(--flb-line) 70%, transparent);display:flex;flex-direction:column;gap:2px">
-            <button onClick="{{ goProduct }}" data-sidebar-tip="Product Insights" style="{{ prodStyle }}" style-hover="color:var(--flb-ink)"><span style="flex:1;min-width:0">Product Insights</span></button>
-            <button onClick="{{ goCreative }}" data-sidebar-tip="Creative Insights" style="{{ creativeStyle }}" style-hover="color:var(--flb-ink)"><span style="flex:1;min-width:0">Creative Insights</span></button>
+            <button onClick="{{ goProduct }}" data-sidebar-tip="Product Insights" data-locked="{{ prodLocked }}" style="{{ prodStyle }}" style-hover="color:var(--flb-ink)"><span style="flex:1;min-width:0">Product Insights</span></button>
+            <button onClick="{{ goCreative }}" data-sidebar-tip="Creative Insights" data-locked="{{ creativeLocked }}" style="{{ creativeStyle }}" style-hover="color:var(--flb-ink)"><span style="flex:1;min-width:0">Creative Insights</span></button>
           </div>
           </sc-if>
         </sc-if>
         <sc-if value="{{ sidebarCollapsed }}" hint-placeholder-val="{{ false }}">
-          <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ insightsIcon }}" label="Insights" active="{{ off }}" collapsed="{{ true }}" onClick="{{ goProduct }}" dc-props="{{ insightsColExtra }}" hint-size="100%,38px" data-sidebar-tip="Insights"></x-import>
+          <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ insightsIcon }}" label="Insights" active="{{ off }}" collapsed="{{ true }}" onClick="{{ goProduct }}" dc-props="{{ insightsColExtra }}" hint-size="100%,38px" data-sidebar-tip="Insights" data-locked="{{ insightsLocked }}"></x-import>
         </sc-if>
       </sc-if>
 
@@ -679,17 +667,20 @@
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ integrIcon }}" label="Integrations" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goIntegrations }}" dc-props="{{ integrExtra }}" hint-size="100%,38px" data-sidebar-tip="Integrations"></x-import>
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ bookmarkIcon }}" label="Bookmarks" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goBookmarks }}" dc-props="{{ bookmarkExtra }}" hint-size="100%,38px" data-sidebar-tip="Bookmarks"></x-import>
         <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
-          <button onClick="{{ toggleOptimize }}" data-sidebar-tip="Optimizations" style="{{ optBtnStyle }}" style-hover="color:var(--flb-ink)">
-            <span style="display:inline-flex;flex-shrink:0;color:var(--flb-ink-3)"><i class="ph ph-chart-line-up" style="font-size:18px;line-height:1"></i></span>
-            <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Optimizations</span>
+          <button onClick="{{ toggleOptimize }}" data-sidebar-tip="Inventory Health" data-locked="{{ inventoryLocked }}" style="{{ optBtnStyle }}" style-hover="color:var(--flb-ink)">
+            <span style="display:inline-flex;flex-shrink:0;color:var(--flb-ink-3)">{{ inventoryIcon }}</span>
+            <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Inventory Health</span>
             <sc-if value="{{ optOpen }}" hint-placeholder-val="{{ true }}"><i class="ph-bold ph-caret-down" style="font-size:11px;color:var(--flb-ink-3);line-height:1"></i></sc-if>
             <sc-if value="{{ optClosed }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-caret-right" style="font-size:11px;color:var(--flb-ink-3);line-height:1"></i></sc-if>
           </button>
           <sc-if value="{{ optOpen }}" hint-placeholder-val="{{ true }}">
           <div style="margin:2px 0 2px 23px;padding-left:13px;border-left:1px solid color-mix(in srgb, var(--flb-line) 70%, transparent);display:flex;flex-direction:column;gap:2px">
-            <button onClick="{{ goUtm }}" data-sidebar-tip="UTM Status" style="{{ utmSubStyle }}" style-hover="color:var(--flb-ink)"><span style="flex:1;min-width:0">UTM Status</span></button>
+            <button onClick="{{ goUtm }}" data-sidebar-tip="UTM Status" data-locked="{{ utmLocked }}" style="{{ utmSubStyle }}" style-hover="color:var(--flb-ink)"><span style="flex:1;min-width:0">UTM Status</span></button>
           </div>
           </sc-if>
+        </sc-if>
+        <sc-if value="{{ sidebarCollapsed }}" hint-placeholder-val="{{ false }}">
+          <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ inventoryIcon }}" label="Inventory Health" active="{{ off }}" collapsed="{{ true }}" onClick="{{ goInventory }}" dc-props="{{ inventoryExtra }}" hint-size="100%,38px" data-sidebar-tip="Inventory Health" data-locked="{{ inventoryLocked }}"></x-import>
         </sc-if>
       </sc-if>
     </div>
@@ -719,7 +710,7 @@
     <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:55;background:transparent"></div></sc-if>
 
     <!-- header -->
-    <header style="height:56px;flex-shrink:0;border-bottom:1px solid color-mix(in srgb, var(--flb-line) 70%, transparent);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 18px;background:transparent">
+    <header style="height:56px;flex-shrink:0;position:relative;z-index:60;overflow:visible;border-bottom:1px solid color-mix(in srgb, var(--flb-line) 70%, transparent);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 18px;background:transparent">
       <div style="display:flex;align-items:center;gap:12px;flex-shrink:0">
         <button data-tip="Toggle sidebar" aria-label="Toggle sidebar" onClick="{{ toggleSidebar }}" style="width:34px;height:34px;border-radius:9px;border:none;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer">
           <i class="ph ph-sidebar-simple" style="font-size:17px;line-height:1"></i>
@@ -732,25 +723,25 @@
             <span style="font:400 9px var(--flb-font-body);letter-spacing:.16em;color:var(--flb-ink-4)">PARTNER</span>
           </div>
           <span style="width:1px;height:20px;background:var(--flb-border-default)"></span>
-          <div style="display:flex;align-items:center;gap:10px;mix-blend-mode:luminosity">
+          <div style="display:flex;align-items:center;gap:10px;isolation:isolate;background:{{ panelBg }};mix-blend-mode:luminosity">
 
             <!-- Meta -->
-            <div title="Meta" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
+            <div data-partner-logo title="Meta" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;mix-blend-mode:luminosity;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
               <i class="ph ph-meta-logo" style="font-size:20px;color:#0866FF;line-height:1"></i>
             </div>
 
             <!-- Amazon -->
-            <div title="Amazon" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
+            <div data-partner-logo title="Amazon" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;mix-blend-mode:luminosity;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
               <i class="ph ph-amazon-logo" style="font-size:20px;color:#FF9900;line-height:1"></i>
             </div>
 
             <!-- Google -->
-            <div title="Google" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
+            <div data-partner-logo title="Google" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;mix-blend-mode:luminosity;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
               <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path></svg>
             </div>
 
             <!-- Shopify -->
-            <div title="Shopify" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
+            <div data-partner-logo title="Shopify" style="display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 6px;mix-blend-mode:luminosity;transition:transform 160ms var(--flb-ease)" style-hover="transform:translateY(-1px)">
               <svg width="16" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#95BF47"><path d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.192-.211-.192s-1.929-.136-1.929-.136-1.275-1.274-1.439-1.411c-.045-.037-.075-.057-.121-.074l-.914 21.104h.024zM11.71 11.305s-.81-.424-1.774-.424c-1.447 0-1.504.906-1.504 1.141 0 1.232 3.24 1.715 3.24 4.629 0 2.295-1.44 3.769-3.399 3.769-2.354 0-3.552-1.465-3.552-1.465l.629-2.086s1.234 1.059 2.279 1.059c.674 0 .955-.541.955-.926 0-1.617-2.656-1.69-2.656-4.354-.017-2.242 1.594-4.414 4.859-4.414 1.259 0 1.88.361 1.88.361l-.937 2.775-.02.001v.028h.001zM11.17.83c.136 0 .271.047.402.135-.968.455-2.014 1.607-2.453 3.909-.632.199-1.246.379-1.816.552C7.81 3.552 8.965.83 11.17.83zm1.246 2.98v.135c-.703.218-1.469.454-2.229.688.436-1.659 1.245-2.469 1.954-2.771.194.498.275 1.176.275 1.948zm.546-2.084c.655.07 1.083.812 1.357 1.658-.333.104-.71.219-1.115.344v-.239c0-.72-.098-1.301-.242-1.763zm2.442 1.503c-.02 0-.038.017-.06.017-.017 0-.038 0-.06.017-.283-.888-.786-1.723-1.775-1.723l-.088.017C14.354.379 13.878.077 13.474.077c-3.129 0-4.628 3.912-5.098 5.9-1.215.378-2.082.65-2.19.686-.679.213-.699.235-.787.876-.065.485-1.844 14.26-1.844 14.26L17.1 24l.014-.004-1.71-19.764z"></path></svg>
             </div>
           </div>
@@ -765,7 +756,7 @@
           <sc-if value="{{ showNotif }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:6px;right:7px;min-width:16px;height:16px;padding:0 4px;border-radius:9999px;background:var(--flb-magenta);color:#fcfcfc;font:500 10px var(--flb-font-body);display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--flb-bg)">{{ notif }}</span></sc-if>
         </button>
         <span style="width:1px;height:26px;background:var(--flb-line);margin:0 2px"></span>
-        <div style="position:relative">
+        <div style="position:relative;z-index:1">
           <button onClick="{{ toggleAccountMenu }}" style="display:flex;align-items:center;gap:10px;padding:4px 8px 4px 4px;border:none;background:transparent;cursor:pointer;border-radius:10px" style-hover="background:var(--flb-surface-3)">
             <span style="width:32px;height:32px;flex-shrink:0;border-radius:9999px;background:var(--flb-surface-3);color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;font:500 12px var(--flb-font-display)">A</span>
             <div style="line-height:1.2;text-align:left">
@@ -775,7 +766,7 @@
             <i class="ph ph-caret-down" style="font-size:14px;color:var(--flb-ink-3);line-height:1;margin-left:2px"></i>
           </button>
           <sc-if value="{{ accountOpen }}" hint-placeholder-val="{{ false }}">
-            <div style="position:absolute;top:52px;right:0;z-index:60;width:224px;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-lg);padding:6px;animation:flbRise 150ms var(--flb-ease-out) backwards">
+            <div style="position:absolute;top:52px;right:0;z-index:2;width:224px;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-lg);padding:6px;animation:flbRise 150ms var(--flb-ease-out) backwards">
               <div style="display:flex;align-items:center;gap:10px;padding:8px 10px 10px">
                 <span style="width:34px;height:34px;flex-shrink:0;border-radius:9999px;background:var(--flb-surface-3);color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;font:500 13px var(--flb-font-display)">A</span>
                 <div style="line-height:1.3;min-width:0"><div style="font:500 13px var(--flb-font-body);color:var(--flb-ink)">Abbas</div><div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">abbas@flable.ai</div></div>
@@ -792,8 +783,6 @@
         </div>
       </div>
     </header>
-
-    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:55"></div></sc-if>
 
     <!-- announcement -->
     <sc-if value="{{ banner }}" hint-placeholder-val="{{ true }}">
@@ -1285,6 +1274,31 @@
       </div>
       </sc-if>
 
+      <!-- ===== FEATURE EXPLAINER ===== -->
+      <sc-if value="{{ isExplain }}" hint-placeholder-val="{{ false }}">
+      <div class="flb-explain">
+        <div class="flb-explain-grid">
+          <div>
+            <button onClick="{{ explainBack }}" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;border:none;background:transparent;color:var(--flb-ink-3);font:500 13px var(--flb-font-body);cursor:pointer;padding:0" style-hover="color:var(--flb-ink)"><i class="ph-bold ph-caret-left" style="font-size:14px"></i>Back to chats</button>
+            <span style="display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.04em">{{ explainBadge }}</span>
+            <h1 style="margin:14px 0 0;font:500 32px/1.2 var(--flb-font-display);letter-spacing:-.03em;color:var(--flb-ink)">{{ explainTitle }}</h1>
+            <p style="margin:14px 0 0;max-width:520px;font:400 15px/1.6 var(--flb-font-body);color:var(--flb-ink-3)">{{ explainBody }}</p>
+            <div style="margin:22px 0 0;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ explainPoints }}" as="pt" hint-placeholder-count="3"><div style="display:flex;align-items:flex-start;gap:10px;font:400 13.5px/1.45 var(--flb-font-body);color:var(--flb-ink-2)"><i class="ph-bold ph-check" style="font-size:14px;line-height:1.45;color:var(--flb-on-violet);flex-shrink:0"></i><span>{{ pt.text }}</span></div></sc-for>
+            </div>
+            <button onClick="{{ explainUpgrade }}" style="margin-top:28px;height:46px;padding:0 22px;border:none;border-radius:12px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 14.5px var(--flb-font-body);cursor:pointer;box-shadow:0 3px 10px rgba(127,86,217,.20)">Upgrade to {{ explainPlan }} →</button>
+          </div>
+          <div style="border-radius:18px;overflow:hidden;border:1px solid var(--flb-line);background:var(--flb-surface-2);box-shadow:var(--flb-shadow-lg)">
+            <img src="{{ explainImg }}" alt="" style="display:block;width:100%;height:220px;object-fit:cover">
+            <div style="padding:16px 18px 18px">
+              <div style="font:600 13px var(--flb-font-display);color:var(--flb-ink)">Preview</div>
+              <p style="margin:6px 0 0;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">This module stays locked on your current plan. Upgrade and it opens in the sidebar immediately — your chats and data stay put.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
       <!-- ===== HOME / ASK ===== -->
       <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;gap:20px;align-items:stretch;padding:18px;max-width:1360px;margin:0 auto;height:100%">
@@ -1375,7 +1389,7 @@
             </div>
 
             <!-- brand pills -->
-            <div style="display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:center"><span style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:9999px;background:transparent;border:1px solid var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3);animation:flbRise 420ms var(--flb-ease-out) 1s backwards">Live ad data</span><span style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:9999px;background:transparent;border:1px solid var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3);animation:flbRise 420ms var(--flb-ease-out) 1.12s backwards">Executes with approval</span><span style="display:inline-flex;align-items:center;padding:8px 16px;border-radius:9999px;background:transparent;border:1px solid var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3);animation:flbRise 420ms var(--flb-ease-out) 1.24s backwards">AI-scored creatives</span></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:center"><sc-for list="{{ composerPills }}" as="pill" hint-placeholder-count="3"><button onClick="{{ pill.onClick }}" style="{{ pill.style }}" style-hover="color:var(--flb-ink);border-color:var(--flb-ink-3);background:var(--app-raised)">{{ pill.label }}</button></sc-for></div>
 
             <!-- Orion personalization: templates (after setup) -->
 
@@ -1565,18 +1579,29 @@
           </sc-if>
 
           <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;padding:11px;border-radius:12px;border:1px solid var(--flb-border-muted);background:{{ st5Bg }};opacity:{{ st5Op }};transition:opacity 180ms var(--flb-ease)">
+              <span style="width:28px;height:28px;flex-shrink:0;border-radius:9px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-magic-wand" style="font-size:16px;line-height:1"></i></span>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">Personalization</span>
+                  <sc-if value="{{ orionDone }}" hint-placeholder-val="{{ false }}"><span style="width:18px;height:18px;border-radius:9999px;background:var(--flb-success);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ph-bold ph-check" style="font-size:11px;color:var(--flb-bg);line-height:1"></i></span></sc-if>
+                  <sc-if value="{{ orionNotDone }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:9999px;border:2px solid var(--flb-surface-3);flex-shrink:0"></span></sc-if>
+                </div>
+                <div style="font:400 11px/1.4 var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">Answer 8 quick questions to tune Orion to your brand</div>
+                <sc-if value="{{ ctaOrion }}" hint-placeholder-val="{{ true }}"><button onClick="{{ openOrion }}" style="margin-top:8px;height:30px;padding:0 14px;border-radius:8px;border:none;background:var(--flb-purple);color:#fcfcfc;box-shadow:inset 0 -1px 4px 0 rgba(74,37,154,.25);font:500 11.5px var(--flb-font-body);cursor:pointer">Personalize</button></sc-if>
+              </div>
+            </div>
             <div style="display:flex;gap:10px;padding:11px;border-radius:12px;border:1px solid var(--flb-border-muted);background:{{ st1Bg }};opacity:{{ st1Op }};transition:opacity 180ms var(--flb-ease)">
               <span style="width:28px;height:28px;flex-shrink:0;border-radius:9px;background:rgba(8,102,255,.14);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-meta-logo" style="font-size:17px;line-height:1;color:#0866FF"></i></span>
               <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">Connect Ad Accounts</span>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">Connect Core Channels</span>
                   <sc-if value="{{ stConnected }}" hint-placeholder-val="{{ false }}"><span style="width:18px;height:18px;border-radius:9999px;background:var(--flb-success);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ph-bold ph-check" style="font-size:11px;color:var(--flb-bg);line-height:1"></i></span></sc-if>
                   <sc-if value="{{ stConnectedPending }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:9999px;border:2px solid var(--flb-surface-3);flex-shrink:0"></span></sc-if>
                 </div>
                 <div style="font:400 11px/1.4 var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">Connect your Meta, Google or other ad accounts</div>
-                <sc-if value="{{ ctaConnect }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onStepConnect }}" style="margin-top:8px;height:30px;padding:0 14px;border-radius:8px;border:none;background:var(--flb-purple);color:#fcfcfc;box-shadow:inset 0 -1px 4px 0 rgba(74,37,154,.25);font:500 11.5px var(--flb-font-body);cursor:pointer">Connect</button></sc-if>
+                <sc-if value="{{ ctaConnect }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onStepConnect }}" style="margin-top:8px;height:30px;padding:0 14px;border-radius:8px;border:none;background:var(--flb-purple);color:#fcfcfc;box-shadow:inset 0 -1px 4px 0 rgba(74,37,154,.25);font:500 11.5px var(--flb-font-body);cursor:pointer">Connect</button></sc-if>
               </div>
             </div>
-            <div style="display:flex;gap:10px;padding:11px;border-radius:12px;border:1px solid var(--flb-border-muted);background:{{ st2Bg }};opacity:{{ st2Op }};transition:opacity 180ms var(--flb-ease)">
+            <div style="display:flex;gap:10px;padding:11px;border-radius:12px;border:1px solid var(--flb-border-muted);background:{{ st2Bg }};opacity:{{ st2Op }};display:none">
               <span style="width:28px;height:28px;flex-shrink:0;border-radius:9px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-user" style="font-size:16px;line-height:1"></i></span>
               <div style="flex:1;min-width:0">
                 <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">Confirm your details</span>
@@ -1587,21 +1612,10 @@
                 <sc-if value="{{ ctaConfirm }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onStepConfirm }}" style="margin-top:8px;height:30px;padding:0 14px;border-radius:8px;border:none;background:var(--flb-purple);color:#fcfcfc;box-shadow:inset 0 -1px 4px 0 rgba(74,37,154,.25);font:500 11.5px var(--flb-font-body);cursor:pointer">Start</button></sc-if>
               </div>
             </div>
-            <div style="display:flex;gap:10px;padding:11px;border-radius:12px;border:1px solid var(--flb-border-muted);background:{{ st5Bg }};opacity:{{ st5Op }};transition:opacity 180ms var(--flb-ease)">
-              <span style="width:28px;height:28px;flex-shrink:0;border-radius:9px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-magic-wand" style="font-size:16px;line-height:1"></i></span>
-              <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">Personalize Orion</span>
-                  <sc-if value="{{ orionDone }}" hint-placeholder-val="{{ false }}"><span style="width:18px;height:18px;border-radius:9999px;background:var(--flb-success);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ph-bold ph-check" style="font-size:11px;color:var(--flb-bg);line-height:1"></i></span></sc-if>
-                  <sc-if value="{{ orionNotDone }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:9999px;border:2px solid var(--flb-surface-3);flex-shrink:0"></span></sc-if>
-                </div>
-                <div style="font:400 11px/1.4 var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">Answer 8 quick questions to tune Orion to your brand</div>
-                <sc-if value="{{ ctaOrion }}" hint-placeholder-val="{{ false }}"><button onClick="{{ openOrion }}" style="margin-top:8px;height:30px;padding:0 14px;border-radius:8px;border:none;background:var(--flb-purple);color:#fcfcfc;box-shadow:inset 0 -1px 4px 0 rgba(74,37,154,.25);font:500 11.5px var(--flb-font-body);cursor:pointer">Personalize</button></sc-if>
-              </div>
-            </div>
             <div style="display:flex;gap:10px;padding:11px;border-radius:12px;border:1px solid var(--flb-border-muted);background:{{ st6Bg }};opacity:{{ st6Op }};transition:opacity 180ms var(--flb-ease)">
               <span style="width:28px;height:28px;flex-shrink:0;border-radius:9px;background:var(--flb-tint-warning);color:var(--flb-on-warning);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-link-break" style="font-size:16px;line-height:1"></i></span>
               <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">Repair ad tracking</span>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">Repair Ad Tracking</span>
                   <sc-if value="{{ stUtm }}" hint-placeholder-val="{{ false }}"><span style="width:18px;height:18px;border-radius:9999px;background:var(--flb-success);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ph-bold ph-check" style="font-size:11px;color:var(--flb-bg);line-height:1"></i></span></sc-if>
                   <sc-if value="{{ stUtmPending }}" hint-placeholder-val="{{ true }}"><span style="width:16px;height:16px;border-radius:9999px;border:2px solid var(--flb-surface-3);flex-shrink:0"></span></sc-if>
                 </div>
@@ -1646,6 +1660,7 @@
       <span style="display:inline-flex;align-items:center;gap:8px">
         <svg width="96" height="24" viewBox="0 0 137 34" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.34 12.6641H27.2616C26.6618 17.1915 23.1016 19.9872 19.7022 21.0785C17.0919 21.9166 14.6326 21.4709 13.34 21.7284C10.676 22.2592 8.22052 23.0242 5.67807 25.2174C3.91145 26.7413 2.17362 29.0181 0 32.2295V21.7969C2.77062 15.5031 7.90141 12.6641 13.34 12.6641Z" fill="url(#paint0_linear_7083_41530)"></path><path d="M5.64386 25.2517C3.87725 26.7756 2.17362 29.1208 0 32.3321C2.12072 32.3321 4.68612 31.5553 6.80684 29.7325C10.9457 26.1752 8.41449 23.1651 13.3742 21.7285C10.7102 22.2592 8.18632 23.0585 5.64386 25.2517Z" fill="url(#paint1_linear_7083_41530)"></path><path d="M0 13.5191V21.7284L1.43051e-05 21.7283C0.410469 20.9074 0.684111 20.3602 1.19718 19.505C3.9336 12.8692 9.20121 10.2696 13.8189 10.2696L24.5594 10.2012C26.0087 10.2012 28.5599 9.35318 30.4769 7.70423C32.5864 5.88966 34 3.16838 34 1H13.5453C7.93561 1 0.855131 5.5835 0 13.5191Z" fill="url(#paint2_linear_7083_41530)"></path><path d="M49.2 13.648H46.44V25H44.256V13.648H42.552V11.848H44.256V10.912C44.256 9.44 44.632 8.368 45.384 7.696C46.152 7.008 47.376 6.664 49.056 6.664V8.488C48.096 8.488 47.416 8.68 47.016 9.064C46.632 9.432 46.44 10.048 46.44 10.912V11.848H49.2V13.648ZM53.9304 7.24V25H51.7464V7.24H53.9304ZM56.8367 18.376C56.8367 17.032 57.1087 15.856 57.6527 14.848C58.1967 13.824 58.9407 13.032 59.8847 12.472C60.8447 11.912 61.9087 11.632 63.0767 11.632C64.2287 11.632 65.2287 11.88 66.0767 12.376C66.9247 12.872 67.5567 13.496 67.9727 14.248V11.848H70.1807V25H67.9727V22.552C67.5407 23.32 66.8927 23.96 66.0287 24.472C65.1807 24.968 64.1887 25.216 63.0527 25.216C61.8847 25.216 60.8287 24.928 59.8847 24.352C58.9407 23.776 58.1967 22.968 57.6527 21.928C57.1087 20.888 56.8367 19.704 56.8367 18.376ZM67.9727 18.4C67.9727 17.408 67.7727 16.544 67.3727 15.808C66.9727 15.072 66.4287 14.512 65.7407 14.128C65.0687 13.728 64.3247 13.528 63.5087 13.528C62.6927 13.528 61.9487 13.72 61.2767 14.104C60.6047 14.488 60.0687 15.048 59.6687 15.784C59.2687 16.52 59.0687 17.384 59.0687 18.376C59.0687 19.384 59.2687 20.264 59.6687 21.016C60.0687 21.752 60.6047 22.32 61.2767 22.72C61.9487 23.104 62.6927 23.296 63.5087 23.296C64.3247 23.296 65.0687 23.104 65.7407 22.72C66.4287 22.32 66.9727 21.752 67.3727 21.016C67.7727 20.264 67.9727 19.392 67.9727 18.4ZM76.0554 14.296C76.5034 13.512 77.1594 12.872 78.0234 12.376C78.8874 11.88 79.8714 11.632 80.9754 11.632C82.1594 11.632 83.2234 11.912 84.1674 12.472C85.1114 13.032 85.8554 13.824 86.3994 14.848C86.9434 15.856 87.2154 17.032 87.2154 18.376C87.2154 19.704 86.9434 20.888 86.3994 21.928C85.8554 22.968 85.1034 23.776 84.1434 24.352C83.1994 24.928 82.1434 25.216 80.9754 25.216C79.8394 25.216 78.8394 24.968 77.9754 24.472C77.1274 23.976 76.4874 23.344 76.0554 22.576V25H73.8714V7.24H76.0554V14.296ZM84.9834 18.376C84.9834 17.384 84.7834 16.52 84.3834 15.784C83.9834 15.048 83.4394 14.488 82.7514 14.104C82.0794 13.72 81.3354 13.528 80.5194 13.528C79.7194 13.528 78.9754 13.728 78.2874 14.128C77.6154 14.512 77.0714 15.08 76.6554 15.832C76.2554 16.568 76.0554 17.424 76.0554 18.4C76.0554 19.392 76.2554 20.264 76.6554 21.016C77.0714 21.752 77.6154 22.32 78.2874 22.72C78.9754 23.104 79.7194 23.296 80.5194 23.296C81.3354 23.296 82.0794 23.104 82.7514 22.72C83.4394 22.32 83.9834 21.752 84.3834 21.016C84.7834 20.264 84.9834 19.384 84.9834 18.376ZM92.2742 7.24V25H90.0902V7.24H92.2742ZM107.996 17.92C107.996 18.336 107.972 18.776 107.924 19.24H97.4124C97.4924 20.536 97.9324 21.552 98.7324 22.288C99.5484 23.008 100.532 23.368 101.684 23.368C102.628 23.368 103.412 23.152 104.036 22.72C104.676 22.272 105.124 21.68 105.38 20.944H107.732C107.38 22.208 106.676 23.24 105.62 24.04C104.564 24.824 103.252 25.216 101.684 25.216C100.436 25.216 99.3164 24.936 98.3244 24.376C97.3484 23.816 96.5804 23.024 96.0204 22C95.4604 20.96 95.1804 19.76 95.1804 18.4C95.1804 17.04 95.4524 15.848 95.9964 14.824C96.5404 13.8 97.3004 13.016 98.2764 12.472C99.2684 11.912 100.404 11.632 101.684 11.632C102.932 11.632 104.036 11.904 104.996 12.448C105.956 12.992 106.692 13.744 107.204 14.704C107.732 15.648 107.996 16.72 107.996 17.92ZM105.74 17.464C105.74 16.632 105.556 15.92 105.188 15.328C104.82 14.72 104.316 14.264 103.676 13.96C103.052 13.64 102.356 13.48 101.588 13.48C100.484 13.48 99.5404 13.832 98.7564 14.536C97.9884 15.24 97.5484 16.216 97.4364 17.464H105.74ZM111.575 25.144C111.159 25.144 110.807 25 110.519 24.712C110.231 24.424 110.087 24.072 110.087 23.656C110.087 23.24 110.231 22.888 110.519 22.6C110.807 22.312 111.159 22.168 111.575 22.168C111.975 22.168 112.311 22.312 112.583 22.6C112.871 22.888 113.015 23.24 113.015 23.656C113.015 24.072 112.871 24.424 112.583 24.712C112.311 25 111.975 25.144 111.575 25.144ZM115.102 18.376C115.102 17.032 115.374 15.856 115.918 14.848C116.462 13.824 117.206 13.032 118.15 12.472C119.11 11.912 120.174 11.632 121.342 11.632C122.494 11.632 123.494 11.88 124.342 12.376C125.19 12.872 125.822 13.496 126.238 14.248V11.848H128.446V25H126.238V22.552C125.806 23.32 125.158 23.96 124.294 24.472C123.446 24.968 122.454 25.216 121.318 25.216C120.15 25.216 119.094 24.928 118.15 24.352C117.206 23.776 116.462 22.968 115.918 21.928C115.374 20.888 115.102 19.704 115.102 18.376ZM126.238 18.4C126.238 17.408 126.038 16.544 125.638 15.808C125.238 15.072 124.694 14.512 124.006 14.128C123.334 13.728 122.59 13.528 121.774 13.528C120.958 13.528 120.214 13.72 119.542 14.104C118.87 14.488 118.334 15.048 117.934 15.784C117.534 16.52 117.334 17.384 117.334 18.376C117.334 19.384 117.534 20.264 117.934 21.016C118.334 21.752 118.87 22.32 119.542 22.72C120.214 23.104 120.958 23.296 121.774 23.296C122.59 23.296 123.334 23.104 124.006 22.72C124.694 22.32 125.238 21.752 125.638 21.016C126.038 20.264 126.238 19.392 126.238 18.4ZM133.265 9.712C132.849 9.712 132.497 9.568 132.209 9.28C131.921 8.992 131.777 8.64 131.777 8.224C131.777 7.808 131.921 7.456 132.209 7.168C132.497 6.88 132.849 6.736 133.265 6.736C133.665 6.736 134.001 6.88 134.273 7.168C134.561 7.456 134.705 7.808 134.705 8.224C134.705 8.64 134.561 8.992 134.273 9.28C134.001 9.568 133.665 9.712 133.265 9.712ZM134.321 11.848V25H132.137V11.848H134.321Z" fill="currentColor"></path><defs><linearGradient id="paint0_linear_7083_41530" x1="13.6308" y1="12.6641" x2="10.5" y2="22.6661" gradientUnits="userSpaceOnUse"><stop stop-color="#8714D2"></stop><stop offset="1" stop-color="#2A32DD"></stop></linearGradient><linearGradient id="paint1_linear_7083_41530" x1="5.06237" y1="25.3543" x2="5" y2="29.6661" gradientUnits="userSpaceOnUse"><stop stop-color="#157EF3"></stop><stop offset="1" stop-color="#02A2FA"></stop></linearGradient><linearGradient id="paint2_linear_7083_41530" x1="14" y1="2.66602" x2="12.5" y2="15.666" gradientUnits="userSpaceOnUse"><stop stop-color="#FC2272"></stop><stop offset="1" stop-color="#B717B4"></stop></linearGradient></defs></svg>
       </span>
+      <sc-if value="{{ orionOnboarding }}" hint-placeholder-val="{{ false }}"><button onClick="{{ skipOrionOnboarding }}" style="position:absolute;top:18px;right:58px;height:32px;padding:0 12px;border:none;background:transparent;color:var(--flb-ink-3);font:500 13px var(--flb-font-body);cursor:pointer;border-radius:8px" style-hover="background:var(--flb-surface-2);color:var(--flb-ink)">Skip personalization</button></sc-if>
       <button onClick="{{ closeOrion }}" data-tip="Close" data-tip-left="" aria-label="Close" style="position:absolute;top:18px;right:22px;width:32px;height:32px;border:none;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:8px" style-hover="background:var(--flb-surface-2);color:var(--flb-ink)"><i class="ph ph-x" style="font-size:17px;line-height:1"></i></button>
     </div>
     <!-- progress -->
@@ -2140,7 +2155,7 @@ class Component extends DCLogic {
     otp: "",
     accounts: { meta: false, google: false, shopify: false, gsc: false, ga: false },
     steps: { connected: false, confirmed: false, referral: false, credits: false, personalized: false, utm: false },
-    referralOpen: false, referralCode: "", plan: 1, settingProgress: 0, giftOpen: true, toast: null,
+    referralOpen: false, referralCode: "", plan: 1, planId: "intel", spendBand: 1, billingCycle: "yr", currency: "usd", orionOnboarding: false, explainFeature: null, settingProgress: 0, giftOpen: true, toast: null,
     resetStep: "email", resetEmail: "", resetCode: "", resetTries: 0, resetExpired: false, resendIn: 0, newPass: "", confirmPass: "", passVisible: false,
     googleAuthed: false, loadStage: 0, profileSel: null, profileMenu: null, chatLoading: false, msgFeedback: {}, copiedMsg: null,
     profiles: [
@@ -2181,9 +2196,211 @@ class Component extends DCLogic {
   ORION_TIMES = ["7:00 AM", "8:00 AM", "9:00 AM", "6:00 PM"];
   ORION_DAYS = ["Monday", "Wednesday", "Friday", "Saturday"];
 
+  PLAN_NAV = ["Chats", "Dashboard", "Pulse", "Attribution", "Product Insights", "Creative Insights", "Inventory Health", "UTM Status", "Scheduler", "Integrations"];
+  PLAN_SUBS = ["Product Insights", "Creative Insights", "UTM Status"];
+  PLAN_BEST = ["control", "intel", "complete", "complete"];
+  PLAN_BANDS = ["$0–10K", "$10–30K", "$30–60K", "$60–100K"];
+  PLAN_DEFS = [
+    { id: "orion", name: "Orion", tag: "Just the answers.",
+      on: ["Chats", "Integrations"], add: ["Chats", "Integrations"],
+      cr: [4000, 4000, 4000, 4000],
+      save: "Replaces the morning spent pulling numbers out of three dashboards.",
+      feats: ["Ask Orion anything about Meta, Google Ads, Shopify and GA4", "Answers read from your own data, not platform estimates", "Fast, Standard and Reasoning modes for different depths of question", "Daily digest and alerts, no credits used"],
+      usd: [20, 20, 20, 20], inr: [1699, 1699, 1699, 1699] },
+    { id: "control", name: "Control", tag: "See what happened, and why.",
+      on: ["Chats", "Dashboard", "Pulse", "Scheduler", "Integrations"], add: ["Dashboard", "Pulse", "Scheduler"],
+      cr: [9000, 11000, 14000, 18000],
+      save: "Catches CPP drift the day it starts, not at month end.",
+      feats: ["Everything in Orion, plus 3 seats", "Dashboard: blended revenue against blended spend, with profit", "Pulse: campaign scorecards, with AI Lens on any metric that moved", "Scheduler: reports to email, Slack or WhatsApp"],
+      usd: [59, 99, 149, 229], inr: [4999, 8499, 12999, 19999] },
+    { id: "intel", name: "Intelligence", tag: "Know what to back.",
+      on: ["Chats", "Dashboard", "Pulse", "Product Insights", "Creative Insights", "Inventory Health", "Scheduler", "Integrations"],
+      add: ["Product Insights", "Creative Insights", "Inventory Health"],
+      cr: [15000, 19000, 24000, 30000],
+      save: "Finds budget going to out of stock SKUs. One brand: 57% of ₹1.4L.",
+      feats: ["Everything in Control, plus 5 seats", "Creative Insights: every ad scored to replicate, refresh or pause", "Themes read by vision AI, and landing pages where your ads overlap", "Product Insights: Shopify, Meta Catalog and Google Shopping", "Inventory Health: spend pushing traffic to out of stock SKUs"],
+      usd: [99, 179, 279, 429], inr: [8499, 14999, 23999, 36999] },
+    { id: "complete", name: "Complete", tag: "Order level truth.",
+      on: ["Chats", "Dashboard", "Pulse", "Attribution", "Product Insights", "Creative Insights", "Inventory Health", "UTM Status", "Scheduler", "Integrations"],
+      add: ["Attribution", "UTM Status"],
+      cr: [24000, 30000, 38000, 48000],
+      save: "Stops Meta and Google both claiming credit for the same order.",
+      feats: ["Everything in Intelligence, plus 8 seats", "Attribution: every touchpoint before every order", "COD and RTO aware revenue, with multi touch models", "POAS: profit on ad spend, once your orders are attributed", "UTM Status: broken tracking found before it costs you"],
+      usd: [149, 249, 399, 599], inr: [12999, 21999, 33999, 49999] }
+  ];
+  PLAN_FEAT_MAP = {
+    chats: "Chats", dashboard: "Dashboard", pulse: "Pulse", attribution: "Attribution",
+    product: "Product Insights", creative: "Creative Insights", inventory: "Inventory Health",
+    utm: "UTM Status", scheduler: "Scheduler", integrations: "Integrations"
+  };
+  PLAN_ALWAYS_OPEN = ["chats", "integrations", "bookmarks", "help", "settings"];
+  PLAN_OPEN_KEYS = {
+    orion: ["chats", "integrations"],
+    control: ["chats", "dashboard", "pulse", "scheduler", "integrations"],
+    intel: ["chats", "dashboard", "pulse", "product", "creative", "inventory", "scheduler", "integrations"],
+    complete: ["chats", "dashboard", "pulse", "attribution", "product", "creative", "inventory", "utm", "scheduler", "integrations"]
+  };
+  FEAT_EXPLAIN = {
+    dashboard: { title: "See blended revenue against blended spend", body: "Dashboard is the control room: profit, alerts and every channel Orion is watching — without asking a question first.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=720&h=420&fit=crop", points: ["Blended revenue vs spend, with profit", "Alerts and opportunities in one place", "No credits used to read the board"] },
+    pulse: { title: "Catch campaign drift the day it starts", body: "Pulse scorecards every campaign and opens AI Lens on any metric that moved — so you don't wait for month-end.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=720&h=420&fit=crop", points: ["Account-level ROAS and trend alerts", "Best and worst days at a glance", "AI Lens on any moved metric"] },
+    scheduler: { title: "Reports that arrive before you ask", body: "Scheduler sends Orion's digest to email, Slack or WhatsApp on the cadence you set — no credits for the send.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=720&h=420&fit=crop", points: ["Email, Slack and WhatsApp delivery", "Daily, weekly or only when it matters", "Uses the same Orion memory as chat"] },
+    product: { title: "Know which SKUs to back", body: "Product Insights reads Shopify, Meta Catalog and Google Shopping together so budget follows the products that actually convert.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=720&h=420&fit=crop", points: ["Shopify, Meta Catalog and Google Shopping", "Product-level ROAS, not campaign averages", "Spot catalogue gaps before they waste spend"] },
+    creative: { title: "Score every ad. Replicate the winners.", body: "Creative Insights ranks every ad to replicate, refresh or pause — with themes read by vision AI and landing-page overlap.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=720&h=420&fit=crop", points: ["Decision on every ad: replicate, refresh, pause", "Fatigue and funnel health in one table", "Landing pages where your ads overlap"] },
+    inventory: { title: "Stop spending on out-of-stock SKUs", body: "Inventory Health flags spend pushing traffic to products you cannot fulfil — the leak most brands find after the month closes.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=720&h=420&fit=crop", points: ["Spend at risk on OOS products", "Tied to your live catalogue", "Act before the next daily budget cycle"] },
+    attribution: { title: "Order-level truth, not platform ROAS", body: "Attribution credits every touchpoint before every order — COD and RTO aware, with POAS once the journeys are reconciled.", plan: "Complete", badge: "Available on Complete", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=720&h=420&fit=crop", points: ["Multi-touch journeys to the order", "COD and RTO-aware revenue", "POAS once orders are attributed"] },
+    utm: { title: "Fix tracking before it costs you", body: "UTM Status finds broken tags across Meta and Google so Orion can actually tie revenue to the ads that earned it.", plan: "Complete", badge: "Available on Complete", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=720&h=420&fit=crop", points: ["Broken UTMs found before month end", "Suggested strings ready to apply", "No ad re-review when you auto-apply"] }
+  };
+
   setOrion(patch) { this.setState((s) => ({ orion: { ...s.orion, ...patch } })); }
 
   goScreen(s) { this.setState({ screen: s, menu: null }); }
+
+  currentPlanDef() {
+    const id = this.state.planId || "intel";
+    return this.PLAN_DEFS.find((p) => p.id === id) || this.PLAN_DEFS[2];
+  }
+
+  isFeatLocked(key) {
+    if (this.PLAN_ALWAYS_OPEN.indexOf(key) !== -1) return false;
+    const open = this.PLAN_OPEN_KEYS[this.state.planId || "intel"] || this.PLAN_OPEN_KEYS.intel;
+    return open.indexOf(key) === -1;
+  }
+
+  goFeat(key) {
+    if (this.isFeatLocked(key)) {
+      this.setState({ nav: "explain", explainFeature: key, menu: null });
+      return;
+    }
+    this.setState({ nav: key, explainFeature: null, menu: null });
+  }
+
+  pricingFmt(n) {
+    return this.state.currency === "usd" ? ("$" + n.toLocaleString("en-US")) : ("₹" + n.toLocaleString("en-IN"));
+  }
+
+  pricingStep() { return this.state.currency === "usd" ? 1 : 100; }
+
+  pricingMonthly(base) {
+    const step = this.pricingStep();
+    return Math.round(base * 1.2 / step) * step;
+  }
+
+  pricingPriceOf(plan) {
+    const band = this.state.spendBand;
+    const base = (this.state.currency === "usd" ? plan.usd : plan.inr)[band];
+    return this.state.billingCycle === "yr" ? base : this.pricingMonthly(base);
+  }
+
+  beginWorkspaceSetup() {
+    this.setState((st) => ({ steps: { ...st.steps, credits: true }, orionOnboarding: false, screen: "settingup", settingProgress: 0 }));
+    clearInterval(this._sp);
+    this._sp = setInterval(() => {
+      this.setState((st) => {
+        const n = Math.min(100, st.settingProgress + 20);
+        if (n >= 100) {
+          clearInterval(this._sp);
+          setTimeout(() => {
+            this.setState({ screen: "app", tourStep: 0, nav: "chats" });
+            setTimeout(() => this.measureTour(), 100);
+            setTimeout(() => this.runOnboardingAudit(), 900);
+          }, 600);
+        }
+        return { settingProgress: n };
+      });
+    }, 240);
+  }
+
+  runStartTrial() {
+    if (this.state.steps.credits && !this.state.orionOnboarding) {
+      this.setState({ screen: "app", menu: null, nav: this.state.nav === "explain" ? "chats" : this.state.nav });
+      return;
+    }
+    this.setState((st) => ({
+      steps: { ...st.steps, credits: true },
+      orionOnboarding: true,
+      orion: { ...st.orion, open: true, step: 0, mode: "full" }
+    }));
+  }
+
+  skipAllPersonalization() {
+    this.setState((st) => ({
+      orionOnboarding: false,
+      orion: { ...st.orion, open: false, done: false }
+    }), () => this.beginWorkspaceSetup());
+  }
+
+  finishOnboardingPersonalize() {
+    const continueSetup = this.state.orionOnboarding;
+    this.setState((st) => ({
+      orionOnboarding: false,
+      steps: { ...st.steps, personalized: true },
+      orion: { ...st.orion, open: false, done: true }
+    }), () => {
+      this.showToast("Your onboarding preferences have been saved");
+      if (continueSetup) this.beginWorkspaceSetup();
+    });
+  }
+
+  pricingBuild() {
+    const band = this.state.spendBand;
+    const cycle = this.state.billingCycle;
+    const cur = this.state.currency;
+    const chosen = this.state.planId;
+    const segOn = "height:34px;padding:0 12px;border:none;border-radius:8px;background:var(--flb-surface);color:var(--flb-ink);font:500 12.5px var(--flb-font-body);cursor:pointer;box-shadow:0 1px 3px rgba(8,6,24,.16)";
+    const segOff = "height:34px;padding:0 12px;border:none;border-radius:8px;background:transparent;color:var(--flb-ink-2);font:500 12.5px var(--flb-font-body);cursor:pointer";
+    const bandOn = "flex:1;height:38px;border:none;border-radius:9px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:500 12.5px var(--flb-font-body);cursor:pointer";
+    const bandOff = "flex:1;height:38px;border:none;border-radius:9px;background:transparent;color:var(--flb-ink-2);font:500 12.5px var(--flb-font-body);cursor:pointer";
+    const pricingBands = this.PLAN_BANDS.map((label, i) => ({
+      label, style: i === band ? bandOn : bandOff, onClick: () => this.setState({ spendBand: i })
+    }));
+    const pricingCards = this.PLAN_DEFS.map((p) => {
+      const base = (cur === "usd" ? p.usd : p.inr)[band];
+      const now = this.pricingPriceOf(p);
+      const best = this.PLAN_BEST[band] === p.id;
+      const selected = chosen === p.id;
+      const cardStyle = best
+        ? "position:relative;display:flex;flex-direction:column;border-radius:16px;padding:20px 18px 18px;border:1.5px solid transparent;background:radial-gradient(130% 160% at 100% 0%, rgba(233,52,139,.09) 0%, rgba(160,139,255,.08) 40%, rgba(160,139,255,0) 68%) padding-box, linear-gradient(var(--flb-surface),var(--flb-surface)) padding-box, var(--flb-gradient-energetic) border-box"
+        : "position:relative;display:flex;flex-direction:column;border-radius:16px;padding:20px 18px 18px;background:var(--flb-surface);border:1px solid var(--flb-line)";
+      const navRows = this.PLAN_NAV.map((n) => {
+        const on = p.on.indexOf(n) !== -1;
+        const isNew = p.add.indexOf(n) !== -1;
+        const isSub = this.PLAN_SUBS.indexOf(n) !== -1;
+        return {
+          label: n,
+          rowStyle: "display:flex;align-items:center;gap:8px;font:400 " + (isSub ? "11.5px" : "12px") + " var(--flb-font-body);color:" + (on ? "var(--flb-ink)" : "var(--flb-ink-4)") + ";padding-left:" + (isSub ? "12px" : "0"),
+          dotStyle: "width:6px;height:6px;border-radius:9999px;flex-shrink:0;background:" + (isNew ? "var(--flb-magenta)" : (on ? "var(--flb-violet)" : "var(--flb-line)")) + (isNew ? ";box-shadow:0 0 0 3px color-mix(in srgb, var(--flb-magenta) 18%, transparent)" : "")
+        };
+      });
+      return {
+        id: p.id, name: p.name, tag: p.tag, isBest: best,
+        price: this.pricingFmt(now),
+        billed: cycle === "yr" ? ("billed annually · " + this.pricingFmt(this.pricingMonthly(base)) + " monthly") : "billed monthly",
+        credits: p.cr[band].toLocaleString("en-IN"),
+        creditHint: Math.round(p.cr[band] / 350) + " reasoning runs, " + Math.round(p.cr[band] / 200) + " standard answers or " + Math.round(p.cr[band] / 50) + " AI Lens taps",
+        navRows,
+        feats: p.feats.map((text) => ({ text })),
+        save: p.save,
+        cardStyle,
+        ctaLabel: selected ? "Selected" : "Choose",
+        ctaStyle: selected
+          ? "width:100%;height:42px;border:none;border-radius:11px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 13.5px var(--flb-font-body);cursor:pointer"
+          : "width:100%;height:42px;border-radius:11px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink);font:500 13.5px var(--flb-font-body);cursor:pointer",
+        onPick: () => this.setState({ planId: p.id })
+      };
+    });
+    return {
+      pricingBands, pricingCards,
+      cycleYrStyle: cycle === "yr" ? segOn : segOff,
+      cycleMoStyle: cycle === "mo" ? segOn : segOff,
+      curUsdStyle: cur === "usd" ? segOn : segOff,
+      curInrStyle: cur === "inr" ? segOn : segOff,
+      setCycleYr: () => this.setState({ billingCycle: "yr" }),
+      setCycleMo: () => this.setState({ billingCycle: "mo" }),
+      setCurUsd: () => this.setState({ currency: "usd" }),
+      setCurInr: () => this.setState({ currency: "inr" }),
+      startTrial: () => this.runStartTrial()
+    };
+  }
 
   startProvision() {
     this.setState({ screen: "loading", loadStage: 0, menu: null });
@@ -2409,6 +2626,7 @@ class Component extends DCLogic {
       integrations: "plugs-connected", bookmarks: "bookmark-simple",
       product: "chart-pie-slice", creative: "image",
       sparkle: "sparkle", gear: "gear", plus: "plus", sun: "sun", moon: "moon", help: "question",
+      lock: "lock-simple", scheduler: "calendar", inventory: "package",
     };
     return React.createElement("i", {
       className: "ph ph-" + (map[name] || "circle"),
@@ -2682,15 +2900,24 @@ class Component extends DCLogic {
   }
 
   renderVals() {
-    const setNav = (k) => () => this.setState({ nav: k });
+    const setNav = (k) => () => this.goFeat(k);
     const nav = this.state.nav;
     const A = (k) => nav === k;
+    const featLocked = (k) => this.isFeatLocked(k);
+    const lockFlag = (k) => (featLocked(k) ? "true" : "false");
+    const featIcon = (name, size) => this.icon(featLocked(name) ? "lock" : name, size);
     // Standard nav rows: active reads close to hover (surface-3), but more prominent - brighter/bolder label, no violet fill or ring.
-    const navExtra = (on) => ({ style: { boxShadow: "none", padding: "7px 10px", fontSize: 13.5, fontWeight: 400, gap: 10, borderRadius: 9, ...(on ? { background: "var(--app-raised)", color: "var(--flb-ink)" } : (this.state.theme !== "light" ? { background: "transparent" } : {})) } });
-    const navRow = (on) => ({ display: "flex", alignItems: "center", gap: 11, width: "100%", padding: "10px 12px", border: "none", cursor: "pointer", borderRadius: 10, textAlign: "left", fontFamily: "var(--flb-font-body)", fontSize: 14, fontWeight: 400, color: on ? "var(--flb-ink)" : "var(--flb-ink-2)", background: on ? "var(--flb-surface-3)" : "transparent", transition: "background 160ms var(--flb-ease)" });
-    const subRow = (on) => ({ display: "flex", alignItems: "center", gap: 9, width: "100%", padding: "8px 10px", border: "none", cursor: "pointer", borderRadius: 8, textAlign: "left", fontFamily: "var(--flb-font-body)", fontSize: 13, fontWeight: 400, color: on ? "var(--flb-ink)" : "var(--flb-ink-3)", background: on ? "var(--flb-surface-3)" : "transparent", transition: "background 160ms var(--flb-ease)" });
+    const navExtra = (on, locked) => ({ style: { boxShadow: "none", padding: "7px 10px", fontSize: 13.5, fontWeight: 400, gap: 10, borderRadius: 9, opacity: locked ? 0.78 : 1, ...(on && !locked ? { background: "var(--app-raised)", color: "var(--flb-ink)" } : (this.state.theme !== "light" ? { background: "transparent" } : {})) } });
+    const navRow = (on, locked) => ({ display: "flex", alignItems: "center", gap: 11, width: "100%", padding: "10px 12px", border: "none", cursor: "pointer", borderRadius: 10, textAlign: "left", fontFamily: "var(--flb-font-body)", fontSize: 14, fontWeight: 400, color: on && !locked ? "var(--flb-ink)" : "var(--flb-ink-2)", background: on && !locked ? "var(--flb-surface-3)" : "transparent", opacity: locked ? 0.78 : 1, transition: "background 160ms var(--flb-ease)" });
+    const subRow = (on, locked) => ({ display: "flex", alignItems: "center", gap: 9, width: "100%", padding: "8px 10px", border: "none", cursor: "pointer", borderRadius: 8, textAlign: "left", fontFamily: "var(--flb-font-body)", fontSize: 13, fontWeight: 400, color: on && !locked ? "var(--flb-ink)" : "var(--flb-ink-3)", background: on && !locked ? "var(--flb-surface-3)" : "transparent", opacity: locked ? 0.78 : 1, transition: "background 160ms var(--flb-ease)" });
 
     const setDraft = (t) => this.setState({ draft: t });
+    const composerPillDelay = ["1s", "1.12s", "1.24s"];
+    const composerPills = ["Live ad data", "Executes with approval", "AI-scored creatives"].map((label, i) => ({
+      label,
+      style: "display:inline-flex;align-items:center;padding:8px 16px;border-radius:9999px;background:transparent;border:1px dotted var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3);cursor:pointer;animation:flbRise 420ms var(--flb-ease-out) " + composerPillDelay[i] + " backwards",
+      onClick: () => setDraft(label)
+    }));
 
     const send = () => {
       const pastes = this.state.pastes || [];
@@ -2819,11 +3046,11 @@ class Component extends DCLogic {
     }
 
     // ── setup guide + form validation ──
-    const guideFlags = [this.state.steps.connected, this.state.steps.confirmed, this.state.orion.done, this.state.steps.utm];
-    const guideOrder = [["connect", this.state.steps.connected], ["confirm", this.state.steps.confirmed], ["orion", this.state.orion.done], ["utm", this.state.steps.utm]];
+    const guideFlags = [this.state.orion.done, this.state.steps.connected, this.state.steps.utm];
+    const guideOrder = [["orion", this.state.orion.done], ["connect", this.state.steps.connected], ["utm", this.state.steps.utm]];
     const guideNext = (guideOrder.find((e) => !e[1]) || [null])[0];
     const guideOp = (key, done) => (done || key === guideNext ? "1" : ".58");
-    const guideN = guideFlags.filter(Boolean).length, guideAll = guideN === 4;
+    const guideN = guideFlags.filter(Boolean).length, guideAll = guideN === 3;
     const pw = this.state.authPassword || "";
     const pwRules = [["8+ chars", pw.length >= 8], ["Uppercase", /[A-Z]/.test(pw)], ["Lowercase", /[a-z]/.test(pw)], ["Number", /\d/.test(pw)]].map(([label, ok]) => ({ label, mark: ok ? "\u2713" : "\u25CB", style: "color:" + (ok ? "var(--flb-success)" : "var(--flb-ink-4)") }));
     const compOk = /\./.test((this.state.authCompany || "").trim());
@@ -2987,11 +3214,20 @@ class Component extends DCLogic {
       themeClass: this.state.theme === "light" ? "light" : "",
       isCreative: this.state.nav === "creative",
       isUtm: this.state.nav === "utm",
-      isHome: this.state.nav !== "creative" && this.state.nav !== "utm",
-      goUtm: () => this.setState({ nav: "utm" }),
+      isExplain: this.state.nav === "explain",
+      isHome: this.state.nav !== "creative" && this.state.nav !== "utm" && this.state.nav !== "explain",
+      goUtm: setNav("utm"),
+      explainBadge: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).badge,
+      explainTitle: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).title,
+      explainBody: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).body,
+      explainPlan: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).plan,
+      explainImg: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).img,
+      explainPoints: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).points.map((text) => ({ text })),
+      explainUpgrade: () => this.goScreen("plans"),
+      explainBack: () => this.setState({ nav: "chats", explainFeature: null }),
       optOpen: this.state.optOpen, optClosed: !this.state.optOpen,
       toggleOptimize: () => this.setState((s) => ({ optOpen: !s.optOpen })),
-      optBtnStyle: navRow(A("utm")), utmSubStyle: subRow(A("utm")),
+      optBtnStyle: navRow(A("inventory") || A("utm"), featLocked("inventory")), utmSubStyle: subRow(A("utm"), featLocked("utm")),
       ...this.ciBuild(),
       ...this.utmBuild(),
       ...this.tgtBuild(),
@@ -3006,19 +3242,21 @@ class Component extends DCLogic {
       orionInherited: oIs("inherited"), inheritedRows, accountOwner: this.ACCOUNT_OWNER,
       orionModeLabel: isShort ? "TEAM MEMBER SETUP" : "PERSONALIZE ORION",
       orionStepCount: isShort ? "4 questions" : "8 questions",
-      closeOrion: () => this.setOrion({ open: false }),
+      closeOrion: () => { if (this.state.orionOnboarding) this.skipAllPersonalization(); else this.setOrion({ open: false }); },
+      skipOrionOnboarding: () => this.skipAllPersonalization(),
+      orionOnboarding: this.state.orionOnboarding,
       orionIntro: oIs("intro"), orionProof: oIs("proof"),
       orionStep0: oIs("role"), orionStep1: oIs("goal"), orionStep2: oIs("pain"), orionStep3: oIs("metrics"), orionStep4: oIs("alerts"), orionStep5: oIs("cadence"), orionStep6: oIs("guardrails"), orionStep7: oIs("receipt"),
       orionStory1: oIs("story1"), orionBeforeAfter: oIs("beforeafter"), orionLikert: oIs("likert"), orionDreamTeam: oIs("dreamteam"), orionCostCompare: oIs("costcompare"), orionStory2: oIs("story2"), orionStory3: oIs("story3"),
       orionBars1, orionBars2, orionBeforeBars, orionAfterBars, orionTeam, orionCostBars, orionLikertOpts, orionCadenceOpts, orionCadenceLegacy: oIs("delivery"), orionIntroItems: [{ label: "Your business goals", icon: "ph ph-target" }, { label: "Key marketing metrics", icon: "ph ph-chart-line-up" }, { label: "Smart alerts", icon: "ph ph-bell-ringing" }, { label: "Automated reports", icon: "ph ph-file-text" }, { label: "Communication preferences", icon: "ph ph-chat-circle-dots" }, { label: "AI optimization rules", icon: "ph ph-sliders-horizontal" }], orionMiniBars,
-      orionNotFirst: o.step > 0, orionShowSkip: oIs("pain") || oIs("guardrails"), orionIsLast: o.step === oTotal - 1,
+      orionNotFirst: o.step > 0, orionShowSkip: oIs("pain") || oIs("guardrails") || this.state.orionOnboarding, orionIsLast: o.step === oTotal - 1,
       orionShowNext: !oAuto,
       orionSeg1Pct: Math.round(Math.max(0, Math.min(1, o.step / oThird)) * 100) + "%",
       orionSeg2Pct: Math.round(Math.max(0, Math.min(1, (o.step - oThird) / oThird)) * 100) + "%",
       orionSeg3Pct: Math.round(Math.max(0, Math.min(1, (o.step - 2 * oThird) / oThird)) * 100) + "%",
       orionNextLabel: oIs("intro") ? "Get started" : (o.step === oTotal - 1) ? (isShort ? "Save my setup" : "Generate my templates") : "Continue",
       orionNextStyle: "display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 15px var(--flb-font-body);box-shadow:var(--flb-glow-violet);cursor:" + (canOrionNext ? "pointer" : "not-allowed") + ";opacity:" + (canOrionNext ? "1" : ".5"),
-      orionNext: () => { const s = this.state.orion; if (s.step >= oTotal - 1) { this.setOrion({ open: false, done: true }); this.setState((st) => ({ steps: { ...st.steps, personalized: true } })); this.showToast("Your onboarding preferences have been saved"); return; } if (!canOrionNext) return; this.setOrion({ step: Math.min(oTotal - 1, s.step + 1) }); },
+      orionNext: () => { const s = this.state.orion; if (s.step >= oTotal - 1) { if (this.state.orionOnboarding) this.finishOnboardingPersonalize(); else { this.setOrion({ open: false, done: true }); this.setState((st) => ({ steps: { ...st.steps, personalized: true } })); this.showToast("Your onboarding preferences have been saved"); } return; } if (!canOrionNext) return; this.setOrion({ step: Math.min(oTotal - 1, s.step + 1) }); },
       orionBack: () => this.setOrion({ step: Math.max(0, this.state.orion.step - 1) }),
       orionSkipStep: () => this.setOrion({ step: Math.min(oTotal - 1, this.state.orion.step + 1) }),
       // Self-assessment handlers (Rise Guide emotional steps)
@@ -3052,11 +3290,11 @@ class Component extends DCLogic {
       orionTimeOpts: this.ORION_TIMES, orionDayOpts: this.ORION_DAYS,
       themeIcon: this.icon(this.state.theme === "light" ? "moon" : "sun", 19),
       toggleTheme: () => this.setState((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
-      chatsIcon: this.icon("chats", 18), dashIcon: this.icon("dashboard", 18), pulseIcon: this.icon("pulse", 18), attrIcon: this.icon("attribution", 18), insightsIcon: this.icon("insights", 18), integrIcon: this.icon("integrations", 18), bookmarkIcon: this.icon("bookmarks", 18), settingsIcon: this.icon("gear", 18), helpIcon: this.icon("help", 18), prodIcon: this.icon("product", 16), creativeIcon: this.icon("creative", 16),
+      chatsIcon: this.icon("chats", 18), dashIcon: featIcon("dashboard", 18), pulseIcon: featIcon("pulse", 18), attrIcon: featIcon("attribution", 18), insightsIcon: featLocked("product") && featLocked("creative") ? this.icon("lock", 18) : this.icon("insights", 18), integrIcon: this.icon("integrations", 18), bookmarkIcon: this.icon("bookmarks", 18), settingsIcon: this.icon("gear", 18), helpIcon: this.icon("help", 18), prodIcon: featIcon("product", 16), creativeIcon: featIcon("creative", 16), schedulerIcon: featIcon("scheduler", 18), inventoryIcon: featIcon("inventory", 18),
       aChats: A("chats"), aDashboard: A("dashboard"), aPulse: A("pulse"), aAttribution: A("attribution"), aInsights: A("insights"), aIntegrations: A("integrations"), aBookmarks: A("bookmarks"), aSettings: A("settings"), aProduct: A("product"), aCreative: A("creative"),
-      goChats: setNav("chats"), goDashboard: setNav("dashboard"), goPulse: setNav("pulse"), goAttribution: setNav("attribution"), goIntegrations: setNav("integrations"), goBookmarks: setNav("bookmarks"), goSettings: setNav("settings"), goHelp: setNav("help"), goProduct: setNav("product"), goCreative: setNav("creative"),
+      goChats: setNav("chats"), goDashboard: setNav("dashboard"), goPulse: setNav("pulse"), goAttribution: setNav("attribution"), goIntegrations: setNav("integrations"), goBookmarks: setNav("bookmarks"), goSettings: setNav("settings"), goHelp: setNav("help"), goProduct: setNav("product"), goCreative: setNav("creative"), goScheduler: setNav("scheduler"), goInventory: setNav("inventory"),
       insightsOpen: this.state.insightsOpen, insightsClosed: !this.state.insightsOpen, toggleInsights: () => this.setState((s) => ({ insightsOpen: !s.insightsOpen })),
-      insightsBtnStyle: navRow(A("insights")), prodStyle: subRow(A("product")), creativeStyle: subRow(A("creative")),
+      insightsBtnStyle: navRow(A("insights") || A("product") || A("creative"), featLocked("product") && featLocked("creative")), prodStyle: subRow(A("product"), featLocked("product")), creativeStyle: subRow(A("creative"), featLocked("creative")),
       gWorkspace: g.workspace, gWorkspaceClosed: !g.workspace, showWorkspaceItems: collapsed || g.workspace,
       gAnalytics: g.analytics, gAnalyticsClosed: !g.analytics, showAnalyticsItems: collapsed || g.analytics,
       gSetup: g.setup, gSetupClosed: !g.setup, showSetupItems: collapsed || g.setup,
@@ -3085,6 +3323,7 @@ class Component extends DCLogic {
       setModelFast: () => this.setState({ model: "Fast" }), setModelStandard: () => this.setState({ model: "Standard" }), setModelPro: () => this.setState({ model: "Pro" }),
       cycleEffort: () => this.setState((s) => ({ effort: s.effort === "Low" ? "Medium" : s.effort === "Medium" ? "High" : "Low" })),
       draft: this.state.draft,
+      composerPills,
       onDraft: (e) => { setDraft(e.target.value); this.autoSize(e.target); },
       onKey: (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } },
       onPaste: (e) => {
@@ -3153,8 +3392,12 @@ class Component extends DCLogic {
       newChatBg: A("chats") && !hasThread ? "var(--app-raised)" : "transparent",
       newChatRing: "none",
       off: false,
-      dashExtra: navExtra(A("dashboard")), pulseExtra: navExtra(A("pulse")), attrExtra: navExtra(A("attribution")),
-      insightsColExtra: navExtra(A("insights")), integrExtra: navExtra(A("integrations")), bookmarkExtra: navExtra(A("bookmarks")), settingsExtra: navExtra(A("settings")), helpExtra: navExtra(A("help")),
+      dashExtra: navExtra(A("dashboard"), featLocked("dashboard")), pulseExtra: navExtra(A("pulse"), featLocked("pulse")), attrExtra: navExtra(A("attribution"), featLocked("attribution")),
+      insightsColExtra: navExtra(A("insights") || A("product") || A("creative"), featLocked("product") && featLocked("creative")), integrExtra: navExtra(A("integrations"), false), bookmarkExtra: navExtra(A("bookmarks"), false), settingsExtra: navExtra(A("settings"), false), helpExtra: navExtra(A("help"), false), schedulerExtra: navExtra(A("scheduler"), featLocked("scheduler")), inventoryExtra: navExtra(A("inventory"), featLocked("inventory")),
+      dashLocked: lockFlag("dashboard"), pulseLocked: lockFlag("pulse"), attrLocked: lockFlag("attribution"),
+      insightsLocked: (featLocked("product") && featLocked("creative")) ? "true" : "false",
+      prodLocked: lockFlag("product"), creativeLocked: lockFlag("creative"), schedulerLocked: lockFlag("scheduler"),
+      inventoryLocked: lockFlag("inventory"), utmLocked: lockFlag("utm"),
       askRoot: () => setDraft("Run a root-cause analysis on last week's ROAS drop across Meta, Google and Amazon."),
       askAudit: () => setDraft("Audit my active campaigns and flag ad groups with ROAS < 1.5 and margin < 10%."),
       askWeekly: () => setDraft("Generate my weekly performance report for the last 7 days."),
@@ -3181,7 +3424,7 @@ class Component extends DCLogic {
       suBg: suC.bg, suColor: suC.color, suCursor: suC.cursor, suOpacity: suC.opacity,
       liBg: liC.bg, liColor: liC.color, liCursor: liC.cursor, liOpacity: liC.opacity,
       refBg: refC.bg, refColor: refC.color, refCursor: refC.cursor, refOpacity: refC.opacity,
-      logOut: () => { clearInterval(this._ls); this.setState((st) => ({ menu: null, screen: "login", otp: "", authPassword: "", googleAuthed: false, tourStep: -1, tourRect: null, checklistOpen: false, profileSel: null, profileMenu: null, nav: "chats", draft: "", messages: [], pastes: [], banner: true, plan: 1, loadStage: 0, referralOpen: false, referralCode: "", steps: { connected: false, confirmed: false, referral: false, credits: false, personalized: false, utm: false }, profiles: [{ id: "lum", name: "Luminary Skincare", role: "Default", ch: "Meta · Google · Shopify" }], orion: { ...st.orion, open: false, step: 0, done: false } })); },
+      logOut: () => { clearInterval(this._ls); this.setState((st) => ({ menu: null, screen: "login", otp: "", authPassword: "", googleAuthed: false, tourStep: -1, tourRect: null, checklistOpen: false, profileSel: null, profileMenu: null, nav: "chats", draft: "", messages: [], pastes: [], banner: true, plan: 1, planId: "intel", spendBand: 1, billingCycle: "yr", currency: "usd", orionOnboarding: false, explainFeature: null, loadStage: 0, referralOpen: false, referralCode: "", steps: { connected: false, confirmed: false, referral: false, credits: false, personalized: false, utm: false }, profiles: [{ id: "lum", name: "Luminary Skincare", role: "Default", ch: "Meta · Google · Shopify" }], orion: { ...st.orion, open: false, step: 0, done: false } })); },
       screenConnect: this.state.screen === "connect",
       screenConfirm: this.state.screen === "confirm",
       screenPlans: this.state.screen === "plans",
@@ -3246,27 +3489,11 @@ class Component extends DCLogic {
       continueOpacity: Object.values(this.state.accounts).some(Boolean) ? "1" : ".6",
 
       // plans
+      ...this.pricingBuild(),
       plan: this.state.plan,
-      planAmt: ["$6","$20","$50","$100"][this.state.plan],
-      planAmtNum: ["6","20","50","100"][this.state.plan],
-      planCredits: ["1,200","4,000","10,000","20,000"][this.state.plan],
-      setPlan0: () => this.setState({ plan: 0 }), setPlan1: () => this.setState({ plan: 1 }), setPlan2: () => this.setState({ plan: 2 }), setPlan3: () => this.setState({ plan: 3 }),
-      p0Border: this.state.plan === 0 ? "transparent" : "var(--flb-border-default)", p0Bg: this.state.plan === 0 ? "var(--flb-gradient-energetic)" : "var(--flb-surface)", p0Color: this.state.plan === 0 ? "#fcfcfc" : "var(--flb-ink-2)",
-      p1Border: this.state.plan === 1 ? "transparent" : "var(--flb-border-default)", p1Bg: this.state.plan === 1 ? "var(--flb-gradient-energetic)" : "var(--flb-surface)", p1Color: this.state.plan === 1 ? "#fcfcfc" : "var(--flb-ink-2)",
-      p2Border: this.state.plan === 2 ? "transparent" : "var(--flb-border-default)", p2Bg: this.state.plan === 2 ? "var(--flb-gradient-energetic)" : "var(--flb-surface)", p2Color: this.state.plan === 2 ? "#fcfcfc" : "var(--flb-ink-2)",
-      p3Border: this.state.plan === 3 ? "transparent" : "var(--flb-border-default)", p3Bg: this.state.plan === 3 ? "var(--flb-gradient-energetic)" : "var(--flb-surface)", p3Color: this.state.plan === 3 ? "#fcfcfc" : "var(--flb-ink-2)",
-      planBack: () => this.goScreen("confirm"),
-      addCredits: () => {
-        this.setState((st) => ({ steps: { ...st.steps, credits: true }, screen: "settingup", settingProgress: 0 }));
-        clearInterval(this._sp);
-        this._sp = setInterval(() => {
-          this.setState((st) => {
-            const n = Math.min(100, st.settingProgress + 20);
-            if (n >= 100) { clearInterval(this._sp); setTimeout(() => { this.setState({ screen: "app", tourStep: 0, nav: "chats" }); setTimeout(() => this.measureTour(), 100); setTimeout(() => this.runOnboardingAudit(), 900); }, 600); }
-            return { settingProgress: n };
-          });
-        }, 240);
-      },
+      planId: this.state.planId,
+      planBack: () => { if (this.state.steps.credits) this.goScreen("app"); else this.goScreen("confirm"); },
+      addCredits: () => this.runStartTrial(),
 
       // setting up derived
       settingProgress: this.state.settingProgress,
@@ -3288,14 +3515,14 @@ class Component extends DCLogic {
       st4Bg: this.state.steps.credits ? "var(--flb-surface-2)" : "var(--flb-surface)",
       st5Bg: this.state.orion.done ? "var(--flb-surface-2)" : "var(--flb-surface)",
       setupDone: guideN,
-      setupPct: (guideN / 4) * 100,
-      setupPctStr: ((guideN / 4) * 100) + "%",
-      setupRingOffset: (94.2 * (1 - guideN / 4)).toFixed(1),
+      setupPct: (guideN / 3) * 100,
+      setupPctStr: ((guideN / 3) * 100) + "%",
+      setupRingOffset: (94.2 * (1 - guideN / 3)).toFixed(1),
       setupAllDone: guideAll,
-      setupLabel: guideAll ? "All done 🎉" : (guideN + " / 4 done"),
-      setupFraction: guideN + "/4",
+      setupLabel: guideAll ? "All done 🎉" : (guideN + " / 3 done"),
+      setupFraction: guideN + "/3",
       setupLauncherTitle: guideAll ? "You're all set" : "Finish setup",
-      setupStepsLeft: guideAll ? "250 credits unlocked" : ((4 - guideN) + " steps left · 250 credits"),
+      setupStepsLeft: guideAll ? "250 credits unlocked" : ((3 - guideN) + " steps left · 250 credits"),
       giftOpen: this.state.giftOpen, dismissGift: () => this.setState({ giftOpen: false }),
       setupGiftIcon: guideAll ? "ph-fill ph-gift" : "ph ph-gift",
       setupGiftText: guideAll ? "250 free credits unlocked - nice work!" : "Complete all steps to unlock 250 free credits",
@@ -3349,7 +3576,8 @@ class Component extends DCLogic {
     'Insights':['Insights','Explore deep data analysis and trends automatically generated for your account.','https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=280&h=100&fit=crop','https://flable.ai/docs/insights'],
     'Product Insights':['Product Insights','Analyze how users are interacting with specific features inside your product.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/product-insights'],
     'Creative Insights':['Creative Insights','AI-scored creative performance — see every ad ranked by decision, funnel health & fatigue. Filter by Replicate, Monitor, Refresh/Test or Reduce/Pause, with deep-dive insights per ad.','https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=280&h=100&fit=crop','https://flable.ai/docs/creative-insights'],
-    'Setup':['Setup','Configure your core workspace parameters and initial account preferences.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/setup'],
+    'Scheduler':['Scheduler','Reports to email, Slack or WhatsApp on the cadence you set — no credits for the send.','https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=280&h=100&fit=crop','https://flable.ai/docs/scheduler'],
+    'Inventory Health':['Inventory Health','Flags spend pushing traffic to out-of-stock SKUs before the next daily budget cycle.','https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=280&h=100&fit=crop','https://flable.ai/docs/inventory-health'],
     'Integrations':['Integrations','Connect your entire stack — CRM & channels, shipping, ad accounts, analytics and socials.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/integrations'],
     'Bookmarks':['Bookmarks','Access your saved views, favorite reports, and pinned data points quickly.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/bookmarks'],
     'Optimizations':['Optimizations','Review and apply AI-driven recommendations to improve your efficiency.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/optimizations'],
@@ -3424,12 +3652,27 @@ class Component extends DCLogic {
     activeTarget=null;
   }
 
+  function isLockedNode(el){
+    var node=el;
+    for(var i=0;i<25&&node&&node!==document.documentElement;i++){
+      if(node.nodeType===1 && node.getAttribute && node.getAttribute('data-locked')==='true') return true;
+      node=node.parentElement||node.parentNode;
+    }
+    return false;
+  }
+
   function resolveLabel(el){
+    var sidebar=document.querySelector('[data-tour="sidebar"]');
+    if(!sidebar || !el || !sidebar.contains(el)) return null;
+    if(!isLockedNode(el)) return null;
     var node=el;
     for(var i=0;i<25&&node&&node!==document.documentElement;i++){
       if(node.nodeType!==1){node=node.parentElement||node.parentNode;continue;}
+      if(!sidebar.contains(node)) return null;
       var lbl=node.getAttribute&&node.getAttribute('data-tip-label');
       if(lbl) return lbl;
+      var tip=node.getAttribute&&node.getAttribute('data-sidebar-tip');
+      if(tip&&tipData[tip]) return tip;
       if(node.tagName==='X-IMPORT'){
         var l=node.getAttribute('label');
         if(l&&tipData[l]) return l;
@@ -3486,11 +3729,16 @@ class Component extends DCLogic {
     /* ── Desktop: hover ─────────────────────────────── */
     if(!isTouchDevice){
       document.addEventListener('pointermove',function(e){
+        var sidebar=document.querySelector('[data-tour="sidebar"]');
+        if(!sidebar || !sidebar.contains(e.target)){
+          if(lastLabel){lastLabel=null; hideNow();}
+          return;
+        }
         var label=resolveLabel(e.target);
         if(label && tipData[label]){
           showAt(label, e.clientX, e.clientY);
         }else{
-          if(lastLabel){lastLabel=null;}
+          if(lastLabel){lastLabel=null; hideNow();}
         }
       },{passive:true});
 
