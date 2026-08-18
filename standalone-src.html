@@ -645,6 +645,7 @@
       <sc-if value="{{ showSetupItems }}" hint-placeholder-val="{{ true }}">
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ integrIcon }}" label="Integrations" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goIntegrations }}" dc-props="{{ integrExtra }}" hint-size="100%,38px"></x-import>
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ bookmarkIcon }}" label="Bookmarks" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goBookmarks }}" dc-props="{{ bookmarkExtra }}" hint-size="100%,38px"></x-import>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ schedulerIcon }}" label="Scheduler" active="{{ isSchedulerNav }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goScheduler }}" dc-props="{{ schedulerExtra }}" hint-size="100%,38px"></x-import>
         <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
           <button onClick="{{ toggleOptimize }}" style="{{ optBtnStyle }}" style-hover="color:var(--flb-ink)">
             <span style="display:inline-flex;flex-shrink:0;color:var(--flb-ink-3)"><i class="ph ph-chart-line-up" style="font-size:18px;line-height:1"></i></span>
@@ -2903,9 +2904,9 @@ class Component extends DCLogic {
       orionTimeOpts: this.ORION_TIMES, orionDayOpts: this.ORION_DAYS,
       themeIcon: this.icon(this.state.theme === "light" ? "moon" : "sun", 19),
       toggleTheme: () => this.setState((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
-      chatsIcon: this.icon("chats", 18), dashIcon: this.icon("dashboard", 18), pulseIcon: this.icon("pulse", 18), attrIcon: this.icon("attribution", 18), insightsIcon: this.icon("insights", 18), integrIcon: this.icon("integrations", 18), bookmarkIcon: this.icon("bookmarks", 18), settingsIcon: this.icon("gear", 18), helpIcon: this.icon("help", 18), prodIcon: this.icon("product", 16), creativeIcon: this.icon("creative", 16),
+      chatsIcon: this.icon("chats", 18), dashIcon: this.icon("dashboard", 18), pulseIcon: this.icon("pulse", 18), attrIcon: this.icon("attribution", 18), insightsIcon: this.icon("insights", 18), integrIcon: this.icon("integrations", 18), bookmarkIcon: this.icon("bookmarks", 18), schedulerIcon: this.icon("scheduler", 18), settingsIcon: this.icon("gear", 18), helpIcon: this.icon("help", 18), prodIcon: this.icon("product", 16), creativeIcon: this.icon("creative", 16),
       aChats: A("chats"), aDashboard: A("dashboard"), aPulse: A("pulse"), aAttribution: A("attribution"), aInsights: A("insights"), aIntegrations: A("integrations"), aBookmarks: A("bookmarks"), aSettings: A("settings"), aProduct: A("product"), aCreative: A("creative"),
-      goChats: setNav("chats"), goDashboard: setNav("dashboard"), goPulse: setNav("pulse"), goAttribution: setNav("attribution"), goIntegrations: setNav("integrations"), goBookmarks: setNav("bookmarks"), goSettings: setNav("settings"), goHelp: setNav("help"), goProduct: setNav("product"), goCreative: setNav("creative"),
+      goChats: setNav("chats"), goDashboard: setNav("dashboard"), goPulse: setNav("pulse"), goAttribution: setNav("attribution"), goIntegrations: setNav("integrations"), goBookmarks: setNav("bookmarks"), goScheduler: setNav("scheduler"), goSettings: setNav("settings"), goHelp: setNav("help"), goProduct: setNav("product"), goCreative: setNav("creative"),
       insightsOpen: this.state.insightsOpen, insightsClosed: !this.state.insightsOpen, toggleInsights: () => this.setState((s) => ({ insightsOpen: !s.insightsOpen })),
       insightsBtnStyle: navRow(A("insights")), prodStyle: subRow(A("product")), creativeStyle: subRow(A("creative")),
       gWorkspace: g.workspace, gWorkspaceClosed: !g.workspace, showWorkspaceItems: collapsed || g.workspace,

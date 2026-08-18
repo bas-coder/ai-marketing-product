@@ -635,7 +635,6 @@
       <sc-if value="{{ showAnalyticsItems }}" hint-placeholder-val="{{ true }}">
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ dashIcon }}" label="Dashboard" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goDashboard }}" dc-props="{{ dashExtra }}" hint-size="100%,38px" data-sidebar-tip="Dashboard" data-locked="{{ dashLocked }}"></x-import>
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ pulseIcon }}" label="Pulse" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goPulse }}" dc-props="{{ pulseExtra }}" hint-size="100%,38px" data-sidebar-tip="Pulse" data-locked="{{ pulseLocked }}"></x-import>
-      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ schedulerIcon }}" label="Scheduler" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goScheduler }}" dc-props="{{ schedulerExtra }}" hint-size="100%,38px" data-sidebar-tip="Scheduler" data-locked="{{ schedulerLocked }}"></x-import>
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ attrIcon }}" label="Attribution" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goAttribution }}" dc-props="{{ attrExtra }}" hint-size="100%,38px" data-sidebar-tip="Attribution" data-locked="{{ attrLocked }}"></x-import>
         <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
           <button onClick="{{ toggleInsights }}" data-sidebar-tip="Insights" data-locked="{{ insightsLocked }}" style="{{ insightsBtnStyle }}" style-hover="color:var(--flb-ink)">
@@ -654,6 +653,7 @@
         <sc-if value="{{ sidebarCollapsed }}" hint-placeholder-val="{{ false }}">
           <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ insightsIcon }}" label="Insights" active="{{ off }}" collapsed="{{ true }}" onClick="{{ goProduct }}" dc-props="{{ insightsColExtra }}" hint-size="100%,38px" data-sidebar-tip="Insights" data-locked="{{ insightsLocked }}"></x-import>
         </sc-if>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ inventoryIcon }}" label="Inventory Health" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goInventory }}" dc-props="{{ inventoryExtra }}" hint-size="100%,38px" data-sidebar-tip="Inventory Health" data-locked="{{ inventoryLocked }}"></x-import>
       </sc-if>
 
       <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
@@ -665,11 +665,10 @@
       </sc-if>
       <sc-if value="{{ showSetupItems }}" hint-placeholder-val="{{ true }}">
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ integrIcon }}" label="Integrations" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goIntegrations }}" dc-props="{{ integrExtra }}" hint-size="100%,38px" data-sidebar-tip="Integrations"></x-import>
-      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ bookmarkIcon }}" label="Bookmarks" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goBookmarks }}" dc-props="{{ bookmarkExtra }}" hint-size="100%,38px" data-sidebar-tip="Bookmarks"></x-import>
         <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
-          <button onClick="{{ toggleOptimize }}" data-sidebar-tip="Inventory Health" data-locked="{{ inventoryLocked }}" style="{{ optBtnStyle }}" style-hover="color:var(--flb-ink)">
-            <span style="display:inline-flex;flex-shrink:0;color:var(--flb-ink-3)">{{ inventoryIcon }}</span>
-            <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Inventory Health</span>
+          <button onClick="{{ toggleOptimize }}" data-sidebar-tip="Optimizations" data-locked="{{ utmLocked }}" style="{{ optBtnStyle }}" style-hover="color:var(--flb-ink)">
+            <span style="display:inline-flex;flex-shrink:0;color:var(--flb-ink-3)"><i class="ph ph-sliders" style="font-size:17px"></i></span>
+            <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Optimizations</span>
             <sc-if value="{{ optOpen }}" hint-placeholder-val="{{ true }}"><i class="ph-bold ph-caret-down" style="font-size:11px;color:var(--flb-ink-3);line-height:1"></i></sc-if>
             <sc-if value="{{ optClosed }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-caret-right" style="font-size:11px;color:var(--flb-ink-3);line-height:1"></i></sc-if>
           </button>
@@ -680,8 +679,9 @@
           </sc-if>
         </sc-if>
         <sc-if value="{{ sidebarCollapsed }}" hint-placeholder-val="{{ false }}">
-          <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ inventoryIcon }}" label="Inventory Health" active="{{ off }}" collapsed="{{ true }}" onClick="{{ goInventory }}" dc-props="{{ inventoryExtra }}" hint-size="100%,38px" data-sidebar-tip="Inventory Health" data-locked="{{ inventoryLocked }}"></x-import>
+          <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ utmIcon }}" label="Optimizations" active="{{ off }}" collapsed="{{ true }}" onClick="{{ goUtm }}" dc-props="{{ utmExtra }}" hint-size="100%,38px" data-sidebar-tip="Optimizations" data-locked="{{ utmLocked }}"></x-import>
         </sc-if>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ schedulerIcon }}" label="Scheduler" active="{{ isSchedulerNav }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goScheduler }}" dc-props="{{ schedulerExtra }}" hint-size="100%,38px" data-sidebar-tip="Scheduler" data-locked="{{ schedulerLocked }}"></x-import>
       </sc-if>
     </div>
 
@@ -1274,6 +1274,332 @@
       </div>
       </sc-if>
 
+      <!-- ===== SCHEDULER ===== -->
+      <sc-if value="{{ isScheduler }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Scheduler" style="height:100%;overflow-y:auto;background:var(--flb-bg);color:var(--flb-ink)">
+        <div style="padding:28px 36px 56px;max-width:1240px;margin:0 auto">
+          
+          <!-- Header -->
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <h1 style="margin:0;font:600 28px/1.2 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Scheduler</h1>
+                <span data-tip="Schedule reports to land in your team's inbox on a recurring cadence" style="display:inline-flex;color:var(--flb-ink-3);cursor:pointer"><i class="ph ph-info" style="font-size:18px"></i></span>
+              </div>
+              <p style="margin:8px 0 0;font:400 14px/1.5 var(--flb-font-body);color:var(--flb-ink-3);max-width:740px">Schedule reports to land in your team's inbox — write your own prompt in plain English, or set up a ready-made KPI digest. No manual pulls.</p>
+            </div>
+          </div>
+
+          <!-- Tabs Switcher -->
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px;flex-wrap:wrap">
+            <div style="display:inline-flex;align-items:center;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:9999px;padding:3px">
+              <button onClick="{{ schedSetTabCustom }}" style="{{ schedCustomTabStyle }}">
+                <i class="ph ph-note-pencil" style="font-size:15px"></i>
+                <span>Custom Reports</span>
+                <span style="{{ schedCustomCountStyle }}">{{ schedCustomCount }}</span>
+              </button>
+              <button onClick="{{ schedSetTabAuto }}" style="{{ schedAutoTabStyle }}">
+                <i class="ph ph-squares-four" style="font-size:15px"></i>
+                <span>Automated</span>
+                <span style="{{ schedAutoCountStyle }}">{{ schedAutoCount }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Search & Action Bar -->
+          <div style="display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap">
+            <div style="flex:1;min-width:260px;position:relative;display:flex;align-items:center">
+              <i class="ph ph-magnifying-glass" style="position:absolute;left:14px;font-size:16px;color:var(--flb-ink-4)"></i>
+              <input type="text" value="{{ schedSearch }}" onInput="{{ schedOnSearch }}" placeholder="Search your custom reports..." style="width:100%;height:42px;padding:0 36px 0 38px;border-radius:9999px;background:var(--flb-surface);border:1px solid var(--flb-line);font:400 13.5px var(--flb-font-body);color:var(--flb-ink);outline:none;box-sizing:border-box" />
+              <sc-if value="{{ schedSearchHasVal }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ schedClearSearch }}" style="position:absolute;right:12px;border:none;background:transparent;color:var(--flb-ink-4);cursor:pointer;display:inline-flex;align-items:center"><i class="ph ph-x-circle" style="font-size:16px"></i></button>
+              </sc-if>
+            </div>
+            <button onClick="{{ schedOpenAddModal }}" style="display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 20px;border-radius:9999px;border:none;background:var(--flb-violet);color:#fcfcfc;font:600 13.5px var(--flb-font-body);cursor:pointer;flex-shrink:0;box-shadow:0 2px 8px rgba(100,60,193,.25)" style-hover="background:var(--flb-violet-mid);transform:translateY(-1px)">
+              <i class="ph-bold ph-plus" style="font-size:14px"></i>
+              <span>Add Custom Report</span>
+            </button>
+          </div>
+
+          <!-- Custom Reports Cards Grid -->
+          <sc-if value="{{ schedIsCustomTab }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));gap:16px;margin-top:20px">
+              <sc-for list="{{ schedCustomCardList }}" as="c" hint-placeholder-count="6">
+                <div style="background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:190px;position:relative;transition:all .18s ease" style-hover="border-color:color-mix(in srgb, var(--flb-violet-light) 40%, var(--flb-line));box-shadow:0 2px 8px rgba(0,0,0,0.12)">
+                  
+                  <!-- Top Badge Row -->
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                        <span style="{{ c.modelBadgeStyle }}">{{ c.model }}</span>
+                        <span style="{{ c.formatBadgeStyle }}">{{ c.format }}</span>
+                        <sc-if value="{{ c.autoRun }}" hint-placeholder-val="{{ false }}">
+                          <span style="display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:9999px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 11.5px var(--flb-font-body)"><i class="ph ph-clock" style="font-size:12px"></i>Auto</span>
+                        </sc-if>
+                      </div>
+                      
+                      <!-- Menu Dropdown -->
+                      <div style="position:relative">
+                        <button onClick="{{ c.toggleMenu }}" data-tip="Report actions" style="width:28px;height:28px;border-radius:7px;border:none;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:var(--flb-surface-2);color:var(--flb-ink)">
+                          <i class="ph-bold ph-dots-three" style="font-size:18px"></i>
+                        </button>
+                        <sc-if value="{{ c.menuOpen }}" hint-placeholder-val="{{ false }}">
+                          <div style="position:absolute;top:32px;right:0;z-index:50;min-width:160px;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:10px;box-shadow:var(--flb-shadow-lg);padding:5px;display:flex;flex-direction:column;gap:1px">
+                            <button onClick="{{ c.onEdit }}" style="{{ schedMenuItemStyle }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-pencil-simple" style="font-size:14px"></i>Edit prompt</button>
+                            <button onClick="{{ c.onDuplicate }}" style="{{ schedMenuItemStyle }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-copy" style="font-size:14px"></i>Duplicate</button>
+                            <button onClick="{{ c.onDownload }}" style="{{ schedMenuItemStyle }}" style-hover="background:var(--flb-surface-3)"><i class="ph ph-download-simple" style="font-size:14px"></i>Download {{ c.format }}</button>
+                            <div style="height:1px;background:var(--flb-line);margin:3px 0"></div>
+                            <button onClick="{{ c.onDelete }}" style="{{ schedMenuItemDangerStyle }}" style-hover="background:var(--flb-tint-error)"><i class="ph ph-trash" style="font-size:14px"></i>Delete</button>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </div>
+
+                    <!-- Title & Snippet -->
+                    <div style="margin:14px 0 16px">
+                      <h3 style="margin:0;font:600 16px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em;line-height:1.35">{{ c.title }}</h3>
+                      <p style="margin:6px 0 0;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ c.prompt }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Footer -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid color-mix(in srgb, var(--flb-line) 60%, transparent)">
+                    <div style="display:flex;align-items:center;gap:6px;font:400 12px var(--flb-font-body);color:var(--flb-ink-4)">
+                      <i class="ph ph-calendar-blank" style="font-size:14px;color:var(--flb-ink-3)"></i>
+                      <span>Last Run: {{ c.lastRun }}</span>
+                    </div>
+                    <button onClick="{{ c.onRunNow }}" style="{{ c.runBtnStyle }}" style-hover="filter:brightness(1.08);transform:translateY(-1px)">
+                      <sc-if value="{{ c.isRunning }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-spinner" style="font-size:13px;animation:flbSpin 1s linear infinite"></i><span>Running...</span></sc-if>
+                      <sc-if value="{{ c.isNotRunning }}" hint-placeholder-val="{{ true }}"><i class="ph-fill ph-play" style="font-size:10px"></i><span>Run Now</span></sc-if>
+                    </button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- Automated Reports Cards Grid -->
+          <sc-if value="{{ schedIsAutoTab }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));gap:16px;margin-top:20px">
+              <sc-for list="{{ schedAutoCardList }}" as="a" hint-placeholder-count="3">
+                <div style="background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:190px;position:relative;transition:all .18s ease" style-hover="border-color:color-mix(in srgb, var(--flb-violet-light) 40%, var(--flb-line))">
+                  <div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                      <div style="display:flex;align-items:center;gap:8px">
+                        <span style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 10px;border-radius:9999px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11.5px var(--flb-font-body)">
+                          <i class="ph ph-clock" style="font-size:13px"></i>
+                          <span>{{ a.schedule }}</span>
+                        </span>
+                        <span style="display:inline-flex;align-items:center;height:24px;padding:0 9px;border-radius:9999px;background:var(--flb-surface-3);color:var(--flb-ink-3);font:500 11.5px var(--flb-font-body)">{{ a.format }}</span>
+                      </div>
+                      <button onClick="{{ a.toggleActive }}" style="display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:9999px;border:none;background:var(--flb-tint-success);color:var(--flb-on-success);font:600 11.5px var(--flb-font-body);cursor:pointer">
+                        <span style="width:6px;height:6px;border-radius:9999px;background:var(--flb-success)"></span>
+                        <span>{{ a.status }}</span>
+                      </button>
+                    </div>
+
+                    <div style="margin:14px 0 16px">
+                      <h3 style="margin:0;font:600 16px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em;line-height:1.35">{{ a.title }}</h3>
+                      <p style="margin:6px 0 0;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ a.prompt }}</p>
+                    </div>
+                  </div>
+
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid color-mix(in srgb, var(--flb-line) 60%, transparent)">
+                    <div style="display:flex;align-items:center;gap:6px;font:400 12px var(--flb-font-body);color:var(--flb-ink-4)">
+                      <i class="ph ph-calendar-blank" style="font-size:14px;color:var(--flb-ink-3)"></i>
+                      <span>Last Run: {{ a.lastRun }}</span>
+                    </div>
+                    <button onClick="{{ a.onRunNow }}" style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;border-radius:8px;border:none;background:var(--flb-violet);color:#fcfcfc;font:600 12.5px var(--flb-font-body);cursor:pointer;box-shadow:0 2px 6px rgba(100,60,193,.25)" style-hover="filter:brightness(1.08);transform:translateY(-1px)">
+                      <sc-if value="{{ a.isRunning }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-spinner" style="font-size:13px;animation:flbSpin 1s linear infinite"></i><span>Running...</span></sc-if>
+                      <sc-if value="{{ a.isNotRunning }}" hint-placeholder-val="{{ true }}"><i class="ph-fill ph-play" style="font-size:10px"></i><span>Run Now</span></sc-if>
+                    </button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <!-- No Results State -->
+          <sc-if value="{{ schedHasNoResults }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:48px 20px;border-radius:14px;background:var(--flb-surface);border:1px dashed var(--flb-line);margin-top:20px">
+              <i class="ph ph-magnifying-glass" style="font-size:32px;color:var(--flb-ink-4);display:block;margin-bottom:10px"></i>
+              <div style="font:600 16px var(--flb-font-display);color:var(--flb-ink)">No reports found</div>
+              <div style="font:400 13px var(--flb-font-body);color:var(--flb-ink-3);margin-top:4px">Try adjusting your search keywords or create a new custom report.</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ===== ADD CUSTOM REPORT MODAL ===== -->
+      <sc-if value="{{ schedModalOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ schedCloseAddModal }}" style="position:fixed;inset:0;z-index:90;background:rgba(10,10,12,.65);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px;animation:flbFade .18s ease">
+        <div onClick="{{ schedStopProp }}" style="width:620px;max-width:100%;max-height:92vh;overflow-y:auto;border-radius:18px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-lg);display:flex;flex-direction:column">
+          
+          <!-- Modal Header -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 26px 16px;border-bottom:1px solid color-mix(in srgb, var(--flb-line) 70%, transparent)">
+            <h2 style="margin:0;font:600 20px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Add Custom Report</h2>
+            <button onClick="{{ schedCloseAddModal }}" style="width:32px;height:32px;border-radius:8px;border:none;background:transparent;color:var(--flb-ink-3);cursor:pointer;display:inline-flex;align-items:center;justify-content:center" style-hover="background:var(--flb-surface-2);color:var(--flb-ink)">
+              <i class="ph ph-x" style="font-size:18px"></i>
+            </button>
+          </div>
+
+          <!-- Modal Body -->
+          <div style="padding:22px 26px;display:flex;flex-direction:column;gap:18px">
+            
+            <!-- Prompt * -->
+            <div>
+              <label style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink);margin-bottom:7px">Prompt <span style="color:var(--flb-error)">*</span></label>
+              <textarea value="{{ schedPrompt }}" onInput="{{ schedOnPromptInput }}" placeholder="Type your prompt here" rows="3" style="width:100%;padding:12px 14px;border-radius:12px;background:var(--flb-surface-2);border:1px solid var(--flb-violet);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none;resize:vertical;box-shadow:0 0 0 2px rgba(100,60,193,0.18);box-sizing:border-box"></textarea>
+            </div>
+
+            <!-- Report Title * & Model * -->
+            <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start">
+              <div>
+                <label style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink);margin-bottom:7px">Report Title <span style="color:var(--flb-error)">*</span></label>
+                <input type="text" value="{{ schedTitle }}" onInput="{{ schedOnTitleInput }}" placeholder="Search your custom reports..." style="width:100%;height:40px;padding:0 14px;border-radius:10px;background:var(--flb-surface-2);border:1px solid var(--flb-line);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none;box-sizing:border-box" />
+              </div>
+              <div>
+                <label style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink);margin-bottom:7px">Model <span style="color:var(--flb-error)">*</span></label>
+                <div style="display:inline-flex;align-items:center;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:10px;padding:3px;height:40px;box-sizing:border-box">
+                  <button onClick="{{ schedSelectModelFast }}" style="{{ schedModelFastStyle }}">Fast</button>
+                  <button onClick="{{ schedSelectModelStandard }}" style="{{ schedModelStandardStyle }}">Standard</button>
+                  <button onClick="{{ schedSelectModelPro }}" style="{{ schedModelProStyle }}">Pro</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recipients * -->
+            <div>
+              <label style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink);margin-bottom:7px">Recipients <span style="color:var(--flb-error)">*</span></label>
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:42px;padding:5px 10px;border-radius:10px;background:var(--flb-surface-2);border:1px solid var(--flb-line);box-sizing:border-box">
+                <sc-for list="{{ schedRecipientsList }}" as="r" hint-placeholder-count="1">
+                  <span style="display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:9999px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 12.5px var(--flb-font-body)">
+                    <span>{{ r.email }}</span>
+                    <button onClick="{{ r.onRemove }}" style="border:none;background:transparent;color:var(--flb-on-violet);cursor:pointer;padding:0;display:inline-flex;align-items:center"><i class="ph ph-x-circle" style="font-size:14px"></i></button>
+                  </span>
+                </sc-for>
+                <input type="text" value="{{ schedRecipientInput }}" onInput="{{ schedOnRecipientInput }}" onKeyDown="{{ schedOnRecipientKeyDown }}" placeholder="Add recipient & press Enter..." style="flex:1;min-width:140px;border:none;background:transparent;color:var(--flb-ink);font:400 13px var(--flb-font-body);outline:none;padding:0" />
+              </div>
+            </div>
+
+            <!-- Output Format * -->
+            <div style="position:relative">
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:7px">
+                <label style="font:500 13px var(--flb-font-body);color:var(--flb-ink);margin:0">Output Format <span style="color:var(--flb-error)">*</span></label>
+                <button onClick="{{ schedToggleFormatTip }}" style="border:none;background:transparent;color:var(--flb-ink-3);cursor:pointer;display:inline-flex;align-items:center;padding:0" style-hover="color:var(--flb-ink)"><i class="ph ph-info" style="font-size:15px"></i></button>
+              </div>
+              <div style="display:inline-flex;align-items:center;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:10px;padding:3px;height:40px;box-sizing:border-box">
+                <button onClick="{{ schedSelectFormatPdf }}" style="{{ schedFormatPdfStyle }}">PDF</button>
+                <button onClick="{{ schedSelectFormatExcel }}" style="{{ schedFormatExcelStyle }}">Excel</button>
+              </div>
+
+              <!-- Output Format Tooltip Popup -->
+              <sc-if value="{{ schedFormatTipOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;top:45px;left:130px;z-index:60;width:280px;padding:12px 14px;border-radius:12px;background:var(--flb-tint-violet);border:1px solid color-mix(in srgb, var(--flb-violet-light) 40%, transparent);box-shadow:var(--flb-shadow-md);font:400 12px/1.55 var(--flb-font-body);color:var(--flb-on-violet);animation:flbFade .15s ease">
+                  Excel reports show only raw numbers, not analysis. For meaningful automation, you must specify exact KPIs, breakdowns, and success criteria. Use PDF for analysis and Excel for numbers-only reporting.
+                </div>
+              </sc-if>
+            </div>
+
+            <!-- Enable Auto Run -->
+            <div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-radius:12px;background:var(--flb-surface-2);border:1px solid var(--flb-line)">
+                <div>
+                  <div style="font:600 13.5px var(--flb-font-display);color:var(--flb-ink)">Enable Auto Run</div>
+                  <div style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">Automatically run this prompt on a schedule</div>
+                </div>
+                <button onClick="{{ schedToggleAutoRun }}" style="{{ schedAutoRunSwitchStyle }}"><span style="{{ schedAutoRunKnobStyle }}"></span></button>
+              </div>
+
+              <!-- Expanded Schedule Configuration -->
+              <sc-if value="{{ schedAutoRunActive }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:14px;padding:16px;border-radius:14px;background:var(--flb-surface-2);border:1px solid var(--flb-line);display:flex;flex-direction:column;gap:14px;animation:flbFade .18s ease">
+                  
+                  <!-- Frequency & Time Row -->
+                  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                    <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-3)">Run every</span>
+                    
+                    <!-- Frequency Dropdown -->
+                    <div style="position:relative">
+                      <button onClick="{{ schedToggleFreqMenu }}" style="display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:9px;background:var(--flb-surface);border:1px solid var(--flb-line);font:500 13px var(--flb-font-body);color:var(--flb-ink);cursor:pointer">
+                        <span>{{ schedFreqLabel }}</span>
+                        <i class="ph-bold ph-caret-down" style="font-size:11px;color:var(--flb-ink-3)"></i>
+                      </button>
+                      <sc-if value="{{ schedFreqMenuOpen }}" hint-placeholder-val="{{ false }}">
+                        <div style="position:absolute;top:42px;left:0;z-index:60;min-width:130px;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:10px;box-shadow:var(--flb-shadow-lg);padding:5px;display:flex;flex-direction:column;gap:1px">
+                          <div style="padding:4px 8px;font:500 11px var(--flb-font-body);color:var(--flb-ink-4)">Frequency</div>
+                          <button onClick="{{ schedSelectFreqDay }}" style="{{ schedFreqDayItemStyle }}"><span style="flex:1">Day</span><sc-if value="{{ schedIsFreqDay }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet)"></i></sc-if></button>
+                          <button onClick="{{ schedSelectFreqWeek }}" style="{{ schedFreqWeekItemStyle }}"><span style="flex:1">Week</span><sc-if value="{{ schedIsFreqWeek }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet)"></i></sc-if></button>
+                          <button onClick="{{ schedSelectFreqMonth }}" style="{{ schedFreqMonthItemStyle }}"><span style="flex:1">Month</span><sc-if value="{{ schedIsFreqMonth }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet)"></i></sc-if></button>
+                        </div>
+                      </sc-if>
+                    </div>
+
+                    <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-3)">at</span>
+
+                    <!-- Time Input -->
+                    <div style="display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:9px;background:var(--flb-surface);border:1px solid var(--flb-line)">
+                      <input type="text" value="{{ schedTimeVal }}" onInput="{{ schedOnTimeInput }}" style="border:none;background:transparent;color:var(--flb-ink);font:500 13px var(--flb-font-body);outline:none;width:82px;padding:0" />
+                      <i class="ph ph-clock" style="font-size:15px;color:var(--flb-ink-3)"></i>
+                    </div>
+                  </div>
+
+                  <!-- Days Selection (when Frequency is Week) -->
+                  <sc-if value="{{ schedShowDaysPicker }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                      <sc-for list="{{ schedDaysList }}" as="d" hint-placeholder-count="7">
+                        <button onClick="{{ d.onToggle }}" style="{{ d.style }}">{{ d.label }}</button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+
+                  <!-- Start Date & End Date Row -->
+                  <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-3)">Start Date</span>
+                      <button onClick="{{ schedToggleStartDateMenu }}" style="display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:9px;background:var(--flb-surface);border:1px solid var(--flb-line);font:500 13px var(--flb-font-body);color:var(--flb-ink);cursor:pointer">
+                        <span>{{ schedStartDateVal }}</span>
+                        <i class="ph-bold ph-caret-down" style="font-size:11px;color:var(--flb-ink-3)"></i>
+                      </button>
+                    </div>
+
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-3)">End Date</span>
+                      <button onClick="{{ schedToggleEndDateMenu }}" style="display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:9px;background:var(--flb-surface);border:1px solid var(--flb-line);font:400 13px var(--flb-font-body);color:{{ schedEndDateColor }};cursor:pointer">
+                        <span>{{ schedEndDateVal }}</span>
+                        <i class="ph-bold ph-caret-down" style="font-size:11px;color:var(--flb-ink-3)"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Schedule Summary Text -->
+                  <div style="font:600 13px var(--flb-font-body);color:var(--flb-ink);padding-top:4px">
+                    {{ schedSummaryText }}
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+
+          </div>
+
+          <!-- Modal Footer -->
+          <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:16px 26px 22px;border-top:1px solid color-mix(in srgb, var(--flb-line) 70%, transparent)">
+            <button onClick="{{ schedCloseAddModal }}" style="height:38px;padding:0 20px;border-radius:9px;border:1px solid var(--flb-line);background:transparent;color:var(--flb-ink);font:500 13.5px var(--flb-font-body);cursor:pointer" style-hover="background:var(--flb-surface-2)">Cancel</button>
+            <button onClick="{{ schedSaveNewReport }}" style="height:38px;padding:0 24px;border-radius:9px;border:none;background:var(--flb-violet);color:#fcfcfc;font:600 13.5px var(--flb-font-body);cursor:pointer;box-shadow:0 2px 6px rgba(100,60,193,.25)" style-hover="background:var(--flb-violet-mid)">Save</button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ===== FLOATING TOAST NOTIFICATION ===== -->
+      <sc-if value="{{ schedToastOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:99;display:flex;align-items:center;gap:10px;padding:12px 20px;border-radius:10px;background:#180b0b;border:1px solid #481a1a;color:#fcfcfc;box-shadow:0 8px 24px rgba(0,0,0,0.5);animation:flbFade .2s ease;font:500 13.5px var(--flb-font-body)">
+        <i class="{{ schedToastIcon }}" style="font-size:16px;color:{{ schedToastIconColor }}"></i>
+        <span>{{ schedToastMessage }}</span>
+      </div>
+      </sc-if>
+
       <!-- ===== FEATURE EXPLAINER ===== -->
       <sc-if value="{{ isExplain }}" hint-placeholder-val="{{ false }}">
       <div class="flb-explain">
@@ -1670,431 +1996,195 @@
       <div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg1Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div>
       <div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg2Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div>
       <div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg3Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div>
+      <sc-if value="{{ orionSeg4Vis }}" hint-placeholder-val="{{ true }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg4Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
+      <sc-if value="{{ orionSeg5Vis }}" hint-placeholder-val="{{ true }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg5Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
+      <sc-if value="{{ orionSeg6Vis }}" hint-placeholder-val="{{ false }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg6Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
+      <sc-if value="{{ orionSeg7Vis }}" hint-placeholder-val="{{ false }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg7Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
     </div>
     <!-- content -->
     <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 24px;overflow:hidden">
       <div style="width:100%;max-width:760px;height:100%;max-height:456px;min-height:0;display:flex;flex-direction:column;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:20px;overflow:hidden;animation:flbOrionCard 520ms var(--flb-ease-out) 180ms backwards">
       <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:12px 36px;overflow-y:auto">
 
-      <!-- INTRO INTERSTITIAL -->
-      <sc-if value="{{ orionIntro }}" hint-placeholder-val="{{ true }}">
-      <div style="text-align:center;animation:flbRise 220ms var(--flb-ease-out) backwards">
-        <span style="display:inline-flex;align-items:center;gap:7px;height:26px;padding:0 13px;border-radius:9999px;background:var(--flb-tint-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.1em;color:var(--flb-on-violet)">PERSONALIZE ORION</span>
-        <h2 style="margin:18px 0 0;font:500 30px/1.2 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Before Orion gets to work...</h2>
-        <p style="margin:12px auto 0;max-width:620px;font:400 14px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Help Orion understand your business so it can think like your marketing team from day one. In the next 8 quick steps, you'll configure:</p>
-        <div style="max-width:440px;margin:26px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:11px 16px;text-align:left">
-          <sc-for list="{{ orionIntroItems }}" as="it" hint-placeholder-count="6"><div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;flex-shrink:0;border-radius:8px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:inline-flex;align-items:center;justify-content:center"><i class="{{ it.icon }}" style="font-size:15px"></i></span><span style="font:400 13.5px var(--flb-font-body);color:var(--flb-ink-2);white-space:nowrap">{{ it.label }}</span></div></sc-for>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- SOCIAL-PROOF INTERSTITIAL -->
-      <sc-if value="{{ orionProof }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 360ms var(--flb-ease-out) backwards;max-width:520px;margin:0 auto;width:100%">
-        <h2 style="margin:0 0 4px;font:500 23px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Orion finds the spend you're losing</h2>
-        <p style="margin:0 0 16px;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Every day, across Meta, Google and Amazon - not at month end.</p>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;align-items:center;gap:13px;padding:11px 14px;border-radius:13px;background:var(--flb-surface);animation:flbFadeUp 420ms var(--flb-ease-out) 300ms backwards">
-            <span style="width:30px;height:30px;flex-shrink:0;border-radius:9px;background:var(--flb-tint-error);color:var(--flb-on-error);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-magnifying-glass" style="font-size:16px;line-height:1"></i></span>
-            <span style="flex:1;min-width:0;font:400 13px var(--flb-font-body);color:var(--flb-ink)">Catches the leak<span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">3 campaigns burning ₹42k at 0.9 POAS</span></span>
-            <span style="font:500 13px var(--flb-font-display);color:var(--flb-on-error);white-space:nowrap">−₹42k</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:13px;padding:11px 14px;border-radius:13px;background:var(--flb-surface);animation:flbFadeUp 420ms var(--flb-ease-out) 370ms backwards">
-            <span style="width:30px;height:30px;flex-shrink:0;border-radius:9px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-arrows-left-right" style="font-size:16px;line-height:1"></i></span>
-            <span style="flex:1;min-width:0;font:400 13px var(--flb-font-body);color:var(--flb-ink)">Moves the budget<span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">Shifts it to the ad sets already clearing your floor</span></span>
-            <span style="font:500 13px var(--flb-font-display);color:var(--flb-ink-2);white-space:nowrap">1 tap</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:13px;padding:11px 14px;border-radius:13px;background:var(--flb-surface);animation:flbFadeUp 420ms var(--flb-ease-out) 440ms backwards">
-            <span style="width:30px;height:30px;flex-shrink:0;border-radius:9px;background:var(--flb-tint-success);color:var(--flb-on-success);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-trend-up" style="font-size:16px;line-height:1"></i></span>
-            <span style="flex:1;min-width:0;font:400 13px var(--flb-font-body);color:var(--flb-ink)">Protects the margin<span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">Same spend, measured on profit - never vanity ROAS</span></span>
-            <span style="font:500 13px var(--flb-font-display);color:var(--flb-on-success);white-space:nowrap">+25%</span>
-          </div>
-        </div>
-        <div style="height:1px;background:var(--flb-line);margin:18px 0 0;animation:flbFadeUp 420ms var(--flb-ease-out) 480ms backwards"></div>
-        <div style="text-align:center;font:500 15px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em;margin:14px 0 10px;animation:flbFadeUp 420ms var(--flb-ease-out) 520ms backwards">Brands we've already scaled</div>
-        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:18px;align-items:center;animation:flbFadeUp 420ms var(--flb-ease-out) 580ms backwards">
-          <img src="assets/client-edureka.png" alt="Edureka" data-client-logo="" loading="eager" fetchpriority="low" decoding="async" style="width:100%;height:22px;object-fit:contain;display:block;opacity:.68;transition:opacity 160ms var(--flb-ease)" style-hover="opacity:1">
-          <img src="assets/client-edureka.png" alt="Edureka" data-client-logo="" loading="eager" fetchpriority="low" decoding="async" style="width:100%;height:22px;object-fit:contain;display:block;opacity:.68;transition:opacity 160ms var(--flb-ease)" style-hover="opacity:1">
-          <img src="assets/client-edureka.png" alt="Edureka" data-client-logo="" loading="eager" fetchpriority="low" decoding="async" style="width:100%;height:22px;object-fit:contain;display:block;opacity:.68;transition:opacity 160ms var(--flb-ease)" style-hover="opacity:1">
-          <img src="assets/client-edureka.png" alt="Edureka" data-client-logo="" loading="eager" fetchpriority="low" decoding="async" style="width:100%;height:22px;object-fit:contain;display:block;opacity:.68;transition:opacity 160ms var(--flb-ease)" style-hover="opacity:1">
-          <img src="assets/client-edureka.png" alt="Edureka" data-client-logo="" loading="eager" fetchpriority="low" decoding="async" style="width:100%;height:22px;object-fit:contain;display:block;opacity:.68;transition:opacity 160ms var(--flb-ease)" style-hover="opacity:1">
-          <img src="assets/client-edureka.png" alt="Edureka" data-client-logo="" loading="eager" fetchpriority="low" decoding="async" style="width:100%;height:22px;object-fit:contain;display:block;opacity:.68;transition:opacity 160ms var(--flb-ease)" style-hover="opacity:1">
-        </div>
-      </div>
-      </sc-if>
-
-
-      <!-- CELEBRATION + SELF-ASSESSMENT (after role) -->
-      <sc-if value="{{ orionStory1 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards;text-align:center">
-        <div style="width:56px;height:56px;margin:0 auto 16px;border-radius:9999px;background:var(--flb-gradient-energetic);display:inline-flex;align-items:center;justify-content:center;font-size:28px">&#127881;</div>
-        <h3 style="margin:0 0 8px;font:500 24px/1.25 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">You're exactly who Orion was built for</h3>
-        <p style="margin:0 auto 24px;max-width:400px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-2)">Most {{ roleTitleLower }}s waste 10+ hours a week on reports that arrive too late. Orion changes that.</p>
-        <div style="max-width:440px;margin:0 auto;text-align:left">
-          <span style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink);margin-bottom:10px">Quick reality check — how much wasted spend do you think you have?</span>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button onClick="{{ onSelfAssessHigh }}" style="display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid {{ selfAssessHighBorder }};background:{{ selfAssessHighBg }};cursor:pointer;text-align:left;transition:all 140ms var(--flb-ease)">
-              <span style="font-size:22px;line-height:1">&#128552;</span>
-              <span style="flex:1"><span style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">A lot — I know it's bad</span><span style="display:block;font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">I see wasted spend every week but can't pin it down fast enough</span></span>
-            </button>
-            <button onClick="{{ onSelfAssessMed }}" style="display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid {{ selfAssessMedBorder }};background:{{ selfAssessMedBg }};cursor:pointer;text-align:left;transition:all 140ms var(--flb-ease)">
-              <span style="font-size:22px;line-height:1">&#129300;</span>
-              <span style="flex:1"><span style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">Not sure — I only see the monthly report</span><span style="display:block;font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">My agency tells me ROAS is fine, but revenue doesn't match</span></span>
-            </button>
-            <button onClick="{{ onSelfAssessLow }}" style="display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid {{ selfAssessLowBorder }};background:{{ selfAssessLowBg }};cursor:pointer;text-align:left;transition:all 140ms var(--flb-ease)">
-              <span style="font-size:22px;line-height:1">&#128524;</span>
-              <span style="flex:1"><span style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">I've got it mostly covered</span><span style="display:block;font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin-top:2px">But I want a second pair of eyes watching 24/7</span></span>
-            </button>
-          </div>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- BEFORE / AFTER -->
-      <sc-if value="{{ orionBeforeAfter }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0;font:500 24px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">flable brands grow fast</h3>
-        <p style="margin:8px 0 20px;font:400 13.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Built by operators who've scaled 20+ D2C brands past 9 figures in revenue.</p>
-        <div style="display:flex;gap:14px;align-items:stretch">
-          <div style="flex:1;border:1px solid var(--flb-line);border-radius:16px;padding:16px;background:var(--flb-surface)">
-            <span style="display:inline-block;padding:4px 12px;border-radius:9999px;background:var(--flb-surface-3);font:500 11px var(--flb-font-body);color:var(--flb-ink-3)">Before flable</span>
-            <div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-3);margin-top:12px">Total sales</div>
-            <div style="font:500 22px var(--flb-font-display);color:var(--flb-ink)">₹0</div>
-            <div style="display:flex;align-items:flex-end;gap:5px;height:60px;margin-top:10px">
-              <sc-for list="{{ orionBeforeBars }}" as="b" hint-placeholder-count="7"><span style="flex:1;border-radius:2px 2px 0 0;background:var(--flb-surface-3);height:{{ b.h }}"></span></sc-for>
-            </div>
-          </div>
-          <div style="flex:1;border:1.5px solid transparent;border-radius:16px;padding:16px;background:linear-gradient(var(--flb-surface),var(--flb-surface)) padding-box, var(--flb-gradient-energetic) border-box">
-            <span style="display:inline-block;padding:4px 12px;border-radius:9999px;background:var(--flb-gradient-energetic);font:500 11px var(--flb-font-body);color:#fcfcfc">After flable</span>
-            <div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-3);margin-top:12px">Total sales</div>
-            <div style="display:flex;align-items:baseline;gap:8px"><span style="font:500 22px var(--flb-font-display);color:var(--flb-ink)">₹38,96,474</span><span style="font:500 12px var(--flb-font-body);color:var(--flb-on-success)">↑ 58%</span></div>
-            <div style="display:flex;align-items:flex-end;gap:5px;height:60px;margin-top:10px">
-              <sc-for list="{{ orionAfterBars }}" as="b" hint-placeholder-count="8"><span style="flex:1;border-radius:2px 2px 0 0;background:var(--flb-gradient-energetic);height:{{ b.h }}"></span></sc-for>
-            </div>
-          </div>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- LIKERT -->
-      <sc-if value="{{ orionLikert }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0 0 6px;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">How involved do you want Orion to be?</h3>
-        <p style="margin:0 0 20px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">You can change this anytime.</p>
-        <div style="max-width:460px;margin:0 auto">
-          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px">
-            <span style="font:500 16px var(--flb-font-display);letter-spacing:-.01em;color:var(--flb-ink)">{{ orionLikertLabel }}</span>
-            <span style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4);white-space:nowrap">{{ orionLikertStepText }}</span>
-          </div>
-          <input type="range" min="1" max="4" step="1" data-range="" value="{{ orionLikertIdx }}" onChange="{{ onOrionLikert }}" style="--flb-fill:{{ orionLikertPct }}">
-          <div style="display:flex;margin-top:9px">
-            <sc-for list="{{ orionLikertTicks }}" as="t" hint-placeholder-count="4"><span style="{{ t.style }}">{{ t.short }}</span></sc-for>
-          </div>
-          <div style="margin-top:18px;padding:13px 15px;border-radius:12px;background:var(--flb-surface);font:400 12.5px/1.55 var(--flb-font-body);color:var(--flb-ink-2)">{{ orionLikertDesc }}</div>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- DREAM TEAM -->
-      <sc-if value="{{ orionDreamTeam }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0 0 18px;font:500 23px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Your dream marketing team - without the hiring</h3>
-        <div style="border-radius:18px;padding:1.5px;background:var(--flb-gradient-energetic)">
-          <div style="border-radius:16.5px;background:var(--flb-surface);overflow:hidden">
-            <div style="display:flex;flex-direction:column;padding:8px 16px">
-              <sc-for list="{{ orionTeam }}" as="t" hint-placeholder-count="4">
-                <div style="display:flex;align-items:center;gap:12px;padding:10px 0">
-                  <image-slot id="{{ t.slotId }}" shape="circle" placeholder="Photo" style="width:30px;height:30px;flex-shrink:0"></image-slot>
-                  <span style="display:inline-flex;align-items:center;height:30px;padding:0 14px;border-radius:9999px;background:var(--flb-surface-2);font:400 12.5px var(--flb-font-body);color:var(--flb-ink)">{{ t.role }}</span>
-                  <span style="flex:1;display:flex;align-items:center"><i class="ph ph-arrow-right" style="font-size:15px;color:var(--flb-ink-4)"></i></span>
-                  <span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3)">{{ t.saved }}</span>
-                </div>
-              </sc-for>
-            </div>
-            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--flb-gradient-energetic)"><span style="display:inline-flex"><svg width="20" height="20" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.34 12.6641H27.2616C26.6618 17.1915 23.1016 19.9872 19.7022 21.0785C17.0919 21.9166 14.6326 21.4709 13.34 21.7284C10.676 22.2592 8.22052 23.0242 5.67807 25.2174C3.91145 26.7413 2.17362 29.0181 0 32.2295V21.7969C2.77062 15.5031 7.90141 12.6641 13.34 12.6641Z" fill="#fcfcfc"></path><path d="M0 13.5191V21.7284C0.410469 20.9074 0.684111 20.3602 1.19718 19.505C3.9336 12.8692 9.20121 10.2696 13.8189 10.2696L24.5594 10.2012C26.0087 10.2012 28.5599 9.35318 30.4769 7.70423C32.5864 5.88966 34 3.16838 34 1H13.5453C7.93561 1 0.855131 5.5835 0 13.5191Z" fill="#fcfcfc"></path></svg></span><span style="font:500 17px var(--flb-font-display);color:#fcfcfc">You just saved ₹2,15,000</span></div>
-          </div>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- COST COMPARE -->
-      <sc-if value="{{ orionCostCompare }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0;font:500 23px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Your AI CMO works around the clock</h3>
-        <p style="margin:8px 0 22px;font:400 13.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">While you focus on growing your business, Orion continuously</p>
-        <div style="display:flex;align-items:flex-end;justify-content:center;gap:22px;height:220px;border:1px solid var(--flb-line);border-radius:16px;padding:18px 24px;background:var(--flb-surface)">
-          <sc-for list="{{ orionCostBars }}" as="c" hint-placeholder-count="4">
-            <div style="flex:1;max-width:90px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%">
-              <div style="font:500 13px var(--flb-font-display);color:{{ c.amtColor }};margin-bottom:8px">{{ c.amt }}</div>
-              <div style="{{ c.barStyle }}"></div>
-              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);margin-top:10px">{{ c.label }}</div>
-            </div>
-          </sc-for>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- EDUCATIONAL REFRAME + LOADING SCREEN (before receipt) -->
-      <sc-if value="{{ orionStory2 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards;text-align:center" onLoad="{{ startOrionLoading }}">
-        <div style="width:56px;height:56px;margin:0 auto 16px;border-radius:9999px;background:var(--flb-surface-2);border:1px solid var(--flb-line);display:inline-flex;align-items:center;justify-content:center">
-          <i class="ph ph-lightbulb" style="font-size:28px;color:var(--flb-accent)"></i>
-        </div>
-        <h3 style="margin:0 0 8px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">The problem isn't your ideas. It's untrained articulation.</h3>
-        <p style="margin:0 auto 20px;max-width:440px;font:400 13px/1.55 var(--flb-font-body);color:var(--flb-ink-2)">Most {{ roleTitleLower }}s know what to do but can't explain it to the team fast enough. Orion translates your instinct into structured prompts, briefs, and alerts — so your team moves at your speed.</p>
-        <div style="max-width:420px;margin:0 auto;padding:14px 18px;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);text-align:left">
-          <div style="font:500 13px var(--flb-font-body);color:var(--flb-ink);margin-bottom:8px">What you'll get in 60 seconds:</div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="display:flex;align-items:center;gap:10px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3)"><i class="ph ph-check-circle" style="font-size:16px;color:var(--flb-on-success)"></i>Personalised role context — Orion knows your world</div>
-            <div style="display:flex;align-items:center;gap:10px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3)"><i class="ph ph-check-circle" style="font-size:16px;color:var(--flb-on-success)"></i>Goal-weighted scoring — your priorities, not ours</div>
-            <div style="display:flex;align-items:center;gap:10px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3)"><i class="ph ph-check-circle" style="font-size:16px;color:var(--flb-on-success)"></i>Smart guardrails — safety limits you control</div>
-          </div>
-        </div>
-        <div style="margin-top:20px">
-          <div style="display:flex;align-items:center;justify-content:center;gap:10px">
-            <div style="width:180px;height:2px;border-radius:9999px;background:var(--flb-line);overflow:hidden">
-              <div data-orion-loading-bar="" style="width:0%;height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width 2s cubic-bezier(0.25,0.46,0.45,0.94)"></div>
-            </div>
-            <span data-orion-loading-pct="" style="font:500 11px var(--flb-font-body);color:var(--flb-ink-3)">0%</span>
-          </div>
-          <div style="margin-top:10px;font:400 11px var(--flb-font-body);color:var(--flb-ink-4);font-style:italic">"Set it up once. Let it run forever." — Abbas, flable.ai</div>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- STORY 3 · TESTIMONIAL + GROWTH (Frame 36) -->
-      <sc-if value="{{ orionStory3 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0 0 14px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Our reports finally make sense</h3>
-        <div style="max-width:520px;margin:0 auto">
-        <div style="border:1px solid var(--flb-line);border-radius:18px;padding:13px 18px">
-          <div style="display:flex;align-items:center;gap:14px">
-            <div data-skel="" style="width:46px;height:46px;flex-shrink:0;border-radius:9999px"><img src="assets/testimonial-meera.png" alt="" ref="{{ skelRef }}" data-skel-img="" loading="eager" fetchpriority="low" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block"></div>
-            <div>
-              <div style="font:500 17px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Meera Shah</div>
-              <div style="display:flex;align-items:center;gap:9px;margin-top:4px">
-                <span style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">1 week ago</span>
-              </div>
-            </div>
-          </div>
-          <div style="margin-top:11px;font:400 13px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Our agency kept reporting great ROAS, but the numbers never matched Shopify. Orion connected everything together and finally showed us where we were actually making money.</div>
-        </div>
-        <div style="margin-top:10px;max-width:318px;margin-left:auto;margin-right:auto">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-            <span style="font:500 16px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Growth</span>
-            <span style="display:inline-flex;align-items:center;gap:6px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3)">Yearly<i class="ph ph-caret-down" style="font-size:12px"></i></span>
-          </div>
-          <svg viewBox="0 0 760 300" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
-            <defs><linearGradient id="ogrowth2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6AD275" stop-opacity="0.42"></stop><stop offset="1" stop-color="#6AD275" stop-opacity="0"></stop></linearGradient></defs>
-            <g fill="var(--flb-ink-4)" font-family="Inter, sans-serif" font-size="14"><text x="8" y="45">100k</text><text x="16" y="100">50k</text><text x="16" y="155">20k</text><text x="16" y="200">10k</text><text x="30" y="250">0</text></g>
-            <path d="M70,205 L164,188 L259,140 L353,90 L447,188 L542,145 L636,95 L730,42 L730,245 L70,245 Z" fill="url(#ogrowth2)"></path>
-            <path d="M70,205 L164,188 L259,140 L353,90 L447,188 L542,145 L636,95 L730,42" fill="none" stroke="#6AD275" stroke-width="2.5" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"></path>
-            <g fill="var(--flb-ink-4)" font-family="Inter, sans-serif" font-size="13" text-anchor="middle"><text x="70" y="272">2016</text><text x="164" y="272">2017</text><text x="259" y="272">2018</text><text x="353" y="272">2019</text><text x="447" y="272">2020</text><text x="542" y="272">2021</text><text x="636" y="272">2022</text><text x="730" y="272">2023</text></g>
-          </svg>
-        </div>
-        </div>
-      </div>
-      </sc-if>
-
-
-      <!-- STEP 1 · ROLE -->
+      <!-- STEP 0 · ROLE -->
       <sc-if value="{{ orionStep0 }}" hint-placeholder-val="{{ true }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0 0 24px;font:500 26px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Which best describes your role?</h3>
-        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%">
-        <div style="width:100%;max-width:400px">
-        <div style="display:flex;flex-direction:column;gap:2px">
-          <sc-for list="{{ roleOpts }}" as="r" hint-placeholder-count="4">
-            <button onClick="{{ r.onSelect }}" style="display:flex;align-items:center;gap:14px;width:100%;padding:9px 16px;border:none;background:transparent;border-radius:12px;cursor:pointer;text-align:left;transition:background 130ms var(--flb-ease),transform 130ms var(--flb-ease)" style-hover="background:rgba(255,255,255,.055);transform:translateX(2px)"><span style="width:30px;height:30px;flex-shrink:0;border-radius:9999px;background:var(--flb-gradient-energetic);display:inline-flex;align-items:center;justify-content:center;font:500 12px var(--flb-font-display);color:#fcfcfc">{{ r.letter }}</span><span style="flex:1;min-width:0;font:400 15px var(--flb-font-body);color:var(--flb-ink)">{{ r.title }}</span><i class="ph ph-arrow-right" style="font-size:17px;color:var(--flb-ink-4);flex-shrink:0"></i></button>
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel0 }}</span>
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Who is Orion working for?</h2>
+        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Everything after this — questions, defaults, schedules, templates — adapts to your role.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;text-align:left;max-width:420px;margin:0 auto">
+          <sc-for list="{{ roleOpts }}" as="r" hint-placeholder-count="5">
+            <button onClick="{{ r.onSelect }}" style="font-family:var(--flb-font-body);background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:14px 16px;cursor:pointer;transition:.14s;text-align:left;width:100%;display:flex;align-items:center;justify-content:space-between" style-hover="border-color:var(--flb-purple)" {{ r.cardStyle }}>
+              <div><div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ r.title }}</div><div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5;margin-top:2px">{{ r.desc }}</div></div>
+              <span style="color:var(--flb-ink-4);font-size:18px;flex-shrink:0;margin-left:12px">›</span>
+            </button>
           </sc-for>
-        </div>
-        </div>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 2 · GOAL -->
+      <!-- STEP 1 · GOAL -->
       <sc-if value="{{ orionStep1 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0;font:500 26px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">What should Orion optimize first?</h3>
-        <p style="margin:5px 0 11px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Rate how much each one matters. Orion leads with your highest.</p>
-        <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel1 }}</span>
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What should Orion optimise for?</h2>
+        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Picked for your role — change it, or add your own if none fit. This sets every threshold downstream.</p>
+        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● Connected account context loaded</div>
+        <div style="display:flex;flex-direction:column;gap:9px;text-align:left;max-width:520px;margin:0 auto">
           <sc-for list="{{ goalOpts }}" as="g" hint-placeholder-count="4">
-            <div style="{{ g.rowStyle }}">
-              <div style="display:flex;align-items:center;gap:10px;margin-bottom:1px">
-                <span style="flex:1;min-width:0;font:400 13px var(--flb-font-body);color:var(--flb-ink)">{{ g.title }}</span>
-                <span style="{{ g.tagStyle }}">{{ g.tag }}</span>
-              </div>
-              <input type="range" min="0" max="3" step="1" data-range="" value="{{ g.weight }}" onChange="{{ g.onRate }}" style="--flb-fill:{{ g.pct }}">
-            </div>
+            <button onClick="{{ g.onSelect }}" style="font-family:var(--flb-font-body);background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:13px 17px;cursor:pointer;transition:.14s;text-align:left;width:100%" style-hover="border-color:var(--flb-purple)" {{ g.rowStyle }}>
+              <div style="font:500 14px var(--flb-font-body);margin-bottom:2px;color:var(--flb-ink)">{{ g.title }}</div>
+              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5">{{ g.desc }}</div>
+            </button>
           </sc-for>
         </div>
-        <div style="margin-top:9px;padding:8px 14px;border-radius:12px;background:var(--flb-tint-violet);font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);text-align:center">{{ goalSummary }}</div>
       </div>
       </sc-if>
 
-      <!-- STEP 3 · PAIN -->
+      <!-- STEP 2 · PAIN -->
       <sc-if value="{{ orionStep2 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Your AI CMO is trained on real growth playbooks?</h3>
-        <p style="margin:6px 0 18px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Orion monitors your campaigns around the clock, identifies opportunities as they happen, and helps you make better decisions every day.</p>
-        <textarea value="{{ orionPain }}" onChange="{{ onOrionPain }}" placeholder="e.g. I only find out about wasted spend after the month ends…" style="width:100%;min-height:90px;resize:vertical;border-radius:12px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13px/1.5 var(--flb-font-body);padding:12px 13px;outline:none" style-focus="border-color:var(--flb-purple);box-shadow:0 0 0 3px var(--flb-tint-violet)"></textarea>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">
-          <sc-for list="{{ painExamples }}" as="p" hint-placeholder-count="3">
-            <button onClick="{{ p.onFill }}" style="border:1px dashed var(--flb-border-default);border-radius:9999px;padding:7px 12px;background:transparent;color:var(--flb-ink-3);font:400 11.5px var(--flb-font-body);cursor:pointer;transition:all 120ms var(--flb-ease)" style-hover="border-color:var(--flb-purple);color:var(--flb-on-violet)">{{ p.text }}</button>
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel2 }}</span>
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What hurts the most right now?</h2>
+        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Orion attacks this first — it shapes week one before anything else.</p>
+        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● 3 campaigns below your POAS floor, burning ~₹42k/week</div>
+        <div style="display:flex;flex-direction:column;gap:9px;text-align:left;max-width:520px;margin:0 auto">
+          <sc-for list="{{ painExamples }}" as="p" hint-placeholder-count="4">
+            <button onClick="{{ p.onSelect }}" style="font-family:var(--flb-font-body);background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:13px 17px;cursor:pointer;transition:.14s;text-align:left;width:100%" style-hover="border-color:var(--flb-purple)" {{ p.rowStyle }}>
+              <div style="font:500 14px var(--flb-font-body);margin-bottom:2px;color:var(--flb-ink)">{{ p.title }}</div>
+              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5">{{ p.desc }}</div>
+            </button>
           </sc-for>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 4 · METRICS -->
+      <!-- STEP 3 · METRICS -->
       <sc-if value="{{ orionStep3 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">What should Orion monitor every day?</h3>
-        <p style="margin:6px 0 18px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Selection order = order in the briefing. We pre-picked based on your role.</p>
-        <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%">
-        <div style="width:100%">
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel3 }}</span>
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What should Orion monitor every day?</h2>
+        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Selection order = order in the briefing. Pre-picked for your role — reorder freely.</p>
+        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● Last 30 days: ₹4.2L spend · 14 campaigns · COD 62% · RTO 18%</div>
         <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
           <sc-for list="{{ metricChips }}" as="m" hint-placeholder-count="10">
-            <button onClick="{{ m.onToggle }}" style="{{ m.chipStyle }}">{{ m.name }}<sc-if value="{{ m.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-6px;right:-4px;width:16px;height:16px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 9px var(--flb-font-body);display:inline-flex;align-items:center;justify-content:center">{{ m.ord }}</span></sc-if></button>
+            <button onClick="{{ m.onToggle }}" style="position:relative;font-family:var(--flb-font-body);font-size:13.5px;font-weight:500;padding:9px 18px;border-radius:9999px;border:1px solid var(--flb-line);background:var(--flb-surface);color:var(--flb-ink);cursor:pointer;transition:.14s" style-hover="border-color:var(--flb-purple)" {{ m.chipStyle }}>
+              {{ m.name }}
+              <sc-if value="{{ m.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-5px;width:20px;height:20px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 11px var(--flb-font-body);display:inline-flex;align-items:center;justify-content:center">{{ m.ord }}</span></sc-if>
+            </button>
           </sc-for>
-        </div>
-        </div>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 5 · ALERTS -->
+      <!-- STEP 4 · FOCUS -->
       <sc-if value="{{ orionStep4 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">When should Orion wake you up?</h3>
-        <p style="margin:6px 0 18px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Suggested from your connected account's last 30 days.</p>
-        <div style="border:1px solid var(--flb-border-default);border-radius:12px;padding:15px 16px">
-          <div style="display:flex;align-items:center;justify-content:space-between;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span>Alert if True ROAS drops below</span><span style="color:var(--flb-on-violet);font:500 14px var(--flb-font-display)">{{ orionRoas }}</span></div>
-          <input type="range" min="1" max="5" step="0.1" data-range="" value="{{ orionRoas }}" onChange="{{ onOrionRoas }}" style="margin-top:12px;--flb-fill:{{ orionRoasPct }}">
-          <div style="margin-top:11px;display:inline-flex;align-items:center;gap:6px;font:400 11px var(--flb-font-body);color:var(--flb-on-success);background:var(--flb-tint-success);border-radius:8px;padding:6px 10px"><i class="ph-bold ph-check" style="font-size:12px"></i>Suggested 2.1 - your 30-day avg True ROAS is 2.6</div>
-        </div>
-        <div style="border:1px solid var(--flb-border-default);border-radius:12px;padding:15px 16px;margin-top:12px">
-          <div style="display:flex;align-items:center;justify-content:space-between;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span>Alert if spend rises with no sales</span><span style="color:var(--flb-on-violet);font:500 14px var(--flb-font-display)">{{ orionSpike }}%</span></div>
-          <input type="range" min="10" max="100" step="5" data-range="" value="{{ orionSpike }}" onChange="{{ onOrionSpike }}" style="margin-top:12px;--flb-fill:{{ orionSpikePct }}">
-          <div style="margin-top:11px;display:inline-flex;align-items:center;gap:6px;font:400 11px var(--flb-font-body);color:var(--flb-on-success);background:var(--flb-tint-success);border-radius:8px;padding:6px 10px"><i class="ph-bold ph-check" style="font-size:12px"></i>Suggested 30% - catches spend spikes same-day, not month-end</div>
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel4 }}</span>
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Where should Orion push hardest?</h2>
+        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">The levers Orion is allowed to have opinions about. Order sets priority.</p>
+        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● Largest single lever this month: reallocating from below-floor campaigns</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+          <sc-for list="{{ focusChips }}" as="f" hint-placeholder-count="6">
+            <button onClick="{{ f.onToggle }}" style="position:relative;font-family:var(--flb-font-body);font-size:13.5px;font-weight:500;padding:9px 18px;border-radius:9999px;border:1px solid var(--flb-line);background:var(--flb-surface);color:var(--flb-ink);cursor:pointer;transition:.14s" style-hover="border-color:var(--flb-purple)" {{ f.chipStyle }}>
+              {{ f.name }}
+              <sc-if value="{{ f.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-5px;width:20px;height:20px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 11px var(--flb-font-body);display:inline-flex;align-items:center;justify-content:center">{{ f.ord }}</span></sc-if>
+            </button>
+          </sc-for>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 6 · CADENCE -->
+      <!-- STEP 5 · DELIVERY -->
       <sc-if value="{{ orionStep5 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0 0 6px;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">How often should Orion check in?</h3>
-        <p style="margin:0 auto 20px;max-width:420px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Choose how frequently Orion should run audits, generate reports, and deliver recommendations.</p>
-        <div style="max-width:460px;margin:0 auto;display:flex;flex-direction:column;gap:10px">
-          <sc-for list="{{ orionCadenceOpts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.onPick }}" style="{{ o.rowStyle }}" style-hover="border-color:var(--flb-violet-light)"><span style="{{ o.dotStyle }}"><sc-if value="{{ o.dotInner }}" hint-placeholder-val="{{ false }}"><span style="width:8px;height:8px;border-radius:9999px;background:var(--flb-violet)"></span></sc-if></span><span style="{{ o.labelStyle }}">{{ o.label }}</span></button></sc-for>
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel5 }}</span>
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How often should Orion reach you?</h2>
+        <p style="margin:0 auto 20px;max-width:420px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">How often should Orion reach you — or let Orion set it per schedule from your role, spend and live signals.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;max-width:520px;margin:0 auto">
+          <div style="grid-column:1/-1;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:12px 15px">
+            <label style="display:block;font:600 10.5px var(--flb-font-body);letter-spacing:.05em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:6px">Frequency</label>
+            <sc-for list="{{ orionCadenceOpts }}" as="o" hint-placeholder-count="6">
+              <button onClick="{{ o.onPick }}" style="width:100%;text-align:left;font:400 14px var(--flb-font-body);color:var(--flb-ink);border:none;background:transparent;cursor:pointer;padding:6px 0;border-bottom:1px solid var(--flb-line)" style-hover="color:var(--flb-purple)">{{ o.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <!-- Delivery preview -->
+        <div style="margin-top:18px;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:13px 17px;text-align:left;display:flex;gap:11px;align-items:flex-start;max-width:520px;margin-left:auto;margin-right:auto">
+          <span style="width:30px;height:30px;border-radius:9px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none">✦</span>
+          <div>
+            <div style="font:600 12.5px var(--flb-font-body);margin-bottom:2px;color:var(--flb-ink-2)">Guardrails are built in — nothing to configure</div>
+            <div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.55">POAS floor, daily spend caps, approval on every execution, and full reversibility are always on. Orion never moves money without a logged, undoable change record.</div>
+          </div>
         </div>
       </div>
       </sc-if>
 
-      <sc-if value="{{ orionCadenceLegacy }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;max-width:520px;margin:0 auto;width:100%">
-        <h3 style="margin:0 0 6px;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Where should Orion send it?</h3>
-        <p style="margin:0 0 16px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Pre-filled from your role - change anything that doesn't fit.</p>
-        <span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);margin-bottom:6px">Daily briefing channel</span>
-        <div style="display:flex;border:1px solid var(--flb-border-default);border-radius:10px;overflow:hidden;background:var(--flb-bg)">
-          <sc-for list="{{ chanSeg }}" as="c" hint-placeholder-count="3"><button onClick="{{ c.onSel }}" style="{{ c.segStyle }}">{{ c.label }}</button></sc-for>
-        </div>
-        <div style="display:flex;gap:12px;margin-top:14px">
-          <div style="flex:1"><span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);margin-bottom:6px">Daily time</span><select value="{{ orionTime }}" onChange="{{ onOrionTime }}" style="width:100%;height:40px;padding:0 11px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13px var(--flb-font-body);outline:none;cursor:pointer"><sc-for list="{{ orionTimeOpts }}" as="t" hint-placeholder-count="4"><option value="{{ t }}">{{ t }}</option></sc-for></select></div>
-          <div style="flex:1"><span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);margin-bottom:6px">Weekly deep-dive day</span><select value="{{ orionDay }}" onChange="{{ onOrionDay }}" style="width:100%;height:40px;padding:0 11px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13px var(--flb-font-body);outline:none;cursor:pointer"><sc-for list="{{ orionDayOpts }}" as="d" hint-placeholder-count="4"><option value="{{ d }}">{{ d }}</option></sc-for></select></div>
-        </div>
-        <span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);margin:14px 0 6px">Orion's tone</span>
-        <div style="display:flex;border:1px solid var(--flb-border-default);border-radius:10px;overflow:hidden;background:var(--flb-bg)">
-          <sc-for list="{{ toneSeg }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.onSel }}" style="{{ t.segStyle }}">{{ t.label }}</button></sc-for>
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- STEP 7 · GUARDRAILS -->
+      <!-- STEP 6 · REVIEW -->
       <sc-if value="{{ orionStep6 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards">
-        <h3 style="margin:0;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Anything Orion should never touch?</h3>
-        <p style="margin:5px 0 11px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Pulled live from your connected ad account.</p>
-        <div style="display:flex;flex-direction:column;gap:7px">
-          <sc-for list="{{ guardList }}" as="c" hint-placeholder-count="4">
-            <button onClick="{{ c.onToggle }}" style="{{ c.rowStyle }}"><span style="{{ c.boxStyle }}"><sc-if value="{{ c.checked }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:11px;line-height:1"></i></sc-if></span><span style="flex:1;min-width:0;font:400 12.5px var(--flb-font-body);color:var(--flb-ink);text-align:left">{{ c.n }}</span><span style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-4)">{{ c.s }}</span></button>
-          </sc-for>
-        </div>
-        <div style="margin-top:10px;border:1px solid var(--flb-border-default);border-radius:12px;padding:9px 15px 6px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><span style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2)">Minimum POAS floor (Orion never recommends below this)</span><span style="font:500 14px var(--flb-font-display);color:var(--flb-on-violet);white-space:nowrap">{{ orionFloor }}</span></div>
-          <input type="range" min="0.5" max="4" step="0.1" data-range="" value="{{ orionFloor }}" onChange="{{ onOrionFloor }}" style="--flb-fill:{{ orionFloorPct }}">
-        </div>
-      </div>
-      </sc-if>
-
-      <!-- INHERITED (short pass) -->
-      <sc-if value="{{ orionInherited }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;max-width:560px;margin:0 auto;width:100%">
-        <h3 style="margin:0;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Your team's setup</h3>
-        <p style="margin:6px 0 18px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">These stay the same for everyone on this ad account, so Orion never gets contradictory instructions. Configured by {{ accountOwner }}.</p>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <sc-for list="{{ inheritedRows }}" as="ir" hint-placeholder-count="4">
-            <div style="display:flex;align-items:center;gap:13px;padding:11px 14px;border-radius:13px;background:var(--flb-surface)">
-              <span style="width:30px;height:30px;flex-shrink:0;border-radius:9px;background:var(--flb-surface-3);color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center"><i class="{{ ir.icon }}" style="font-size:15px;line-height:1"></i></span>
-              <span style="flex:1;min-width:0;font:400 12px var(--flb-font-body);color:var(--flb-ink-4)">{{ ir.k }}<span style="display:block;font:400 13px var(--flb-font-body);color:var(--flb-ink);margin-top:2px">{{ ir.v }}</span></span>
-              <i class="ph ph-lock-simple" style="font-size:14px;line-height:1;color:var(--flb-ink-4);flex-shrink:0"></i>
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel6 }}</span>
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Here's what Orion learned about you</h2>
+        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Confirm, and Orion builds your schedules and starter templates from this.</p>
+        <div style="background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:16px;overflow:hidden;text-align:left;max-width:520px;margin:0 auto">
+          <div style="display:flex;gap:14px;align-items:center;padding:16px 20px;background:var(--flb-tint-violet);border-bottom:1px solid var(--flb-line)">
+            <span style="width:46px;height:46px;border-radius:13px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 17px var(--flb-font-display);display:flex;align-items:center;justify-content:center;flex:none">KA</span>
+            <div>
+              <div style="font:600 15px var(--flb-font-body);color:var(--flb-ink)">{{ roleLabel }} · Karmikh</div>
+              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);margin-top:1px">Fashion & apparel · ₹4.2L/mo spend · COD 62% · RTO 18%</div>
             </div>
+          </div>
+          <sc-for list="{{ receiptRows }}" as="r" hint-placeholder-count="6">
+            <div style="{{ r.rowStyle }}"><span style="width:112px;flex-shrink:0;color:var(--flb-ink-4);font-weight:500">{{ r.k }}</span><span style="flex:1;color:var(--flb-ink);line-height:1.45">{{ r.v }}</span></div>
           </sc-for>
         </div>
-        <p style="margin:14px 0 0;font:400 11.5px/1.5 var(--flb-font-body);color:var(--flb-ink-4);text-align:center">Need one of these changed? Ask an account admin.</p>
       </div>
       </sc-if>
 
-      <!-- STEP 8 · RECEIPT (enhanced with urgency, risk reversal, FAQ, transformation) -->
+      <!-- BUILDING ANIMATION -->
       <sc-if value="{{ orionStep7 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards" onLoad="{{ startOrionCountdown }}">
-        <h3 style="margin:0;font:500 22px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Here's what Orion learned about you</h3>
-        <p style="margin:6px 0 12px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-2);text-align:center">Confirm and your templates appear below the chat - reports get scheduled automatically.</p>
-        <div style="border:1px solid var(--flb-border-default);border-radius:12px;overflow:hidden">
-          <sc-for list="{{ receiptRows }}" as="r" hint-placeholder-count="8"><div style="{{ r.rowStyle }}"><span style="width:112px;flex-shrink:0;color:var(--flb-ink-4);font-weight:500">{{ r.k }}</span><span style="flex:1;color:var(--flb-ink);line-height:1.45">{{ r.v }}</span></div></sc-for>
-        </div>
-
-        <!-- URGENCY TIMER -->
-        <div style="margin-top:14px;padding:12px 16px;border-radius:12px;background:var(--flb-tint-violet);border:1px solid rgba(127,86,217,.15);display:flex;align-items:center;justify-content:space-between">
-          <div style="display:flex;align-items:center;gap:10px">
-            <i class="ph ph-clock" style="font-size:18px;color:var(--flb-purple)"></i>
-            <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink)">Free tier expires in</span>
+      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards;text-align:center">
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Orion is setting up your workspace</h2>
+        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Personalising for a {{ roleLabelLower }} at Karmikh — from your answers and connected accounts.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;max-width:560px;margin:0 auto">
+          <div style="text-align:center;padding-top:6px">
+            <div style="width:48px;height:48px;border-radius:13px;background:var(--flb-gradient-energetic);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;animation:flbPulse 1.2s ease-in-out infinite"><span style="width:18px;height:18px;border:2.5px solid #fcfcfc;border-radius:5px;transform:rotate(45deg)"></span></div>
+            <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4);font-style:italic">"Set it up once. Let it run forever." — Abbas, flable.ai</div>
           </div>
-          <span data-orion-countdown="" style="font:600 16px var(--flb-font-display);color:var(--flb-purple);letter-spacing:.02em">24:00:00</span>
-        </div>
-
-        <!-- RISK REVERSAL -->
-        <div style="margin-top:10px;padding:10px 14px;border-radius:10px;background:rgba(0,158,255,.06);border:1px solid rgba(0,158,255,.12);display:flex;align-items:center;gap:10px">
-          <i class="ph ph-shield-check" style="font-size:18px;color:#009EFF"></i>
-          <span style="font:400 12.5px/1.45 var(--flb-font-body);color:var(--flb-ink-3)"><strong style="color:var(--flb-ink)">30-day money-back guarantee.</strong> No questions asked. If Orion doesn't save you 10+ hours in the first month, you pay nothing.</span>
-        </div>
-
-        <!-- FAQ OBJECTION HANDLING -->
-        <div style="margin-top:12px;padding:14px 16px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface)">
-          <div style="font:500 12px var(--flb-font-body);color:var(--flb-ink-4);letter-spacing:.03em;text-transform:uppercase;margin-bottom:10px">Common questions</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)"><strong style="color:var(--flb-ink)">What if my agency pushes back?</strong> Orion works alongside your agency — it doesn't replace them. It gives you data to have smarter conversations.</div>
-            <div style="font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)"><strong style="color:var(--flb-ink)">Is my data safe?</strong> Yes. We're SOC 2 compliant and never share your data with third parties.</div>
-            <div style="font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)"><strong style="color:var(--flb-ink)">Can I cancel anytime?</strong> Yes. No contracts, no lock-in. Cancel from your dashboard in 2 clicks.</div>
+          <div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span style="width:18px;height:18px;border-radius:50%;background:var(--flb-purple);color:#fcfcfc;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px">✓</span><span>Attacking your biggest pain first</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span style="width:18px;height:18px;border-radius:50%;background:var(--flb-purple);color:#fcfcfc;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px">✓</span><span>Reading 14 campaigns across Meta and Google</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span style="width:18px;height:18px;border-radius:50%;background:var(--flb-purple);color:#fcfcfc;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px">✓</span><span>Wiring your briefing with your metrics</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span style="width:18px;height:18px;border-radius:50%;background:var(--flb-purple);color:#fcfcfc;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px">✓</span><span>Deciding cadences and schedules</span></div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span style="width:18px;height:18px;border-radius:50%;background:var(--flb-purple);color:#fcfcfc;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px">✓</span><span>Writing starter templates for your role</span></div>
           </div>
         </div>
+      </div>
+      </sc-if>
 
-        <!-- EMOTIONAL TRANSFORMATION -->
-        <div style="margin-top:12px;padding:14px 16px;border-radius:12px;background:var(--flb-surface);border:1px solid var(--flb-line)">
-          <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center">
-            <div style="text-align:center">
-              <div style="font:400 10px var(--flb-font-body);color:var(--flb-ink-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Before Orion</div>
-              <div style="font:500 20px var(--flb-font-display);color:var(--flb-ink-3);letter-spacing:-.01em">10+ hrs/wk</div>
-              <div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">manual reporting</div>
+      <!-- READY SCREEN -->
+      <sc-if value="{{ orionReady }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:flbRise 220ms var(--flb-ease-out) backwards">
+        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Your workspace is live</h2>
+        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Schedules running and templates below the chat — cadences adapt as your signals change.</p>
+        <div style="text-align:left">
+          <div style="font:600 11px var(--flb-font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--flb-ink-3);margin:20px 0 10px">Running on schedule</div>
+          <sc-for list="{{ orionTemplates }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;padding:13px 17px;border-radius:13px;background:var(--flb-surface);border:1px solid var(--flb-line);margin-bottom:9px">
+              <span style="width:7px;height:7px;border-radius:50%;background:var(--flb-purple);flex:none"></span>
+              <span style="flex:1;font:500 13.5px var(--flb-font-body);color:var(--flb-ink)">{{ t.title }}<span style="display:block;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);margin-top:1px">{{ t.desc }}</span></span>
+              <span style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);text-align:right;flex:none"><b style="display:block;font:500;color:var(--flb-on-violet)">{{ t.sched }}</b></span>
             </div>
-            <i class="ph ph-arrow-right" style="font-size:20px;color:var(--flb-purple)"></i>
-            <div style="text-align:center">
-              <div style="font:400 10px var(--flb-font-body);color:var(--flb-ink-4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">After Orion</div>
-              <div style="font:500 20px var(--flb-font-display);color:var(--flb-on-success);letter-spacing:-.01em">0 hrs/wk</div>
-              <div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">automated insights</div>
-            </div>
+          </sc-for>
+          <div style="font:600 11px var(--flb-font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--flb-ink-3);margin:20px 0 10px">Your starter templates</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+            <sc-for list="{{ orionTemplates }}" as="t" hint-placeholder-count="4">
+              <div style="background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:13px 15px;cursor:pointer;transition:.14s" style-hover="border-color:var(--flb-purple)">
+                <div style="font:500 13px var(--flb-font-body);margin-bottom:4px;color:var(--flb-ink)">{{ t.title }}</div>
+                <div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5">{{ t.desc }}</div>
+                <span style="display:inline-block;margin-top:8px;font:600 10px var(--flb-font-body);letter-spacing:.04em;text-transform:uppercase;background:var(--flb-tint-violet);color:var(--flb-on-violet);padding:3px 9px;border-radius:9999px">{{ t.sched }}</span>
+              </div>
+            </sc-for>
           </div>
         </div>
       </div>
@@ -2149,6 +2239,22 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:940}}">
 class Component extends DCLogic {
   state = { theme: "dark", agent: "orion", nav: "chats", ciMode: "scoring", ciChannel: "google", ciDecision: "all", ciOpenRow: "0707DCSIFTBL", ciMenu: null, ciFiltersOpen: false, ciObjective: "All", ciSort: "Creative Score", ciDir: "high", ciDateRange: "Last 7 days", ciMatch: "any", ciKpi: { ROAS: true }, ciType: {}, ciFat: {}, ciAdActive: false, ciCols: { roas: true, spend: true, ctr: true, fatigue: true }, optOpen: true, deepAd: null, deepTrendTab: "DoD", utmChannel: "meta", utmFilter: "all", utmModal: null, tgtOpen: false, tgtObjective: "Sales", tgtKpis: { Spend: true, ROAS: true, CPP: true, CTR: true }, tgtVals: { Spend: "115000", ROAS: "1.41", CPP: "", CTR: "1.61", MinSpend: "1000" }, draft: "", pastes: [], expandedPaste: null, web: false, banner: true, checklistOpen: false, tplOrder: [0,1,2,3], insightsOpen: false, menu: null, model: "Standard", effort: "Medium", groups: { workspace: true, analytics: true, setup: true }, messages: [], thinking: false, sidebarCollapsed: true, mode: "analytics", notif: 2, hintOpen: true,
+    // ── scheduler ──
+    schedTab: "custom", schedSearch: "", schedModalOpen: false, schedToast: null, schedCardMenu: null, schedRunning: {}, schedFormatTip: false, schedFreqMenuOpen: false, schedStartDateMenuOpen: false, schedEndDateMenuOpen: false,
+    schedNew: { prompt: "Test prompt", title: "Test", model: "Standard", recipients: ["admin@karmikh.com"], recipientInput: "", format: "PDF", autoRun: false, frequency: "Week", time: "09:30:00 AM", days: ["Mon"], startDate: "August 18, 2026", endDate: "" },
+    schedCustomReports: [
+      { id: "cr1", title: "my last 7 days overall performance", prompt: "my last 7 days overall performance", model: "Standard", format: "PDF", lastRun: "Jul 14, 2026, 01:22 PM", recipients: ["admin@karmikh.com"], autoRun: true, frequency: "Week", days: ["Mon"], time: "09:00:00 AM", startDate: "Jul 01, 2026", endDate: "" },
+      { id: "cr2", title: "Cross-domain Testing", prompt: "Analyze performance across Ads, Website, and Sales for the last 60 days. • Summarize key performance metrics across top campaigns.", model: "Standard", format: "PDF", lastRun: "Jul 14, 2026, 06:45 PM", recipients: ["admin@karmikh.com"], autoRun: false, frequency: "Week", days: ["Mon", "Tue"], time: "06:30:00 PM", startDate: "Jul 01, 2026", endDate: "" },
+      { id: "cr3", title: "campaign", prompt: "Provide the campaign-wise performance for all Meta campaigns with a Sales objective, highlighting spend allocation and CTR.", model: "Standard", format: "PDF", lastRun: "Jul 17, 2026, 05:24 AM", recipients: ["admin@karmikh.com"], autoRun: true, frequency: "Day", days: [], time: "05:00:00 AM", startDate: "Jul 01, 2026", endDate: "" },
+      { id: "cr4", title: "Campaign-wise Performance Data", prompt: "Break down spend, ROAS, and CPP across all live Meta and Google ad sets with creative asset attribution.", model: "Pro", format: "PDF", lastRun: "Jul 12, 2026, 10:15 AM", recipients: ["admin@karmikh.com"], autoRun: true, frequency: "Week", days: ["Fri"], time: "10:00:00 AM", startDate: "Jul 01, 2026", endDate: "" },
+      { id: "cr5", title: "Top 5 Campaigns Data", prompt: "Rank top 5 winning campaigns by conversion rate and return on ad spend with creative breakdown.", model: "Standard", format: "PDF", lastRun: "Jul 10, 2026, 04:30 PM", recipients: ["admin@karmikh.com"], autoRun: false, frequency: "Month", days: [], time: "04:00:00 PM", startDate: "Jul 01, 2026", endDate: "" },
+      { id: "cr6", title: "META ADS", prompt: "Weekly Meta Ads audit: budget pacing, ad fatigue index, frequency caps, and audience saturation warnings.", model: "Standard", format: "PDF", lastRun: "Jul 08, 2026, 09:00 AM", recipients: ["admin@karmikh.com"], autoRun: true, frequency: "Week", days: ["Wed"], time: "09:00:00 AM", startDate: "Jul 01, 2026", endDate: "" }
+    ],
+    schedAutomatedReports: [
+      { id: "ar1", title: "Weekly Executive Performance Digest", prompt: "Consolidated P&L, POAS, ROAS, and channel reallocation digest sent to founders & executives.", model: "Standard", format: "PDF", schedule: "Every Monday · 9:00 AM", lastRun: "Jul 14, 2026, 09:00 AM", recipients: ["admin@karmikh.com"], status: "Active" },
+      { id: "ar2", title: "Daily Ad Fatigue & Burn Alert", prompt: "Daily morning scan across all creatives flagging fatigue score > 70 and declining CTR.", model: "Standard", format: "PDF", schedule: "Daily · 8:00 AM", lastRun: "Jul 17, 2026, 08:00 AM", recipients: ["admin@karmikh.com"], status: "Active" },
+      { id: "ar3", title: "Monthly Attribution & Blended ROAS Reconciler", prompt: "End-of-month cross-platform reconciliation between Meta Ads, Google Ads, and Shopify revenue.", model: "Pro", format: "Excel", schedule: "1st of Month · 10:00 AM", lastRun: "Jul 01, 2026, 10:00 AM", recipients: ["admin@karmikh.com"], status: "Active" }
+    ],
     // ── flow ──
     screen: "login", authTheme: (typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark",
     authName: "Sarah Chen", authEmail: "sarah@luminaryskincare.com", authCompany: "luminaryskincare.com", authPassword: "",
@@ -2163,30 +2269,167 @@ class Component extends DCLogic {
     ],
     tourStep: -1, tourRect: null,
     // ── Orion personalization wizard ──
-    orion: { open: false, step: 0, done: false, role: null, goal: null, pain: "",
-      metrics: ["POAS", "True ROAS", "Spend", "RTO %", "Revenue"],
-      roas: 2.1, spike: 30, chan: "WhatsApp", time: "8:00 AM", day: "Monday",
-      tone: "blunt", guards: [], floor: 1.5, likert: "recommend", cadence: "daily", goal: "waste", goalWeights: { scale: 2, waste: 3, attr: 1, agency: 1 }, mode: "full",
+    orion: { open: false, step: 0, done: false, role: null, mode: "full",
+      goal: 0, pain: 0, metrics: [0,1,2,3,4], focus: [0,1,2],
+      cadence: "Let Orion decide", time: "08:00", channel: "WhatsApp",
       selfAssessment: "", receiptCountdown: 86400 } };
 
-  ORION_FLOW = ["proof","intro","role","goal","story1","metrics","likert","alerts","cadence","costcompare","guardrails","story2","receipt"];
-  ORION_FLOW_SHORT = ["role","metrics","cadence","delivery","inherited","receipt"];
+  ORION_FLOW = ["role","goal","pain","metrics","focus","delivery","review","building","ready"];
+  ORION_FLOW_SHORT = ["role","metrics","cadence","inherited","receipt"];
   ACCOUNT_OWNER = "Sarah Chen";
   CADENCE_LABEL = { daily: "Daily", weekly: "Weekly", both: "Daily + weekly", attention: "Only when something needs attention" };
-  ORION_ROLES = [
-    { key: "founder", title: "Founder / CEO", desc: "P&L view - POAS, contribution margin, cash burn on ads", m: ["POAS", "True ROAS", "Spend", "RTO %", "Revenue"], chan: "WhatsApp", time: "8:00 AM", day: "Monday", tone: "blunt", cadence: "daily" },
-    { key: "head", title: "Marketing Head", desc: "Channel mix, budget pacing, team-ready summaries", m: ["True ROAS", "Spend", "CAC", "Revenue", "Creative fatigue"], chan: "WhatsApp + Email", time: "9:00 AM", day: "Monday", tone: "detailed", cadence: "both" },
-    { key: "perf", title: "Performance Marketer", desc: "Campaign-level granularity, creative and audience signals", m: ["True ROAS", "CAC", "Creative fatigue", "CTR", "Spend"], chan: "Email", time: "7:00 AM", day: "Wednesday", tone: "detailed", cadence: "daily" },
-    { key: "agency", title: "Agency", desc: "Multi-brand reporting, client-ready outputs", m: ["True ROAS", "Spend", "CAC", "Revenue", "POAS"], chan: "Email", time: "9:00 AM", day: "Friday", tone: "detailed", cadence: "weekly" },
-  ];
-  ORION_GOALS = [
-    { key: "scale", title: "Profitable scaling", desc: "Grow spend only where POAS holds - scale 2x without margin bleed" },
-    { key: "waste", title: "Cut wasted spend", desc: "Catch RTO-heavy and fatigued campaigns before month end, not after" },
-    { key: "attr", title: "Fix attribution / COD mess", desc: "Reconcile platform ROAS with Shopify + COD reality - India-native attribution" },
-    { key: "agency", title: "Reduce agency dependency", desc: "Orion does the daily analysis your agency bills you for" },
-  ];
-  ORION_METRICS = ["True ROAS", "POAS", "Spend", "CAC", "RTO %", "Revenue", "Creative fatigue", "CTR", "New vs repeat", "AOV"];
-  ORION_PAINS = ["I only find out about wasted spend after the month ends", "My agency reports ROAS I cannot reconcile with Shopify", "COD returns eat my margin and no tool accounts for it"];
+  ORION_BIZ = {
+    brand:"Karmikh", vertical:"Fashion & apparel",
+    spend30:"₹4.2L", campaigns:14, codShare:"62%", rto:"18%",
+    belowFloor:3, leak:"₹42k", gap:"Meta reports 3.1 ROAS · true POAS is 1.4",
+    fatiguedAds:4, topHook:"'Festive edit' hook", stockRisk:2
+  };
+  ORION_ROLES_V2 = {
+    founder:{label:"Founder / CEO",desc:"I own the P&L",
+      goals:[
+        {t:"Profitable scaling",d:"Grow spend only where margin holds"},
+        {t:"Cut wasted spend",d:"Find and stop the leak first"},
+        {t:"Cash flow stability",d:"Predictable weekly contribution, fewer surprises"},
+        {t:"Reduce dependence on my agency",d:"Own the numbers and the decisions in-house"}],
+      goalPre:0,
+      pains:[
+        {t:"I don't catch wasted spend until it's too late",d:"The leak shows up at month-end, not day one"},
+        {t:"Meta's numbers don't match my bank account",d:"Reported ROAS vs what actually lands"},
+        {t:"I can't tell if my agency is doing a good job",d:"No independent read on performance"},
+        {t:"COD returns eat margin invisibly",d:"RTO losses never show in ad platform reports"}],
+      painPre:0,
+      metrics:["POAS","True ROAS","Spend","RTO %","Revenue","CAC","New vs repeat","AOV","Creative fatigue","CTR"],
+      metricsPre:[0,1,2,3,4],
+      focus:["Cut wasted spend","Budget reallocation","Scaling rules","Offer & promo testing","Winning creative themes","Channel mix"],
+      focusPre:[0,1,2],
+      focusTitle:"Where should Orion push hardest?",
+      focusSub:"The levers Orion is allowed to have opinions about. Order sets priority.",
+      scheds:[
+        {n:"Daily profit briefing",d:"POAS, leak alerts, one action",w:"Daily",t:"8:00 AM · WhatsApp"},
+        {n:"Weekly business review",d:"Marketing P&L in one page",w:"Mon",t:"9:00 AM · Email"},
+        {n:"Month-end close",d:"CM2 by channel and SKU",w:"1st",t:"8:00 AM · Email + PDF"}],
+      tmpls:[
+        {t:"Where am I losing money?",d:"Campaigns burning contribution margin",b:"Daily"},
+        {t:"Meta ROAS vs true POAS",d:"The gap, decomposed by campaign",b:"Anytime"},
+        {t:"Can I scale this month?",d:"Headroom at current margin",b:"Weekly"},
+        {t:"Model a spend cut",d:"What 20% less buys or costs you",b:"Scenario"}]},
+
+    buyer:{label:"Media buyer",desc:"I run the campaigns",
+      goals:[
+        {t:"Hit my POAS target daily",d:"Every campaign above floor, every day"},
+        {t:"Scale winners faster",d:"Find headroom before the competition does"},
+        {t:"Stop reacting late",d:"Catch drops the morning they start, not day three"},
+        {t:"Win back time from reporting",d:"Less spreadsheet, more buying"}],
+      goalPre:0,
+      pains:[
+        {t:"I find out about a bad day 24 hours late",d:"By the time reports refresh, the money's spent"},
+        {t:"Attribution is a mess",d:"UTMs, CAPI, GoKwik — signals disagree with each other"},
+        {t:"Creative fatigue sneaks up on winners",d:"CTR decays before anyone notices"},
+        {t:"Too many campaigns to watch properly",d:"Something always slips through"}],
+      painPre:0,
+      metrics:["POAS","Spend","CTR","Creative fatigue","True ROAS","CAC","Frequency","CPM","RTO %","AOV"],
+      metricsPre:[0,1,3,2,4],
+      focus:["Pause & scale calls","Creative rotation","Structure & consolidation","Audience testing","Bid strategy","Prospecting vs retargeting"],
+      focusPre:[0,1,2],
+      focusTitle:"What should Orion help you run?",
+      focusSub:"Orion drafts these moves for your approval. Order sets what leads the morning brief.",
+      scheds:[
+        {n:"Morning pause/scale list",d:"Verdicts with confidence, tap to approve",w:"Daily",t:"7:30 AM · WhatsApp"},
+        {n:"Creative fatigue sweep",d:"Frequency and CTR decay on winners",w:"Wed + Sat",t:"7:00 AM · In-app"},
+        {n:"Attribution health check",d:"UTM coverage, CAPI signal quality",w:"Mon",t:"10:00 AM · Email"}],
+      tmpls:[
+        {t:"What should I pause today?",d:"Below floor, with confidence",b:"Daily"},
+        {t:"Where do I add budget?",d:"Scale candidates with headroom",b:"Daily"},
+        {t:"Why did yesterday drop?",d:"Spend, CTR, CVR, AOV decomposed",b:"Anytime"},
+        {t:"Rotate fatigued creatives",d:"Swap plan from your winners",b:"Weekly"}]},
+
+    growth:{label:"Growth head",desc:"I own the plan",
+      goals:[
+        {t:"Growth at a target CAC",d:"Scale hard while acquisition cost holds a ceiling"},
+        {t:"Profitable channel mix",d:"Budget split by contribution, not last-click ROAS"},
+        {t:"Better cohorts, not just more orders",d:"Buy customers who come back"},
+        {t:"Prove incrementality",d:"Know which spend creates demand vs captures it"}],
+      goalPre:0,
+      pains:[
+        {t:"Channels claim the same conversions",d:"Meta and Google both take credit — someone's wrong"},
+        {t:"CAC is rising and I can't see why",d:"Blended numbers hide which cohort got expensive"},
+        {t:"Monthly planning is guesswork",d:"No profit-weighted view when setting the split"},
+        {t:"Leadership asks questions I can't answer fast",d:"Every board deck is a two-day fire drill"}],
+      painPre:0,
+      metrics:["CAC","New vs repeat","POAS","Channel mix","Revenue","LTV","True ROAS","Spend","AOV"],
+      metricsPre:[0,1,2,3,4],
+      focus:["Channel mix & budget split","Cohort profitability","Incrementality","Offer & promo testing","SKU-level budget","Scaling rules"],
+      focusPre:[0,1,2],
+      focusTitle:"Where should Orion push hardest?",
+      focusSub:"The strategic reads Orion prepares. Order sets which lead the weekly review.",
+      scheds:[
+        {n:"Daily pacing check",d:"Spend vs plan, flag drift over 10%",w:"Daily",t:"6:00 PM · Slack"},
+        {n:"Weekly channel mix review",d:"Budget split weighted by profit",w:"Mon",t:"9:00 AM · Email"},
+        {n:"Monthly cohort report",d:"CAC payback and repeat curves",w:"1st",t:"10:00 AM · Email + PDF"}],
+      tmpls:[
+        {t:"Build next month's mix",d:"Split weighted by profit, not ROAS",b:"Monthly"},
+        {t:"Is Google incremental?",d:"New demand or captured demand",b:"Anytime"},
+        {t:"New vs returning P&L",d:"Acquisition cost by cohort",b:"Weekly"},
+        {t:"Which SKUs deserve budget?",d:"Product-level CM2",b:"Weekly"}]},
+
+    creative:{label:"Creative lead",desc:"I make the ads",
+      goals:[
+        {t:"More winners per batch",d:"Raise the hit rate, not just the volume"},
+        {t:"Kill losers faster",d:"Stop spend reaching creatives that won't convert"},
+        {t:"Know why ads win",d:"Hooks, angles and themes — not just which ad, but what about it"},
+        {t:"Stay ahead of fatigue",d:"Fresh concepts ready before winners decay"}],
+      goalPre:0,
+      pains:[
+        {t:"I don't know why my winners win",d:"Performance data never maps back to the creative choice"},
+        {t:"Fatigue kills ads before replacements are ready",d:"The brief starts after the decay, not before"},
+        {t:"Feedback from media buying arrives too late",d:"By review time the learning is stale"},
+        {t:"Competitor creative is a black box",d:"No systematic view of what my category runs"}],
+      painPre:0,
+      metrics:["Creative fatigue","Hook rate","Thumb-stop rate","CTR","Winning themes","CPM","Format performance","CTA performance","Frequency"],
+      metricsPre:[0,1,4,2,3],
+      focus:["Hooks & themes analysis","Fatigue early-warning","Variant briefs from winners","Competitor creative tracking","UGC vs studio read","Landing page match"],
+      focusPre:[0,1,2],
+      focusTitle:"What should Orion watch in your creative?",
+      focusSub:"Orion scores every ad and maps performance back to creative choices. Order sets the scorecard.",
+      scheds:[
+        {n:"Creative scorecard",d:"Every live ad scored on hook, clarity, CTA",w:"Fri",t:"10:00 AM · In-app"},
+        {n:"Fatigue early-warning",d:"Winners approaching decay, brief-ready",w:"Daily",t:"9:00 AM · Slack"},
+        {n:"Competitor creative sweep",d:"New ads in your category, tagged by angle",w:"Every 3 days",t:"9:00 AM · Email"}],
+      tmpls:[
+        {t:"Score my latest creatives",d:"Hook, clarity, offer and CTA",b:"Anytime"},
+        {t:"Why did this ad win?",d:"Creative choices mapped to performance",b:"Anytime"},
+        {t:"Brief variants from winners",d:"Same angle, fresh execution",b:"Weekly"},
+        {t:"What's my category running?",d:"Competitor hooks and formats",b:"Weekly"}]},
+
+    agency:{label:"Agency AM",desc:"I manage client brands",
+      goals:[
+        {t:"Keep every brand defensible",d:"No client meeting where the numbers surprise you"},
+        {t:"Cut reporting hours",d:"Assemble Monday's decks from live data, not spreadsheets"},
+        {t:"Catch problems before clients do",d:"Be the one who flags it, not the one who explains it"},
+        {t:"Grow accounts with proof",d:"Upsell backed by margin math, not promises"}],
+      goalPre:0,
+      pains:[
+        {t:"Clients see Meta's ROAS and ask why sales don't match",d:"The gap conversation, every single review"},
+        {t:"Reporting eats my Mondays",d:"Six hours of assembly before any thinking starts"},
+        {t:"Seven brands, one pair of eyes",d:"The quiet account is the one that blows up"},
+        {t:"Churn arrives without warning",d:"Dissatisfaction builds in data I wasn't watching"}],
+      painPre:0,
+      metrics:["POAS by account","Spend pacing","Alerts breached","True ROAS","Creative fatigue","CAC","Revenue"],
+      metricsPre:[0,1,2,3,4],
+      focus:["Portfolio triage","Client reporting","ROAS-gap talk tracks","QBR preparation","Cross-account patterns","Scaling rules"],
+      focusPre:[0,1,2],
+      focusTitle:"What should Orion take off your plate?",
+      focusSub:"Orion works across every brand on your seat. Order sets the morning digest.",
+      scheds:[
+        {n:"Portfolio triage digest",d:"All brands ranked by urgency",w:"Daily",t:"8:30 AM · Email"},
+        {n:"Client reports, all brands",d:"Branded, ready to forward",w:"Mon",t:"7:00 AM · Email + PDF"},
+        {n:"Breach alerts",d:"Any brand crossing its floor",w:"Live",t:"Instant · WhatsApp"}],
+      tmpls:[
+        {t:"Which accounts need me?",d:"Ranked across the portfolio",b:"Daily"},
+        {t:"Draft this week's client report",d:"Pick a brand, get the deck",b:"Weekly"},
+        {t:"Explain the ROAS gap",d:"Plain-English client talk track",b:"Anytime"},
+        {t:"Prep my QBR",d:"A quarter as one narrative",b:"Quarterly"}]}
+  };
   ORION_CAMPS = [
     { n: "Brand Search - Always On", s: "₹1.2L/mo" },
     { n: "Festive Launch - UGC", s: "₹3.4L/mo" },
@@ -2195,6 +2438,41 @@ class Component extends DCLogic {
   ];
   ORION_TIMES = ["7:00 AM", "8:00 AM", "9:00 AM", "6:00 PM"];
   ORION_DAYS = ["Monday", "Wednesday", "Friday", "Saturday"];
+
+  decideSchedules(roleKey, S) {
+    const R = this.ORION_ROLES_V2[roleKey];
+    if (!R) return { scheds: [], reasons: [] };
+    const BIZ = this.ORION_BIZ;
+    const out = R.scheds.map(s => ({ ...s }));
+    const reasons = [];
+    if (BIZ.belowFloor > 0) {
+      out.unshift({ n: "Hourly spend guard", d: "Watches campaigns near the floor, 9 AM–9 PM", w: "Hourly", t: "Business hours · " + S.channel,
+        why: BIZ.belowFloor + " campaigns are near your POAS floor — hourly until they clear" });
+      reasons.push("Hourly guard added: " + BIZ.belowFloor + " campaigns near floor");
+    }
+    if (roleKey === 'buyer' && S.pain === 0) {
+      out.forEach(s => { if (s.n.includes("pause/scale")) { s.w = "2× daily"; s.t = "7:30 AM + 4:00 PM · " + S.channel;
+        s.why = "You said you find out about bad days 24h late — an afternoon check halves that"; } });
+      reasons.push("Pause/scale list bumped to twice daily (your pain: reacting late)");
+    }
+    if (roleKey === 'creative') {
+      out.forEach(s => { if (s.n.includes("Fatigue")) { s.why = BIZ.fatiguedAds + " winners decaying now — daily until stable"; } });
+    }
+    if (roleKey === 'agency') {
+      out.forEach(s => { if (s.n.includes("Breach")) { s.why = "Portfolio-wide: instant beats any schedule for floor breaches"; } });
+    }
+    if (S.cadence === "Only when something breaks") {
+      return { scheds: out.filter(s => /guard|alert|Breach|warning/i.test(s.n)).map(s => ({ ...s,
+        why: (s.why || "") + (s.why ? " · " : "") + "Kept because you chose alerts-only" })),
+        reasons: ["Alerts-only mode: routine briefings suppressed, guards kept"] };
+    }
+    if (S.cadence === "Hourly") {
+      out.forEach(s => { if (/briefing|pause/i.test(s.n)) { s.w = "Hourly"; s.t = "9 AM–9 PM · " + S.channel;
+        s.why = "You asked for hourly — applied to action items, reviews stay weekly"; } });
+      reasons.push("Hourly applied to action items only; reviews stay weekly to avoid noise");
+    }
+    return { scheds: out, reasons };
+  }
 
   PLAN_NAV = ["Chats", "Dashboard", "Pulse", "Attribution", "Product Insights", "Creative Insights", "Inventory Health", "UTM Status", "Scheduler", "Integrations"];
   PLAN_SUBS = ["Product Insights", "Creative Insights", "UTM Status"];
@@ -2626,7 +2904,7 @@ class Component extends DCLogic {
       integrations: "plugs-connected", bookmarks: "bookmark-simple",
       product: "chart-pie-slice", creative: "image",
       sparkle: "sparkle", gear: "gear", plus: "plus", sun: "sun", moon: "moon", help: "question",
-      lock: "lock-simple", scheduler: "calendar", inventory: "package",
+      lock: "lock-simple", scheduler: "bookmark-simple", inventory: "package", utm: "sliders",
     };
     return React.createElement("i", {
       className: "ph ph-" + (map[name] || "circle"),
@@ -2899,6 +3177,369 @@ class Component extends DCLogic {
     };
   }
 
+  schedShowToast(message, type = "error") {
+    const icon = type === "error" ? "ph-bold ph-warning-circle" : "ph-bold ph-check-circle";
+    const color = type === "error" ? "var(--flb-error)" : "var(--flb-success)";
+    this.setState({ schedToast: { message, icon, color } });
+    if (this._schedToastTimer) clearTimeout(this._schedToastTimer);
+    this._schedToastTimer = setTimeout(() => {
+      this.setState({ schedToast: null });
+    }, 4000);
+  }
+
+  schedTriggerRun(id, title) {
+    this.setState(s => ({
+      schedRunning: { ...s.schedRunning, [id]: true },
+      schedCardMenu: null
+    }));
+    setTimeout(() => {
+      this.setState(s => {
+        const nextRunning = { ...s.schedRunning };
+        delete nextRunning[id];
+        return { schedRunning: nextRunning };
+      });
+      this.schedShowToast("Request failed with status code 502", "error");
+    }, 1400);
+  }
+
+  schedRemoveRecipient(email) {
+    this.setState(s => ({
+      schedNew: {
+        ...s.schedNew,
+        recipients: (s.schedNew.recipients || []).filter(e => e !== email)
+      }
+    }));
+  }
+
+  schedSaveReport() {
+    const N = this.state.schedNew || {};
+    const prompt = (N.prompt || "").trim();
+    if (!prompt) {
+      this.schedShowToast("Please enter a prompt for the custom report", "error");
+      return;
+    }
+    const title = (N.title || "").trim() || (prompt.length > 28 ? prompt.slice(0, 28) + "..." : prompt);
+    const now = new Date();
+    const dateStr = now.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) + ", " + now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+    const newReport = {
+      id: "cr_" + Date.now(),
+      title,
+      prompt,
+      model: N.model || "Standard",
+      format: N.format || "PDF",
+      lastRun: dateStr,
+      recipients: N.recipients && N.recipients.length ? N.recipients : ["admin@karmikh.com"],
+      autoRun: !!N.autoRun,
+      frequency: N.frequency || "Week",
+      days: N.days || ["Mon"],
+      time: N.time || "09:30:00 AM",
+      startDate: N.startDate || "August 18, 2026",
+      endDate: N.endDate || ""
+    };
+    this.setState(s => ({
+      schedCustomReports: [newReport, ...s.schedCustomReports],
+      schedModalOpen: false,
+      schedTab: "custom"
+    }));
+    this.schedShowToast("Report scheduled successfully", "success");
+  }
+
+  schedEditReport(c) {
+    this.setState({
+      schedModalOpen: true,
+      schedCardMenu: null,
+      schedNew: {
+        prompt: c.prompt,
+        title: c.title,
+        model: c.model,
+        recipients: c.recipients || ["admin@karmikh.com"],
+        recipientInput: "",
+        format: c.format || "PDF",
+        autoRun: !!c.autoRun,
+        frequency: c.frequency || "Week",
+        days: c.days || ["Mon"],
+        time: c.time || "09:30:00 AM",
+        startDate: c.startDate || "August 18, 2026",
+        endDate: c.endDate || ""
+      }
+    });
+  }
+
+  schedDuplicateReport(c) {
+    const dup = {
+      ...c,
+      id: "cr_" + Date.now(),
+      title: c.title + " (Copy)"
+    };
+    this.setState(s => ({
+      schedCustomReports: [dup, ...s.schedCustomReports],
+      schedCardMenu: null
+    }));
+    this.schedShowToast("Report duplicated", "success");
+  }
+
+  schedDownloadReport(c) {
+    this.setState({ schedCardMenu: null });
+    this.schedShowToast("Downloading " + c.title + "." + (c.format || "pdf").toLowerCase() + "...", "success");
+  }
+
+  schedDeleteReport(id) {
+    this.setState(s => ({
+      schedCustomReports: s.schedCustomReports.filter(r => r.id !== id),
+      schedCardMenu: null
+    }));
+    this.schedShowToast("Report deleted", "success");
+  }
+
+  schedToggleAutoStatus(id) {
+    this.setState(s => ({
+      schedAutomatedReports: s.schedAutomatedReports.map(a => a.id === id ? { ...a, status: a.status === "Active" ? "Paused" : "Active" } : a)
+    }));
+  }
+
+  schedBuild() {
+    const S = this.state;
+    const isCustom = S.schedTab === "custom";
+    const isAuto = S.schedTab === "automated";
+    const customCount = S.schedCustomReports.length;
+    const autoCount = S.schedAutomatedReports.length;
+    const searchQ = (S.schedSearch || "").toLowerCase().trim();
+
+    // Tab styles
+    const tabActiveStyle = "display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 15px;border-radius:9999px;border:none;cursor:pointer;font:500 13px var(--flb-font-body);background:var(--flb-surface);color:var(--flb-ink);box-shadow:var(--flb-shadow-sm);transition:all .15s ease";
+    const tabInactiveStyle = "display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 15px;border-radius:9999px;border:none;cursor:pointer;font:500 13px var(--flb-font-body);background:transparent;color:var(--flb-ink-3);transition:all .15s ease";
+
+    const countActiveStyle = "display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:9999px;font:600 11px var(--flb-font-body);background:var(--flb-surface-3);color:var(--flb-ink)";
+    const countInactiveStyle = "display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:9999px;font:500 11px var(--flb-font-body);background:color-mix(in srgb, var(--flb-line) 60%, transparent);color:var(--flb-ink-4)";
+
+    // Filter Custom Reports
+    const filteredCustom = S.schedCustomReports.filter(r => {
+      if (!searchQ) return true;
+      return (r.title && r.title.toLowerCase().includes(searchQ)) ||
+             (r.prompt && r.prompt.toLowerCase().includes(searchQ)) ||
+             (r.model && r.model.toLowerCase().includes(searchQ));
+    });
+
+    const schedCustomCardList = filteredCustom.map(c => {
+      const isRunning = !!(S.schedRunning && S.schedRunning[c.id]);
+      const isPro = c.model === "Pro";
+      
+      const modelBadgeStyle = isPro
+        ? "display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;border:1px solid color-mix(in srgb, #E9348B 50%, transparent);color:#E9348B;background:rgba(233,52,139,0.08);font:500 12px var(--flb-font-body)"
+        : "display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;border:1px solid color-mix(in srgb, var(--flb-violet-light) 40%, transparent);color:var(--flb-on-violet);background:var(--flb-tint-violet);font:500 12px var(--flb-font-body)";
+
+      const formatBadgeStyle = "display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;background:rgba(160,139,255,0.12);color:var(--flb-violet-light);font:600 11.5px var(--flb-font-body)";
+
+      const runBtnStyle = "display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 14px;border-radius:8px;border:none;background:" + (isRunning ? "var(--flb-surface-3)" : "var(--flb-violet)") + ";color:" + (isRunning ? "var(--flb-ink-3)" : "#fcfcfc") + ";font:600 12.5px var(--flb-font-body);cursor:" + (isRunning ? "wait" : "pointer") + ";box-shadow:" + (isRunning ? "none" : "0 2px 6px rgba(100,60,193,.25)");
+
+      return {
+        ...c,
+        modelBadgeStyle,
+        formatBadgeStyle,
+        runBtnStyle,
+        isRunning,
+        isNotRunning: !isRunning,
+        menuOpen: S.schedCardMenu === c.id,
+        toggleMenu: () => this.setState(s => ({ schedCardMenu: s.schedCardMenu === c.id ? null : c.id })),
+        onRunNow: () => this.schedTriggerRun(c.id, c.title),
+        onEdit: () => this.schedEditReport(c),
+        onDuplicate: () => this.schedDuplicateReport(c),
+        onDownload: () => this.schedDownloadReport(c),
+        onDelete: () => this.schedDeleteReport(c.id)
+      };
+    });
+
+    // Filter Automated Reports
+    const filteredAuto = S.schedAutomatedReports.filter(r => {
+      if (!searchQ) return true;
+      return (r.title && r.title.toLowerCase().includes(searchQ)) ||
+             (r.prompt && r.prompt.toLowerCase().includes(searchQ));
+    });
+
+    const schedAutoCardList = filteredAuto.map(a => {
+      const isRunning = !!(S.schedRunning && S.schedRunning[a.id]);
+      return {
+        ...a,
+        isRunning,
+        isNotRunning: !isRunning,
+        onRunNow: () => this.schedTriggerRun(a.id, a.title),
+        toggleActive: () => this.schedToggleAutoStatus(a.id)
+      };
+    });
+
+    // Modal state helpers
+    const N = S.schedNew || {};
+    const curModel = N.model || "Standard";
+    const curFormat = N.format || "PDF";
+    const autoRunOn = !!N.autoRun;
+    const freq = N.frequency || "Week";
+    const days = N.days || ["Mon"];
+    const allDays = [
+      { k: "Mon", label: "Mon", full: "Monday" },
+      { k: "Tue", label: "Tue", full: "Tuesday" },
+      { k: "Wed", label: "Wed", full: "Wednesday" },
+      { k: "Thu", label: "Thu", full: "Thursday" },
+      { k: "Fri", label: "Fri", full: "Friday" },
+      { k: "Sat", label: "Sat", full: "Saturday" },
+      { k: "Sun", label: "Sun", full: "Sunday" }
+    ];
+
+    const schedDaysList = allDays.map(d => {
+      const sel = days.includes(d.k);
+      const style = "display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;padding:0 9px;border-radius:9999px;border:" + (sel ? "none" : "1px solid var(--flb-line)") + ";background:" + (sel ? "var(--flb-violet)" : "var(--flb-surface)") + ";color:" + (sel ? "#fcfcfc" : "var(--flb-ink-2)") + ";font:500 12px var(--flb-font-body);cursor:pointer;transition:all .15s ease";
+      return {
+        ...d,
+        style,
+        onToggle: () => {
+          const next = days.includes(d.k) ? (days.length > 1 ? days.filter(x => x !== d.k) : days) : [...days, d.k];
+          this.setState(s => ({ schedNew: { ...s.schedNew, days: next } }));
+        }
+      };
+    });
+
+    // Summary calculation
+    const selFullDays = allDays.filter(d => days.includes(d.k)).map(d => d.full);
+    const dayStr = selFullDays.join(", ");
+    let schedSummaryText = "";
+    if (freq === "Day") {
+      schedSummaryText = "Runs daily at " + (N.time || "09:30:00 AM") + " from " + (N.startDate || "August 18, 2026") + (N.endDate ? " to " + N.endDate : " with no end date.");
+    } else if (freq === "Week") {
+      schedSummaryText = "Runs weekly on " + (dayStr || "Monday") + " from " + (N.startDate || "August 18, 2026") + (N.endDate ? " to " + N.endDate : " with no end date.");
+    } else {
+      schedSummaryText = "Runs monthly from " + (N.startDate || "August 18, 2026") + (N.endDate ? " to " + N.endDate : " with no end date.");
+    }
+
+    const modelBtnStyle = (m) => "display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 15px;border-radius:9999px;border:" + (curModel === m ? "1px solid color-mix(in srgb, var(--flb-violet-light) 40%, transparent)" : "none") + ";cursor:pointer;font:500 12.5px var(--flb-font-body);background:" + (curModel === m ? "var(--flb-surface)" : "transparent") + ";color:" + (curModel === m ? "var(--flb-on-violet)" : "var(--flb-ink-3)") + ";box-shadow:" + (curModel === m ? "var(--flb-shadow-sm)" : "none") + ";transition:all .15s ease";
+
+    const formatBtnStyle = (f) => "display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 18px;border-radius:9999px;border:" + (curFormat === f ? "1px solid color-mix(in srgb, var(--flb-violet-light) 40%, transparent)" : "none") + ";cursor:pointer;font:500 12.5px var(--flb-font-body);background:" + (curFormat === f ? "var(--flb-surface)" : "transparent") + ";color:" + (curFormat === f ? "var(--flb-on-violet)" : "var(--flb-ink-3)") + ";box-shadow:" + (curFormat === f ? "var(--flb-shadow-sm)" : "none") + ";transition:all .15s ease";
+
+    const autoRunSwitchStyle = "width:42px;height:24px;border-radius:9999px;border:none;cursor:pointer;position:relative;padding:2px;background:" + (autoRunOn ? "var(--flb-violet)" : "var(--flb-surface-3)") + ";transition:background .2s ease";
+
+    const autoRunKnobStyle = "display:block;width:20px;height:20px;border-radius:9999px;background:#fcfcfc;transform:" + (autoRunOn ? "translateX(18px)" : "translateX(0)") + ";transition:transform .2s ease;box-shadow:0 1px 3px rgba(0,0,0,0.2)";
+
+    const schedRecipientsList = (N.recipients || ["admin@karmikh.com"]).map(email => ({
+      email,
+      onRemove: () => this.schedRemoveRecipient(email)
+    }));
+
+    const freqItemStyle = (v) => "display:flex;align-items:center;width:100%;height:32px;padding:0 10px;border:none;background:" + (freq === v ? "var(--flb-surface-3)" : "transparent") + ";color:var(--flb-ink);font:500 12.5px var(--flb-font-body);cursor:pointer;border-radius:6px;text-align:left";
+
+    return {
+      schedIsCustomTab: isCustom,
+      schedIsAutoTab: isAuto,
+      schedCustomCount: customCount,
+      schedAutoCount: autoCount,
+      schedCustomTabStyle: isCustom ? tabActiveStyle : tabInactiveStyle,
+      schedAutoTabStyle: isAuto ? tabActiveStyle : tabInactiveStyle,
+      schedCustomCountStyle: isCustom ? countActiveStyle : countInactiveStyle,
+      schedAutoCountStyle: isAuto ? countActiveStyle : countInactiveStyle,
+      schedSearch: S.schedSearch || "",
+      schedSearchHasVal: !!(S.schedSearch && S.schedSearch.length > 0),
+      schedCustomCardList,
+      schedAutoCardList,
+      schedHasNoResults: isCustom ? schedCustomCardList.length === 0 : schedAutoCardList.length === 0,
+      
+      // Modal bindings
+      schedModalOpen: !!S.schedModalOpen,
+      schedPrompt: N.prompt || "",
+      schedTitle: N.title || "",
+      schedRecipientInput: N.recipientInput || "",
+      schedRecipientsList,
+      schedModelFastStyle: modelBtnStyle("Fast"),
+      schedModelStandardStyle: modelBtnStyle("Standard"),
+      schedModelProStyle: modelBtnStyle("Pro"),
+      schedFormatPdfStyle: formatBtnStyle("PDF"),
+      schedFormatExcelStyle: formatBtnStyle("Excel"),
+      schedFormatTipOpen: !!S.schedFormatTip,
+      schedAutoRunActive: autoRunOn,
+      schedAutoRunSwitchStyle: autoRunSwitchStyle,
+      schedAutoRunKnobStyle: autoRunKnobStyle,
+      schedFreqLabel: freq,
+      schedFreqMenuOpen: !!S.schedFreqMenuOpen,
+      schedIsFreqDay: freq === "Day",
+      schedIsFreqWeek: freq === "Week",
+      schedIsFreqMonth: freq === "Month",
+      schedFreqDayItemStyle: freqItemStyle("Day"),
+      schedFreqWeekItemStyle: freqItemStyle("Week"),
+      schedFreqMonthItemStyle: freqItemStyle("Month"),
+      schedShowDaysPicker: freq === "Week",
+      schedDaysList,
+      schedTimeVal: N.time || "09:30:00 AM",
+      schedStartDateVal: N.startDate || "August 18, 2026",
+      schedEndDateVal: N.endDate || "Select date",
+      schedEndDateColor: N.endDate ? "var(--flb-ink)" : "var(--flb-ink-4)",
+      schedSummaryText,
+      
+      // Toast bindings
+      schedToastOpen: !!S.schedToast,
+      schedToastMessage: (S.schedToast && S.schedToast.message) || "",
+      schedToastIcon: (S.schedToast && S.schedToast.icon) || "ph-bold ph-warning-circle",
+      schedToastIconColor: (S.schedToast && S.schedToast.color) || "var(--flb-error)",
+      
+      // Menu item styles
+      schedMenuItemStyle: "display:flex;align-items:center;gap:8px;width:100%;height:32px;padding:0 10px;border:none;background:transparent;color:var(--flb-ink-2);font:500 12.5px var(--flb-font-body);cursor:pointer;border-radius:6px;text-align:left",
+      schedMenuItemDangerStyle: "display:flex;align-items:center;gap:8px;width:100%;height:32px;padding:0 10px;border:none;background:transparent;color:var(--flb-error);font:500 12.5px var(--flb-font-body);cursor:pointer;border-radius:6px;text-align:left",
+      
+      // Event Handlers
+      schedSetTabCustom: () => this.setState({ schedTab: "custom", schedCardMenu: null }),
+      schedSetTabAuto: () => this.setState({ schedTab: "automated", schedCardMenu: null }),
+      schedOnSearch: (e) => this.setState({ schedSearch: e.target.value }),
+      schedClearSearch: () => this.setState({ schedSearch: "" }),
+      schedOpenAddModal: () => this.setState({
+        schedModalOpen: true,
+        schedCardMenu: null,
+        schedFormatTip: false,
+        schedFreqMenuOpen: false,
+        schedNew: {
+          prompt: "Test prompt",
+          title: "Test",
+          model: "Standard",
+          recipients: ["admin@karmikh.com"],
+          recipientInput: "",
+          format: "PDF",
+          autoRun: false,
+          frequency: "Week",
+          time: "09:30:00 AM",
+          days: ["Mon"],
+          startDate: "August 18, 2026",
+          endDate: ""
+        }
+      }),
+      schedCloseAddModal: () => this.setState({ schedModalOpen: false, schedFormatTip: false, schedFreqMenuOpen: false }),
+      schedStopProp: (e) => e.stopPropagation(),
+      schedOnPromptInput: (e) => this.setState(s => ({ schedNew: { ...s.schedNew, prompt: e.target.value, title: s.schedNew.title || e.target.value.slice(0, 32) } })),
+      schedOnTitleInput: (e) => this.setState(s => ({ schedNew: { ...s.schedNew, title: e.target.value } })),
+      schedOnRecipientInput: (e) => this.setState(s => ({ schedNew: { ...s.schedNew, recipientInput: e.target.value } })),
+      schedOnRecipientKeyDown: (e) => {
+        if (e.key === "Enter" || e.key === ",") {
+          e.preventDefault();
+          const val = (this.state.schedNew.recipientInput || "").trim().replace(/,/g, "");
+          if (val && !this.state.schedNew.recipients.includes(val)) {
+            this.setState(s => ({ schedNew: { ...s.schedNew, recipients: [...s.schedNew.recipients, val], recipientInput: "" } }));
+          }
+        }
+      },
+      schedSelectModelFast: () => this.setState(s => ({ schedNew: { ...s.schedNew, model: "Fast" } })),
+      schedSelectModelStandard: () => this.setState(s => ({ schedNew: { ...s.schedNew, model: "Standard" } })),
+      schedSelectModelPro: () => this.setState(s => ({ schedNew: { ...s.schedNew, model: "Pro" } })),
+      schedSelectFormatPdf: () => this.setState(s => ({ schedNew: { ...s.schedNew, format: "PDF" }, schedFormatTip: false })),
+      schedSelectFormatExcel: () => this.setState(s => ({ schedNew: { ...s.schedNew, format: "Excel" }, schedFormatTip: false })),
+      schedToggleFormatTip: () => this.setState(s => ({ schedFormatTip: !s.schedFormatTip })),
+      schedToggleAutoRun: () => this.setState(s => ({ schedNew: { ...s.schedNew, autoRun: !s.schedNew.autoRun } })),
+      schedToggleFreqMenu: () => this.setState(s => ({ schedFreqMenuOpen: !s.schedFreqMenuOpen })),
+      schedSelectFreqDay: () => this.setState(s => ({ schedNew: { ...s.schedNew, frequency: "Day" }, schedFreqMenuOpen: false })),
+      schedSelectFreqWeek: () => this.setState(s => ({ schedNew: { ...s.schedNew, frequency: "Week" }, schedFreqMenuOpen: false })),
+      schedSelectFreqMonth: () => this.setState(s => ({ schedNew: { ...s.schedNew, frequency: "Month" }, schedFreqMenuOpen: false })),
+      schedOnTimeInput: (e) => this.setState(s => ({ schedNew: { ...s.schedNew, time: e.target.value } })),
+      schedToggleStartDateMenu: () => this.setState(s => ({ schedStartDateMenuOpen: !s.schedStartDateMenuOpen })),
+      schedToggleEndDateMenu: () => {
+        const cur = (this.state.schedNew && this.state.schedNew.endDate) ? "" : "December 31, 2026";
+        this.setState(s => ({ schedNew: { ...s.schedNew, endDate: cur } }));
+      },
+      schedSaveNewReport: () => this.schedSaveReport()
+    };
+  }
+
   renderVals() {
     const setNav = (k) => () => this.goFeat(k);
     const nav = this.state.nav;
@@ -3075,148 +3716,79 @@ class Component extends DCLogic {
         onDelete: () => this.setState((st) => ({ profiles: st.profiles.filter((x) => x.id !== p.id), profileMenu: null, profileSel: st.profileSel === p.id ? null : st.profileSel })) };
     });
 
-    // ── Orion personalization wizard ──
+    // ── Orion personalization wizard (v2 role-adaptive) ──
     const o = this.state.orion;
-    const selCard = (on) => "display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 18px;border-radius:13px;border:1px solid " + (on ? "color-mix(in srgb, var(--flb-violet-light) 55%, transparent)" : "transparent") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";cursor:pointer;transition:background 140ms var(--flb-ease)";
-    const segWrap = "display:flex;border:1px solid var(--flb-border-default);border-radius:10px;overflow:hidden;background:var(--flb-bg)";
-    const segBtn = (on) => "flex:1;height:40px;border:none;background:" + (on ? "var(--flb-purple)" : "transparent") + ";color:" + (on ? "#fcfcfc" : "var(--flb-ink-2)") + ";font:500 13px var(--flb-font-body);cursor:pointer;transition:background 140ms var(--flb-ease)";
-    const chipBase = (kind) => { const map = { violet: ["var(--flb-tint-violet)", "var(--flb-on-violet)"], magenta: ["var(--flb-tint-error)", "var(--flb-magenta)"], success: ["var(--flb-tint-success)", "var(--flb-on-success)"], warn: ["var(--flb-tint-warning)", "var(--flb-on-warning)"] }; const c = map[kind] || map.violet; return "display:inline-flex;align-items:center;height:20px;padding:0 9px;border-radius:9999px;background:" + c[0] + ";color:" + c[1] + ";font:500 9.5px var(--flb-font-body);letter-spacing:.06em"; };
-    const orionDots = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => ({ i, dotStyle: "flex:1;height:4px;border-radius:9999px;background:" + (i <= o.step ? "var(--flb-purple)" : "var(--flb-surface-3)") + ";transition:background 200ms var(--flb-ease)" }));
+    const BIZ = this.ORION_BIZ;
     const OFLOW = o.mode === "short" ? this.ORION_FLOW_SHORT : this.ORION_FLOW;
     const isShort = o.mode === "short";
-    const oNextStep = () => Math.min(OFLOW.length - 1, this.state.orion.step + 1);
-    const roleOpts = this.ORION_ROLES.map((r, i) => ({ key: r.key, title: r.title, desc: r.desc, letter: r.title.charAt(0), cardStyle: selCard(o.role === r.key), onSelect: () => this.setOrion({ role: r.key, metrics: r.m.slice(), chan: r.chan, time: r.time, day: r.day, tone: r.tone, cadence: r.cadence, step: oNextStep() }) }));
-    const GW = o.goalWeights || {};
-    const RATE = ["Not now", "Nice to have", "Important", "Critical"];
-    const topGoal = this.ORION_GOALS.reduce((a, b) => ((GW[b.key] || 0) > (GW[a.key] || 0) ? b : a), this.ORION_GOALS[0]);
-    const goalSummary = (GW[topGoal.key] || 0) > 0
-      ? "Orion will lead with " + topGoal.title.toLowerCase() + " and weigh the rest behind it."
-      : "Rate at least one objective so Orion knows where to start.";
-    const goalOptsRated = this.ORION_GOALS.map((gg) => {
-      const w = GW[gg.key] || 0, isTop = gg.key === topGoal.key && w > 0;
-      return { key: gg.key, title: gg.title, weight: w, pct: Math.round((w / 3) * 100) + "%", tag: RATE[w],
-        rowStyle: "padding:6px 13px 3px;border-radius:12px;background:" + (isTop ? "var(--flb-surface-2)" : "var(--flb-surface)"),
-        tagStyle: "flex-shrink:0;font:400 10.5px var(--flb-font-body);color:" + (w >= 2 ? "var(--flb-on-violet)" : "var(--flb-ink-4)"),
-        onRate: (e) => { const v = Number(e.target.value); this.setOrion({ goalWeights: { ...GW, [gg.key]: v }, goal: this.ORION_GOALS.reduce((a, b) => ((({ ...GW, [gg.key]: v })[b.key] || 0) > (({ ...GW, [gg.key]: v })[a.key] || 0) ? b : a), this.ORION_GOALS[0]).key }); } };
-    });
-    const goalOptsLegacy = this.ORION_GOALS.map((gg, i) => ({ key: gg.key, title: gg.title, desc: gg.desc, letter: gg.title.charAt(0), cardStyle: selCard(o.goal === gg.key), onSelect: () => this.setOrion({ goal: gg.key, step: oNextStep() }) }));
-    const metricChips = this.ORION_METRICS.map((m) => { const idx = o.metrics.indexOf(m); const on = idx > -1; return { name: m, showOrd: on, ord: on ? String(idx + 1) : "", chipStyle: "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:9999px;border:1.5px solid " + (on ? "var(--flb-purple)" : "var(--flb-border-default)") + ";background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:" + (on ? "var(--flb-ink-2)" : "var(--flb-ink-2)") + ";font:400 12.5px var(--flb-font-body);cursor:pointer;transition:all 120ms var(--flb-ease)", onToggle: () => { const cur = this.state.orion.metrics.slice(); const j = cur.indexOf(m); if (j > -1) cur.splice(j, 1); else { if (cur.length >= 5) return; cur.push(m); } this.setOrion({ metrics: cur }); } }; });
-    const painExamples = this.ORION_PAINS.map((p) => ({ text: p, onFill: () => this.setOrion({ pain: p }) }));
-    const chanSeg = [["WhatsApp", "WhatsApp"], ["Email", "Email"], ["WhatsApp + Email", "Both"]].map(([v, label]) => ({ label, segStyle: segBtn(o.chan === v), onSel: () => this.setOrion({ chan: v }) }));
-    const toneSeg = [["blunt", "Blunt actions"], ["detailed", "Detailed reasoning"]].map(([v, label]) => ({ label, segStyle: segBtn(o.tone === v), onSel: () => this.setOrion({ tone: v }) }));
-    const guardList = this.ORION_CAMPS.map((c) => { const on = o.guards.includes(c.n); return { n: c.n, s: c.s, rowStyle: "display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;border:1.5px solid " + (on ? "var(--flb-purple)" : "var(--flb-border-default)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface)") + ";cursor:pointer;transition:all 120ms var(--flb-ease)", boxStyle: "width:18px;height:18px;flex-shrink:0;border-radius:5px;border:1.5px solid " + (on ? "var(--flb-purple)" : "var(--flb-ink-4)") + ";background:" + (on ? "var(--flb-purple)" : "transparent") + ";display:inline-flex;align-items:center;justify-content:center;color:#fcfcfc", checked: on, onToggle: () => { const cur = this.state.orion.guards.slice(); const j = cur.indexOf(c.n); if (j > -1) cur.splice(j, 1); else cur.push(c.n); this.setOrion({ guards: cur }); } }; });
-    const roleTitle = (this.ORION_ROLES.find((r) => r.key === o.role) || {}).title || "-";
-    const goalTitle = (this.ORION_GOALS.find((gg) => gg.key === o.goal) || {}).title || "-";
-    const personRows = [
-      { k: "Role", v: roleTitle },
-      { k: "Daily metrics", v: o.metrics.join(" → ") },
-      { k: "Check-ins", v: (this.CADENCE_LABEL[o.cadence] || "-") },
-      { k: "Cadence", v: "Daily " + o.time + " via " + o.chan + " · Weekly " + o.day },
-      { k: "Tone", v: o.tone === "blunt" ? "Blunt actions" : "Detailed reasoning" },
-      { k: "Inherited", v: "Goal, alerts and guardrails set by " + this.ACCOUNT_OWNER },
-    ];
-    const fullRows = [
-      { k: "Role", v: roleTitle }, { k: "Goal", v: goalTitle },
-      { k: "Your pain", v: o.pain ? "\u201C" + o.pain + "\u201D" : "-" },
-      { k: "Daily metrics", v: o.metrics.join(" → ") },
-      { k: "Alerts", v: "ROAS < " + o.roas + " · Spend +" + o.spike + "% no sales" },
-      { k: "Cadence", v: "Daily " + o.time + " via " + o.chan + " · Weekly " + o.day },
-      { k: "Guardrails", v: (o.guards.length ? o.guards.join(", ") : "None") + " · POAS floor " + o.floor },
-      { k: "Tone", v: o.tone === "blunt" ? "Blunt actions" : "Detailed reasoning" },
-    ];
-    const rrSrc = isShort ? personRows : fullRows;
-    const receiptRows = rrSrc.map((r, i) => ({ k: r.k, v: r.v, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body)" + (i < rrSrc.length - 1 ? ";border-bottom:1px solid var(--flb-border-muted)" : "") }));
-    const inheritedRows = [
-      { k: "Optimization goal", v: goalTitle, icon: "ph ph-target" },
-      { k: "Alert thresholds", v: "True ROAS < " + o.roas + " · spend +" + o.spike + "% with no sales", icon: "ph ph-bell-ringing" },
-      { k: "Protected campaigns", v: o.guards.length ? o.guards.join(", ") : "None set", icon: "ph ph-shield-check" },
-      { k: "POAS floor", v: String(o.floor), icon: "ph ph-chart-line-down" },
-    ];
-    const oMets = o.metrics.join(", ");
-    const oTone = o.tone === "blunt" ? "Tone: blunt, action-first. Lead with the decision, one line per action." : "Tone: show the reasoning and data trail behind every recommendation.";
-    const oGuards = "Never touch: " + (o.guards.length ? o.guards.join(", ") : "none") + ". Keep POAS above " + o.floor + ".";
-    const oPain = o.pain || "my biggest ad-management pain";
-    const orionTemplatesBase = [
-      { title: "My Daily Briefing", tag: "DAILY", cat: "Analytics", avIcon: "ph-sun", desc: "Your metrics, ranked, in your inbox every morning.", chipStyle: chipBase("violet"), sched: "Auto-runs daily " + o.time + " · " + o.chan, prompt: "Run my daily briefing. Report in this order: " + oMets + ". Flag anything with True ROAS below " + o.roas + " or spend up " + o.spike + "% with no sales. My goal: " + goalTitle + ". " + oGuards + " " + oTone },
-      { title: "Solve: " + (o.pain ? o.pain.slice(0, 30) + "…" : "my biggest pain"), tag: "ON-DEMAND", cat: "Diagnostics", avIcon: "ph-magnifying-glass", desc: "Find and fix your single biggest money leak.", chipStyle: chipBase("warn"), sched: null, prompt: "My biggest problem: \u201C" + oPain + "\u201D. Analyze my account right now for every instance of this pattern, quantify what it cost me in the last 30 days, and give me ranked fixes. " + oTone },
-      { title: "My Weekly Deep-dive", tag: "WEEKLY", cat: "Strategy", avIcon: "ph-calendar-blank", desc: "Reallocation and scaling plan for the week ahead.", chipStyle: chipBase("magenta"), sched: "Auto-runs every " + o.day + " · Email", prompt: "Run my " + o.day + " deep-dive: budget reallocation ranked by POAS impact, creative fatigue refresh list, scaling candidates holding ROAS ≥ " + o.roas + " for 7 days, and WoW movement on " + oMets + ". End with 3 actions for next week. " + oGuards },
-      { title: "My Monthly Report", tag: "MONTHLY", cat: "Reporting", avIcon: "ph-file-text", desc: "Client-ready P&L reconciled across every channel.", chipStyle: chipBase("success"), sched: "Auto-runs 1st of month · Email", prompt: "Prepare my monthly report: P&L per channel with True ROAS reconciled to store revenue, COD/RTO impact on real margin, new vs repeat cohort quality, MoM trend on " + oMets + ". Score progress on my goal: " + goalTitle + ". Client-ready format." },
-    ].map((t) => ({ title: t.title, cat: t.cat, desc: t.desc, avClass: "ph " + t.avIcon, sched: t.sched, hasSched: !!t.sched, prompt: t.prompt, onLoad: () => this.setState({ draft: t.prompt, orion: { ...this.state.orion, open: false } }) }));
-    const orionTemplates = this.state.tplOrder.map((i) => orionTemplatesBase[i]).filter(Boolean);
-    const oKey = OFLOW[o.step] || "intro"; const oTotal = OFLOW.length;
-    const oIs = (k) => oKey === k; const oAuto = oIs("role");
-    const oThird = (oTotal - 1) / 3;
-    const canOrionNext = oIs("role") ? !!o.role : oIs("goal") ? Object.values(o.goalWeights || {}).some((v) => v > 0) : oIs("metrics") ? o.metrics.length > 0 : oIs("cadence") ? !!o.cadence : true;
-    const bars = (arr) => arr.map((h) => ({ h: h + "%" }));
-    const orionBars1 = bars([22,32,27,42,36,50,45,63,55,76]);
-    const orionMiniBars = [[38,52],[46,60],[42,72],[58,80],[66,94]].map(([a,b]) => ({ a: a + "%", b: b + "%" }));
-    const orionBars2 = bars([18,26,22,34,30,44,38,52,47,64,58,78]);
-    const orionBeforeBars = bars([4,3,5,4,3,5,4]);
-    const orionAfterBars = bars([16,24,20,34,44,40,58,72]);
-    const orionTeam = [
-      { role: "Video maker", saved: "₹80,000" }, { role: "Socials manager", saved: "₹40,000" },
-      { role: "Designer", saved: "₹35,000" }, { role: "Performance marketer", saved: "₹60,000" },
-    ].map((t, i) => ({ role: t.role, saved: "saved " + t.saved, letter: t.role.charAt(0), slotId: "orion-team-" + i }));
-    const orionCostBars = [
-      { label: "flable", amt: "₹2,499/mo", h: "16%", brand: true },
-      { label: "Tools", amt: "₹80k/mo", h: "34%", brand: false },
-      { label: "Part-time", amt: "₹1.5L/mo", h: "62%", brand: false },
-      { label: "Agency", amt: "₹4L/mo", h: "100%", brand: false },
-    ].map((b) => ({ label: b.label, amt: b.amt, barStyle: "width:100%;border-radius:8px 8px 0 0;height:" + b.h + ";background:" + (b.brand ? "var(--flb-gradient-energetic)" : "var(--flb-surface-3)"), amtColor: b.brand ? "var(--flb-on-violet)" : "var(--flb-ink-3)" }));
-    const LIK = [
-      { v: "monitor",   label: "Only monitor performance",         short: "Monitor",   desc: "Orion reports what changed and why. Every decision stays with you." },
-      { v: "recommend", label: "Recommend improvements",           short: "Recommend", desc: "Orion diagnoses the issue and proposes the specific change to make." },
-      { v: "prepare",   label: "Prepare campaigns",                short: "Prepare",   desc: "Orion builds the budget or campaign change and leaves it ready to launch." },
-      { v: "approval",  label: "Prepare everything for my approval", short: "One-tap", desc: "Orion stages every change end to end - you approve the whole set with one tap." },
-    ];
-    const lIdx = Math.max(0, LIK.findIndex((x) => x.v === o.likert));
+    const oKey = OFLOW[o.step] || "role"; const oTotal = OFLOW.length;
+    const oIs = (k) => oKey === k;
+    const oNextStep = () => Math.min(oTotal - 1, this.state.orion.step + 1);
+    const R = o.role ? this.ORION_ROLES_V2[o.role] : null;
     const pct = (v, min, max) => Math.round(((Number(v) - min) / (max - min)) * 100) + "%";
-    const orionLikertOpts = [
-      { v: "monitor", label: "Only monitor performance" },
-      { v: "recommend", label: "Recommend improvements" },
-      { v: "prepare", label: "Prepare campaigns" },
-      { v: "approval", label: "Prepare everything for my approval" },
-    ].map((o2) => {
-      const sel = o.likert === o2.v;
-      return { v: o2.v, label: o2.label, dotInner: sel,
-        rowStyle: "width:100%;display:flex;align-items:center;gap:13px;padding:15px 17px;border-radius:12px;cursor:pointer;transition:all 130ms var(--flb-ease);text-align:left;border:1px solid " + (sel ? "transparent" : "var(--flb-line)") + ";background:" + (sel ? "var(--flb-tint-violet)" : "var(--flb-surface)"),
-        dotStyle: "width:18px;height:18px;border-radius:9999px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;border:2px solid " + (sel ? "var(--flb-violet)" : "var(--flb-ink-4)"),
-        labelStyle: "font:400 14px var(--flb-font-body);color:var(--flb-ink)",
-        onPick: () => this.setOrion({ likert: o2.v, step: Math.min(oTotal - 1, this.state.orion.step + 1) }) };
-    });
-    const orionCadenceOpts = [
-      { v: "daily", label: "Daily" }, { v: "weekly", label: "Weekly" }, { v: "both", label: "Both" }, { v: "attention", label: "Only when something needs attention" },
-    ].map((o2) => {
-      const sel = o.cadence === o2.v;
-      return { v: o2.v, label: o2.label, dotInner: sel,
-        rowStyle: "width:100%;display:flex;align-items:center;gap:13px;padding:15px 17px;border-radius:12px;cursor:pointer;transition:all 130ms var(--flb-ease);text-align:left;border:1px solid " + (sel ? "transparent" : "var(--flb-line)") + ";background:" + (sel ? "var(--flb-tint-violet)" : "var(--flb-surface)"),
-        dotStyle: "width:18px;height:18px;border-radius:9999px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;border:2px solid " + (sel ? "var(--flb-violet)" : "var(--flb-ink-4)"),
-        labelStyle: "font:400 14px var(--flb-font-body);color:var(--flb-ink)",
-        onPick: () => this.setOrion({ cadence: o2.v }) };
-    });
-    const oStepLabels = ["About you", "Your goal", "Biggest pain", "Daily metrics", "Alerts", "Cadence & voice", "Guardrails", "Review"];
+    const selCard = (on) => "display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 18px;border-radius:13px;border:1px solid " + (on ? "color-mix(in srgb, var(--flb-violet-light) 55%, transparent)" : "transparent") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";cursor:pointer;transition:background 140ms var(--flb-ease)";
+    const segBtn = (on) => "flex:1;height:40px;border:none;background:" + (on ? "var(--flb-purple)" : "transparent") + ";color:" + (on ? "#fcfcfc" : "var(--flb-ink-2)") + ";font:500 13px var(--flb-font-body);cursor:pointer;transition:background 140ms var(--flb-ease)";
+    const orionDots = [0,1,2,3,4,5,6].map((i) => ({ i, dotStyle: "flex:1;height:4px;border-radius:9999px;background:" + (i <= o.step ? "var(--flb-purple)" : "var(--flb-surface-3)") + ";transition:background 200ms var(--flb-ease)" }));
+    // Role selector
+    const roleEntries = Object.entries(this.ORION_ROLES_V2);
+    const roleOpts = roleEntries.map(([k, r]) => ({ key: k, title: r.label, desc: r.desc, letter: r.label.charAt(0), cardStyle: selCard(o.role === k), onSelect: () => this.setOrion({ role: k, goal: r.goalPre, pain: r.painPre, metrics: [...r.metricsPre], focus: [...r.focusPre], step: oNextStep() }) }));
+    // Goal picker (single-select with add)
+    const goalOpts = R ? R.goals.map((g, i) => ({ title: g.t, desc: g.d, sel: o.goal === i, rowStyle: "display:flex;align-items:flex-start;gap:13px;width:100%;padding:13px 17px;border-radius:13px;border:1px solid " + (o.goal === i ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (o.goal === i ? "var(--flb-tint-violet)" : "var(--flb-surface)") + ";cursor:pointer;text-align:left;transition:all 140ms var(--flb-ease)", onSelect: () => this.setOrion({ goal: i }) })) : [];
+    // Pain picker (single-select with add)
+    const painOpts = R ? R.pains.map((p, i) => ({ title: p.t, desc: p.d, sel: o.pain === i, rowStyle: "display:flex;align-items:flex-start;gap:13px;width:100%;padding:13px 17px;border-radius:13px;border:1px solid " + (o.pain === i ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (o.pain === i ? "var(--flb-tint-violet)" : "var(--flb-surface)") + ";cursor:pointer;text-align:left;transition:all 140ms var(--flb-ease)", onSelect: () => this.setOrion({ pain: i }) })) : [];
+    // Metrics chips (ordered multi-select)
+    const metricChips = R ? R.metrics.map((m, i) => { const at = o.metrics.indexOf(i); const on = at > -1; return { name: m, showOrd: on, ord: on ? String(at + 1) : "", chipStyle: "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:9999px;border:1.5px solid " + (on ? "var(--flb-purple)" : "var(--flb-border-default)") + ";background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:var(--flb-ink-2);font:400 12.5px var(--flb-font-body);cursor:pointer;transition:all 120ms var(--flb-ease)", onToggle: () => { const cur = o.metrics.slice(); const j = cur.indexOf(i); if (j > -1) cur.splice(j, 1); else cur.push(i); this.setOrion({ metrics: cur }); } }; }) : [];
+    // Focus chips (ordered multi-select)
+    const focusChips = R ? R.focus.map((f, i) => { const at = o.focus.indexOf(i); const on = at > -1; return { name: f, showOrd: on, ord: on ? String(at + 1) : "", chipStyle: "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:9999px;border:1.5px solid " + (on ? "var(--flb-purple)" : "var(--flb-border-default)") + ";background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:var(--flb-ink-2);font:400 12.5px var(--flb-font-body);cursor:pointer;transition:all 120ms var(--flb-ease)", onToggle: () => { const cur = o.focus.slice(); const j = cur.indexOf(i); if (j > -1) cur.splice(j, 1); else cur.push(i); this.setOrion({ focus: cur }); } }; }) : [];
+    // Delivery cadence options
+    const cadenceOpts = ["Let Orion decide","Hourly","Daily","Daily + weekly review","Weekly","Only when something breaks"].map((c) => ({ label: c, sel: o.cadence === c, rowStyle: "width:100%;display:flex;align-items:center;gap:13px;padding:15px 17px;border-radius:12px;cursor:pointer;transition:all 130ms var(--flb-ease);text-align:left;border:1px solid " + (o.cadence === c ? "transparent" : "var(--flb-line)") + ";background:" + (o.cadence === c ? "var(--flb-tint-violet)" : "var(--flb-surface)") + ";font:400 14px var(--flb-font-body);color:var(--flb-ink)", onPick: () => this.setOrion({ cadence: c }) }));
+    const channelOpts = ["WhatsApp","Email","Slack","In-app only"].map((ch) => ({ label: ch, sel: o.channel === ch }));
+    // Adaptive schedules
+    const D = R ? this.decideSchedules(o.role, { cadence: o.cadence, channel: o.channel, pain: o.pain }) : { scheds: [], reasons: [] };
+    // Review card
+    const roleTitle = R ? R.label : "-";
+    const goalTitle = R && R.goals[o.goal] ? R.goals[o.goal].t : "-";
+    const painTitle = R && R.pains[o.pain] ? R.pains[o.pain].t : "-";
+    const metricsList = o.metrics.map(i => R ? R.metrics[i] : "").filter(Boolean);
+    const focusList = o.focus.map(i => R ? R.focus[i] : "").filter(Boolean);
+    // Step nav labels
+    const oStepLabels = ["Who you are","Your goal","Biggest pain","Daily watch","Focus","Delivery","Review"];
     const orionStepNav = oStepLabels.map((label, i) => {
       const done = i < o.step, active = i === o.step;
-      const dotStyle = done
-        ? "width:20px;height:20px;border-radius:9999px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.95)"
-        : active
-        ? "width:20px;height:20px;border-radius:9999px;flex-shrink:0;background:#fcfcfc;box-shadow:0 0 0 4px rgba(255,255,255,.22)"
-        : "width:20px;height:20px;border-radius:9999px;flex-shrink:0;border:1.5px solid rgba(255,255,255,.32);box-sizing:border-box";
-      const labelStyle = active
-        ? "font:600 12.5px var(--flb-font-body);color:#fcfcfc"
-        : done
-        ? "font:400 12.5px var(--flb-font-body);color:rgba(255,255,255,.72)"
-        : "font:400 12.5px var(--flb-font-body);color:rgba(255,255,255,.45)";
+      const dotStyle = done ? "width:20px;height:20px;border-radius:9999px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.95)" : active ? "width:20px;height:20px;border-radius:9999px;flex-shrink:0;background:#fcfcfc;box-shadow:0 0 0 4px rgba(255,255,255,.22)" : "width:20px;height:20px;border-radius:9999px;flex-shrink:0;border:1.5px solid rgba(255,255,255,.32);box-sizing:border-box";
+      const labelStyle = active ? "font:600 12.5px var(--flb-font-body);color:#fcfcfc" : done ? "font:400 12.5px var(--flb-font-body);color:rgba(255,255,255,.72)" : "font:400 12.5px var(--flb-font-body);color:rgba(255,255,255,.45)";
       return { label, done, dotStyle, labelStyle };
     });
+    // Legacy compat (still referenced by some old HTML)
+    const chanSeg = channelOpts.map((c) => ({ label: c.label, segStyle: segBtn(c.sel), onSel: () => this.setOrion({ channel: c.label }) }));
+    const toneSeg = [["blunt", "Blunt actions"], ["detailed", "Detailed reasoning"]].map(([v, label]) => ({ label, segStyle: segBtn(false), onSel: () => {} }));
+    const guardList = this.ORION_CAMPS.map((c) => ({ n: c.n, s: c.s, rowStyle: "display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;border:1.5px solid var(--flb-border-default);background:var(--flb-surface);cursor:pointer;transition:all 120ms var(--flb-ease)", boxStyle: "width:18px;height:18px;flex-shrink:0;border-radius:5px;border:1.5px solid var(--flb-ink-4);display:inline-flex;align-items:center;justify-content:center;color:#fcfcfc", checked: false, onToggle: () => {} }));
+    const inheritedRows = [
+      { k: "Optimization goal", v: goalTitle, icon: "ph ph-target" },
+      { k: "Alert thresholds", v: "Built in — POAS floor · spend caps", icon: "ph ph-bell-ringing" },
+      { k: "POAS floor", v: "Always on", icon: "ph ph-chart-line-down" },
+    ];
+    const receiptRows = [
+      { k: "Role", v: roleTitle, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
+      { k: "Goal", v: goalTitle, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
+      { k: "Pain", v: painTitle, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
+      { k: "Metrics", v: metricsList.join(" → "), rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
+      { k: "Focus", v: focusList.join(" · "), rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
+      { k: "Delivery", v: o.cadence + " · " + o.time + " · " + o.channel, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body)" },
+    ];
+    // Templates from role
+    const orionTemplates = R ? R.tmpls.map((t) => ({ title: t.t, cat: "Starter", desc: t.d, avClass: "ph ph-file-text", sched: t.b, hasSched: false, prompt: "Run: " + t.t, onLoad: () => this.setState({ draft: "Run: " + t.t, orion: { ...this.state.orion, open: false } }) })).slice(0, this.state.tplOrder.length) : [];
 
     return {
       themeClass: this.state.theme === "light" ? "light" : "",
       isCreative: this.state.nav === "creative",
       isUtm: this.state.nav === "utm",
+      isScheduler: this.state.nav === "scheduler",
+      isSchedulerNav: this.state.nav === "scheduler",
       isExplain: this.state.nav === "explain",
-      isHome: this.state.nav !== "creative" && this.state.nav !== "utm" && this.state.nav !== "explain",
+      isHome: this.state.nav !== "creative" && this.state.nav !== "utm" && this.state.nav !== "explain" && this.state.nav !== "scheduler",
       goUtm: setNav("utm"),
+      goScheduler: setNav("scheduler"),
       explainBadge: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).badge,
       explainTitle: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).title,
       explainBody: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).body,
@@ -3230,63 +3802,86 @@ class Component extends DCLogic {
       optBtnStyle: navRow(A("inventory") || A("utm"), featLocked("inventory")), utmSubStyle: subRow(A("utm"), featLocked("utm")),
       ...this.ciBuild(),
       ...this.utmBuild(),
+      ...this.schedBuild(),
       ...this.tgtBuild(),
       ...this.deepBuild(),
-      // ── Orion wizard bindings ──
+      // ── Orion wizard bindings (v2) ──
       orionOpen: o.open, orionDone: o.done, orionNotDone: !o.done,
       openOrion: () => this.setOrion({ open: true, step: 0, mode: "full" }),
       openOrionShort: () => this.setState((s) => ({ menu: null, orion: { ...s.orion, open: true, step: 0, mode: "short" } })),
-      // Loading bar animation for educational reframe step
-      startOrionLoading: () => { const bar = document.querySelector('[data-orion-loading-bar]'); const pct = document.querySelector('[data-orion-loading-pct]'); if (!bar || !pct) return; let progress = 0; const interval = setInterval(() => { progress += 2; bar.style.width = progress + '%'; pct.textContent = progress + '%'; if (progress >= 100) { clearInterval(interval); setTimeout(() => this.setOrion({ step: this.state.orion.step + 1 }), 600); } }, 40); },
       orionShort: isShort, orionFull: !isShort,
       orionInherited: oIs("inherited"), inheritedRows, accountOwner: this.ACCOUNT_OWNER,
       orionModeLabel: isShort ? "TEAM MEMBER SETUP" : "PERSONALIZE ORION",
-      orionStepCount: isShort ? "4 questions" : "8 questions",
+      orionStepCount: isShort ? "5 steps" : "7 steps",
       closeOrion: () => { if (this.state.orionOnboarding) this.skipAllPersonalization(); else this.setOrion({ open: false }); },
       skipOrionOnboarding: () => this.skipAllPersonalization(),
       orionOnboarding: this.state.orionOnboarding,
-      orionIntro: oIs("intro"), orionProof: oIs("proof"),
-      orionStep0: oIs("role"), orionStep1: oIs("goal"), orionStep2: oIs("pain"), orionStep3: oIs("metrics"), orionStep4: oIs("alerts"), orionStep5: oIs("cadence"), orionStep6: oIs("guardrails"), orionStep7: oIs("receipt"),
-      orionStory1: oIs("story1"), orionBeforeAfter: oIs("beforeafter"), orionLikert: oIs("likert"), orionDreamTeam: oIs("dreamteam"), orionCostCompare: oIs("costcompare"), orionStory2: oIs("story2"), orionStory3: oIs("story3"),
-      orionBars1, orionBars2, orionBeforeBars, orionAfterBars, orionTeam, orionCostBars, orionLikertOpts, orionCadenceOpts, orionCadenceLegacy: oIs("delivery"), orionIntroItems: [{ label: "Your business goals", icon: "ph ph-target" }, { label: "Key marketing metrics", icon: "ph ph-chart-line-up" }, { label: "Smart alerts", icon: "ph ph-bell-ringing" }, { label: "Automated reports", icon: "ph ph-file-text" }, { label: "Communication preferences", icon: "ph ph-chat-circle-dots" }, { label: "AI optimization rules", icon: "ph ph-sliders-horizontal" }], orionMiniBars,
-      orionNotFirst: o.step > 0, orionShowSkip: oIs("pain") || oIs("guardrails") || this.state.orionOnboarding, orionIsLast: o.step === oTotal - 1,
-      orionShowNext: !oAuto,
-      orionSeg1Pct: Math.round(Math.max(0, Math.min(1, o.step / oThird)) * 100) + "%",
-      orionSeg2Pct: Math.round(Math.max(0, Math.min(1, (o.step - oThird) / oThird)) * 100) + "%",
-      orionSeg3Pct: Math.round(Math.max(0, Math.min(1, (o.step - 2 * oThird) / oThird)) * 100) + "%",
-      orionNextLabel: oIs("intro") ? "Get started" : (o.step === oTotal - 1) ? (isShort ? "Save my setup" : "Generate my templates") : "Continue",
-      orionNextStyle: "display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 15px var(--flb-font-body);box-shadow:var(--flb-glow-violet);cursor:" + (canOrionNext ? "pointer" : "not-allowed") + ";opacity:" + (canOrionNext ? "1" : ".5"),
-      orionNext: () => { const s = this.state.orion; if (s.step >= oTotal - 1) { if (this.state.orionOnboarding) this.finishOnboardingPersonalize(); else { this.setOrion({ open: false, done: true }); this.setState((st) => ({ steps: { ...st.steps, personalized: true } })); this.showToast("Your onboarding preferences have been saved"); } return; } if (!canOrionNext) return; this.setOrion({ step: Math.min(oTotal - 1, s.step + 1) }); },
-      orionBack: () => this.setOrion({ step: Math.max(0, this.state.orion.step - 1) }),
+      orionIntro: false, orionProof: false,
+      orionStep0: oIs("role"),
+      orionStep1: oIs("goal"),
+      orionStep2: oIs("pain"),
+      orionStep3: oIs("metrics"),
+      orionStep4: oIs("focus"),
+      orionStep5: oIs("delivery") || (isShort && oIs("cadence")),
+      orionStep6: oIs("review") || (isShort && oIs("inherited")),
+      orionStep7: oIs("building"),
+      orionReady: oIs("ready") || (isShort && oIs("receipt")),
+      orionStepLabel0: isShort ? "STEP 1 OF 5 · WHO YOU ARE" : "STEP 1 OF 7 · WHO YOU ARE",
+      orionStepLabel1: isShort ? "STEP 2 OF 5 · DAILY WATCH" : "STEP 2 OF 7 · YOUR GOAL",
+      orionStepLabel2: isShort ? "" : "STEP 3 OF 7 · BIGGEST PAIN",
+      orionStepLabel3: isShort ? "STEP 2 OF 5 · DAILY WATCH" : "STEP 4 OF 7 · DAILY WATCH",
+      orionStepLabel4: isShort ? "" : "STEP 5 OF 7 · FOCUS",
+      orionStepLabel5: isShort ? "STEP 3 OF 5 · DELIVERY" : "STEP 6 OF 7 · DELIVERY",
+      orionStepLabel6: isShort ? "STEP 4 OF 5 · REVIEW" : "FINAL REVIEW",
+      orionStepLabelReady: isShort ? "STEP 5 OF 5 · READY" : "",
+      orionStory1: false, orionBeforeAfter: false, orionLikert: false, orionDreamTeam: false, orionCostCompare: false, orionStory2: false, orionStory3: false,
+      orionBars1: [], orionBars2: [], orionBeforeBars: [], orionAfterBars: [], orionTeam: [], orionCostBars: [], orionLikertOpts: [], orionCadenceOpts: cadenceOpts, orionCadenceLegacy: false, orionIntroItems: [], orionMiniBars: [],
+      orionNotFirst: o.step > 0, orionShowSkip: oIs("pain") || oIs("focus") || this.state.orionOnboarding, orionIsLast: o.step === oTotal - 1,
+      orionShowNext: true,
+      orionSeg1Pct: o.step >= 0 ? "100%" : "0%",
+      orionSeg2Pct: o.step >= 1 ? "100%" : "0%",
+      orionSeg3Pct: o.step >= 2 ? "100%" : "0%",
+      orionSeg4Pct: o.step >= 3 ? "100%" : "0%",
+      orionSeg5Pct: o.step >= 4 ? "100%" : "0%",
+      orionSeg6Pct: o.step >= 5 ? "100%" : "0%",
+      orionSeg7Pct: o.step >= 6 ? "100%" : "0%",
+      orionSeg4Vis: true,
+      orionSeg5Vis: true,
+      orionSeg6Vis: !isShort,
+      orionSeg7Vis: !isShort,
+      orionNextLabel: oIs("review") ? "Generate my schedules & templates" : oIs("building") ? "" : "Continue →",
+      orionNextStyle: "display:" + (oIs("role") ? "none" : "flex") + ";align-items:center;justify-content:center;gap:8px;width:100%;height:48px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 15px var(--flb-font-body);box-shadow:var(--flb-glow-violet);cursor:pointer;opacity:" + (oIs("building") ? "0" : "1"),
+      orionNext: () => {
+        const s = this.state.orion;
+        if (oIs("building") || oIs("ready")) return;
+        if (oIs("review")) { this.setOrion({ step: s.step + 1 }); setTimeout(() => this.setOrion({ step: this.state.orion.step + 1 }), 4000); return; }
+        if (s.step >= oTotal - 1) { if (this.state.orionOnboarding) this.finishOnboardingPersonalize(); else { this.setOrion({ open: false, done: true }); this.setState((st) => ({ steps: { ...st.steps, personalized: true } })); this.showToast("Your onboarding preferences have been saved"); } return; }
+        this.setOrion({ step: Math.min(oTotal - 1, s.step + 1) });
+      },
+      orionBack: () => { const s = this.state.orion; const prev = (s.step === 8) ? 6 : (s.step === 7) ? 6 : Math.max(0, s.step - 1); this.setOrion({ step: prev }); },
       orionSkipStep: () => this.setOrion({ step: Math.min(oTotal - 1, this.state.orion.step + 1) }),
-      // Self-assessment handlers (Rise Guide emotional steps)
-      onSelfAssessHigh: () => { this.setOrion({ selfAssessment: "high" }); setTimeout(() => this.setOrion({ step: this.state.orion.step + 1 }), 400); },
-      onSelfAssessMed: () => { this.setOrion({ selfAssessment: "medium" }); setTimeout(() => this.setOrion({ step: this.state.orion.step + 1 }), 400); },
-      onSelfAssessLow: () => { this.setOrion({ selfAssessment: "low" }); setTimeout(() => this.setOrion({ step: this.state.orion.step + 1 }), 400); },
-      selfAssessHighBorder: o.selfAssessment === "high" ? "var(--flb-purple)" : "var(--flb-line)",
-      selfAssessHighBg: o.selfAssessment === "high" ? "var(--flb-tint-violet)" : "transparent",
-      selfAssessMedBorder: o.selfAssessment === "medium" ? "var(--flb-purple)" : "var(--flb-line)",
-      selfAssessMedBg: o.selfAssessment === "medium" ? "var(--flb-tint-violet)" : "transparent",
-      selfAssessLowBorder: o.selfAssessment === "low" ? "var(--flb-purple)" : "var(--flb-line)",
-      selfAssessLowBg: o.selfAssessment === "low" ? "var(--flb-tint-violet)" : "transparent",
-      // Countdown timer for receipt step
-      startOrionCountdown: () => { const el = document.querySelector('[data-orion-countdown]'); if (!el) return; let remaining = o.receiptCountdown || 86400; const tick = () => { const h = Math.floor(remaining / 3600); const m = Math.floor((remaining % 3600) / 60); const s = remaining % 60; el.textContent = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0'); if (remaining > 0) remaining--; }; tick(); setInterval(tick, 1000); },
-      orionDots, orionStepNav, roleOpts, goalOpts: goalOptsRated, goalSummary, goalOptsLegacy, metricChips, painExamples, chanSeg, toneSeg, guardList, receiptRows, orionTemplates,
+      selfAssessHighBorder: "var(--flb-line)", selfAssessHighBg: "transparent",
+      selfAssessMedBorder: "var(--flb-line)", selfAssessMedBg: "transparent",
+      selfAssessLowBorder: "var(--flb-line)", selfAssessLowBg: "transparent",
+      onSelfAssessHigh: () => {}, onSelfAssessMed: () => {}, onSelfAssessLow: () => {},
+      startOrionLoading: () => {},
+      startOrionCountdown: () => {},
+      orionDots, orionStepNav, roleOpts, goalOpts, metricChips, painExamples: painOpts, focusChips, chanSeg, toneSeg, guardList, receiptRows, orionTemplates,
       shuffleTemplates: () => this.setState((s) => { const a = [...s.tplOrder]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); const t = a[i]; a[i] = a[j]; a[j] = t; } return { tplOrder: a }; }),
-      orionTemplatesSub: "tuned for " + roleTitle.toLowerCase(),
-      orionPain: o.pain, onOrionPain: (e) => this.setOrion({ pain: e.target.value }),
-      orionRoas: o.roas, onOrionRoas: (e) => this.setOrion({ roas: e.target.value }),
-      orionSpike: o.spike, onOrionSpike: (e) => this.setOrion({ spike: e.target.value }),
+      orionTemplatesSub: R ? "tuned for a " + R.label.toLowerCase() : "tuned for your role",
+      roleLabel: roleTitle, roleLabelLower: roleTitle.toLowerCase(),
+      orionPain: R && R.pains[o.pain] ? R.pains[o.pain].t : "", onOrionPain: (e) => this.setOrion({ pain: e.target.value }),
+      orionRoas: 2.1, onOrionRoas: () => {},
+      orionSpike: 30, onOrionSpike: () => {},
       orionTime: o.time, onOrionTime: (e) => this.setOrion({ time: e.target.value }),
-      orionDay: o.day, onOrionDay: (e) => this.setOrion({ day: e.target.value }),
-      orionFloor: Number(o.floor).toFixed(1), orionFloorPct: pct(o.floor, 0.5, 4),
-      onOrionFloor: (e) => this.setOrion({ floor: e.target.value }),
-      orionRoasPct: pct(o.roas, 1, 5), orionSpikePct: pct(o.spike, 10, 100),
-      orionLikertIdx: lIdx + 1, orionLikertPct: pct(lIdx + 1, 1, 4),
-      orionLikertLabel: LIK[lIdx].label, orionLikertDesc: LIK[lIdx].desc,
-      orionLikertStepText: "Level " + (lIdx + 1) + " of 4",
-      orionLikertTicks: LIK.map((x, i) => ({ short: x.short, style: "flex:1;font:400 10.5px var(--flb-font-body);color:" + (i === lIdx ? "var(--flb-on-violet)" : "var(--flb-ink-4)") + ";text-align:" + (i === 0 ? "left" : i === LIK.length - 1 ? "right" : "center") })),
-      onOrionLikert: (e) => this.setOrion({ likert: (LIK[Number(e.target.value) - 1] || LIK[0]).v }),
+      orionDay: "Monday", onOrionDay: () => {},
+      orionFloor: "1.5", orionFloorPct: "33%", onOrionFloor: () => {},
+      orionRoasPct: "28%", orionSpikePct: "22%",
+      orionLikertIdx: 1, orionLikertPct: "0%",
+      orionLikertLabel: "", orionLikertDesc: "",
+      orionLikertStepText: "",
+      orionLikertTicks: [],
+      onOrionLikert: () => {},
       orionTimeOpts: this.ORION_TIMES, orionDayOpts: this.ORION_DAYS,
       themeIcon: this.icon(this.state.theme === "light" ? "moon" : "sun", 19),
       toggleTheme: () => this.setState((s) => ({ theme: s.theme === "dark" ? "light" : "dark" })),
@@ -3393,7 +3988,7 @@ class Component extends DCLogic {
       newChatRing: "none",
       off: false,
       dashExtra: navExtra(A("dashboard"), featLocked("dashboard")), pulseExtra: navExtra(A("pulse"), featLocked("pulse")), attrExtra: navExtra(A("attribution"), featLocked("attribution")),
-      insightsColExtra: navExtra(A("insights") || A("product") || A("creative"), featLocked("product") && featLocked("creative")), integrExtra: navExtra(A("integrations"), false), bookmarkExtra: navExtra(A("bookmarks"), false), settingsExtra: navExtra(A("settings"), false), helpExtra: navExtra(A("help"), false), schedulerExtra: navExtra(A("scheduler"), featLocked("scheduler")), inventoryExtra: navExtra(A("inventory"), featLocked("inventory")),
+      insightsColExtra: navExtra(A("insights") || A("product") || A("creative"), featLocked("product") && featLocked("creative")), integrExtra: navExtra(A("integrations"), false), bookmarkExtra: navExtra(A("bookmarks"), false), settingsExtra: navExtra(A("settings"), false), helpExtra: navExtra(A("help"), false), schedulerExtra: navExtra(A("scheduler"), featLocked("scheduler")), inventoryExtra: navExtra(A("inventory"), featLocked("inventory")), utmExtra: navExtra(A("utm"), featLocked("utm")), utmIcon: featIcon("utm", 18),
       dashLocked: lockFlag("dashboard"), pulseLocked: lockFlag("pulse"), attrLocked: lockFlag("attribution"),
       insightsLocked: (featLocked("product") && featLocked("creative")) ? "true" : "false",
       prodLocked: lockFlag("product"), creativeLocked: lockFlag("creative"), schedulerLocked: lockFlag("scheduler"),

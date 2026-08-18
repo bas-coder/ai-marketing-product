@@ -4,25 +4,27 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Flable · Orion Setup</title>
+<link rel="stylesheet" href="../_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/fonts.css">
+<link rel="stylesheet" href="../_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/primitives.css">
+<link rel="stylesheet" href="../_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/brand.css">
 <style>
   :root{
-    --bg:#FBFAFD; --panel:#FFFFFF; --ink:#17132B; --muted:#6B6785; --faint:#9A96AC;
-    --violet:#7C5CFF; --violet-deep:#6431E0; --violet-press:#5B3FD1; --pink:#EC3D82;
-    --grad:linear-gradient(135deg,#7C5CFF 0%,#EC3D82 100%);
-    --green:#12B76A; --amber:#F79009;
-    --line:#ECEAF4; --line-soft:#F3F1FA;
-    --chip-v-bg:#F1EDFF; --chip-v-tx:#5B3FD1;
-    --chip-p-bg:#FDEBF3; --chip-p-tx:#C2185B;
-    --chip-g-bg:#E7F9F0; --chip-g-tx:#0E7A4E;
-    --active:#F1EDFF;
-    --shadow-card:0 4px 18px rgba(91,76,158,.08);
-    --shadow-pop:0 24px 70px rgba(23,19,43,.28);
-    --r:16px;
+    --bg:var(--flb-bg); --panel:var(--flb-surface); --ink:var(--flb-ink); --muted:var(--flb-ink-2); --faint:var(--flb-ink-3);
+    --violet:var(--flb-purple); --violet-deep:var(--flb-violet); --violet-press:rgb(90,50,180); --pink:var(--flb-magenta);
+    --grad:var(--flb-gradient-energetic);
+    --green:var(--flb-success); --amber:var(--flb-warning);
+    --line:var(--flb-line); --line-soft:var(--flb-line-soft);
+    --chip-v-bg:var(--flb-tint-violet); --chip-v-tx:var(--flb-on-violet);
+    --chip-p-bg:rgba(233,52,139,0.14); --chip-p-tx:rgb(233,52,139);
+    --chip-g-bg:var(--flb-tint-success); --chip-g-tx:var(--flb-on-success);
+    --active:var(--flb-tint-violet);
+    --shadow-card:var(--flb-shadow-sm);
+    --shadow-pop:var(--flb-shadow-lg);
+    --r:var(--flb-r-xl);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  body{font-family:"Inter",system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
   button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
 
   .app{display:flex;min-height:100vh}
@@ -39,11 +41,11 @@
     color:var(--muted);font-weight:500}
   .nav.on{background:var(--active);color:var(--violet-press);font-weight:600}
   .nav .ic{width:17px;text-align:center;font-size:14px}
-  .orion{margin-top:auto;background:linear-gradient(160deg,#221A45 0%,#3A1638 100%);border-radius:14px;
+  .orion{margin-top:auto;background:var(--flb-gradient-primary-focus-dark);border-radius:14px;
     padding:14px;color:#fff}
   .orion .live{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;
     letter-spacing:1.2px;background:rgba(255,255,255,.12);padding:4px 8px;border-radius:20px}
-  .orion .dotp{width:6px;height:6px;border-radius:50%;background:#5CFF9D;box-shadow:0 0 8px #5CFF9D}
+  .orion .dotp{width:6px;height:6px;border-radius:50%;background:var(--flb-success);box-shadow:0 0 8px var(--flb-success)}
   .orion h4{font-size:13.5px;margin:9px 0 3px}
   .orion p{font-size:11.5px;color:rgba(255,255,255,.65);line-height:1.45}
 
@@ -68,7 +70,7 @@
 
   /* Result sections */
   .result{display:none}
-  .banner{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,#F1EDFF, #FDEBF3);
+  .banner{display:flex;align-items:center;gap:12px;background:linear-gradient(90deg,var(--flb-tint-violet), var(--chip-p-bg));
     border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin-bottom:26px}
   .banner .ok{width:30px;height:30px;border-radius:50%;background:var(--green);color:#fff;display:grid;
     place-items:center;font-size:14px;flex:0 0 30px}
@@ -91,14 +93,14 @@
   .chip.daily{background:var(--chip-v-bg);color:var(--chip-v-tx)}
   .chip.weekly{background:var(--chip-p-bg);color:var(--chip-p-tx)}
   .chip.monthly{background:var(--chip-g-bg);color:var(--chip-g-tx)}
-  .prompt{background:#F8F7FC;border:1px solid var(--line-soft);border-radius:10px;padding:12px;
+  .prompt{background:var(--flb-surface-2);border:1px solid var(--line-soft);border-radius:10px;padding:12px;
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11.5px;line-height:1.65;
-    color:#3A3554;white-space:pre-wrap;max-height:220px;overflow:auto}
-  .prompt mark{background:#FDE1EE;color:#C2185B;border-radius:3px;padding:0 2px;font-style:italic}
+    color:var(--ink);white-space:pre-wrap;max-height:220px;overflow:auto}
+  .prompt mark{background:var(--chip-p-bg);color:var(--chip-p-tx);border-radius:3px;padding:0 2px;font-style:italic}
   .pcard .foot{display:flex;gap:8px}
   .mini{font-size:12px;font-weight:600;padding:7px 12px;border-radius:8px;border:1px solid var(--line)}
   .mini:hover{background:var(--line-soft)}
-  .mini.v{color:var(--violet-press);border-color:#DCD3FF;background:var(--chip-v-bg)}
+  .mini.v{color:var(--violet-press);border-color:rgba(160,139,255,0.3);background:var(--chip-v-bg)}
 
   /* Scheduler report cards */
   .rcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;
@@ -112,10 +114,10 @@
   .rcard .foot{display:flex;gap:8px;margin-top:12px}
 
   /* ===== WIZARD ===== */
-  .scrim{position:fixed;inset:0;background:rgba(23,19,43,.45);backdrop-filter:blur(3px);
+  .scrim{position:fixed;inset:0;background:rgba(13,13,14,.65);backdrop-filter:blur(4px);
     display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
   .scrim.show{display:flex}
-  .wiz{background:var(--panel);border-radius:20px;box-shadow:var(--shadow-pop);width:560px;max-width:100%;
+  .wiz{background:var(--panel);border-radius:20px;box-shadow:var(--shadow-pop);width:620px;max-width:100%;
     max-height:92vh;overflow:auto;padding:26px 28px 24px}
   .dots{display:flex;gap:6px;margin-bottom:20px}
   .dots i{height:4px;flex:1;border-radius:4px;background:var(--line)}
@@ -130,7 +132,7 @@
   .opts{display:grid;gap:10px}
   .opt{border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;text-align:left;width:100%;
     transition:border-color .12s, background .12s}
-  .opt:hover{border-color:#C9BEF7}
+  .opt:hover{border-color:rgba(160,139,255,0.4)}
   .opt.sel{border-color:var(--violet);background:var(--chip-v-bg)}
   .opt b{font-size:13.5px;display:block}
   .opt span{font-size:11.5px;color:var(--muted);display:block;margin-top:2px;line-height:1.4}
@@ -138,22 +140,30 @@
   .chips{display:flex;flex-wrap:wrap;gap:8px}
   .mchip{border:1.5px solid var(--line);border-radius:20px;padding:8px 13px;font-size:12.5px;font-weight:600;
     position:relative;transition:all .12s}
-  .mchip:hover{border-color:#C9BEF7}
+  .mchip:hover{border-color:rgba(160,139,255,0.4)}
   .mchip.sel{border-color:var(--violet);background:var(--chip-v-bg);color:var(--violet-press)}
   .mchip.sel::after{content:attr(data-ord);position:absolute;top:-7px;right:-5px;width:16px;height:16px;
     border-radius:50%;background:var(--violet);color:#fff;font-size:9.5px;font-weight:700;display:grid;place-items:center}
 
   textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px;font:inherit;
-    font-size:13px;min-height:88px;resize:vertical;outline:none}
+    font-size:13px;min-height:88px;resize:vertical;outline:none;background:var(--panel);color:var(--ink)}
   textarea:focus{border-color:var(--violet)}
   .exchips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
   .exchip{border:1px dashed var(--line);border-radius:20px;padding:6px 11px;font-size:11.5px;color:var(--muted)}
   .exchip:hover{border-color:var(--violet);color:var(--violet-press)}
 
+  /* Ranging / Slider components */
   .sliderbox{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
   .sliderbox label{font-size:12.5px;font-weight:600;display:flex;justify-content:space-between}
   .sliderbox label output{color:var(--violet-press)}
-  .sliderbox input[type=range]{width:100%;accent-color:var(--violet);margin-top:10px}
+  .sliderbox input[type=range]{width:100%;accent-color:var(--violet);margin-top:10px;height:4px;
+    border-radius:2px;outline:none;-webkit-appearance:none;background:var(--line)}
+  .sliderbox input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
+    border-radius:50%;background:var(--violet);cursor:pointer;border:2px solid var(--panel);
+    box-shadow:0 2px 6px rgba(100,60,193,0.3)}
+  .sliderbox input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;
+    background:var(--violet);cursor:pointer;border:2px solid var(--panel);
+    box-shadow:0 2px 6px rgba(100,60,193,0.3)}
   .smart{font-size:11px;color:var(--chip-g-tx);background:var(--chip-g-bg);border-radius:8px;
     padding:6px 9px;margin-top:9px;display:inline-block}
 
@@ -164,7 +174,7 @@
   .fieldrow>div{flex:1}
   .flabel{font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block}
   select,input[type=number]{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;
-    font:inherit;font-size:13px;outline:none;background:#fff}
+    font:inherit;font-size:13px;outline:none;background:var(--panel);color:var(--ink)}
   select:focus,input[type=number]:focus{border-color:var(--violet)}
 
   .camp{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:10px;
@@ -216,7 +226,7 @@
     <div class="orion">
       <span class="live"><span class="dotp"></span>ORION LIVE</span>
       <h4>Personalizing…</h4>
-      <p id="orionSide">Answer 8 quick questions and Orion tunes its prompts and reports to you.</p>
+      <p id="orionSide">Answer 7 quick questions and Orion tunes its prompts and reports to you.</p>
     </div>
   </aside>
 
@@ -234,7 +244,7 @@
     <div class="empty" id="empty">
       <div class="big">✦</div>
       <h3>Set up your Orion</h3>
-      <p>8 quick questions (about 90 seconds). Orion will generate your custom prompt templates and schedule your reports automatically.</p>
+      <p>7 quick questions (about 90 seconds). Orion will generate your custom prompt templates and schedule your reports automatically.</p>
       <button class="btn btn-primary" onclick="openWiz()">Start setup</button>
     </div>
 
@@ -262,99 +272,98 @@
 
     <!-- S1 ROLE -->
     <div class="step" data-s="0">
-      <div class="eyebrow">STEP 1 · ABOUT YOU</div>
-      <h3>What is your role?</h3>
-      <p class="hint">This sets smart defaults for everything else — you can change any of them.</p>
+      <div class="eyebrow">STEP 1 OF 7 · WHO YOU ARE</div>
+      <h3>Who is Orion working for?</h3>
+      <p class="hint">Everything after this — questions, defaults, schedules, templates — adapts to your role.</p>
       <div class="opts" id="roleOpts"></div>
     </div>
 
     <!-- S2 GOAL -->
     <div class="step" data-s="1">
-      <div class="eyebrow">STEP 2 · GOAL</div>
-      <h3>Your #1 goal for the next 90 days?</h3>
-      <p class="hint">Orion frames every recommendation around this.</p>
+      <div class="eyebrow">STEP 2 OF 7 · YOUR GOAL</div>
+      <h3>What should Orion optimise for?</h3>
+      <p class="hint" id="goalHint">Picked for your role — change it, or add your own if none fit. This sets every threshold downstream.</p>
+      <div id="ctxGoalWrap"></div>
       <div class="opts" id="goalOpts"></div>
     </div>
 
     <!-- S3 PAIN -->
     <div class="step" data-s="2">
-      <div class="eyebrow">STEP 3 · BIGGEST PAIN</div>
-      <h3>What frustrates you most about managing ads today?</h3>
-      <p class="hint">In your own words — Orion will speak to this directly.</p>
-      <textarea id="pain" placeholder="e.g. I only find out about wasted spend after the month ends…" oninput="state.pain=this.value;valid()"></textarea>
-      <div class="exchips">
-        <button class="exchip" onclick="fillPain(this)">I only find out about wasted spend after the month ends</button>
-        <button class="exchip" onclick="fillPain(this)">My agency reports ROAS I cannot reconcile with Shopify</button>
-        <button class="exchip" onclick="fillPain(this)">COD returns eat my margin and no tool accounts for it</button>
-      </div>
+      <div class="eyebrow">STEP 3 OF 7 · BIGGEST PAIN</div>
+      <h3>What hurts the most right now?</h3>
+      <p class="hint">Orion attacks this first — it shapes week one before anything else.</p>
+      <div id="ctxPainWrap"></div>
+      <div class="opts" id="painOpts"></div>
     </div>
 
     <!-- S4 METRICS -->
     <div class="step" data-s="3">
-      <div class="eyebrow">STEP 4 · DAILY METRICS</div>
-      <h3>Pick up to 5 metrics for your daily briefing</h3>
-      <p class="hint">Selection order = order in the briefing. We pre-picked based on your role.</p>
+      <div class="eyebrow">STEP 4 OF 7 · DAILY WATCH</div>
+      <h3>What should Orion monitor every day?</h3>
+      <p class="hint">Selection order = order in the briefing. Pre-picked for your role — reorder freely.</p>
+      <div id="ctxMetricsWrap"></div>
       <div class="chips" id="metricChips"></div>
     </div>
 
-    <!-- S5 THRESHOLDS -->
+    <!-- S5 FOCUS -->
     <div class="step" data-s="4">
-      <div class="eyebrow">STEP 5 · ALERTS</div>
-      <h3>When should Orion wake you up?</h3>
-      <p class="hint">Suggested from your connected account&#8217;s last 30 days.</p>
-      <div class="sliderbox">
-        <label>Alert if True ROAS drops below <output id="roasOut">2.1</output></label>
-        <input type="range" min="1" max="5" step="0.1" value="2.1" id="roasSl" oninput="state.roas=this.value;roasOut.value=this.value"/>
-        <span class="smart">✓ Suggested 2.1 — your 30-day avg True ROAS is 2.6</span>
+      <div class="eyebrow">STEP 5 OF 7 · FOCUS</div>
+      <h3 id="focusTitle">Where should Orion push hardest?</h3>
+      <p class="hint" id="focusHint">The levers Orion is allowed to have opinions about. Order sets priority.</p>
+      <div id="ctxFocusWrap"></div>
+      <div class="chips" id="focusChips"></div>
+    </div>
+
+    <!-- S6 DELIVERY -->
+    <div class="step" data-s="5">
+      <div class="eyebrow">STEP 6 OF 7 · DELIVERY</div>
+      <h3>How often should Orion reach you?</h3>
+      <p class="hint">Pick a cadence — or let Orion set it per schedule from your role, spend and live signals.</p>
+      <span class="flabel">Cadence</span>
+      <div class="seg" id="cadSeg">
+        <button data-v="Let Orion decide" class="sel">Let Orion decide</button>
+        <button data-v="Hourly">Hourly</button>
+        <button data-v="Daily">Daily</button>
+        <button data-v="Daily + weekly review">Daily + weekly</button>
+        <button data-v="Weekly">Weekly</button>
+        <button data-v="Only when something breaks">Alerts only</button>
+      </div>
+      <div class="fieldrow">
+        <div><span class="flabel">Preferred time</span>
+          <input type="time" id="timeIn" value="08:00"/></div>
+        <div><span class="flabel">Channel</span>
+          <select id="chanSel">
+            <option>WhatsApp</option>
+            <option>Email</option>
+            <option>Slack</option>
+            <option>In-app only</option>
+          </select></div>
+      </div>
+      <div id="cadPreview"></div>
+      <div class="sliderbox" style="margin-top:16px">
+        <label>Alert if POAS drops below <output id="poasOut">1.5</output></label>
+        <input type="range" min="0.5" max="4" step="0.1" value="1.5" id="poasSl" oninput="state.floor=this.value;poasOut.value=this.value"/>
+        <span class="smart">Suggested from your connected account's last 30 days</span>
       </div>
       <div class="sliderbox">
         <label>Alert if spend rises <output id="spendOut">30</output>% with no sales</label>
         <input type="range" min="10" max="100" step="5" value="30" id="spendSl" oninput="state.spike=this.value;spendOut.value=this.value"/>
-        <span class="smart">✓ Suggested 30% — catches Typsy-type spend spikes same-day</span>
+        <span class="smart">Catches spend spikes same-day, not month-end</span>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:12px;padding:13px 17px;margin-top:14px;display:flex;gap:11px;align-items:flex-start">
+        <div style="width:30px;height:30px;border-radius:9px;background:var(--chip-v-bg);color:var(--violet-press);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none">🛡</div>
+        <div>
+          <div style="font-size:12.5px;font-weight:600;margin-bottom:2px">Guardrails are built in — nothing to configure</div>
+          <div style="font-size:11.5px;color:var(--muted);line-height:1.55">POAS floor, daily spend caps, approval on every execution, and full reversibility are always on. Orion never moves money without a logged, undoable change record.</div>
+        </div>
       </div>
     </div>
 
-    <!-- S6 CADENCE -->
-    <div class="step" data-s="5">
-      <div class="eyebrow">STEP 6 · CADENCE &amp; VOICE</div>
-      <h3>Where and how should Orion talk to you?</h3>
-      <p class="hint">Daily briefing channel, timing, and tone.</p>
-      <span class="flabel">Daily briefing channel</span>
-      <div class="seg" id="chanSeg">
-        <button data-v="WhatsApp" class="sel">WhatsApp</button>
-        <button data-v="Email">Email</button>
-        <button data-v="WhatsApp + Email">Both</button>
-      </div>
-      <div class="fieldrow">
-        <div><span class="flabel">Daily time</span>
-          <select id="timeSel"><option>7:00 AM</option><option selected>8:00 AM</option><option>9:00 AM</option><option>6:00 PM</option></select></div>
-        <div><span class="flabel">Weekly deep-dive day</span>
-          <select id="daySel"><option selected>Monday</option><option>Wednesday</option><option>Friday</option><option>Saturday</option></select></div>
-      </div>
-      <span class="flabel">Orion&#8217;s tone</span>
-      <div class="seg" id="toneSeg">
-        <button data-v="blunt" class="sel">Blunt actions</button>
-        <button data-v="detailed">Detailed reasoning</button>
-      </div>
-    </div>
-
-    <!-- S7 GUARDRAILS -->
+    <!-- S7 REVIEW -->
     <div class="step" data-s="6">
-      <div class="eyebrow">STEP 7 · GUARDRAILS</div>
-      <h3>Anything Orion should never touch?</h3>
-      <p class="hint">Pulled live from your connected ad account.</p>
-      <div id="campList"></div>
-      <div class="fieldrow" style="margin-top:12px">
-        <div><span class="flabel">Minimum POAS floor (Orion never recommends below this)</span>
-          <input type="number" id="poasFloor" value="1.5" step="0.1" min="0.5" oninput="state.floor=this.value"/></div>
-      </div>
-    </div>
-
-    <!-- S8 RECEIPT -->
-    <div class="step" data-s="7">
-      <div class="eyebrow">STEP 8 · YOUR ORION SETUP</div>
-      <h3>Here&#8217;s what Orion learned about you</h3>
-      <p class="hint">Confirm and Orion generates your prompt templates + schedules your reports.</p>
+      <div class="eyebrow">STEP 7 OF 7 · FINAL REVIEW</div>
+      <h3>Here's what Orion learned about you</h3>
+      <p class="hint">Confirm, and Orion builds your schedules and starter templates from this.</p>
       <div class="receipt" id="receipt"></div>
     </div>
 
@@ -370,54 +379,288 @@
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============ DATA ============ */
-var ROLES=[
- {v:"Founder / CEO",d:"P&L view — POAS, contribution margin, cash burn on ads",m:["POAS","True ROAS","Spend","RTO %","Revenue"]},
- {v:"Marketing Head",d:"Channel mix, budget pacing, team-ready summaries",m:["True ROAS","Spend","CAC","Revenue","Creative fatigue"]},
- {v:"Performance Marketer",d:"Campaign-level granularity, creative and audience signals",m:["True ROAS","CAC","Creative fatigue","CTR","Spend"]},
- {v:"Agency",d:"Multi-brand reporting, client-ready outputs",m:["True ROAS","Spend","CAC","Revenue","POAS"]}
-];
-var GOALS=[
- {v:"Profitable scaling",d:"Grow spend only where POAS holds — brands like yours use this to scale 2x without margin bleed"},
- {v:"Cut wasted spend",d:"Catch RTO-heavy and fatigued campaigns before month end, not after"},
- {v:"Fix attribution / COD mess",d:"Reconcile platform ROAS with Shopify + COD reality — India-native attribution"},
- {v:"Reduce agency dependency",d:"Orion does the daily analysis your agency bills you for"}
-];
-var METRICS=["True ROAS","POAS","Spend","CAC","RTO %","Revenue","Creative fatigue","CTR","New vs repeat","AOV"];
-var CAMPS=[
- {n:"Brand Search — Always On",s:"₹1.2L/mo"},
- {n:"Festive Launch — UGC",s:"₹3.4L/mo"},
- {n:"Prospecting Broad — Meta",s:"₹2.1L/mo"},
- {n:"Retargeting 7D — Meta",s:"₹0.9L/mo"}
-];
+/* ============ BUSINESS CONTEXT (connected account data) ============ */
+var BIZ = {
+  brand:"Karmikh", vertical:"Fashion & apparel",
+  spend30:"₹4.2L", campaigns:14, codShare:"62%", rto:"18%",
+  belowFloor:3, leak:"₹42k", gap:"Meta reports 3.1 ROAS · true POAS is 1.4",
+  fatiguedAds:4, topHook:"'Festive edit' hook", stockRisk:2
+};
 
-var state={role:null,goal:null,pain:"",metrics:[],roas:"2.1",spike:"30",
-  chan:"WhatsApp",time:"8:00 AM",day:"Monday",tone:"blunt",guards:[],floor:"1.5"};
-var cur=0, TOTAL=8;
+/* ============ ROLE DECKS ============ */
+var ROLES = {
+  founder:{
+    label:"Founder / CEO", desc:"I own the P&L",
+    goals:[
+      {t:"Profitable scaling",d:"Grow spend only where margin holds"},
+      {t:"Cut wasted spend",d:"Find and stop the leak first"},
+      {t:"Cash flow stability",d:"Predictable weekly contribution, fewer surprises"},
+      {t:"Reduce dependence on my agency",d:"Own the numbers and the decisions in-house"}],
+    goalPre:0,
+    pains:[
+      {t:"I don't catch wasted spend until it's too late",d:"The leak shows up at month-end, not day one"},
+      {t:"Meta's numbers don't match my bank account",d:"Reported ROAS vs what actually lands"},
+      {t:"I can't tell if my agency is doing a good job",d:"No independent read on performance"},
+      {t:"COD returns eat margin invisibly",d:"RTO losses never show in ad platform reports"}],
+    painPre:0,
+    metrics:["POAS","True ROAS","Spend","RTO %","Revenue","CAC","New vs repeat","AOV","Creative fatigue","CTR"],
+    metricsPre:[0,1,2,3,4],
+    focus:["Cut wasted spend","Budget reallocation","Scaling rules","Offer & promo testing","Winning creative themes","Channel mix"],
+    focusPre:[0,1,2],
+    focusTitle:"Where should Orion push hardest?",
+    focusSub:"The levers Orion is allowed to have opinions about. Order sets priority.",
+    ctxGoal:BIZ.gap+" — that gap is where most decisions go wrong",
+    ctxPain:"Right now: "+BIZ.belowFloor+" campaigns below your profit floor, burning ~"+BIZ.leak+"/week",
+    ctxMetrics:"Last 30 days: "+BIZ.spend30+" spend · "+BIZ.campaigns+" campaigns · COD "+BIZ.codShare+" · RTO "+BIZ.rto,
+    ctxFocus:"Largest single lever this month: reallocating from below-floor campaigns",
+    scheds:[
+      {n:"Daily profit briefing",d:"POAS, leak alerts, one action",w:"Daily",t:"8:00 AM · WhatsApp"},
+      {n:"Weekly business review",d:"Marketing P&L in one page",w:"Mon",t:"9:00 AM · Email"},
+      {n:"Month-end close",d:"CM2 by channel and SKU",w:"1st",t:"8:00 AM · Email + PDF"}],
+    tmpls:[
+      {t:"Where am I losing money?",d:"Campaigns burning contribution margin",b:"Daily"},
+      {t:"Meta ROAS vs true POAS",d:"The gap, decomposed by campaign",b:"Anytime"},
+      {t:"Can I scale this month?",d:"Headroom at current margin",b:"Weekly"},
+      {t:"Model a spend cut",d:"What 20% less buys or costs you",b:"Scenario"}]},
+
+  buyer:{
+    label:"Media buyer", desc:"I run the campaigns",
+    goals:[
+      {t:"Hit my POAS target daily",d:"Every campaign above floor, every day"},
+      {t:"Scale winners faster",d:"Find headroom before the competition does"},
+      {t:"Stop reacting late",d:"Catch drops the morning they start, not day three"},
+      {t:"Win back time from reporting",d:"Less spreadsheet, more buying"}],
+    goalPre:0,
+    pains:[
+      {t:"I find out about a bad day 24 hours late",d:"By the time reports refresh, the money's spent"},
+      {t:"Attribution is a mess",d:"UTMs, CAPI, GoKwik — signals disagree with each other"},
+      {t:"Creative fatigue sneaks up on winners",d:"CTR decays before anyone notices"},
+      {t:"Too many campaigns to watch properly",d:"Something always slips through"}],
+    painPre:0,
+    metrics:["POAS","Spend","CTR","Creative fatigue","True ROAS","CAC","Frequency","CPM","RTO %","AOV"],
+    metricsPre:[0,1,3,2,4],
+    focus:["Pause & scale calls","Creative rotation","Structure & consolidation","Audience testing","Bid strategy","Prospecting vs retargeting"],
+    focusPre:[0,1,2],
+    focusTitle:"What should Orion help you run?",
+    focusSub:"Orion drafts these moves for your approval. Order sets what leads the morning brief.",
+    ctxGoal:BIZ.belowFloor+" of your "+BIZ.campaigns+" campaigns breached the POAS floor overnight",
+    ctxPain:"Yesterday's biggest swing: one ad set moved 22% of daily spend",
+    ctxMetrics:"Your account: "+BIZ.spend30+" monthly spend · heaviest fatigue in your top 3 ad sets",
+    ctxFocus:BIZ.fatiguedAds+" winners are past the fatigue threshold right now",
+    scheds:[
+      {n:"Morning pause/scale list",d:"Verdicts with confidence, tap to approve",w:"Daily",t:"7:30 AM · WhatsApp"},
+      {n:"Creative fatigue sweep",d:"Frequency and CTR decay on winners",w:"Wed + Sat",t:"7:00 AM · In-app"},
+      {n:"Attribution health check",d:"UTM coverage, CAPI signal quality",w:"Mon",t:"10:00 AM · Email"}],
+    tmpls:[
+      {t:"What should I pause today?",d:"Below floor, with confidence",b:"Daily"},
+      {t:"Where do I add budget?",d:"Scale candidates with headroom",b:"Daily"},
+      {t:"Why did yesterday drop?",d:"Spend, CTR, CVR, AOV decomposed",b:"Anytime"},
+      {t:"Rotate fatigued creatives",d:"Swap plan from your winners",b:"Weekly"}]},
+
+  growth:{
+    label:"Growth head", desc:"I own the plan",
+    goals:[
+      {t:"Growth at a target CAC",d:"Scale hard while acquisition cost holds a ceiling"},
+      {t:"Profitable channel mix",d:"Budget split by contribution, not last-click ROAS"},
+      {t:"Better cohorts, not just more orders",d:"Buy customers who come back"},
+      {t:"Prove incrementality",d:"Know which spend creates demand vs captures it"}],
+    goalPre:0,
+    pains:[
+      {t:"Channels claim the same conversions",d:"Meta and Google both take credit — someone's wrong"},
+      {t:"CAC is rising and I can't see why",d:"Blended numbers hide which cohort got expensive"},
+      {t:"Monthly planning is guesswork",d:"No profit-weighted view when setting the split"},
+      {t:"Leadership asks questions I can't answer fast",d:"Every board deck is a two-day fire drill"}],
+    painPre:0,
+    metrics:["CAC","New vs repeat","POAS","Channel mix","Revenue","LTV","True ROAS","Spend","AOV"],
+    metricsPre:[0,1,2,3,4],
+    focus:["Channel mix & budget split","Cohort profitability","Incrementality","Offer & promo testing","SKU-level budget","Scaling rules"],
+    focusPre:[0,1,2],
+    focusTitle:"Where should Orion push hardest?",
+    focusSub:"The strategic reads Orion prepares. Order sets which lead the weekly review.",
+    ctxGoal:"Blended CAC is up 12% MoM while repeat share holds at 31%",
+    ctxPain:"Google is capturing demand Meta creates — worth an incrementality read",
+    ctxMetrics:"Month-end in 19 days — two channels pacing off plan",
+    ctxFocus:"Your last 3 budget shifts were reactive; a profit-weighted plan changes that",
+    scheds:[
+      {n:"Daily pacing check",d:"Spend vs plan, flag drift over 10%",w:"Daily",t:"6:00 PM · Slack"},
+      {n:"Weekly channel mix review",d:"Budget split weighted by profit",w:"Mon",t:"9:00 AM · Email"},
+      {n:"Monthly cohort report",d:"CAC payback and repeat curves",w:"1st",t:"10:00 AM · Email + PDF"}],
+    tmpls:[
+      {t:"Build next month's mix",d:"Split weighted by profit, not ROAS",b:"Monthly"},
+      {t:"Is Google incremental?",d:"New demand or captured demand",b:"Anytime"},
+      {t:"New vs returning P&L",d:"Acquisition cost by cohort",b:"Weekly"},
+      {t:"Which SKUs deserve budget?",d:"Product-level CM2",b:"Weekly"}]},
+
+  creative:{
+    label:"Creative lead", desc:"I make the ads",
+    goals:[
+      {t:"More winners per batch",d:"Raise the hit rate, not just the volume"},
+      {t:"Kill losers faster",d:"Stop spend reaching creatives that won't convert"},
+      {t:"Know why ads win",d:"Hooks, angles and themes — not just which ad, but what about it"},
+      {t:"Stay ahead of fatigue",d:"Fresh concepts ready before winners decay"}],
+    goalPre:0,
+    pains:[
+      {t:"I don't know why my winners win",d:"Performance data never maps back to the creative choice"},
+      {t:"Fatigue kills ads before replacements are ready",d:"The brief starts after the decay, not before"},
+      {t:"Feedback from media buying arrives too late",d:"By review time the learning is stale"},
+      {t:"Competitor creative is a black box",d:"No systematic view of what my category runs"}],
+    painPre:0,
+    metrics:["Creative fatigue","Hook rate","Thumb-stop rate","CTR","Winning themes","CPM","Format performance","CTA performance","Frequency"],
+    metricsPre:[0,1,4,2,3],
+    focus:["Hooks & themes analysis","Fatigue early-warning","Variant briefs from winners","Competitor creative tracking","UGC vs studio read","Landing page match"],
+    focusPre:[0,1,2],
+    focusTitle:"What should Orion watch in your creative?",
+    focusSub:"Orion scores every ad and maps performance back to creative choices. Order sets the scorecard.",
+    ctxGoal:BIZ.fatiguedAds+" of your ads crossed the fatigue threshold this week",
+    ctxPain:"Your "+BIZ.topHook+" is your best performer — and decaying fastest",
+    ctxMetrics:"Across "+BIZ.campaigns+" campaigns: video hooks outperform statics 2.1x on thumb-stop",
+    ctxFocus:"3 winning themes identified last month — none briefed into new variants yet",
+    scheds:[
+      {n:"Creative scorecard",d:"Every live ad scored on hook, clarity, CTA",w:"Fri",t:"10:00 AM · In-app"},
+      {n:"Fatigue early-warning",d:"Winners approaching decay, brief-ready",w:"Daily",t:"9:00 AM · Slack"},
+      {n:"Competitor creative sweep",d:"New ads in your category, tagged by angle",w:"Every 3 days",t:"9:00 AM · Email"}],
+    tmpls:[
+      {t:"Score my latest creatives",d:"Hook, clarity, offer and CTA",b:"Anytime"},
+      {t:"Why did this ad win?",d:"Creative choices mapped to performance",b:"Anytime"},
+      {t:"Brief variants from winners",d:"Same angle, fresh execution",b:"Weekly"},
+      {t:"What's my category running?",d:"Competitor hooks and formats",b:"Weekly"}]},
+
+  agency:{
+    label:"Agency AM", desc:"I manage client brands",
+    goals:[
+      {t:"Keep every brand defensible",d:"No client meeting where the numbers surprise you"},
+      {t:"Cut reporting hours",d:"Assemble Monday's decks from live data, not spreadsheets"},
+      {t:"Catch problems before clients do",d:"Be the one who flags it, not the one who explains it"},
+      {t:"Grow accounts with proof",d:"Upsell backed by margin math, not promises"}],
+    goalPre:0,
+    pains:[
+      {t:"Clients see Meta's ROAS and ask why sales don't match",d:"The gap conversation, every single review"},
+      {t:"Reporting eats my Mondays",d:"Six hours of assembly before any thinking starts"},
+      {t:"Seven brands, one pair of eyes",d:"The quiet account is the one that blows up"},
+      {t:"Churn arrives without warning",d:"Dissatisfaction builds in data I wasn't watching"}],
+    painPre:0,
+    metrics:["POAS by account","Spend pacing","Alerts breached","True ROAS","Creative fatigue","CAC","Revenue"],
+    metricsPre:[0,1,2,3,4],
+    focus:["Portfolio triage","Client reporting","ROAS-gap talk tracks","QBR preparation","Cross-account patterns","Scaling rules"],
+    focusPre:[0,1,2],
+    focusTitle:"What should Orion take off your plate?",
+    focusSub:"Orion works across every brand on your seat. Order sets the morning digest.",
+    ctxGoal:"2 of your 7 accounts need attention today — both POAS floor breaches",
+    ctxPain:"Your Monday reporting load: ~6 hours, most of it assemblable from live data",
+    ctxMetrics:"Across your portfolio: ₹18.6L monthly spend · 7 brands · 3 report days a week",
+    ctxFocus:"One pattern across 4 of your brands: festive creatives fatiguing in sync",
+    scheds:[
+      {n:"Portfolio triage digest",d:"All brands ranked by urgency",w:"Daily",t:"8:30 AM · Email"},
+      {n:"Client reports, all brands",d:"Branded, ready to forward",w:"Mon",t:"7:00 AM · Email + PDF"},
+      {n:"Breach alerts",d:"Any brand crossing its floor",w:"Live",t:"Instant · WhatsApp"}],
+    tmpls:[
+      {t:"Which accounts need me?",d:"Ranked across the portfolio",b:"Daily"},
+      {t:"Draft this week's client report",d:"Pick a brand, get the deck",b:"Weekly"},
+      {t:"Explain the ROAS gap",d:"Plain-English client talk track",b:"Anytime"},
+      {t:"Prep my QBR",d:"A quarter as one narrative",b:"Quarterly"}]}
+};
+
+var FOCUS_BY_ROLE = {};
+Object.keys(ROLES).forEach(function(k){ FOCUS_BY_ROLE[k] = ROLES[k].focus; });
+
+/* ============ STATE ============ */
+var state={role:null,goal:null,pain:"",metrics:[],focus:[],floor:"1.5",spike:"30",
+  cadence:"Let Orion decide",time:"08:00",chan:"WhatsApp"};
+var cur=0, TOTAL=7;
+
+/* ============ ADAPTIVE SCHEDULING ============ */
+function decideSchedules(R){
+  var out = R.scheds.map(function(s){return Object.assign({},s)});
+  var reasons = [];
+  if(BIZ.belowFloor > 0){
+    out.unshift({n:"Hourly spend guard",d:"Watches campaigns near the floor, 9 AM–9 PM",
+      w:"Hourly",t:"Business hours · "+state.chan,
+      why:BIZ.belowFloor+" campaigns near your POAS floor — hourly until they clear"});
+    reasons.push("Hourly guard added: "+BIZ.belowFloor+" campaigns near floor");
+  }
+  if(state.role==='buyer' && state.pain===0){
+    out.forEach(function(s){ if(s.n.indexOf("pause/scale")>-1){ s.w="2× daily"; s.t="7:30 AM + 4:00 PM · "+state.chan;
+      s.why="You said you find out about bad days 24h late — an afternoon check halves that"; }});
+    reasons.push("Pause/scale list bumped to twice daily (your pain: reacting late)");
+  }
+  if(state.role==='creative'){
+    out.forEach(function(s){ if(s.n.indexOf("Fatigue")>-1){ s.why=BIZ.fatiguedAds+" winners decaying now — daily until stable"; }});
+  }
+  if(state.role==='agency'){
+    out.forEach(function(s){ if(s.n.indexOf("Breach")>-1){ s.why="Portfolio-wide: instant beats any schedule for floor breaches"; }});
+  }
+  if(state.cadence==="Only when something breaks"){
+    return { scheds: out.filter(function(s){return /guard|alert|Breach|warning/i.test(s.n)}).map(function(s){
+      s.why=(s.why||"")+(s.why?" · ":"")+"Kept because you chose alerts-only"; return s; }),
+      reasons:["Alerts-only mode: routine briefings suppressed, guards kept"] };
+  }
+  if(state.cadence==="Hourly"){
+    out.forEach(function(s){ if(/briefing|pause/i.test(s.n)){ s.w="Hourly"; s.t="9 AM–9 PM · "+state.chan;
+      s.why="You asked for hourly — applied to action items, reviews stay weekly"; }});
+    reasons.push("Hourly applied to action items only; reviews stay weekly to avoid noise");
+  }
+  return { scheds: out, reasons: reasons };
+}
 
 /* ============ BUILD WIZARD ============ */
 var dots=document.getElementById("dots");
 for(var i=0;i<TOTAL;i++){var d=document.createElement("i");dots.appendChild(d);}
 
-var roleOpts=document.getElementById("roleOpts");
-ROLES.forEach(function(r){
-  var b=document.createElement("button");b.className="opt";
-  b.innerHTML="<b>"+r.v+"</b><span>"+r.d+"</span>";
-  b.onclick=function(){selOne(roleOpts,b);state.role=r.v;state.metrics=r.m.slice();renderMetrics();valid();};
-  roleOpts.appendChild(b);
-});
-var goalOpts=document.getElementById("goalOpts");
-GOALS.forEach(function(g){
-  var b=document.createElement("button");b.className="opt";
-  b.innerHTML="<b>"+g.v+"</b><span>"+g.d+"</span>";
-  b.onclick=function(){selOne(goalOpts,b);state.goal=g.v;valid();};
-  goalOpts.appendChild(b);
-});
-function selOne(wrap,el){wrap.querySelectorAll(".opt").forEach(function(o){o.classList.remove("sel")});el.classList.add("sel");}
+function buildRoleOpts(){
+  var w=document.getElementById("roleOpts");w.innerHTML="";
+  Object.keys(ROLES).forEach(function(k){
+    var r=ROLES[k];
+    var b=document.createElement("button");b.className="opt";
+    b.innerHTML="<b>"+r.label+"</b><span>"+r.desc+"</span>";
+    b.onclick=function(){
+      w.querySelectorAll(".opt").forEach(function(o){o.classList.remove("sel")});
+      b.classList.add("sel");
+      state.role=k;
+      state.goal=r.goalPre; state.pain=r.painPre;
+      state.metrics=r.metricsPre.slice(); state.focus=r.focusPre.slice();
+      valid();
+    };
+    w.appendChild(b);
+  });
+}
+buildRoleOpts();
+
+function buildGoalOpts(){
+  var R=ROLES[state.role]; if(!R)return;
+  var w=document.getElementById("goalOpts");w.innerHTML="";
+  document.getElementById("goalHint").textContent=R.goals.length?
+    "Picked for your role — change it, or add your own if none fit. This sets every threshold downstream.":"";
+  document.getElementById("ctxGoalWrap").innerHTML=R.ctxGoal?
+    "<div style=\"display:inline-flex;align-items:center;gap:7px;background:var(--chip-g-bg);color:var(--chip-g-tx);font-size:12px;font-weight:500;padding:7px 15px;border-radius:999px;margin-bottom:20px;line-height:1.4\">● "+R.ctxGoal+"</div>":"";
+  R.goals.forEach(function(g,i){
+    var b=document.createElement("button");b.className="opt";
+    if(i===state.goal)b.classList.add("sel");
+    b.innerHTML="<b>"+g.t+"</b><span>"+g.d+"</span>";
+    b.onclick=function(){w.querySelectorAll(".opt").forEach(function(o){o.classList.remove("sel")});b.classList.add("sel");state.goal=i;valid();};
+    w.appendChild(b);
+  });
+}
+
+function buildPainOpts(){
+  var R=ROLES[state.role]; if(!R)return;
+  var w=document.getElementById("painOpts");w.innerHTML="";
+  document.getElementById("ctxPainWrap").innerHTML=R.ctxPain?
+    "<div style=\"display:inline-flex;align-items:center;gap:7px;background:var(--chip-g-bg);color:var(--chip-g-tx);font-size:12px;font-weight:500;padding:7px 15px;border-radius:999px;margin-bottom:20px;line-height:1.4\">● "+R.ctxPain+"</div>":"";
+  R.pains.forEach(function(p,i){
+    var b=document.createElement("button");b.className="opt";
+    if(i===state.pain)b.classList.add("sel");
+    b.innerHTML="<b>"+p.t+"</b><span>"+p.d+"</span>";
+    b.onclick=function(){w.querySelectorAll(".opt").forEach(function(o){o.classList.remove("sel")});b.classList.add("sel");state.pain=i;valid();};
+    w.appendChild(b);
+  });
+}
 
 function renderMetrics(){
+  var R=ROLES[state.role]; if(!R)return;
   var w=document.getElementById("metricChips");w.innerHTML="";
-  METRICS.forEach(function(m){
+  document.getElementById("ctxMetricsWrap").innerHTML=R.ctxMetrics?
+    "<div style=\"display:inline-flex;align-items:center;gap:7px;background:var(--chip-g-bg);color:var(--chip-g-tx);font-size:12px;font-weight:500;padding:7px 15px;border-radius:999px;margin-bottom:20px;line-height:1.4\">● "+R.ctxMetrics+"</div>":"";
+  R.metrics.forEach(function(m){
     var c=document.createElement("button");c.className="mchip";c.textContent=m;
     var idx=state.metrics.indexOf(m);
     if(idx>-1){c.classList.add("sel");c.setAttribute("data-ord",idx+1);}
@@ -430,31 +673,50 @@ function renderMetrics(){
     w.appendChild(c);
   });
 }
-renderMetrics();
 
-var campList=document.getElementById("campList");
-CAMPS.forEach(function(c){
-  var b=document.createElement("button");b.className="camp";
-  b.innerHTML="<span class='box'>✓</span>"+c.n+"<small>"+c.s+"</small>";
+function renderFocus(){
+  var R=ROLES[state.role]; if(!R)return;
+  var w=document.getElementById("focusChips");w.innerHTML="";
+  document.getElementById("focusTitle").textContent=R.focusTitle||"Where should Orion push hardest?";
+  document.getElementById("focusHint").textContent=R.focusSub||"The levers Orion is allowed to have opinions about. Order sets priority.";
+  document.getElementById("ctxFocusWrap").innerHTML=R.ctxFocus?
+    "<div style=\"display:inline-flex;align-items:center;gap:7px;background:var(--chip-g-bg);color:var(--chip-g-tx);font-size:12px;font-weight:500;padding:7px 15px;border-radius:999px;margin-bottom:20px;line-height:1.4\">● "+R.ctxFocus+"</div>":"";
+  R.focus.forEach(function(f){
+    var c=document.createElement("button");c.className="mchip";c.textContent=f;
+    var idx=state.focus.indexOf(f);
+    if(idx>-1){c.classList.add("sel");c.setAttribute("data-ord",idx+1);}
+    c.onclick=function(){
+      var i=state.focus.indexOf(f);
+      if(i>-1){state.focus.splice(i,1);}
+      else{state.focus.push(f);}
+      renderFocus();valid();
+    };
+    w.appendChild(c);
+  });
+}
+
+/* Cadence segment */
+document.getElementById("cadSeg").querySelectorAll("button").forEach(function(b){
   b.onclick=function(){
-    var i=state.guards.indexOf(c.n);
-    if(i>-1){state.guards.splice(i,1);b.classList.remove("sel");}
-    else{state.guards.push(c.n);b.classList.add("sel");}
+    document.getElementById("cadSeg").querySelectorAll("button").forEach(function(x){x.classList.remove("sel")});
+    b.classList.add("sel");
+    state.cadence=b.getAttribute("data-v");
+    renderCadPreview();
   };
-  campList.appendChild(b);
 });
+document.getElementById("timeIn").onchange=function(){state.time=this.value;renderCadPreview();};
+document.getElementById("chanSel").onchange=function(){state.chan=this.value;renderCadPreview();};
 
-document.getElementById("chanSeg").querySelectorAll("button").forEach(function(b){
-  b.onclick=function(){segSel("chanSeg",b);state.chan=b.getAttribute("data-v");};
-});
-document.getElementById("toneSeg").querySelectorAll("button").forEach(function(b){
-  b.onclick=function(){segSel("toneSeg",b);state.tone=b.getAttribute("data-v");};
-});
-function segSel(id,el){document.getElementById(id).querySelectorAll("button").forEach(function(x){x.classList.remove("sel")});el.classList.add("sel");}
-document.getElementById("timeSel").onchange=function(){state.time=this.value;};
-document.getElementById("daySel").onchange=function(){state.day=this.value;};
-
-function fillPain(el){var t=document.getElementById("pain");t.value=el.textContent;state.pain=t.value;valid();}
+function renderCadPreview(){
+  var R=ROLES[state.role]; if(!R)return;
+  var D=decideSchedules(R);
+  var el=document.getElementById("cadPreview");
+  if(state.cadence==="Let Orion decide"){
+    el.innerHTML="<div style=\"border:1px solid var(--flb-tint-violet);border-radius:12px;padding:13px 17px;margin-top:14px;background:var(--chip-v-bg);display:flex;gap:11px;align-items:flex-start\"><div style=\"width:30px;height:30px;border-radius:9px;background:var(--chip-v-bg);color:var(--violet-press);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none\">✦</div><div><div style=\"font-size:12.5px;font-weight:600;margin-bottom:2px\">Orion's plan for a "+ROLES[state.role].label.toLowerCase()+" at "+BIZ.brand+"</div><div style=\"font-size:11.5px;color:var(--muted);line-height:1.55\">"+D.scheds.map(function(s){return "<b>"+s.w+"</b> — "+s.n+(s.why?" <span style='color:var(--faint)'>("+s.why+")</span>":"");}).join("<br>")+"<br><span style='color:var(--faint)'>Cadence adapts as signals change — hourly guards retire once campaigns clear the floor.</span></div></div></div>";
+  } else {
+    el.innerHTML="<div style=\"border:1px solid var(--line);border-radius:12px;padding:13px 17px;margin-top:14px;display:flex;gap:11px;align-items:flex-start\"><div style=\"width:30px;height:30px;border-radius:9px;background:var(--chip-v-bg);color:var(--violet-press);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none\">✦</div><div><div style=\"font-size:12.5px;font-weight:600;margin-bottom:2px\">Applied as "+state.cadence.toLowerCase()+"</div><div style=\"font-size:11.5px;color:var(--muted);line-height:1.55\">"+(D.reasons.length?D.reasons.join("<br>"):"Orion still escalates instantly when a floor is breached, whatever the cadence.")+"</div></div></div>";
+  }
+}
 
 /* ============ NAV ============ */
 function openWiz(){cur=0;show();document.getElementById("scrim").classList.add("show");}
@@ -464,16 +726,22 @@ function show(){
   ds.forEach(function(d,i){d.classList.toggle("done",i<=cur)});
   document.getElementById("backBtn").style.visibility=cur===0?"hidden":"visible";
   var nb=document.getElementById("nextBtn");
-  nb.textContent=cur===TOTAL-1?"Generate my Orion setup ✦":"Continue";
+  nb.textContent=cur===TOTAL-1?"Generate my schedules & templates →":"Continue →";
   nb.classList.toggle("gen",cur===TOTAL-1);
-  document.getElementById("skipBtn").style.display=(cur===2||cur===6)?"inline":"none";
-  if(cur===7)buildReceipt();
+  document.getElementById("skipBtn").style.display=(cur===2||cur===5)?"inline":"none";
+
+  if(cur===1)buildGoalOpts();
+  if(cur===2)buildPainOpts();
+  if(cur===3)renderMetrics();
+  if(cur===4)renderFocus();
+  if(cur===5)renderCadPreview();
+  if(cur===6)buildReceipt();
   valid();
 }
 function valid(){
   var ok=true;
   if(cur===0)ok=!!state.role;
-  if(cur===1)ok=!!state.goal;
+  if(cur===1)ok=state.goal!==null;
   if(cur===3)ok=state.metrics.length>0;
   document.getElementById("nextBtn").disabled=!ok;
 }
@@ -484,49 +752,50 @@ function go(dir,skip){
 }
 
 function buildReceipt(){
+  var R=ROLES[state.role]; if(!R)return;
+  var initials=BIZ.brand.slice(0,2).toUpperCase();
   var r=document.getElementById("receipt");
   var rows=[
-    ["Role",state.role],
-    ["Goal",state.goal],
-    ["Your pain",state.pain?"<i>&#8220;"+esc(state.pain)+"&#8221;</i>":"—"],
-    ["Daily metrics",state.metrics.join(" → ")],
-    ["Alerts","ROAS &lt; "+state.roas+" · Spend +"+state.spike+"% no sales"],
-    ["Cadence","Daily "+state.time+" via "+state.chan+" · Weekly "+state.day],
-    ["Guardrails",(state.guards.length?state.guards.join(", "):"None")+" · POAS floor "+state.floor],
-    ["Tone",state.tone==="blunt"?"Blunt actions":"Detailed reasoning"]
+    ["Role",R.label+" · "+BIZ.brand],
+    ["Goal",R.goals[state.goal].t],
+    ["Biggest pain",R.pains[state.pain].t],
+    ["Daily briefing order",state.metrics.map(function(i){return R.metrics[i]}).join(" → ")],
+    ["Focus areas",state.focus.map(function(i){return R.focus[i]}).join(" · ")],
+    ["Delivery",state.cadence+" · "+state.time+" · "+state.chan],
+    ["Guardrails","Built in, always on<br/><small style='color:var(--faint)'>POAS floor · spend caps · approval · reversibility</small>"]
   ];
-  r.innerHTML=rows.map(function(x){return "<div class='rrow'><div class='k'>"+x[0]+"</div><div class='v'>"+x[1]+"</div></div>"}).join("");
+  r.innerHTML="<div style=\"display:flex;gap:14px;align-items:center;padding:16px 20px;background:var(--chip-v-bg);border-bottom:1px solid var(--line)\"><div style=\"width:46px;height:46px;border-radius:13px;background:var(--grad);color:#fff;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none\">"+initials+"</div><div><div style=\"font-size:15px;font-weight:600\">"+R.label+" · "+BIZ.brand+"</div><div style=\"font-size:12px;color:var(--muted);margin-top:1px\">"+BIZ.vertical+" · "+BIZ.spend30+"/mo spend · COD "+BIZ.codShare+" · RTO "+BIZ.rto+"</div></div></div>"+
+    rows.map(function(x){return "<div class='rrow'><div class='k'>"+x[0]+"</div><div class='v'>"+x[1]+"</div></div>"}).join("");
 }
-function esc(s){return s.replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 
 /* ============ FINISH → GENERATE ============ */
 function finish(){
   document.getElementById("scrim").classList.remove("show");
   document.getElementById("empty").style.display="none";
   document.getElementById("result").style.display="block";
-  document.getElementById("banSub").textContent="Prompts tuned for a "+state.role+" focused on "+(state.goal||"growth").toLowerCase()+" · 3 reports scheduled";
-  document.getElementById("orionSide").textContent="Tuned for "+state.role+". Daily briefing "+state.time+" via "+state.chan+".";
+  var R=ROLES[state.role];
+  document.getElementById("banSub").textContent="Prompts tuned for a "+R.label.toLowerCase()+" focused on "+(R.goals[state.goal]||"growth").toLowerCase()+" · 3 reports scheduled";
+  document.getElementById("orionSide").textContent="Tuned for "+R.label+". Daily briefing "+state.time+" via "+state.chan+".";
   renderPrompts();
   renderReports();
   setTimeout(function(){toast("✓ 3 reports scheduled in Scheduler")},400);
 }
 
-function painMark(){return state.pain?"<mark>&#8220;"+esc(state.pain)+"&#8221;</mark>":"their stated pain";}
-function toneLine(){return state.tone==="blunt"
-  ?"Tone: blunt, action-first. Lead with the decision. One line per action, no hedging."
-  :"Tone: explain the reasoning. Show the data trail behind every recommendation.";}
-function guardLine(){return "NEVER recommend changes to: "+(state.guards.length?state.guards.join(", "):"(none specified)")+". Never suggest actions that push POAS below "+state.floor+".";}
+function painMark(){var R=ROLES[state.role];return R&&state.pain!==null?"\""+R.pains[state.pain].t+"\"":"their stated pain";}
+function toneLine(){return "Tone: blunt, action-first. Lead with the decision. One line per action, no hedging.";}
+function guardLine(){return "NEVER recommend changes to campaigns below POAS floor "+state.floor+". Never suggest actions without logged, undoable change record.";}
 
 function renderPrompts(){
   var P=document.getElementById("prompts");P.innerHTML="";
-  var mets=state.metrics.join(", ");
+  var R=ROLES[state.role]; if(!R)return;
+  var mets=state.metrics.map(function(i){return R.metrics[i]}).join(", ");
   var cards=[
     {t:"Daily Briefing",c:"daily",
-     p:"You are Orion for a "+state.role+" whose #1 goal is "+state.goal+".\nTheir biggest pain: "+painMark()+" — address this pattern first whenever it appears in the data.\n\nEvery day at "+state.time+" ("+state.chan+"), report in this exact order: "+mets+".\nFlag immediately if True ROAS < "+state.roas+" or spend rises "+state.spike+"% with zero sales.\n\n"+guardLine()+"\n"+toneLine()},
+     p:"You are Orion for a "+R.label.toLowerCase()+" whose #1 goal is "+R.goals[state.goal].t+".\nTheir biggest pain: "+painMark()+" — address this pattern first whenever it appears in the data.\n\nEvery day at "+state.time+" ("+state.chan+"), report in this exact order: "+mets+".\nFlag immediately if POAS < "+state.floor+" or spend rises "+state.spike+"% with zero sales.\n\n"+guardLine()+"\n"+toneLine()},
     {t:"Weekly Deep-dive",c:"weekly",
-     p:"You are Orion running the "+state.day+" weekly review for a "+state.role+".\nGoal frame: "+state.goal+". Root pain to solve: "+painMark()+".\n\nCover: budget reallocation ranked by POAS impact, creative fatigue and refresh list, scaling candidates that held ROAS ≥ "+state.roas+" for 7 days, and week-over-week movement in "+mets+".\n\nEnd with the 3 highest-impact actions for next week.\n"+guardLine()+"\n"+toneLine()},
+     p:"You are Orion running the weekly review for a "+R.label.toLowerCase()+".\nGoal frame: "+R.goals[state.goal].t+". Root pain to solve: "+painMark()+".\n\nCover: budget reallocation ranked by POAS impact, creative fatigue and refresh list, scaling candidates that held POAS ≥ "+state.floor+" for 7 days, and week-over-week movement on "+mets+".\n\nEnd with the 3 highest-impact actions for next week.\n"+guardLine()+"\n"+toneLine()},
     {t:"Monthly Report",c:"monthly",
-     p:"You are Orion preparing the monthly report for a "+state.role+".\nOpen with progress against their goal: "+state.goal+".\n\nInclude: P&L per channel with True ROAS reconciled to store revenue, COD/RTO impact on real margin, cohort quality (new vs repeat), and month-over-month trend on "+mets+".\n\nClose by scoring how well the month solved: "+painMark()+".\n"+guardLine()+"\nFormat: client-ready, shareable."}
+     p:"You are Orion preparing the monthly report for a "+R.label.toLowerCase()+".\nOpen with progress against their goal: "+R.goals[state.goal].t+".\n\nInclude: P&L per channel with True ROAS reconciled to store revenue, COD/RTO impact on real margin, cohort quality (new vs repeat), and month-over-month trend on "+mets+".\n\nClose by scoring how well the month solved: "+painMark()+".\n"+guardLine()+"\nFormat: client-ready, shareable."}
   ];
   cards.forEach(function(c){
     var el=document.createElement("div");el.className="pcard";
@@ -540,11 +809,7 @@ function renderPrompts(){
 function nextRun(kind){
   var d=new Date();
   if(kind==="daily"){d.setDate(d.getDate()+1);}
-  if(kind==="weekly"){
-    var days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    var target=days.indexOf(state.day);var add=(target-d.getDay()+7)%7;if(add===0)add=7;
-    d.setDate(d.getDate()+add);
-  }
+  if(kind==="weekly"){d.setDate(d.getDate()+7);}
   if(kind==="monthly"){d=new Date(d.getFullYear(),d.getMonth()+1,1);}
   return d.toLocaleDateString("en-IN",{day:"numeric",month:"short"});
 }
@@ -552,8 +817,8 @@ function nextRun(kind){
 function renderReports(){
   var R=document.getElementById("reports");R.innerHTML="";
   var reps=[
-    {t:"My Daily Briefing",c:"daily",m:"Next run: <b>"+nextRun("daily")+", "+state.time+"</b><br/>Channel: <b>"+state.chan+"</b> · Metrics: <b>"+state.metrics.slice(0,3).join(", ")+"…</b>"},
-    {t:"My Weekly Deep-dive",c:"weekly",m:"Next run: <b>"+nextRun("weekly")+" ("+state.day+")</b><br/>Channel: <b>Email</b> · Budget + creative + scaling calls"},
+    {t:"My Daily Briefing",c:"daily",m:"Next run: <b>"+nextRun("daily")+", "+state.time+"</b><br/>Channel: <b>"+state.chan+"</b> · Metrics: <b>"+state.metrics.slice(0,3).map(function(i){return ROLES[state.role].metrics[i]}).join(", ")+"…</b>"},
+    {t:"My Weekly Deep-dive",c:"weekly",m:"Next run: <b>"+nextRun("weekly")+"</b><br/>Channel: <b>Email</b> · Budget + creative + scaling calls"},
     {t:"My Monthly Report",c:"monthly",m:"Next run: <b>"+nextRun("monthly")+"</b><br/>Channel: <b>Email</b> · P&amp;L per channel, client-ready"}
   ];
   reps.forEach(function(r){
