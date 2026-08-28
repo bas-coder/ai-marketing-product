@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>First visit, 22 days of work</title>
+<style>
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: block;
+    src: url("fonts/inter-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: url("fonts/poppins-500-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: url("fonts/poppins-600-latin.woff2") format("woff2");
+  }
+
+  :root {
+    --bg: rgb(252, 252, 252);
+    --card: rgb(252, 252, 252);
+    --grey-100: rgb(245, 245, 245);
+    --grey-200: rgb(234, 234, 234);
+    --grey-300: rgb(213, 213, 213);
+    --ink: rgb(21, 21, 23);
+    --ink-2: rgb(74, 74, 79);
+    --ink-3: rgb(120, 120, 124);
+    --line: rgb(229, 229, 231);
+    --violet: rgb(100, 60, 193);
+    --display: "Poppins", "Segoe UI", sans-serif;
+    --body: "Inter", "Segoe UI", sans-serif;
+  }
+
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); }
+  body {
+    color: var(--ink);
+    font-family: var(--body);
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 13mm 15mm 11mm;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    page-break-after: always;
+  }
+  .page:last-child { page-break-after: auto; }
+  .page::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(92deg, rgb(233, 52, 139) 0%, rgb(127, 86, 217) 52%, rgb(0, 158, 255) 100%);
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2px;
+  }
+  .brand { display: flex; align-items: center; gap: 9px; }
+  .brand svg { display: block; }
+  .brand-name { font: 500 15px/1 var(--display); letter-spacing: -0.02em; }
+  .meta { display: flex; align-items: center; gap: 10px; font: 400 11px/1 var(--body); color: var(--ink-3); }
+  .pill {
+    height: 24px; padding: 0 10px; border-radius: 9999px;
+    background: var(--grey-100); color: var(--ink-2); font: 500 11px/24px var(--body);
+    border: 1px solid var(--line);
+  }
+
+  h1 { font: 500 24px/1.2 var(--display); letter-spacing: -0.02em; }
+  .lede { font: 400 13.5px/1.55 var(--body); color: var(--ink-2); max-width: 48em; }
+
+  .label {
+    font: 500 11px/1 var(--body);
+    color: var(--ink-3);
+    margin-bottom: 6px;
+  }
+
+  .quote {
+    background: var(--grey-100);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px 14px 16px;
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    gap: 14px;
+  }
+  .quote-bar { width: 4px; border-radius: 9999px; background: var(--violet); }
+  .quote .said { font: 500 15px/1.4 var(--display); }
+  .quote .why { margin-top: 7px; font: 400 13px/1.55 var(--body); color: var(--ink-2); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .split3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .panel {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 13px 14px 14px;
+    background: var(--card);
+  }
+  .panel.hi { background: var(--grey-100); }
+  .panel h2 { font: 500 14px/1.3 var(--display); margin-bottom: 6px; }
+  .panel p, .panel li { font: 400 12.5px/1.55 var(--body); color: var(--ink-2); }
+  .panel ul { list-style: none; display: flex; flex-direction: column; gap: 5px; margin-top: 6px; }
+  .panel li { color: var(--ink); padding-left: 0; }
+
+  .score {
+    border: 1px solid rgba(100, 60, 193, 0.18);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(100, 60, 193, 0.08);
+  }
+  .score .n {
+    width: 24px; height: 24px; border-radius: 7px;
+    background: rgba(100, 60, 193, 0.16); color: rgb(83, 56, 158);
+    font: 600 12px/24px var(--display); text-align: center; margin-bottom: 8px;
+  }
+  .score h2 { font: 500 13.5px/1.3 var(--display); margin-bottom: 5px; }
+  .score p { font: 400 12px/1.5 var(--body); color: var(--ink-2); }
+  .say { font-style: italic; }
+
+  .job {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 14px 13px;
+    background: var(--card);
+  }
+  .job h2 { font: 500 14.5px/1.3 var(--display); margin-bottom: 5px; }
+  .job p { font: 400 12.5px/1.55 var(--body); color: var(--ink-2); }
+  .job .have { color: var(--ink-3); margin-bottom: 5px; }
+
+  table.days {
+    width: 100%;
+    border-collapse: collapse;
+    font: 400 11.5px/1.45 var(--body);
+  }
+  table.days th {
+    text-align: left;
+    font: 500 10.5px/1.2 var(--body);
+    color: var(--ink-3);
+    padding: 0 8px 8px 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: bottom;
+  }
+  table.days td {
+    padding: 9px 10px 9px 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    color: var(--ink-2);
+  }
+  table.days td:first-child {
+    color: var(--ink);
+    font-weight: 500;
+    width: 58px;
+    white-space: nowrap;
+  }
+  table.days td b { color: var(--ink); font-weight: 500; display: block; margin-bottom: 3px; }
+
+  .need { display: grid; grid-template-columns: 26px 1fr; gap: 9px; align-items: start; padding: 6px 0; }
+  .need .k {
+    width: 26px; height: 26px; border-radius: 7px;
+    background: var(--grey-200); color: var(--ink);
+    font: 600 12px/26px var(--display); text-align: center;
+  }
+  .need p { font: 400 12.5px/1.5 var(--body); color: var(--ink-2); }
+  .need b { color: var(--ink); font-weight: 500; }
+
+  .foot {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+  }
+  .cta { font: 500 13px/1.4 var(--display); }
+  .hint { font: 400 11.5px/1.4 var(--body); color: var(--ink-3); text-align: right; max-width: 28em; }
+
+  ol.plain { margin: 4px 0 0 18px; }
+  ol.plain li { margin: 3px 0; font: 400 12.5px/1.5 var(--body); color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="page">
+    <header class="top">
+      <div class="brand">
+        <svg width="26" height="26" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+          <path d="M13.34 12.6641H27.2616C26.6618 17.1915 23.1016 19.9872 19.7022 21.0785C17.0919 21.9166 14.6326 21.4709 13.34 21.7284C10.676 22.2592 8.22052 23.0242 5.67807 25.2174C3.91145 26.7413 2.17362 29.0181 0 32.2295V21.7969C2.77062 15.5031 7.90141 12.6641 13.34 12.6641Z" fill="url(#a0)"/>
+          <path d="M5.64386 25.2517C3.87725 26.7756 2.17362 29.1208 0 32.3321C2.12072 32.3321 4.68612 31.5553 6.80684 29.7325C10.9457 26.1752 8.41449 23.1651 13.3742 21.7285C10.7102 22.2592 8.18632 23.0585 5.64386 25.2517Z" fill="url(#a1)"/>
+          <path d="M0 13.5191V21.7284C0.410469 20.9074 0.684111 20.3602 1.19718 19.505C3.9336 12.8692 9.20121 10.2696 13.8189 10.2696L24.5594 10.2012C26.0087 10.2012 28.5599 9.35318 30.4769 7.70423C32.5864 5.88966 34 3.16838 34 1H13.5453C7.93561 1 0.855131 5.5835 0 13.5191Z" fill="url(#a2)"/>
+          <defs>
+            <linearGradient id="a0" x1="13.63" y1="12.66" x2="10.5" y2="22.67" gradientUnits="userSpaceOnUse"><stop stop-color="#8714D2"/><stop offset="1" stop-color="#2A32DD"/></linearGradient>
+            <linearGradient id="a1" x1="5.06" y1="25.35" x2="5" y2="29.67" gradientUnits="userSpaceOnUse"><stop stop-color="#157EF3"/><stop offset="1" stop-color="#02A2FA"/></linearGradient>
+            <linearGradient id="a2" x1="14" y1="2.67" x2="12.5" y2="15.67" gradientUnits="userSpaceOnUse"><stop stop-color="#FC2272"/><stop offset="1" stop-color="#B717B4"/></linearGradient>
+          </defs>
+        </svg>
+        <span class="brand-name">flable.ai</span>
+      </div>
+      <div class="meta">
+        <span>For the design group</span>
+        <span class="pill">7 days used, 22 days left</span>
+        <span>1 of 4</span>
+      </div>
+    </header>
+
+    <div>
+      <h1>First visit, 22 days of work</h1>
+      <p class="lede">I already used one week, so we have 22 days left. That is not a small window. The new first visit is already drawn. These 22 days I watch users, fix where they get stuck, count the steps, and post the result in this group. If the tests show we need more design, I will do it. I will not run a live demo unless you ask.</p>
+    </div>
+
+    <section class="quote">
+      <div class="quote-bar"></div>
+      <div>
+        <p class="label">You said</p>
+        <p class="said">Flawless setup. They understand Orion and the other features. They come back again and again.</p>
+        <p class="why">That is still the goal. In these 22 days we make the first visit work, meaning our users finish setup, know what Orion is, and see the other parts of the app, so they can come back. Coming back again and again takes more than 22 days, and we still want that, but we will work on it after this and not use it as the grade for these 22 days.</p>
+      </div>
+    </section>
+
+    <section class="split">
+      <article class="panel">
+        <p class="label">The whole goal</p>
+        <h2>Where we are going</h2>
+        <ul>
+          <li>Our users finish setup and do not get stuck</li>
+          <li>They know what Orion is for</li>
+          <li>They know what else is in the app</li>
+          <li>They come back again and again</li>
+        </ul>
+      </article>
+      <article class="panel hi">
+        <p class="label">These 22 days</p>
+        <h2>What we will count</h2>
+        <p>Did the first visit work for our users: setup, Orion, and the other parts of the app. We will also make it easy to come back, and we will count “again and again” later, once users have had time to return.</p>
+      </article>
+    </section>
+
+    <section>
+      <p class="label">We did well in these 22 days if all three of these are true</p>
+      <div class="split3">
+        <article class="score">
+          <div class="n">1</div>
+          <h2>Setup</h2>
+          <p>A new Flable user can connect an ad account and get into the app without getting stuck. We count how many of those users finish Connect.</p>
+        </article>
+        <article class="score">
+          <div class="n">2</div>
+          <h2>They know Orion</h2>
+          <p>Our users can tell us what Orion is for, and they finish the Orion questions or ask Orion one question. We count how many users do that.</p>
+        </article>
+        <article class="score">
+          <div class="n">3</div>
+          <h2>Other parts of the app</h2>
+          <p>Our users see Pulse, Attribution, Insights and more, not only chat. We count how many finish the short tour or open two parts of the app.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel hi">
+      <p class="label">What I promise</p>
+      <h2>The flow is drawn. These 22 days I fill it: watch, fix, count, write it down</h2>
+      <p style="margin-top:7px">Every week has a file in this group, not a call. Day 7: how the path works today and what the first watches showed. Day 14: the three stuck places and what I changed. Day 22: three numbers and whether we show more users. I will not ask to show this to every user until a small group can finish setup, say what Orion is, and point to one part of the app that is not chat.</p>
+    </section>
+
+    <footer class="foot">
+      <p class="cta">Seven days are used. These 22 days are full: watch, fix, count, post.</p>
+      <p class="hint">Flawless means our users do not get stuck, not that every human on earth finishes. The work is on the next pages.</p>
+    </footer>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page">
+    <header class="top">
+      <div class="brand"><span class="brand-name">flable.ai</span></div>
+      <div class="meta"><span>Four jobs</span><span>2 of 4</span></div>
+    </header>
+
+    <div>
+      <h1>Four jobs, one first visit</h1>
+      <p class="lede">The path is already made: pick a profile, connect ads, confirm the brand, pick a plan, then a short tour and Orion. Now we count each step, watch our users, and fix what fails, with more design if we need it. Updates go in this group as notes, not as a demo call.</p>
+    </div>
+
+    <article class="job">
+      <h2>Job 1. Count the first visit</h2>
+      <p class="have">Screens will not tell us if we won, so first I write down how the path works today.</p>
+      <p>I list every step: sign up, pick a profile, connect ads, confirm the brand, pick a plan, start the tour, finish the tour, start Orion, finish Orion, send the first chat. Then I ask the engineers to record each of those steps in our analytics tool, which is the software that stores “this user finished Connect” without anyone watching. If analytics is not ready in the first week, I still run the user testing calls and write what each customer did in a Google Sheet, so we are not guessing.</p>
+      <p style="margin-top:6px">The job is done when every step has a name we can count and we know today’s number, even if that number is bad. We will know by how many users start each step and how many finish, and how long it takes from sign up to Connect.</p>
+    </article>
+
+    <article class="job">
+      <h2>Job 2. Make setup easy</h2>
+      <p class="have">The screens are already there: profile, connect Meta, Google or Shopify, confirm the brand, pick a plan.</p>
+      <p>Sales asks five Flable customers to join a user testing call (about 30 minutes on Zoom or Google Meet). We can give credits or a referral code so they opt in. The customer shares their screen and clicks the new first visit while I watch, remote. I do not help unless they are stuck for a long time, and I write where they stop. If five calls are slow to book, I watch recordings of new signups instead, or sales asks three questions at the end of their next five calls. Then I change the words, the buttons, or the order, and I will do more design if that is what it takes. I will fix the three worst stuck places, which is often Connect feeling scary, a plan showing up before they have seen anything useful, or a step that never says why they are doing it.</p>
+      <p style="margin-top:6px">The job is done when those three stuck places are fixed. We will know by how many users finish Connect, how long setup takes, and whether anyone writes to support and says they got stuck.</p>
+    </article>
+
+    <article class="job">
+      <h2>Job 3. They know what Orion is</h2>
+      <p class="have">The Orion questions are already there: who it works for, what to make better, where to push, how often to reach them, then the first chat.</p>
+      <p>A new Flable user should be able to say <span class="say">“Orion watches my ads and tells me what to do next.”</span> They finish the short Orion questions or they ask Orion one real question, and if they cannot say that sentence we are not done, so I will change the words (and the screens if I must) until they can.</p>
+      <p style="margin-top:6px">The job is done when four of the five customers on the calls can say what Orion is for in one sentence. We will know by how many users finish the Orion questions or send one chat, and I will write down the five answers they say out loud.</p>
+    </article>
+
+    <article class="job">
+      <h2>Job 4. They see the other parts of the app, and they know how to come back</h2>
+      <p class="have">The short tour is already there (sidebar, agents, the box where you type, partners, setup) and so is the setup list (personalize, connect, fix ad tracking, free credits).</p>
+      <p>Each stop on the tour must say the name of the thing and why it is there, so after the tour a user can point to one part of the app that is not chat. I will rewrite those stops and the setup list (personalize, connect, fix ad tracking, credits) so coming back is obvious. We do not grade “again and again” in these 22 days, we make it clear how to come back.</p>
+      <p style="margin-top:6px">The job is done when four of the five customers on the calls can name one part of the app besides Orion chat. We will know by how many users finish the tour or open two parts of the app, and whether they started the setup list.</p>
+    </article>
+
+    <footer class="foot">
+      <p class="cta">If a job finishes early I keep going, including more design (see the last page)</p>
+      <p class="hint">I will not send you extra screens unless they help one of these four jobs</p>
+    </footer>
+  </div>
+
+  <!-- PAGE 3 days table -->
+  <div class="page">
+    <header class="top">
+      <div class="brand"><span class="brand-name">flable.ai</span></div>
+      <div class="meta"><span>What I will do each day</span><span>3 of 4</span></div>
+    </header>
+
+    <div>
+      <h1>The next 22 days, in order</h1>
+      <p class="lede">This is exactly what I will do, how I will do it, and what I will use, starting day 1 when you say yes</p>
+    </div>
+
+    <table class="days">
+      <thead>
+        <tr>
+          <th>Days</th>
+          <th>What I will do</th>
+          <th>How I will do it</th>
+          <th>What I will use</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1 to 7</td>
+          <td>
+            <b>Write today’s path, name every step for analytics, start the five watches</b>
+            Open the live app and the new flow. Write every step in a list and give engineering the names to record in our analytics tool (the software that stores “this user finished Connect”). Write one line sales can paste: credits or a referral code for a 30 minute watch. Sales asks five Flable customers. I run those calls remote on Zoom or Google Meet: the customer shares their screen, I watch, I do not help. If booking is slow I watch recordings of new signups, or sales asks three questions on their next five calls. Day 7 I post a note in this group: the step list, what we already saw, what is still missing.
+          </td>
+          <td>
+            I put the steps in a Google Sheet with columns for customer, step, did they finish, where they stopped, and what they said. On the call I do not help unless they are stuck for a long time. If analytics is not ready yet, the Sheet from these watches is our count. I work remote, so this is never an office visit. The day 7 note is a file in the group, not a live walkthrough.
+          </td>
+          <td>
+            Live app, new flow, Google Sheet, Zoom or Google Meet, credits or a referral code, recordings if calls are slow, our analytics tool once engineering turns the steps on
+          </td>
+        </tr>
+        <tr>
+          <td>8 to 14</td>
+          <td>
+            <b>Finish the five watches, fix the three worst stuck places, rewrite the tour</b>
+            Same watches as days 1 to 7 for the rest of the five customers. Then I change the new flow (words, buttons, or order) and I will do more design if that is what it takes. I rewrite each tour stop so it says the name and why it is there, and I make the setup list the reason to come back. Day 14 I post a note in this group: where they got lost, what I changed. No live demo unless you ask.
+          </td>
+          <td>
+            I keep filling the same Google Sheet and rank the stuck places by how many customers hit them. I fix the top three in the flow we already have, plus any extra design the watches prove we need. The day 14 note is the update. You do not need a call to see it.
+          </td>
+          <td>
+            Same Google Sheet, same Zoom or Google Meet or recordings, the new flow files, tour copy, setup list, and chat with engineering if a fix needs analytics or a small live change
+          </td>
+        </tr>
+        <tr>
+          <td>15 to 19</td>
+          <td>
+            <b>Some new Flable users see the new first visit, not everyone</b>
+            I ask engineering to show the new flow to a small group of new signups. Each day I watch the three numbers: how many finish Connect, how many finish Orion or send one chat, and how many finish the tour or open two parts of the app. If users still get stuck I fix one more thing, including more design if needed, and I read support notes that say they got lost. I post a one line status in the group if a number drops.
+          </td>
+          <td>
+            Engineering turns the new flow on for some new signups only. I check the analytics tool each morning and write a one line note if a number drops, then one more fix if setup or Orion still stops users.
+          </td>
+          <td>
+            Analytics tool, live app, support inbox, the new flow files, chat with engineering
+          </td>
+        </tr>
+        <tr>
+          <td>20 to 22</td>
+          <td>
+            <b>I give you one page of numbers</b>
+            The three numbers next to day 1, what the five customers said on the calls, what we will not show every user yet, and what we do next (come back again and again). If the small group did well we can show more users, and if it did not I will say so and keep fixing.
+          </td>
+          <td>
+            I copy the numbers from the analytics tool and the Google Sheet into one short page, add five short quotes from the watches, and post that page in this group on day 22. If you want a call after you have read it, you say so.
+          </td>
+          <td>
+            Google Sheet, analytics tool, one page PDF or a short doc in this group
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <footer class="foot">
+      <p class="cta">Your part and how we know it worked are on the last page</p>
+      <p class="hint">I start day 1 when the group says this plan is ok, or when you write a better one</p>
+    </footer>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page">
+    <header class="top">
+      <div class="brand"><span class="brand-name">flable.ai</span></div>
+      <div class="meta"><span>How we know, your part</span><span>4 of 4</span></div>
+    </header>
+
+    <div>
+      <h1>How we know it worked</h1>
+      <p class="lede">We use your words, then we count. Here is the grade for these 22 days.</p>
+    </div>
+
+    <table class="days">
+      <thead>
+        <tr>
+          <th>You care about</th>
+          <th>What I will count</th>
+          <th>We did well in 22 days if</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Flawless setup</td>
+          <td>How many new signups finish Connect. How long it takes to get in. Notes that say “I got stuck.”</td>
+          <td>The number is better than day 1, or four of the five customers on the calls finish without help</td>
+        </tr>
+        <tr>
+          <td>They understand Orion</td>
+          <td>How many finish the Orion questions or send one real chat. The sentence they say out loud.</td>
+          <td>Four of the five customers on the calls can say what Orion is for, and the count is better than day 1</td>
+        </tr>
+        <tr>
+          <td>Other features</td>
+          <td>How many finish the tour or open two parts of the app that are not only chat.</td>
+          <td>Four of the five customers on the calls can name one part of the app besides chat</td>
+        </tr>
+        <tr>
+          <td>Come back again and again</td>
+          <td>Did they start the setup list. Do they know where to return.</td>
+          <td>This is not the grade for these 22 days. I will still tell you if any user came back, and the next stretch of work will own this</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <section class="split" style="margin-top:4px">
+      <article class="panel">
+        <p class="label">What I need from you</p>
+        <div class="need"><div class="k">1</div><p><b>Say this plan is ok, or write a better one:</b> first visit, 22 days, these three numbers. I will do the one the group picks.</p></div>
+        <div class="need"><div class="k">2</div><p><b>Sales:</b> five Flable customers for a 30 minute watch (credits or a referral code), or a yes to recordings / three questions on sales calls if booking is too slow.</p></div>
+        <div class="need"><div class="k">3</div><p><b>Engineering:</b> record the steps in our analytics tool, and show the new flow to some new users first. I will post notes in this group on day 7, 14, and 22. No demo call unless you ask.</p></div>
+      </article>
+      <article class="panel hi">
+        <p class="label">If we finish early</p>
+        <h2>I will not stop</h2>
+        <p>I will cut steps that nobody needed, make a clear note that says your first Orion note is waiting so coming back is obvious, and start a small count of which users come back for next time (that count is not how we pass these 22 days).</p>
+        <p style="margin-top:8px;color:var(--ink)">If almost no new users sign up, we still use the five customer calls and the three “four of five” checks. I will not make up a percent from ten users.</p>
+      </article>
+    </section>
+
+    <footer class="foot">
+      <p class="cta">If this looks right, say so in the group and I start the 22 days. On day 22 you get the numbers in writing.</p>
+      <p class="hint">If you have a better plan, write it. I will do that instead. I will not start a second process until the group picks one.</p>
+    </footer>
+  </div>
+
+</body>
+</html>
