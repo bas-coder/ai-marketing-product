@@ -3,11 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orion · flable.ai</title>
+<link rel="icon" type="image/svg+xml" href="assets/flable-mark.svg">
 <script src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
+  <title>Orion · flable.ai</title>
+  <link rel="icon" type="image/svg+xml" href="assets/flable-mark.svg">
   <link rel="stylesheet" href="_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/fonts.css">
   <link rel="stylesheet" href="_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/primitives.css">
   <link rel="stylesheet" href="_ds/flable-ai-design-system-c17dff3e-2e5d-498e-8908-1f9cc234e012/tokens/brand.css">
@@ -395,7 +399,7 @@
       <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 34px;flex-shrink:0">
         <span></span>
         <div style="display:flex;align-items:center;gap:14px">
-          <span style="font:500 12px var(--flb-font-body);color:var(--flb-ink-3)">Step {{ obStep }} of 4</span>
+          <span style="font:500 12px var(--flb-font-body);color:var(--flb-ink-3)">Step {{ obStep }} of {{ obTotal }}</span>
           <div style="width:170px;height:5px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="height:100%;width:{{ obPct }};border-radius:9999px;background:var(--flb-purple);transition:width 320ms var(--flb-ease)"></div></div>
         </div>
       </div>
@@ -404,8 +408,8 @@
     <sc-if value="{{ screenProfiles }}" hint-placeholder-val="{{ false }}">
     <div style="flex:1;min-height:0;display:flex;flex-direction:column">
       <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:34px">
-        <h1 style="margin:0;font:500 27px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Select your profile</h1>
-        <p style="margin:10px 0 0;max-width:430px;text-align:center;font:400 13.5px/1.6 var(--flb-font-body);color:var(--flb-ink-3);text-wrap:pretty">Each profile keeps its own connected accounts, guardrails and Orion memory. You can add more any time.</p>
+        <h1 style="margin:0;font:500 27px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Select a client</h1>
+        <p style="margin:10px 0 0;max-width:460px;text-align:center;font:400 13.5px/1.6 var(--flb-font-body);color:var(--flb-ink-3);text-wrap:pretty">Each client ID has its own ads, store and Orion memory. A second store is another client ID. Same setup.</p>
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap">
           <sc-for list="{{ profileCards }}" as="p" hint-placeholder-count="2">
             <div style="{{ p.plateStyle }}">
@@ -424,7 +428,7 @@
               </sc-if>
             </div>
           </sc-for>
-          <button onClick="{{ addProfile }}" data-tip="Add another profile" aria-label="Add another profile" style="width:60px;height:60px;flex-shrink:0;margin-left:10px;border-radius:9999px;border:1.5px dashed var(--flb-border-default);background:transparent;color:var(--flb-ink-4);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all 150ms var(--flb-ease)" style-hover="border-color:var(--flb-purple);background:var(--flb-tint-violet);color:var(--flb-on-violet)"><i class="ph ph-plus" style="font-size:22px;line-height:1"></i></button>
+          <button onClick="{{ addProfile }}" data-tip="Add another client ID" aria-label="Add another client ID" style="width:60px;height:60px;flex-shrink:0;margin-left:10px;border-radius:9999px;border:1.5px dashed var(--flb-border-default);background:transparent;color:var(--flb-ink-4);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all 150ms var(--flb-ease)" style-hover="border-color:var(--flb-purple);background:var(--flb-tint-violet);color:var(--flb-on-violet)"><i class="ph ph-plus" style="font-size:22px;line-height:1"></i></button>
         </div>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;border-top:1px solid var(--flb-border-muted);flex-shrink:0;background:var(--flb-surface)">
@@ -437,8 +441,14 @@
     <sc-if value="{{ screenConnect }}" hint-placeholder-val="{{ false }}">
     <div style="flex:1;min-height:0;display:flex;flex-direction:column">
       <div style="flex:1;min-height:0;overflow-y:auto;padding:6px 34px 20px"><div style="max-width:660px;margin:0 auto">
+        <sc-if value="{{ addingClient }}" hint-placeholder-val="{{ false }}">
+        <h1 style="margin:0;font:500 27px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">{{ connectTitle }}</h1>
+        <p style="margin:8px 0 22px;font:400 14px/1.6 var(--flb-font-body);color:var(--flb-ink-2)">{{ connectSub }}</p>
+        </sc-if>
+        <sc-if value="{{ notAddingClient }}" hint-placeholder-val="{{ true }}">
         <h1 style="margin:0;font:500 27px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Connect your ad accounts</h1>
         <p style="margin:8px 0 22px;font:400 14px/1.6 var(--flb-font-body);color:var(--flb-ink-2)">We'll pull <strong style="color:var(--flb-ink)">30 days</strong> of campaign data through read-only OAuth. Connect at least one to generate your free audit.</p>
+        </sc-if>
         
       <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-border-default);margin-bottom:12px">
         <span style="width:40px;height:40px;flex-shrink:0;border-radius:10px;background:rgba(8,102,255,.1);display:inline-flex;align-items:center;justify-content:center"><i class="ph ph-meta-logo" style="font-size:22px;color:#0866FF"></i></span>
@@ -477,30 +487,37 @@
       </div>
       </div></div>
       
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;border-top:1px solid var(--flb-border-muted);flex-shrink:0;background:var(--flb-surface)"><sc-if value="{{ hasAnyAccount }}" hint-placeholder-val="{{ false }}"><span style="font:500 13px var(--flb-font-body);color:var(--flb-success)"><i class="ph-bold ph-check-circle" style="font-size:15px;vertical-align:-2px"></i> {{ connectedCount }} connected · ready to continue</span></sc-if><sc-if value="{{ noAccount }}" hint-placeholder-val="{{ true }}"><span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-4)">Connect at least one account to continue</span></sc-if><button onClick="{{ connectContinue }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 24px;border-radius:11px;border:none;background:{{ continueBg }};color:#fcfcfc;font:500 14px var(--flb-font-body);cursor:{{ continueCursor }};opacity:{{ continueOpacity }}">Continue <i class="ph-bold ph-arrow-right" style="font-size:15px"></i></button></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;border-top:1px solid var(--flb-border-muted);flex-shrink:0;background:var(--flb-surface)">
+      <div style="display:flex;align-items:center;gap:14px;min-width:0">
+        <sc-if value="{{ addingClient }}" hint-placeholder-val="{{ false }}"><button onClick="{{ cancelAddClient }}" style="height:44px;padding:0 16px;border-radius:11px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink-2);font:500 14px var(--flb-font-body);cursor:pointer">Cancel</button></sc-if>
+        <sc-if value="{{ hasAnyAccount }}" hint-placeholder-val="{{ false }}"><span style="font:500 13px var(--flb-font-body);color:var(--flb-success)"><i class="ph-bold ph-check-circle" style="font-size:15px;vertical-align:-2px"></i> {{ connectedCount }} connected · ready to continue</span></sc-if>
+        <sc-if value="{{ noAccount }}" hint-placeholder-val="{{ true }}"><span style="font:500 13px var(--flb-font-body);color:var(--flb-ink-4)">Connect at least one account to continue</span></sc-if>
+      </div>
+      <button onClick="{{ connectContinue }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 24px;border-radius:11px;border:none;background:{{ continueBg }};color:#fcfcfc;font:500 14px var(--flb-font-body);cursor:{{ continueCursor }};opacity:{{ continueOpacity }}">Continue <i class="ph-bold ph-arrow-right" style="font-size:15px"></i></button>
+    </div>
     </div>
     </sc-if>
 
     <sc-if value="{{ screenConfirm }}" hint-placeholder-val="{{ false }}">
     <div style="flex:1;min-height:0;display:flex;flex-direction:column">
       <div style="flex:1;min-height:0;overflow-y:auto;padding:6px 34px 20px"><div style="max-width:760px;margin:0 auto">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px"><div><h1 style="margin:0;font:500 26px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Does this look right?</h1><p style="margin:8px 0 0;font:400 14px var(--flb-font-body);color:var(--flb-ink-3)">Enriched from public sources, edit anything that's off.</p></div><span style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:9999px;background:var(--flb-tint-success);font:500 11.5px var(--flb-font-body);color:var(--flb-on-success);white-space:nowrap"><span style="width:6px;height:6px;border-radius:9999px;background:var(--flb-success)"></span>luminaryskincare.com + 11 sources</span></div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px"><div><h1 style="margin:0;font:500 26px var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Does this look right?</h1><p style="margin:8px 0 0;font:400 14px var(--flb-font-body);color:var(--flb-ink-3)">Enriched from public sources, edit anything that's off.</p></div><span style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:9999px;background:var(--flb-tint-success);font:500 11.5px var(--flb-font-body);color:var(--flb-on-success);white-space:nowrap"><span style="width:6px;height:6px;border-radius:9999px;background:var(--flb-success)"></span>{{ confirmSite }} + 11 sources</span></div>
         <div style="margin-top:18px;border-radius:16px;background:var(--flb-surface);border:1px solid var(--flb-border-default);padding:22px 24px">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:10px;background:var(--flb-magenta);color:#fcfcfc;display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--flb-font-display)">L</span><div><div style="font:500 15px var(--flb-font-display);color:var(--flb-ink)">Luminary Skincare Co.</div><div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3)">Shopify · luminaryskincare.com</div></div></div><button style="height:34px;padding:0 14px;border-radius:9px;border:1px solid var(--flb-border-default);background:var(--flb-surface);color:var(--flb-ink-2);font:500 12.5px var(--flb-font-body);cursor:pointer">Replace logo</button></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px"><div style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:10px;background:{{ confirmColor }};color:#fcfcfc;display:inline-flex;align-items:center;justify-content:center;font:500 16px var(--flb-font-display)">{{ confirmInitial }}</span><div><div style="font:500 15px var(--flb-font-display);color:var(--flb-ink)">{{ confirmCompany }}</div><div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3)">{{ confirmClientId }} · {{ confirmSite }}</div></div></div><button style="height:34px;padding:0 14px;border-radius:9px;border:1px solid var(--flb-border-default);background:var(--flb-surface);color:var(--flb-ink-2);font:500 12.5px var(--flb-font-body);cursor:pointer">Replace logo</button></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 22px">
-            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Company name</label><input value="Luminary Skincare Co." style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
-            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Website</label><input value="luminaryskincare.com" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
-            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Industry / category</label><input value="Beauty &amp; Personal Care" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
-            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Country</label><input value="United States" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
-            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Target Audience</label><input value="Women 25-45, skincare enthusiasts" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
-            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Brand Voice</label><input value="Clean &amp; Aspirational" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
-            <div style="grid-column:1 / -1"><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">USP</label><input value="Dermatologist-tested, clean ingredients with visible results in 14 days" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
+            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Company name</label><input value="{{ confirmCompany }}" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
+            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Website</label><input value="{{ confirmSite }}" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
+            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Industry / category</label><input value="{{ confirmIndustry }}" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
+            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Country</label><input value="{{ confirmCountry }}" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
+            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Target Audience</label><input value="{{ confirmAudience }}" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
+            <div><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">Brand Voice</label><input value="{{ confirmVoice }}" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
+            <div style="grid-column:1 / -1"><label style="font:500 12px var(--flb-font-body);color:var(--flb-ink-2)">USP</label><input value="{{ confirmUsp }}" style="width:100%;height:42px;margin-top:6px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-bg);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)"></div>
           </div>
           <div style="margin-top:18px;padding-top:16px;border-top:1px solid var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3)"><span style="color:var(--flb-on-violet);font-weight:500">✦ Enriched</span> fields are inferred from public sources. You can edit anything.</div>
         </div>
       </div></div>
       
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;border-top:1px solid var(--flb-border-muted);flex-shrink:0;background:var(--flb-surface)"><span style="font:500 13px var(--flb-font-body);color:var(--flb-success)"><i class="ph-bold ph-check-circle" style="font-size:15px;vertical-align:-2px"></i> All required fields look good</span><button onClick="{{ confirmSubmit }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 24px;border-radius:11px;border:none;background:var(--flb-purple);color:#fcfcfc;font:500 14px var(--flb-font-body);cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,.06)">Get My Free Audit <i class="ph-bold ph-arrow-right" style="font-size:15px"></i></button></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;border-top:1px solid var(--flb-border-muted);flex-shrink:0;background:var(--flb-surface)"><span style="font:500 13px var(--flb-font-body);color:var(--flb-success)"><i class="ph-bold ph-check-circle" style="font-size:15px;vertical-align:-2px"></i> All required fields look good</span><button onClick="{{ confirmSubmit }}" style="display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 24px;border-radius:11px;border:none;background:var(--flb-purple);color:#fcfcfc;font:500 14px var(--flb-font-body);cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,.06)">{{ confirmCta }} <i class="ph-bold ph-arrow-right" style="font-size:15px"></i></button></div>
     </div>
     </sc-if>
 
@@ -614,6 +631,30 @@
     </sc-if>
 
     <div data-tour="sidebar" style="flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; margin-top: 12px">
+      <div style="position:relative;z-index:{{ clientChipZ }};flex-shrink:0;margin-bottom:8px">
+        <button onClick="{{ toggleClientMenu }}" data-tip="Switch client ID" aria-label="Switch client ID" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px;border-radius:10px;border:1px solid var(--flb-border-default);background:transparent;cursor:pointer;font-family:var(--flb-font-body);justify-content:{{ newChatJustify }}" style-hover="background:var(--app-raised)">
+          <span style="width:18px;height:18px;flex-shrink:0;border-radius:6px;background:{{ clientChipColor }};color:#fcfcfc;display:inline-flex;align-items:center;justify-content:center;font:500 9px var(--flb-font-display)">{{ clientChipInitial }}</span>
+          <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
+            <span style="flex:1;min-width:0;font:500 12.5px var(--flb-font-body);color:var(--flb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left">{{ clientChipName }}</span>
+            <i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-3);line-height:1"></i>
+          </sc-if>
+        </button>
+        <sc-if value="{{ clientMenuOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;top:calc(100% + 6px);left:0;z-index:2;width:100%;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-lg);padding:6px;animation:flbRise 150ms var(--flb-ease-out) backwards">
+            <div style="padding:8px 10px 6px;font:500 10.5px var(--flb-font-body);letter-spacing:.08em;color:var(--flb-ink-4)">CLIENT IDS</div>
+            <sc-for list="{{ clientSwitchRows }}" as="c" hint-placeholder-count="1">
+              <button onClick="{{ c.onSelect }}" style="{{ c.rowStyle }}" style-hover="background:var(--flb-tint-violet)">
+                <span style="width:28px;height:28px;flex-shrink:0;border-radius:8px;background:{{ c.color }};color:#fcfcfc;display:inline-flex;align-items:center;justify-content:center;font:500 12px var(--flb-font-display)">{{ c.initial }}</span>
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;line-height:1.25"><span style="font:500 13px var(--flb-font-body);color:var(--flb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px">{{ c.name }}</span><span style="font:400 11px var(--flb-font-body);color:var(--flb-ink-3)">{{ c.clientId }}</span></span>
+                <sc-if value="{{ c.current }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if>
+              </button>
+            </sc-for>
+            <div style="height:1px;background:var(--flb-line);margin:6px"></div>
+            <button onClick="{{ addClientFromApp }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-ink-2)" style-hover="background:var(--flb-tint-violet);color:var(--flb-ink)"><i class="ph ph-plus" style="font-size:16px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Add client ID</span></button>
+          </div>
+        </sc-if>
+      </div>
+
       <button onClick="{{ startNewChat }}" style="display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px;border:none;cursor:pointer;border-radius:9px;background:{{ newChatBg }};box-shadow:{{ newChatRing }};font-family:var(--flb-font-body);font-size:13.5px;font-weight:400;color:var(--flb-ink);text-align:left;justify-content:{{ newChatJustify }};transition:background 140ms var(--flb-ease)" style-hover="background:var(--app-raised);color:var(--flb-ink)">
         <span style="display:inline-flex;flex-shrink:0;color:var(--flb-ink)"><i class="ph ph-plus" style="font-size:18px;line-height:1"></i></span>
         <sc-if value="{{ expanded }}" hint-placeholder-val="{{ true }}">
@@ -700,7 +741,7 @@
     </sc-if>
 
       <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ helpIcon }}" label="Help" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goHelp }}" dc-props="{{ helpExtra }}" hint-size="100%,42px" data-sidebar-tip="Help"></x-import>
-      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ settingsIcon }}" label="Settings" active="{{ off }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goSettings }}" dc-props="{{ settingsExtra }}" hint-size="100%,42px" data-sidebar-tip="Settings"></x-import>
+      <x-import component-from-global-scope="FlableAiDesignSystem_c17dff.NavItem" icon="{{ settingsIcon }}" label="Settings" active="{{ aSettings }}" collapsed="{{ sidebarCollapsed }}" onClick="{{ goSettings }}" dc-props="{{ settingsExtra }}" hint-size="100%,42px" data-sidebar-tip="Settings"></x-import>
 
   </aside>
 
@@ -750,8 +791,8 @@
       <span style="flex:1"></span>
 
       <div style="display:flex;align-items:center;gap:10px;flex-shrink:0">
-        <button data-tip="Toggle theme" data-tip-left="" aria-label="Toggle theme" onClick="{{ toggleTheme }}" style="width:36px;height:36px;border-radius:10px;border:none;background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer">{{ themeIcon }}</button>
-        <button data-tip="Notifications" data-tip-left="" aria-label="Notifications" onClick="{{ clearNotif }}" style="position:relative;width:36px;height:36px;border-radius:10px;border:none;background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer">
+        <button data-tip="Toggle theme" data-tip-left="" aria-label="Toggle theme" onClick="{{ toggleTheme }}" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer">{{ themeIcon }}</button>
+        <button data-tip="Notifications" data-tip-left="" aria-label="Notifications" onClick="{{ clearNotif }}" style="position:relative;width:36px;height:36px;border-radius:10px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer">
           <i class="ph ph-bell" style="font-size:19px;line-height:1"></i>
           <sc-if value="{{ showNotif }}" hint-placeholder-val="{{ true }}"><span style="position:absolute;top:6px;right:7px;min-width:16px;height:16px;padding:0 4px;border-radius:9999px;background:var(--flb-magenta);color:#fcfcfc;font:500 10px var(--flb-font-body);display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--flb-bg)">{{ notif }}</span></sc-if>
         </button>
@@ -766,16 +807,25 @@
             <i class="ph ph-caret-down" style="font-size:14px;color:var(--flb-ink-3);line-height:1;margin-left:2px"></i>
           </button>
           <sc-if value="{{ accountOpen }}" hint-placeholder-val="{{ false }}">
-            <div style="position:absolute;top:52px;right:0;z-index:2;width:224px;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-lg);padding:6px;animation:flbRise 150ms var(--flb-ease-out) backwards">
+            <div style="position:absolute;top:52px;right:0;z-index:2;width:260px;border-radius:14px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-lg);padding:6px;animation:flbRise 150ms var(--flb-ease-out) backwards">
               <div style="display:flex;align-items:center;gap:10px;padding:8px 10px 10px">
                 <span style="width:34px;height:34px;flex-shrink:0;border-radius:9999px;background:var(--flb-surface-3);color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;font:500 13px var(--flb-font-display)">A</span>
                 <div style="line-height:1.3;min-width:0"><div style="font:500 13px var(--flb-font-body);color:var(--flb-ink)">Abbas</div><div style="font:400 11px var(--flb-font-body);color:var(--flb-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">abbas@flable.ai</div></div>
               </div>
               <div style="height:1px;background:var(--flb-line);margin:2px 6px 6px"></div>
+              <div style="padding:4px 10px 6px;font:500 10.5px var(--flb-font-body);letter-spacing:.08em;color:var(--flb-ink-4)">THIS ACCOUNT</div>
+              <sc-for list="{{ clientSwitchRows }}" as="c" hint-placeholder-count="1">
+                <button onClick="{{ c.onSelect }}" style="{{ c.rowStyle }}" style-hover="background:var(--flb-tint-violet)">
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;line-height:1.25"><span style="font:500 13px var(--flb-font-body);color:var(--flb-ink)">{{ c.name }}</span><span style="font:400 11px var(--flb-font-body);color:var(--flb-ink-3)">{{ c.clientId }}</span></span>
+                  <sc-if value="{{ c.current }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if>
+                </button>
+              </sc-for>
+              <button onClick="{{ addClientFromApp }}" style="display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-ink-2)" style-hover="background:var(--flb-tint-violet);color:var(--flb-ink)"><i class="ph ph-plus" style="font-size:16px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Add client ID</span></button>
+              <div style="height:1px;background:var(--flb-line);margin:6px 6px"></div>
                 <button onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-ink-2)" style-hover="background:var(--flb-tint-violet);color:var(--flb-ink)"><i class="ph ph-user" style="font-size:17px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Profile</span></button>
                 <button onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-ink-2)" style-hover="background:var(--flb-tint-violet);color:var(--flb-ink)"><i class="ph ph-credit-card" style="font-size:17px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Billing</span></button>
                 <button onClick="{{ openOrionShort }}" style="display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-ink-2)" style-hover="background:var(--flb-tint-violet);color:var(--flb-ink)"><i class="ph ph-sliders-horizontal" style="font-size:17px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Personalize my Orion</span></button>
-                <button onClick="{{ closeMenu }}" style="display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-ink-2)" style-hover="background:var(--flb-tint-violet);color:var(--flb-ink)"><i class="ph ph-gear-six" style="font-size:17px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Settings</span></button>
+                <button onClick="{{ openSettings }}" style="display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-ink-2)" style-hover="background:var(--flb-tint-violet);color:var(--flb-ink)"><i class="ph ph-gear-six" style="font-size:17px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Settings</span></button>
               <div style="height:1px;background:var(--flb-line);margin:6px 6px"></div>
                 <button onClick="{{ logOut }}" style="display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer;text-align:left;color:var(--flb-error)" style-hover="background:var(--flb-tint-error);color:var(--flb-on-error)"><i class="ph ph-sign-out" style="font-size:17px;line-height:1"></i><span style="font:500 13px var(--flb-font-body)">Log out</span></button>
             </div>
@@ -1286,7 +1336,7 @@
                 <h1 style="margin:0;font:600 28px/1.2 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Scheduler</h1>
                 <span data-tip="Schedule reports to land in your team's inbox on a recurring cadence" style="display:inline-flex;color:var(--flb-ink-3);cursor:pointer"><i class="ph ph-info" style="font-size:18px"></i></span>
               </div>
-              <p style="margin:8px 0 0;font:400 14px/1.5 var(--flb-font-body);color:var(--flb-ink-3);max-width:740px">Schedule reports to land in your team's inbox — write your own prompt in plain English, or set up a ready-made KPI digest. No manual pulls.</p>
+              <p style="margin:8px 0 0;font:400 14px/1.5 var(--flb-font-body);color:var(--flb-ink-3);max-width:740px">Schedule reports to land in your team's inbox. Write your own prompt in plain English, or set up a ready-made KPI digest. No manual pulls.</p>
             </div>
           </div>
 
@@ -1618,9 +1668,102 @@
             <img src="{{ explainImg }}" alt="" style="display:block;width:100%;height:220px;object-fit:cover">
             <div style="padding:16px 18px 18px">
               <div style="font:600 13px var(--flb-font-display);color:var(--flb-ink)">Preview</div>
-              <p style="margin:6px 0 0;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">This module stays locked on your current plan. Upgrade and it opens in the sidebar immediately — your chats and data stay put.</p>
+              <p style="margin:6px 0 0;font:400 12.5px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">This module stays locked on your current plan. Upgrade and it opens in the sidebar immediately. Your chats and data stay put.</p>
             </div>
           </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ===== SETTINGS ===== -->
+      <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Settings" style="height:100%;overflow-y:auto;background:var(--flb-bg);color:var(--flb-ink)">
+        <div style="padding:28px 36px 56px;max-width:960px;margin:0 auto">
+          <div>
+            <h1 style="margin:0;font:600 28px/1.2 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Settings</h1>
+            <p style="margin:8px 0 0;font:400 14px/1.5 var(--flb-font-body);color:var(--flb-ink-3);max-width:640px">People, seats and client IDs. Same Flable account.</p>
+          </div>
+
+          <div style="display:inline-flex;align-items:center;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:9999px;padding:3px;margin-top:24px">
+            <button onClick="{{ setSettingsPeople }}" style="{{ settingsPeopleTabStyle }}">People</button>
+            <button onClick="{{ setSettingsClients }}" style="{{ settingsClientsTabStyle }}">Clients</button>
+          </div>
+
+          <sc-if value="{{ settingsTabPeople }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:22px">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+              <div style="min-width:180px">
+                <div style="font:500 13px var(--flb-font-body);color:var(--flb-ink)">{{ seatLabel }}</div>
+                <div style="margin-top:8px;width:168px;height:2px;border-radius:9999px;background:var(--flb-line);overflow:hidden"><div style="height:100%;width:{{ seatFillPct }};background:var(--flb-ink-3);border-radius:9999px"></div></div>
+                <div style="margin-top:6px;font:400 12px var(--flb-font-body);color:var(--flb-ink-4)">{{ seatHint }}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input value="{{ inviteEmail }}" onChange="{{ onInviteEmail }}" placeholder="nina@brand.com" style="width:220px;height:40px;padding:0 13px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-surface);color:var(--flb-ink);font:400 13.5px var(--flb-font-body);outline:none" style-focus="border-color:var(--flb-purple)">
+                <button onClick="{{ inviteMember }}" style="{{ inviteBtnStyle }}">Invite</button>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,340px);gap:16px;margin-top:22px;align-items:start">
+              <div style="border-radius:16px;border:1px solid var(--flb-line);background:var(--flb-surface);overflow:hidden">
+                <sc-for list="{{ memberRows }}" as="m" hint-placeholder-count="2">
+                  <button onClick="{{ m.onSelect }}" style="{{ m.rowStyle }}">
+                    <span style="width:34px;height:34px;flex-shrink:0;border-radius:9999px;background:var(--flb-surface-3);color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;font:500 13px var(--flb-font-display)">{{ m.initial }}</span>
+                    <span style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;line-height:1.3">
+                      <span style="display:flex;align-items:center;gap:7px"><span style="font:500 13.5px var(--flb-font-body);color:var(--flb-ink)">{{ m.name }}</span><sc-if value="{{ m.you }}" hint-placeholder-val="{{ false }}"><span style="height:18px;padding:0 7px;border-radius:9999px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10px var(--flb-font-body);line-height:18px">You</span></sc-if></span>
+                      <span style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3)">{{ m.email }}</span>
+                    </span>
+                    <span style="font:500 12px var(--flb-font-body);color:var(--flb-ink-3)">{{ m.role }}</span>
+                  </button>
+                </sc-for>
+              </div>
+
+              <div style="border-radius:16px;border:1px solid var(--flb-line);background:var(--flb-surface);padding:18px 18px 16px">
+                <div style="font:500 14px var(--flb-font-display);color:var(--flb-ink)">{{ permName }}</div>
+                <div style="margin-top:4px;font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3)">{{ permCaption }}</div>
+                <div style="display:flex;gap:4px;margin-top:14px;padding:3px;border-radius:10px;background:var(--flb-surface-2);width:fit-content">
+                  <button onClick="{{ permSetAdmin }}" style="{{ permAdminStyle }}">Admin</button>
+                  <button onClick="{{ permSetMember }}" style="{{ permMemberStyle }}">Member</button>
+                </div>
+                <div style="margin-top:16px;font:500 10.5px var(--flb-font-body);letter-spacing:.08em;color:var(--flb-ink-4)">FEATURE ACCESS</div>
+                <div style="margin-top:8px;display:flex;flex-direction:column;gap:2px">
+                  <sc-for list="{{ permFeatRows }}" as="f" hint-placeholder-count="6">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:36px;padding:2px 0">
+                      <span style="min-width:0">
+                        <span style="font:500 13px var(--flb-font-body);color:var(--flb-ink)">{{ f.label }}</span>
+                        <sc-if value="{{ f.planLocked }}" hint-placeholder-val="{{ false }}"><span style="margin-left:6px;font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">Not on this plan</span></sc-if>
+                      </span>
+                      <button onClick="{{ f.onToggle }}" aria-label="{{ f.label }}" style="{{ f.switchStyle }}"><span style="{{ f.knobStyle }}"></span></button>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ permCanRemove }}" hint-placeholder-val="{{ false }}">
+                  <button onClick="{{ permRemove }}" style="margin-top:14px;border:none;background:transparent;padding:0;font:500 12.5px var(--flb-font-body);color:var(--flb-on-error);cursor:pointer">Remove from workspace</button>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ settingsTabClients }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:22px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+              <p style="margin:0;max-width:520px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">A brand with two stores, or an agency with many brands. Same path. Repeat Connect → Confirm. New client ID.</p>
+              <button onClick="{{ addClientFromApp }}" style="height:40px;padding:0 16px;border-radius:10px;border:none;background:var(--flb-purple);color:#fcfcfc;font:500 13.5px var(--flb-font-body);cursor:pointer">Add client ID</button>
+            </div>
+            <div style="margin-top:18px;border-radius:16px;border:1px solid var(--flb-line);background:var(--flb-surface);overflow:hidden">
+              <sc-for list="{{ clientRows }}" as="c" hint-placeholder-count="1">
+                <div style="display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--flb-border-muted)">
+                  <span style="width:36px;height:36px;flex-shrink:0;border-radius:10px;background:{{ c.color }};color:#fcfcfc;display:inline-flex;align-items:center;justify-content:center;font:500 14px var(--flb-font-display)">{{ c.initial }}</span>
+                  <div style="flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:8px"><span style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ c.name }}</span><sc-if value="{{ c.current }}" hint-placeholder-val="{{ false }}"><span style="height:18px;padding:0 7px;border-radius:9999px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10px var(--flb-font-body);line-height:18px">Current</span></sc-if></div>
+                    <div style="margin-top:2px;font:400 12px var(--flb-font-body);color:var(--flb-ink-3)">{{ c.clientId }} · {{ c.ch }}</div>
+                  </div>
+                  <sc-if value="{{ c.notCurrent }}" hint-placeholder-val="{{ true }}"><button onClick="{{ c.onSwitch }}" style="height:34px;padding:0 12px;border-radius:9px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink-2);font:500 12.5px var(--flb-font-body);cursor:pointer">Switch</button></sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
         </div>
       </div>
       </sc-if>
@@ -1634,8 +1777,8 @@
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
             <div style="position:relative">
               <button onClick="{{ toggleAgentMenu }}" data-tour="agent" style="display:flex;align-items:center;gap:8px;height:36px;padding:0 13px;border-radius:8px;background:transparent;border:none;cursor:pointer;font-family:var(--flb-font-body)" style-hover="border-color:rgba(160,139,255,.45)">
-                <sc-if value="{{ agentIsOrion }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px"><path d="M26.5371 2.78426C27.4502 2.29473 28.5478 2.29473 29.4609 2.78426L50.6152 14.1251C51.6201 14.6638 52.2479 15.7115 52.248 16.8516V39.1485C52.248 40.2887 51.6201 41.3364 50.6152 41.8751L29.4609 53.2169C28.5479 53.7063 27.4501 53.7063 26.5371 53.2169L5.38281 41.8751C4.37794 41.3364 3.75006 40.2887 3.75 39.1485V16.8516C3.75012 15.7115 4.37799 14.6638 5.38281 14.1251L26.5371 2.78426ZM29.0859 29.1768C28.5359 28.8505 27.8509 28.8505 27.3008 29.1768L17.5928 34.9366C16.4587 35.6095 16.4492 37.2476 17.5752 37.9337L27.0918 43.7286C27.6502 44.0685 28.3517 44.0685 28.9102 43.7286L38.6162 37.8184C39.7423 37.1324 39.7327 35.4943 38.5986 34.8214L29.0859 29.1768ZM16.6416 21.794C15.4761 21.1028 14.0011 21.9428 14.001 23.2979V31.9776C14.001 33.3329 15.476 34.173 16.6416 33.4815L23.957 29.1417C25.0986 28.4641 25.0978 26.8112 23.9561 26.1339L16.6416 21.794ZM42.001 23.5255C42.0008 22.1704 40.5259 21.3304 39.3604 22.0216L32.4297 26.1339C31.2878 26.8113 31.2878 28.4642 32.4297 29.1417L39.3604 33.253C40.526 33.9446 42.001 33.1044 42.001 31.7491V23.5255ZM31.5439 12.3409C30.3787 11.6314 28.8857 12.4707 28.8857 13.835V23.1466C28.8857 24.5019 30.3607 25.3419 31.5264 24.6505L39.2725 20.0548C40.4065 19.3819 40.416 17.7438 39.29 17.0577L31.5439 12.3409ZM27.1836 13.793C27.1834 12.4289 25.6906 11.5905 24.5254 12.2999L16.9014 16.9415C15.7748 17.6273 15.7838 19.2655 16.918 19.9386L24.543 24.463C25.7086 25.1544 27.1836 24.3144 27.1836 22.9591V13.793Z" fill="var(--flb-on-violet)"></path></svg></span><span style="font:500 14px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Orion</span></sc-if>
-                <sc-if value="{{ agentIsCmo }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;justify-content:center"><img src="assets/ai-cmo-grad.svg" alt="" style="width:20px;height:20px;display:block"></span><span style="font:500 14px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">AI CMO</span></sc-if>
+                <sc-if value="{{ agentIsOrion }}" hint-placeholder-val="{{ true }}"><span style="font:500 14px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">Orion</span></sc-if>
+                <sc-if value="{{ agentIsCmo }}" hint-placeholder-val="{{ false }}"><span style="font:500 14px var(--flb-font-display);color:var(--flb-ink);letter-spacing:-.01em">AI CMO</span></sc-if>
                 <i class="ph ph-caret-down" style="font-size:15px;color:var(--flb-ink-3);line-height:1;transition:transform 180ms var(--flb-ease);transform:{{ agentCaret }}"></i>
               </button>
               <sc-if value="{{ agentOpen }}" hint-placeholder-val="{{ false }}">
@@ -1662,7 +1805,7 @@
 
           <sc-if value="{{ empty }}" hint-placeholder-val="{{ true }}">
           <div style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;justify-content:safe center;align-items:center;padding:32px 16px;animation:flbRise 500ms var(--flb-ease-out) backwards">
-            <h1 style="margin:0;font:500 30px/1.12 var(--flb-font-display);letter-spacing:-.025em;color:var(--flb-ink);text-align:center"><span ref="{{ greetRef }}">Good morning, Abbas</span><span ref="{{ caretRef }}" style="display:inline-block;width:2px;height:26px;margin-left:3px;vertical-align:-4px;background:var(--flb-violet-light);visibility:hidden;animation:flbCaret .9s step-end infinite"></span></h1>
+            <h1 style="margin:0;font:500 30px/1.12 var(--flb-font-display);letter-spacing:-.025em;color:var(--flb-ink);text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:14px"><svg width="38" height="38" viewBox="0 0 56 56" fill="none" aria-hidden="true" style="display:block;flex-shrink:0;transform:translateY(-1px)"><defs><radialGradient id="greetOrionGrad" cx="4%" cy="5%" r="110%"><stop offset="0%" stop-color="rgb(160,139,255)"/><stop offset="100%" stop-color="rgb(105,65,198)"/></radialGradient></defs><path fill="url(#greetOrionGrad)" d="M26.5371 2.78426C27.4502 2.29473 28.5478 2.29473 29.4609 2.78426L50.6152 14.1251C51.6201 14.6638 52.2479 15.7115 52.248 16.8516V39.1485C52.248 40.2887 51.6201 41.3364 50.6152 41.8751L29.4609 53.2169C28.5479 53.7063 27.4501 53.7063 26.5371 53.2169L5.38281 41.8751C4.37794 41.3364 3.75006 40.2887 3.75 39.1485V16.8516C3.75012 15.7115 4.37799 14.6638 5.38281 14.1251L26.5371 2.78426ZM29.0859 29.1768C28.5359 28.8505 27.8509 28.8505 27.3008 29.1768L17.5928 34.9366C16.4587 35.6095 16.4492 37.2476 17.5752 37.9337L27.0918 43.7286C27.6502 44.0685 28.3517 44.0685 28.9102 43.7286L38.6162 37.8184C39.7423 37.1324 39.7327 35.4943 38.5986 34.8214L29.0859 29.1768ZM16.6416 21.794C15.4761 21.1028 14.0011 21.9428 14.001 23.2979V31.9776C14.001 33.3329 15.476 34.173 16.6416 33.4815L23.957 29.1417C25.0986 28.4641 25.0978 26.8112 23.9561 26.1339L16.6416 21.794ZM42.001 23.5255C42.0008 22.1704 40.5259 21.3304 39.3604 22.0216L32.4297 26.1339C31.2878 26.8113 31.2878 28.4642 32.4297 29.1417L39.3604 33.253C40.526 33.9446 42.001 33.1044 42.001 31.7491V23.5255ZM31.5439 12.3409C30.3787 11.6314 28.8857 12.4707 28.8857 13.835V23.1466C28.8857 24.5019 30.3607 25.3419 31.5264 24.6505L39.2725 20.0548C40.4065 19.3819 40.416 17.7438 39.29 17.0577L31.5439 12.3409ZM27.1836 13.793C27.1834 12.4289 25.6906 11.5905 24.5254 12.2999L16.9014 16.9415C15.7748 17.6273 15.7838 19.2655 16.918 19.9386L24.543 24.463C25.7086 25.1544 27.1836 24.3144 27.1836 22.9591V13.793Z"/></svg><span style="display:inline-flex;align-items:center"><span ref="{{ greetRef }}" style="color:var(--flb-ink)">Good morning, Abbas</span><span ref="{{ caretRef }}" style="display:block;width:2px;height:28px;margin-left:3px;background:var(--flb-ink);visibility:hidden;animation:flbCaret .9s step-end infinite"></span></span></h1>
 
             <!-- composer -->
             <div data-tour="composer" data-grad-ring="" data-ring-on="{{ thinkingAttr }}" style="width:100%;max-width:600px;margin-top:24px;border-radius:16px;background:var(--app-shell);border:1px solid var(--flb-border-default);box-shadow:var(--flb-shadow-md);display:flex;flex-direction:column;transition:box-shadow 220ms var(--flb-ease)" style-focus-within="box-shadow:0 4px 16px rgba(100,60,193,.10)">
@@ -1715,7 +1858,7 @@
             </div>
 
             <!-- brand pills -->
-            <div style="display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:center"><sc-for list="{{ composerPills }}" as="pill" hint-placeholder-count="3"><button onClick="{{ pill.onClick }}" style="{{ pill.style }}" style-hover="color:var(--flb-ink);border-color:var(--flb-ink-3);background:var(--app-raised)">{{ pill.label }}</button></sc-for></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap;justify-content:center"><sc-for list="{{ composerPills }}" as="pill" hint-placeholder-count="3"><span style="{{ pill.style }}">{{ pill.label }}</span></sc-for></div>
 
             <!-- Orion personalization: templates (after setup) -->
 
@@ -1869,6 +2012,37 @@
     </div>
     </sc-if>
 
+    <!-- running on schedule. docks bottom-left, mirrors Finish setup inset -->
+    <sc-if value="{{ showSchedChip }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;left:24px;bottom:24px;z-index:40">
+      <div style="position:relative">
+        <button onClick="{{ toggleSchedChip }}" aria-label="Running on Schedule" aria-haspopup="dialog" style="display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px 0 14px;border-radius:9999px;border:1px solid var(--flb-border-default);background:transparent;color:var(--flb-ink-3);cursor:pointer;font-family:var(--flb-font-body)" style-hover="color:var(--flb-ink-2);border-color:var(--flb-ink-4)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:block;flex-shrink:0"><rect x="3" y="4.5" width="13" height="14.8" rx="2.2" stroke="currentColor" stroke-width="1.75"></rect><path d="M8 2.8v3.4M14 2.8v3.4M3 9.2h13" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"></path><circle cx="7.6" cy="13.2" r=".95" fill="currentColor"></circle><circle cx="11.2" cy="13.2" r=".95" fill="currentColor"></circle><circle cx="17.35" cy="17.2" r="4.55" fill="var(--flb-surface)" stroke="currentColor" stroke-width="1.75"></circle><path d="M17.35 15.25v2.15l1.45.95" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span style="font:400 12px var(--flb-font-body);color:inherit;white-space:nowrap">Running on Schedule</span>
+          <span style="display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;border-radius:9999px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 11px/1.2 var(--flb-font-body);white-space:nowrap">{{ schedChipCount }}</span>
+          <i class="ph ph-caret-down" style="font-size:10px;line-height:1;color:inherit"></i>
+        </button>
+        <sc-if value="{{ schedChipOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeSchedChip }}" style="position:fixed;inset:0;z-index:0"></div>
+          <div role="dialog" aria-label="Running on Schedule" style="position:absolute;bottom:calc(100% + 8px);left:0;z-index:2;width:360px;border-radius:12px;background:var(--flb-surface);border:1px solid var(--flb-border-default);box-shadow:var(--flb-shadow-md);padding:10px 12px 8px;animation:flbRise 160ms var(--flb-ease-out) backwards">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px">
+              <span style="font:500 11px var(--flb-font-body);color:var(--flb-ink-3)">Running on Schedule</span>
+              <button onClick="{{ openSchedManage }}" style="border:none;background:transparent;padding:0;font:500 12px var(--flb-font-body);color:var(--flb-on-violet);cursor:pointer">Manage</button>
+            </div>
+            <sc-for list="{{ schedChipRuns }}" as="run" hint-placeholder-count="1">
+              <div style="display:flex;align-items:center;gap:8px;min-height:28px">
+                <span style="width:5px;height:5px;flex-shrink:0;border-radius:9999px;background:var(--flb-ink-4)"></span>
+                <span style="flex:1;min-width:0;font:400 12px var(--flb-font-body);color:var(--flb-ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ run.title }}</span>
+                <span style="flex-shrink:0;font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3);white-space:nowrap">{{ run.when }}</span>
+                <span style="flex-shrink:0;height:20px;padding:0 8px;border-radius:9999px;border:1px solid var(--flb-border-default);background:transparent;font:400 10.5px/18px var(--flb-font-body);color:var(--flb-ink-3);white-space:nowrap">{{ run.format }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+    </sc-if>
+
     <!-- ============ FLOATING ONBOARDING CHECKLIST ============ -->
     <!-- minimized launcher -->
     <sc-if value="{{ checklistMinimized }}" hint-placeholder-val="{{ true }}">
@@ -1990,148 +2164,236 @@
       <button onClick="{{ closeOrion }}" data-tip="Close" data-tip-left="" aria-label="Close" style="position:absolute;top:18px;right:22px;width:32px;height:32px;border:none;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:8px" style-hover="background:var(--flb-surface-2);color:var(--flb-ink)"><i class="ph ph-x" style="font-size:17px;line-height:1"></i></button>
     </div>
     <!-- progress -->
-    <div style="flex-shrink:0;display:flex;align-items:center;gap:14px;max-width:900px;width:100%;margin:12px auto 0;padding:0 24px;animation:flbFadeUp 420ms var(--flb-ease-out) 140ms backwards">
+    <div style="flex-shrink:0;display:flex;align-items:center;gap:8px;max-width:560px;width:100%;margin:12px auto 0;padding:0 24px;animation:flbFadeUp 420ms var(--flb-ease-out) 140ms backwards">
       <sc-if value="{{ orionNotFirst }}" hint-placeholder-val="{{ false }}"><button onClick="{{ orionBack }}" data-tip="Back" aria-label="Back" style="width:26px;height:26px;flex-shrink:0;border:none;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer" style-hover="color:var(--flb-ink)"><i class="ph-bold ph-caret-left" style="font-size:16px;line-height:1"></i></button></sc-if>
-      <sc-if value="{{ orionShort }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;flex-shrink:0;height:22px;padding:0 11px;border-radius:9999px;background:var(--flb-tint-violet);font:500 9.5px var(--flb-font-body);letter-spacing:.1em;color:var(--flb-on-violet)">{{ orionModeLabel }} · {{ orionStepCount }}</span></sc-if>
-      <div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg1Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div>
-      <div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg2Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div>
-      <div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg3Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div>
-      <sc-if value="{{ orionSeg4Vis }}" hint-placeholder-val="{{ true }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg4Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
-      <sc-if value="{{ orionSeg5Vis }}" hint-placeholder-val="{{ true }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg5Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
-      <sc-if value="{{ orionSeg6Vis }}" hint-placeholder-val="{{ false }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg6Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
-      <sc-if value="{{ orionSeg7Vis }}" hint-placeholder-val="{{ false }}"><div style="flex:1;height:3px;border-radius:9999px;background:var(--flb-surface-3);overflow:hidden"><div style="width:{{ orionSeg7Pct }};height:100%;border-radius:9999px;background:var(--flb-gradient-energetic);transition:width .35s var(--flb-ease-out)"></div></div></sc-if>
+      <sc-for list="{{ orionDots }}" as="d" hint-placeholder-count="8"><div style="{{ d.dotStyle }}"></div></sc-for>
     </div>
     <!-- content -->
     <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 24px;overflow:hidden">
-      <div style="width:100%;max-width:760px;height:100%;max-height:456px;min-height:0;display:flex;flex-direction:column;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:20px;overflow:hidden;animation:flbOrionCard 520ms var(--flb-ease-out) 180ms backwards">
-      <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:12px 36px;overflow-y:auto">
+      <div style="width:100%;max-width:560px;height:100%;max-height:640px;min-height:0;display:flex;flex-direction:column;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:20px;overflow:hidden;animation:flbOrionCard 520ms var(--flb-ease-out) 180ms backwards">
+      <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 28px 8px;overflow-y:auto">
 
-      <!-- STEP 0 · ROLE -->
+      <!-- Q1 · ROLE -->
       <sc-if value="{{ orionStep0 }}" hint-placeholder-val="{{ true }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel0 }}</span>
-        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Who is Orion working for?</h2>
-        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Everything after this — questions, defaults, schedules, templates — adapts to your role.</p>
-        <div style="display:flex;flex-direction:column;gap:8px;text-align:left;max-width:420px;margin:0 auto">
-          <sc-for list="{{ roleOpts }}" as="r" hint-placeholder-count="5">
-            <button onClick="{{ r.onSelect }}" style="font-family:var(--flb-font-body);background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:14px 16px;cursor:pointer;transition:.14s;text-align:left;width:100%;display:flex;align-items:center;justify-content:space-between" style-hover="border-color:var(--flb-purple)" {{ r.cardStyle }}>
-              <div><div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ r.title }}</div><div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5;margin-top:2px">{{ r.desc }}</div></div>
-              <span style="color:var(--flb-ink-4);font-size:18px;flex-shrink:0;margin-left:12px">›</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Who is Orion working for?</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Pick you. Orion will change its questions, defaults and reports to match</p>
+        <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
+          <sc-for list="{{ roleOpts }}" as="r" hint-placeholder-count="6">
+            <button onClick="{{ r.onSelect }}" style="{{ r.cardStyle }}" style-hover="border-color:var(--flb-purple)">
+              <span style="{{ r.iconWrap }}"><i class="{{ r.icon }}" style="font-size:16px;line-height:1"></i></span>
+              <div style="flex:1;min-width:0"><div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ r.title }}</div><div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin-top:1px">{{ r.desc }}</div></div>
+              <i class="ph ph-arrow-right" style="font-size:14px;color:var(--flb-ink-4);flex-shrink:0"></i>
             </button>
           </sc-for>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 1 · GOAL -->
+      <!-- Q2 · OBJECTIVES -->
       <sc-if value="{{ orionStep1 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel1 }}</span>
-        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What should Orion optimise for?</h2>
-        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Picked for your role — change it, or add your own if none fit. This sets every threshold downstream.</p>
-        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● Connected account context loaded</div>
-        <div style="display:flex;flex-direction:column;gap:9px;text-align:left;max-width:520px;margin:0 auto">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What should Orion help your brand achieve?</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Tap in the order that matters. 1 is the one you care about most. Tap again to drop it</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left">
           <sc-for list="{{ goalOpts }}" as="g" hint-placeholder-count="4">
-            <button onClick="{{ g.onSelect }}" style="font-family:var(--flb-font-body);background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:13px 17px;cursor:pointer;transition:.14s;text-align:left;width:100%" style-hover="border-color:var(--flb-purple)" {{ g.rowStyle }}>
-              <div style="font:500 14px var(--flb-font-body);margin-bottom:2px;color:var(--flb-ink)">{{ g.title }}</div>
-              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5">{{ g.desc }}</div>
+            <button onClick="{{ g.onSelect }}" style="{{ g.rowStyle }}" style-hover="border-color:var(--flb-purple)">
+              <span>{{ g.title }}</span>
+              <sc-if value="{{ g.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-6px;width:20px;height:20px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 11px/20px var(--flb-font-body);text-align:center">{{ g.ord }}</span></sc-if>
             </button>
           </sc-for>
         </div>
-      </div>
-      </sc-if>
-
-      <!-- STEP 2 · PAIN -->
-      <sc-if value="{{ orionStep2 }}" hint-placeholder-val="{{ false }}">
-      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel2 }}</span>
-        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What hurts the most right now?</h2>
-        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Orion attacks this first — it shapes week one before anything else.</p>
-        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● 3 campaigns below your POAS floor, burning ~₹42k/week</div>
-        <div style="display:flex;flex-direction:column;gap:9px;text-align:left;max-width:520px;margin:0 auto">
-          <sc-for list="{{ painExamples }}" as="p" hint-placeholder-count="4">
-            <button onClick="{{ p.onSelect }}" style="font-family:var(--flb-font-body);background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:13px 17px;cursor:pointer;transition:.14s;text-align:left;width:100%" style-hover="border-color:var(--flb-purple)" {{ p.rowStyle }}>
-              <div style="font:500 14px var(--flb-font-body);margin-bottom:2px;color:var(--flb-ink)">{{ p.title }}</div>
-              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.5">{{ p.desc }}</div>
-            </button>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px">
+          <input value="{{ orionObjectiveDraft }}" onChange="{{ onOrionObjectiveDraft }}" placeholder="Add your own objective..." style="flex:1;height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 13px var(--flb-font-body);outline:none">
+          <button onClick="{{ addOrionObjective }}" style="height:42px;padding:0 14px;border:none;background:transparent;color:var(--flb-on-violet);font:500 13.5px var(--flb-font-body);cursor:pointer">Add</button>
+        </div>
+        <sc-if value="{{ hasCustomObjectives }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:center">
+          <sc-for list="{{ customObjectiveChips }}" as="c" hint-placeholder-count="1">
+            <button onClick="{{ c.onSelect }}" style="{{ c.rowStyle }}">{{ c.title }}<span style="margin-left:6px;font:600 11px var(--flb-font-body);color:var(--flb-on-violet)">{{ c.ord }}</span></button>
           </sc-for>
         </div>
+        </sc-if>
       </div>
       </sc-if>
 
-      <!-- STEP 3 · METRICS -->
+      <!-- Q3 · KPIs -->
       <sc-if value="{{ orionStep3 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel3 }}</span>
-        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What should Orion monitor every day?</h2>
-        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Selection order = order in the briefing. Pre-picked for your role — reorder freely.</p>
-        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● Last 30 days: ₹4.2L spend · 14 campaigns · COD 62% · RTO 18%</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-          <sc-for list="{{ metricChips }}" as="m" hint-placeholder-count="10">
-            <button onClick="{{ m.onToggle }}" style="position:relative;font-family:var(--flb-font-body);font-size:13.5px;font-weight:500;padding:9px 18px;border-radius:9999px;border:1px solid var(--flb-line);background:var(--flb-surface);color:var(--flb-ink);cursor:pointer;transition:.14s" style-hover="border-color:var(--flb-purple)" {{ m.chipStyle }}>
-              {{ m.name }}
-              <sc-if value="{{ m.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-5px;width:20px;height:20px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 11px var(--flb-font-body);display:inline-flex;align-items:center;justify-content:center">{{ m.ord }}</span></sc-if>
-            </button>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Pick up to 6 KPIs to track</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Grouped by what you just chose. The order you tap is the order Orion reports</p>
+        <div style="text-align:left;display:flex;flex-direction:column;gap:14px">
+          <sc-for list="{{ kpiGroups }}" as="g" hint-placeholder-count="2">
+            <div>
+              <div style="font:600 10.5px var(--flb-font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:8px">{{ g.label }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ g.chips }}" as="m" hint-placeholder-count="4">
+                  <button onClick="{{ m.onToggle }}" style="{{ m.chipStyle }}" style-hover="border-color:var(--flb-purple)">
+                    {{ m.name }}
+                    <sc-if value="{{ m.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-5px;width:18px;height:18px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 10px/18px var(--flb-font-body);text-align:center">{{ m.ord }}</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
           </sc-for>
+        </div>
+        <sc-if value="{{ orionKpiHint }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;font:400 12px var(--flb-font-body);color:var(--flb-on-violet)">That's 6. Drop one to add another</div></sc-if>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:14px">
+          <input value="{{ orionKpiDraft }}" onChange="{{ onOrionKpiDraft }}" placeholder="Add your own KPI..." style="flex:1;height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 13px var(--flb-font-body);outline:none">
+          <button onClick="{{ addOrionKpi }}" style="height:42px;padding:0 14px;border:none;background:transparent;color:var(--flb-on-violet);font:500 13.5px var(--flb-font-body);cursor:pointer">Add</button>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 4 · FOCUS -->
-      <sc-if value="{{ orionStep4 }}" hint-placeholder-val="{{ false }}">
+      <!-- Q4 · PAIN -->
+      <sc-if value="{{ orionStep2 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel4 }}</span>
-        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Where should Orion push hardest?</h2>
-        <p style="margin:0 auto 14px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">The levers Orion is allowed to have opinions about. Order sets priority.</p>
-        <div style="display:inline-flex;align-items:center;gap:7px;background:var(--flb-tint-success);color:var(--flb-on-success);font:500 12px var(--flb-font-body);padding:7px 15px;border-radius:9999px;margin-bottom:20px">● Largest single lever this month: reallocating from below-floor campaigns</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
-          <sc-for list="{{ focusChips }}" as="f" hint-placeholder-count="6">
-            <button onClick="{{ f.onToggle }}" style="position:relative;font-family:var(--flb-font-body);font-size:13.5px;font-weight:500;padding:9px 18px;border-radius:9999px;border:1px solid var(--flb-line);background:var(--flb-surface);color:var(--flb-ink);cursor:pointer;transition:.14s" style-hover="border-color:var(--flb-purple)" {{ f.chipStyle }}>
-              {{ f.name }}
-              <sc-if value="{{ f.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-5px;width:20px;height:20px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 11px var(--flb-font-body);display:inline-flex;align-items:center;justify-content:center">{{ f.ord }}</span></sc-if>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What hurts the most right now?</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Orion goes after these first. Pick every one that is true, or write your own</p>
+        <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
+          <sc-for list="{{ painExamples }}" as="p" hint-placeholder-count="3">
+            <button onClick="{{ p.onSelect }}" style="{{ p.rowStyle }}" style-hover="border-color:var(--flb-purple)">
+              <div style="font:500 13.5px var(--flb-font-body);color:var(--flb-ink)">{{ p.title }}</div>
+              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3);line-height:1.45;margin-top:2px">{{ p.desc }}</div>
+            </button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px">
+          <input value="{{ orionPainDraft }}" onChange="{{ onOrionPainDraft }}" placeholder="Add your own pain point..." style="flex:1;height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 13px var(--flb-font-body);outline:none">
+          <button onClick="{{ addOrionPain }}" style="height:42px;padding:0 14px;border:none;background:transparent;color:var(--flb-on-violet);font:500 13.5px var(--flb-font-body);cursor:pointer">Add</button>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- Q5 · ANOMALY -->
+      <sc-if value="{{ orionStepAnomaly }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How should Orion catch weird days?</h2>
+        <p style="margin:0 auto 16px;max-width:460px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Pick every window you want watched. Fast windows catch a bad day. Longer ones catch a slow slide</p>
+        <div style="text-align:left;display:flex;flex-direction:column;gap:16px">
+          <sc-for list="{{ anomalyLevels }}" as="lv" hint-placeholder-count="3">
+            <div>
+              <div style="font:600 10.5px var(--flb-font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--flb-ink);margin-bottom:2px">{{ lv.title }}</div>
+              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin-bottom:8px">{{ lv.desc }}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ lv.windows }}" as="w" hint-placeholder-count="4">
+                  <button onClick="{{ w.onToggle }}" style="{{ w.chipStyle }}" style-hover="border-color:var(--flb-purple)">{{ w.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- Q6 · INVOLVE -->
+      <sc-if value="{{ orionStepInvolve }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How involved do you want Orion to be?</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">This sets how much Orion does on its own vs waits for you</p>
+        <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
+          <sc-for list="{{ involveOpts }}" as="v" hint-placeholder-count="3">
+            <button onClick="{{ v.onSelect }}" style="{{ v.rowStyle }}" style-hover="border-color:var(--flb-purple)">
+              <div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ v.title }}</div>
+              <div style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3);line-height:1.45;margin-top:3px">{{ v.desc }}</div>
             </button>
           </sc-for>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 5 · DELIVERY -->
+      <!-- Q7 · DELIVERY -->
       <sc-if value="{{ orionStep5 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel5 }}</span>
-        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How often should Orion reach you?</h2>
-        <p style="margin:0 auto 20px;max-width:420px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">How often should Orion reach you — or let Orion set it per schedule from your role, spend and live signals.</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;max-width:520px;margin:0 auto">
-          <div style="grid-column:1/-1;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:12px 15px">
-            <label style="display:block;font:600 10.5px var(--flb-font-body);letter-spacing:.05em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:6px">Frequency</label>
-            <sc-for list="{{ orionCadenceOpts }}" as="o" hint-placeholder-count="6">
-              <button onClick="{{ o.onPick }}" style="width:100%;text-align:left;font:400 14px var(--flb-font-body);color:var(--flb-ink);border:none;background:transparent;cursor:pointer;padding:6px 0;border-bottom:1px solid var(--flb-line)" style-hover="color:var(--flb-purple)">{{ o.label }}</button>
-            </sc-for>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How often should Orion reach you?</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Pick a cadence, or let Orion set it from your role, spend and live signals</p>
+        <div style="text-align:left;display:flex;flex-direction:column;gap:12px">
+          <div style="position:relative">
+            <label style="display:block;font:600 10.5px var(--flb-font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:6px">Cadence</label>
+            <button onClick="{{ toggleCadenceMenu }}" style="width:100%;height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 14px var(--flb-font-body);cursor:pointer;display:flex;align-items:center;justify-content:space-between">{{ orionCadence }}<i class="ph ph-caret-down" style="font-size:14px;color:var(--flb-ink-4)"></i></button>
+            <sc-if value="{{ orionCadenceMenu }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:4;border-radius:12px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-md);padding:4px;overflow:hidden">
+                <sc-for list="{{ orionCadenceOpts }}" as="o" hint-placeholder-count="6">
+                  <button onClick="{{ o.onPick }}" style="{{ o.rowStyle }}">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div>
+              <label style="display:block;font:600 10.5px var(--flb-font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:6px">Preferred time</label>
+              <div style="position:relative">
+                <input type="time" value="{{ orionTime }}" onChange="{{ onOrionTime }}" style="width:100%;height:44px;padding:0 36px 0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 14px var(--flb-font-body);outline:none">
+                <i class="ph ph-clock" style="position:absolute;right:12px;top:14px;font-size:16px;color:var(--flb-ink-4);pointer-events:none"></i>
+              </div>
+            </div>
+            <div style="position:relative">
+              <label style="display:block;font:600 10.5px var(--flb-font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:6px">Channel</label>
+              <button onClick="{{ toggleChannelMenu }}" style="width:100%;height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 14px var(--flb-font-body);cursor:pointer;display:flex;align-items:center;justify-content:space-between">{{ orionChannel }}<i class="ph ph-caret-down" style="font-size:14px;color:var(--flb-ink-4)"></i></button>
+              <sc-if value="{{ orionChannelMenu }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:4;border-radius:12px;background:var(--flb-surface);border:1px solid var(--flb-line);box-shadow:var(--flb-shadow-md);padding:4px">
+                  <sc-for list="{{ orionChannelOpts }}" as="ch" hint-placeholder-count="4">
+                    <button onClick="{{ ch.onPick }}" style="{{ ch.rowStyle }}">{{ ch.label }}</button>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
           </div>
         </div>
-        <!-- Delivery preview -->
-        <div style="margin-top:18px;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:13px;padding:13px 17px;text-align:left;display:flex;gap:11px;align-items:flex-start;max-width:520px;margin-left:auto;margin-right:auto">
-          <span style="width:30px;height:30px;border-radius:9px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none">✦</span>
+        <div style="margin-top:16px;background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:13px;padding:13px 15px;text-align:left;display:flex;gap:11px;align-items:flex-start">
+          <span style="width:30px;height:30px;border-radius:9px;background:var(--flb-tint-violet);color:var(--flb-on-violet);display:flex;align-items:center;justify-content:center;flex:none"><i class="ph ph-shield-check" style="font-size:16px"></i></span>
           <div>
-            <div style="font:600 12.5px var(--flb-font-body);margin-bottom:2px;color:var(--flb-ink-2)">Guardrails are built in — nothing to configure</div>
-            <div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-2);line-height:1.55">POAS floor, daily spend caps, approval on every execution, and full reversibility are always on. Orion never moves money without a logged, undoable change record.</div>
+            <div style="font:500 12.5px var(--flb-font-body);margin-bottom:2px;color:var(--flb-ink)">Guardrails are built in. Nothing to set</div>
+            <div style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3);line-height:1.5">ROAS floor, daily spend caps, approval on every move, and a way to undo. Orion never moves money without a log you can reverse</div>
           </div>
         </div>
       </div>
       </sc-if>
 
-      <!-- STEP 6 · REVIEW -->
+      <!-- Q8 · VOICE -->
+      <sc-if value="{{ orionStepVoice }}" hint-placeholder-val="{{ false }}">
+      <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How should Orion talk to you?</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">This shapes how briefings and alerts are written.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
+          <sc-for list="{{ voiceOpts }}" as="v" hint-placeholder-count="3">
+            <button onClick="{{ v.onSelect }}" style="{{ v.rowStyle }}" style-hover="border-color:var(--flb-purple)">
+              <div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ v.title }}</div>
+              <div style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3);line-height:1.45;margin-top:3px">{{ v.desc }}</div>
+            </button>
+          </sc-for>
+          <button onClick="{{ onVoiceOther }}" style="{{ voiceOtherStyle }}" style-hover="border-color:var(--flb-purple)">
+            <div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">+ Something else</div>
+          </button>
+        </div>
+        <sc-if value="{{ orionVoiceOtherOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;margin-top:12px">
+          <input value="{{ orionVoiceOther }}" onChange="{{ onOrionVoiceOther }}" placeholder="Describe how Orion should talk..." style="flex:1;height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 13px var(--flb-font-body);outline:none">
+        </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <!-- REVIEW (receipt, not a counted question) -->
       <sc-if value="{{ orionStep6 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:600 11px var(--flb-font-body);letter-spacing:.06em;padding:6px 13px;border-radius:9999px;margin-bottom:13px">{{ orionStepLabel6 }}</span>
-        <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Here's what Orion learned about you</h2>
-        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Confirm, and Orion builds your schedules and starter templates from this.</p>
-        <div style="background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:16px;overflow:hidden;text-align:left;max-width:520px;margin:0 auto">
-          <div style="display:flex;gap:14px;align-items:center;padding:16px 20px;background:var(--flb-tint-violet);border-bottom:1px solid var(--flb-line)">
-            <span style="width:46px;height:46px;border-radius:13px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 17px var(--flb-font-display);display:flex;align-items:center;justify-content:center;flex:none">KA</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Here's the Orion you just built</h2>
+        <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Hit confirm and Orion builds your schedules and starter templates from this</p>
+        <div style="background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:16px;overflow:hidden;text-align:left">
+          <div style="display:flex;gap:14px;align-items:center;padding:14px 16px;background:var(--flb-tint-violet);border-bottom:1px solid var(--flb-line)">
+            <span style="width:42px;height:42px;border-radius:12px;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 16px var(--flb-font-display);display:flex;align-items:center;justify-content:center;flex:none">KA</span>
             <div>
-              <div style="font:600 15px var(--flb-font-body);color:var(--flb-ink)">{{ roleLabel }} · Karmikh</div>
-              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);margin-top:1px">Fashion & apparel · ₹4.2L/mo spend · COD 62% · RTO 18%</div>
+              <div style="font:600 14.5px var(--flb-font-body);color:var(--flb-ink)">{{ roleLabel }} · Karmikh</div>
+              <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-2);margin-top:1px">Fashion & apparel · ₹4.2L/mo spend</div>
             </div>
           </div>
           <sc-for list="{{ receiptRows }}" as="r" hint-placeholder-count="6">
@@ -2145,11 +2407,11 @@
       <sc-if value="{{ orionStep7 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbRise 220ms var(--flb-ease-out) backwards;text-align:center">
         <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Orion is setting up your workspace</h2>
-        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Personalising for a {{ roleLabelLower }} at Karmikh — from your answers and connected accounts.</p>
+        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3)">Personalising for a {{ roleLabelLower }} at Karmikh, from your answers and connected accounts</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;max-width:560px;margin:0 auto">
           <div style="text-align:center;padding-top:6px">
             <div style="width:48px;height:48px;border-radius:13px;background:var(--flb-gradient-energetic);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;animation:flbPulse 1.2s ease-in-out infinite"><span style="width:18px;height:18px;border:2.5px solid #fcfcfc;border-radius:5px;transform:rotate(45deg)"></span></div>
-            <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4);font-style:italic">"Set it up once. Let it run forever." — Abbas, flable.ai</div>
+            <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-4);font-style:italic">"Set it up once. Let it run forever." Abbas, flable.ai</div>
           </div>
           <div>
             <div style="display:flex;align-items:flex-start;gap:10px;padding:7px 0;font:400 12.5px var(--flb-font-body);color:var(--flb-ink)"><span style="width:18px;height:18px;border-radius:50%;background:var(--flb-purple);color:#fcfcfc;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px">✓</span><span>Attacking your biggest pain first</span></div>
@@ -2166,7 +2428,7 @@
       <sc-if value="{{ orionReady }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbRise 220ms var(--flb-ease-out) backwards">
         <h2 style="margin:0 0 8px;font:500 24px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink);text-align:center">Your workspace is live</h2>
-        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Schedules running and templates below the chat — cadences adapt as your signals change.</p>
+        <p style="margin:0 auto 20px;max-width:470px;font:400 13.5px/1.55 var(--flb-font-body);color:var(--flb-ink-3);text-align:center">Schedules are running. Templates sit below the chat. Cadences shift as your signals change</p>
         <div style="text-align:left">
           <div style="font:600 11px var(--flb-font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--flb-ink-3);margin:20px 0 10px">Running on schedule</div>
           <sc-for list="{{ orionTemplates }}" as="t" hint-placeholder-count="4">
@@ -2191,7 +2453,7 @@
       </sc-if>
 
         </div><!-- /step region -->
-        <div style="flex-shrink:0;padding:0 36px 14px">
+        <div style="flex-shrink:0;padding:8px 28px 16px">
         <sc-if value="{{ orionShowSkip }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:0 0 12px"><button onClick="{{ orionSkipStep }}" style="border:none;background:transparent;color:var(--flb-ink-4);font:400 13px var(--flb-font-body);cursor:pointer;padding:4px 8px" style-hover="color:var(--flb-ink-2)">Skip for now</button></div></sc-if>
         <sc-if value="{{ orionShowNext }}" hint-placeholder-val="{{ true }}">
         <button onClick="{{ orionNext }}" style="{{ orionNextStyle }}">{{ orionNextLabel }}<sc-if value="{{ orionIsLast }}" hint-placeholder-val="{{ false }}"><i class="ph-fill ph-sparkle" style="font-size:15px"></i></sc-if></button>
@@ -2238,7 +2500,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:940}}">
 class Component extends DCLogic {
-  state = { theme: "dark", agent: "orion", nav: "chats", ciMode: "scoring", ciChannel: "google", ciDecision: "all", ciOpenRow: "0707DCSIFTBL", ciMenu: null, ciFiltersOpen: false, ciObjective: "All", ciSort: "Creative Score", ciDir: "high", ciDateRange: "Last 7 days", ciMatch: "any", ciKpi: { ROAS: true }, ciType: {}, ciFat: {}, ciAdActive: false, ciCols: { roas: true, spend: true, ctr: true, fatigue: true }, optOpen: true, deepAd: null, deepTrendTab: "DoD", utmChannel: "meta", utmFilter: "all", utmModal: null, tgtOpen: false, tgtObjective: "Sales", tgtKpis: { Spend: true, ROAS: true, CPP: true, CTR: true }, tgtVals: { Spend: "115000", ROAS: "1.41", CPP: "", CTR: "1.61", MinSpend: "1000" }, draft: "", pastes: [], expandedPaste: null, web: false, banner: true, checklistOpen: false, tplOrder: [0,1,2,3], insightsOpen: false, menu: null, model: "Standard", effort: "Medium", groups: { workspace: true, analytics: true, setup: true }, messages: [], thinking: false, sidebarCollapsed: true, mode: "analytics", notif: 2, hintOpen: true,
+  state = { theme: "dark", agent: "orion", nav: "chats", ciMode: "scoring", ciChannel: "google", ciDecision: "all", ciOpenRow: "0707DCSIFTBL", ciMenu: null, ciFiltersOpen: false, ciObjective: "All", ciSort: "Creative Score", ciDir: "high", ciDateRange: "Last 7 days", ciMatch: "any", ciKpi: { ROAS: true }, ciType: {}, ciFat: {}, ciAdActive: false, ciCols: { roas: true, spend: true, ctr: true, fatigue: true }, optOpen: true, deepAd: null, deepTrendTab: "DoD", utmChannel: "meta", utmFilter: "all", utmModal: null, tgtOpen: false, tgtObjective: "Sales", tgtKpis: { Spend: true, ROAS: true, CPP: true, CTR: true }, tgtVals: { Spend: "115000", ROAS: "1.41", CPP: "", CTR: "1.61", MinSpend: "1000" }, draft: "", pastes: [], expandedPaste: null, web: false, banner: true, checklistOpen: false, schedChipOpen: false, tplOrder: [0,1,2,3], insightsOpen: false, menu: null, model: "Standard", effort: "Medium", groups: { workspace: true, analytics: true, setup: true }, messages: [], thinking: false, sidebarCollapsed: true, mode: "analytics", notif: 2, hintOpen: true,
     // ── scheduler ──
     schedTab: "custom", schedSearch: "", schedModalOpen: false, schedToast: null, schedCardMenu: null, schedRunning: {}, schedFormatTip: false, schedFreqMenuOpen: false, schedStartDateMenuOpen: false, schedEndDateMenuOpen: false,
     schedNew: { prompt: "Test prompt", title: "Test", model: "Standard", recipients: ["admin@karmikh.com"], recipientInput: "", format: "PDF", autoRun: false, frequency: "Week", time: "09:30:00 AM", days: ["Mon"], startDate: "August 18, 2026", endDate: "" },
@@ -2265,17 +2527,78 @@ class Component extends DCLogic {
     resetStep: "email", resetEmail: "", resetCode: "", resetTries: 0, resetExpired: false, resendIn: 0, newPass: "", confirmPass: "", passVisible: false,
     googleAuthed: false, loadStage: 0, profileSel: null, profileMenu: null, chatLoading: false, msgFeedback: {}, copiedMsg: null,
     profiles: [
-      { id: "lum", name: "Luminary Skincare", role: "Default", ch: "Meta · Google · Shopify" },
+      { id: "lum", clientId: "LS-2841", name: "Luminary Skincare", role: "Default", ch: "Meta · Google · Shopify" },
     ],
+    addingClient: false, addClientReturn: "profiles", clientDraft: null, settingsTab: "people", inviteEmail: "", memberSel: "abbas",
+    members: [
+      { id: "abbas", name: "Abbas", email: "abbas@flable.ai", role: "Admin", you: true },
+      { id: "priya", name: "Priya Shah", email: "priya@luminaryskincare.com", role: "Member", you: false }
+    ],
+    featAccess: {
+      priya: { chats: true, dashboard: true, pulse: true, scheduler: true, integrations: true, product: false, creative: false, inventory: false, attribution: false, utm: false }
+    },
     tourStep: -1, tourRect: null,
     // ── Orion personalization wizard ──
     orion: { open: false, step: 0, done: false, role: null, mode: "full",
-      goal: 0, pain: 0, metrics: [0,1,2,3,4], focus: [0,1,2],
-      cadence: "Let Orion decide", time: "08:00", channel: "WhatsApp",
+      goal: 0, pain: 0, metrics: [], focus: [],
+      objectives: [], customObjectives: [], objectiveDraft: "",
+      kpis: [], customKpis: [], kpiDraft: "", kpiHint: false,
+      pains: [], customPains: [], painDraft: "",
+      anomalies: { creatives: ["3d"], campaigns: ["7d"], account: ["7d"] },
+      involve: "recommend",
+      voice: null, voiceOther: "",
+      cadence: "Let Orion decide", time: "08:00", channel: "Email",
+      cadenceMenu: false, channelMenu: false,
       selfAssessment: "", receiptCountdown: 86400 } };
 
-  ORION_FLOW = ["role","goal","pain","metrics","focus","delivery","review","building","ready"];
-  ORION_FLOW_SHORT = ["role","metrics","cadence","inherited","receipt"];
+  ORION_FLOW = ["role","goal","metrics","pain","anomaly","involve","delivery","voice","review","building","ready"];
+  ORION_FLOW_SHORT = ["role","goal","metrics","delivery","voice","review","building","ready"];
+  ORION_Q_COUNT = 8;
+  ORION_NON_QUESTION = { review: true, building: true, ready: true, inherited: true, receipt: true };
+  ORION_KPI_MAX = 6;
+  ORION_OBJECTIVES = [
+    { id: "sales", t: "Bring more sales" },
+    { id: "leads", t: "Generate leads" },
+    { id: "traffic", t: "Bring traffic" },
+    { id: "awareness", t: "Drive awareness" }
+  ];
+  ORION_KPI_GROUPS = {
+    sales: { label: "Sales", kpis: ["ROAS", "Revenue", "Purchases", "AOV"] },
+    leads: { label: "Leads", kpis: ["Leads", "Cost per lead", "Lead conversion rate", "Cost per acquisition"] },
+    traffic: { label: "Traffic", kpis: ["Sessions", "CPC", "CTR", "CPM"] },
+    awareness: { label: "Awareness", kpis: ["Reach", "Impressions", "Frequency", "Thumb-stop rate"] }
+  };
+  ORION_WINDOWS = [
+    { id: "1d", t: "Yesterday vs prev day" },
+    { id: "3d", t: "3d vs prev 3d" },
+    { id: "7d", t: "7d vs prev 7d" },
+    { id: "mtd", t: "MTD vs prev month pacing" }
+  ];
+  ORION_ANOMALY_LEVELS = [
+    { id: "creatives", t: "Creatives", d: "CTR and hook-rate drops, frequency creep, fatigue" },
+    { id: "campaigns", t: "Campaigns", d: "CPA / ROAS breaks, spend spikes, learning-phase resets" },
+    { id: "account", t: "Overall account", d: "Blended ROAS, budget pacing vs target, channel mix shift" }
+  ];
+  ORION_INVOLVE = [
+    { id: "monitor", t: "Monitor", d: "Orion watches and flags issues. You pick the move." },
+    { id: "recommend", t: "Recommend", d: "Orion suggests a move. You say yes on each one." },
+    { id: "prepare", t: "Prepare", d: "Orion writes the fix and lines it up. One tap to send." }
+  ];
+  ORION_VOICE = [
+    { id: "blunt", t: "Blunt & direct", d: "Lead with the action. No hedging, no filler." },
+    { id: "detailed", t: "Detailed & data-heavy", d: "Show the numbers and reasoning behind every call." },
+    { id: "coaching", t: "Encouraging & coaching", d: "Frame findings as guidance, celebrate wins along the way." }
+  ];
+  ORION_ROLE_ICONS = {
+    founder: { icon: "ph ph-crown", bg: "rgba(255,162,12,0.16)", fg: "rgb(255,162,12)" },
+    buyer: { icon: "ph ph-paper-plane-tilt", bg: "rgba(90,176,255,0.16)", fg: "rgb(90,176,255)" },
+    growth: { icon: "ph ph-rocket-launch", bg: "rgba(106,210,117,0.16)", fg: "rgb(106,210,117)" },
+    creative: { icon: "ph ph-sparkle", bg: "rgba(233,52,139,0.16)", fg: "rgb(233,52,139)" },
+    agency: { icon: "ph ph-briefcase", bg: "rgba(160,139,255,0.16)", fg: "rgb(190,173,255)" },
+    other: { icon: "ph ph-plus", bg: "var(--flb-surface-3)", fg: "var(--flb-ink-3)" }
+  };
+  ORION_CADENCES = ["Let Orion decide", "Hourly", "Daily", "Daily + weekly review", "Weekly", "Only when something breaks"];
+  ORION_CHANNELS = ["Email", "WhatsApp", "Slack", "In-app only"];
   ACCOUNT_OWNER = "Sarah Chen";
   CADENCE_LABEL = { daily: "Daily", weekly: "Weekly", both: "Daily + weekly", attention: "Only when something needs attention" };
   ORION_BIZ = {
@@ -2323,7 +2646,7 @@ class Component extends DCLogic {
       goalPre:0,
       pains:[
         {t:"I find out about a bad day 24 hours late",d:"By the time reports refresh, the money's spent"},
-        {t:"Attribution is a mess",d:"UTMs, CAPI, GoKwik — signals disagree with each other"},
+        {t:"Attribution is a mess",d:"UTMs, CAPI, GoKwik. Signals disagree with each other"},
         {t:"Creative fatigue sneaks up on winners",d:"CTR decays before anyone notices"},
         {t:"Too many campaigns to watch properly",d:"Something always slips through"}],
       painPre:0,
@@ -2351,7 +2674,7 @@ class Component extends DCLogic {
         {t:"Prove incrementality",d:"Know which spend creates demand vs captures it"}],
       goalPre:0,
       pains:[
-        {t:"Channels claim the same conversions",d:"Meta and Google both take credit — someone's wrong"},
+        {t:"Channels claim the same conversions",d:"Meta and Google both take credit. Someone's wrong"},
         {t:"CAC is rising and I can't see why",d:"Blended numbers hide which cohort got expensive"},
         {t:"Monthly planning is guesswork",d:"No profit-weighted view when setting the split"},
         {t:"Leadership asks questions I can't answer fast",d:"Every board deck is a two-day fire drill"}],
@@ -2376,7 +2699,7 @@ class Component extends DCLogic {
       goals:[
         {t:"More winners per batch",d:"Raise the hit rate, not just the volume"},
         {t:"Kill losers faster",d:"Stop spend reaching creatives that won't convert"},
-        {t:"Know why ads win",d:"Hooks, angles and themes — not just which ad, but what about it"},
+        {t:"Know why ads win",d:"Hooks, angles and themes. Not just which ad, but what about it"},
         {t:"Stay ahead of fatigue",d:"Fresh concepts ready before winners decay"}],
       goalPre:0,
       pains:[
@@ -2428,7 +2751,36 @@ class Component extends DCLogic {
         {t:"Which accounts need me?",d:"Ranked across the portfolio",b:"Daily"},
         {t:"Draft this week's client report",d:"Pick a brand, get the deck",b:"Weekly"},
         {t:"Explain the ROAS gap",d:"Plain-English client talk track",b:"Anytime"},
-        {t:"Prep my QBR",d:"A quarter as one narrative",b:"Quarterly"}]}
+        {t:"Prep my QBR",d:"A quarter as one narrative",b:"Quarterly"}]},
+
+    other:{label:"Something else",desc:"I don't see me in that list",
+      goals:[
+        {t:"Profitable scaling",d:"Grow spend only where margin holds"},
+        {t:"Cut wasted spend",d:"Find and stop the leak first"},
+        {t:"Hit my numbers",d:"Know if the week is on track by Tuesday, not Friday"},
+        {t:"Less reporting, more doing",d:"Orion writes the recap so you don't have to"}],
+      goalPre:0,
+      pains:[
+        {t:"I don't catch wasted spend until it's too late",d:"The leak shows up at month-end, not day one"},
+        {t:"Meta's numbers don't match my bank account",d:"Reported ROAS vs what actually lands"},
+        {t:"Too many tabs, not enough truth",d:"Every tool says a different story"},
+        {t:"I know something is off, I just can't prove it",d:"Gut vs a board that wants a chart"}],
+      painPre:0,
+      metrics:["POAS","True ROAS","Spend","Revenue","CAC","AOV","CTR","Creative fatigue"],
+      metricsPre:[0,1,2,3],
+      focus:["Cut wasted spend","Budget reallocation","Scaling rules","Winning creative themes"],
+      focusPre:[0,1,2],
+      focusTitle:"Where should Orion push hardest?",
+      focusSub:"The levers Orion is allowed to have opinions about.",
+      scheds:[
+        {n:"Daily profit briefing",d:"POAS, leak alerts, one action",w:"Daily",t:"8:00 AM · Email"},
+        {n:"Weekly business review",d:"Marketing P&L in one page",w:"Mon",t:"9:00 AM · Email"},
+        {n:"Month-end close",d:"CM2 by channel and SKU",w:"1st",t:"8:00 AM · Email + PDF"}],
+      tmpls:[
+        {t:"Where am I losing money?",d:"Campaigns burning contribution margin",b:"Daily"},
+        {t:"What moved this week?",d:"The three numbers that actually changed",b:"Weekly"},
+        {t:"Can I scale this month?",d:"Headroom at current margin",b:"Weekly"},
+        {t:"Model a spend cut",d:"What 20% less buys or costs you",b:"Scenario"}]}
   };
   ORION_CAMPS = [
     { n: "Brand Search - Always On", s: "₹1.2L/mo" },
@@ -2446,17 +2798,17 @@ class Component extends DCLogic {
     const out = R.scheds.map(s => ({ ...s }));
     const reasons = [];
     if (BIZ.belowFloor > 0) {
-      out.unshift({ n: "Hourly spend guard", d: "Watches campaigns near the floor, 9 AM–9 PM", w: "Hourly", t: "Business hours · " + S.channel,
-        why: BIZ.belowFloor + " campaigns are near your POAS floor — hourly until they clear" });
+      out.unshift({ n: "Hourly spend guard", d: "Watches campaigns near the floor, 9 AM-9 PM", w: "Hourly", t: "Business hours · " + S.channel,
+        why: BIZ.belowFloor + " campaigns are near your POAS floor. Hourly until they clear" });
       reasons.push("Hourly guard added: " + BIZ.belowFloor + " campaigns near floor");
     }
-    if (roleKey === 'buyer' && S.pain === 0) {
+    if (roleKey === 'buyer' && S.pains && S.pains.indexOf(0) > -1) {
       out.forEach(s => { if (s.n.includes("pause/scale")) { s.w = "2× daily"; s.t = "7:30 AM + 4:00 PM · " + S.channel;
-        s.why = "You said you find out about bad days 24h late — an afternoon check halves that"; } });
+        s.why = "You said you find out about bad days 24h late. An afternoon check halves that"; } });
       reasons.push("Pause/scale list bumped to twice daily (your pain: reacting late)");
     }
     if (roleKey === 'creative') {
-      out.forEach(s => { if (s.n.includes("Fatigue")) { s.why = BIZ.fatiguedAds + " winners decaying now — daily until stable"; } });
+      out.forEach(s => { if (s.n.includes("Fatigue")) { s.why = BIZ.fatiguedAds + " winners decaying now. Daily until stable"; } });
     }
     if (roleKey === 'agency') {
       out.forEach(s => { if (s.n.includes("Breach")) { s.why = "Portfolio-wide: instant beats any schedule for floor breaches"; } });
@@ -2467,8 +2819,8 @@ class Component extends DCLogic {
         reasons: ["Alerts-only mode: routine briefings suppressed, guards kept"] };
     }
     if (S.cadence === "Hourly") {
-      out.forEach(s => { if (/briefing|pause/i.test(s.n)) { s.w = "Hourly"; s.t = "9 AM–9 PM · " + S.channel;
-        s.why = "You asked for hourly — applied to action items, reviews stay weekly"; } });
+      out.forEach(s => { if (/briefing|pause/i.test(s.n)) { s.w = "Hourly"; s.t = "9 AM-9 PM · " + S.channel;
+        s.why = "You asked for hourly. Applied to action items, reviews stay weekly"; } });
       reasons.push("Hourly applied to action items only; reviews stay weekly to avoid noise");
     }
     return { scheds: out, reasons };
@@ -2477,7 +2829,7 @@ class Component extends DCLogic {
   PLAN_NAV = ["Chats", "Dashboard", "Pulse", "Attribution", "Product Insights", "Creative Insights", "Inventory Health", "UTM Status", "Scheduler", "Integrations"];
   PLAN_SUBS = ["Product Insights", "Creative Insights", "UTM Status"];
   PLAN_BEST = ["control", "intel", "complete", "complete"];
-  PLAN_BANDS = ["$0–10K", "$10–30K", "$30–60K", "$60–100K"];
+  PLAN_BANDS = ["$0-10K", "$10-30K", "$30-60K", "$60-100K"];
   PLAN_DEFS = [
     { id: "orion", name: "Orion", tag: "Just the answers.",
       on: ["Chats", "Integrations"], add: ["Chats", "Integrations"],
@@ -2518,18 +2870,119 @@ class Component extends DCLogic {
     intel: ["chats", "dashboard", "pulse", "product", "creative", "inventory", "scheduler", "integrations"],
     complete: ["chats", "dashboard", "pulse", "attribution", "product", "creative", "inventory", "utm", "scheduler", "integrations"]
   };
+  PLAN_SEATS = { orion: 2, control: 3, intel: 5, complete: 8 };
+  PLAN_PERM_KEYS = ["chats", "dashboard", "pulse", "scheduler", "product", "creative", "inventory", "attribution", "utm", "integrations"];
+  /* One Flable account, many client IDs. Adding another repeats Connect → Confirm. */
+  CLIENT_POOL = [
+    { id: "lum", clientId: "LS-2841", name: "Luminary Skincare", company: "Luminary Skincare Co.", site: "luminaryskincare.com", industry: "Beauty & Personal Care", country: "United States", audience: "Women 25-45, skincare enthusiasts", voice: "Clean & Aspirational", usp: "Dermatologist-tested, clean ingredients with visible results in 14 days", ch: "Meta · Google · Shopify", color: "var(--flb-magenta)", initial: "L" },
+    { id: "kar", clientId: "KM-5518", name: "Karmikh", company: "Karmikh", site: "karmikh.com", industry: "Fashion & apparel", country: "India", audience: "Men 22-35, premium streetwear", voice: "Bold & irreverent", usp: "Limited drops, Indian craft, global street energy.", ch: "Meta · Google · Shopify", color: "var(--flb-violet)", initial: "K" },
+    { id: "nsc", clientId: "NS-9032", name: "Northstar Coffee", company: "Northstar Roasters", site: "northstarcoffee.co", industry: "Food & beverage", country: "United Kingdom", audience: "Urban professionals 28-44", voice: "Warm & precise", usp: "Single-origin subscriptions. Roast to order, never stale.", ch: "Meta · Google · Shopify", color: "var(--flb-green)", initial: "N" },
+    { id: "arc", clientId: "AR-7740", name: "Arcade Home", company: "Arcade Home Ltd", site: "arcadehome.com", industry: "Home & living", country: "United States", audience: "Homeowners 30-50", voice: "Quiet luxury", usp: "Sculptural lighting and furniture for small urban homes.", ch: "Meta · Google · Shopify", color: "var(--flb-yellow)", initial: "A" }
+  ];
   FEAT_EXPLAIN = {
-    dashboard: { title: "See blended revenue against blended spend", body: "Dashboard is the control room: profit, alerts and every channel Orion is watching — without asking a question first.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=720&h=420&fit=crop", points: ["Blended revenue vs spend, with profit", "Alerts and opportunities in one place", "No credits used to read the board"] },
-    pulse: { title: "Catch campaign drift the day it starts", body: "Pulse scorecards every campaign and opens AI Lens on any metric that moved — so you don't wait for month-end.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=720&h=420&fit=crop", points: ["Account-level ROAS and trend alerts", "Best and worst days at a glance", "AI Lens on any moved metric"] },
-    scheduler: { title: "Reports that arrive before you ask", body: "Scheduler sends Orion's digest to email, Slack or WhatsApp on the cadence you set — no credits for the send.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=720&h=420&fit=crop", points: ["Email, Slack and WhatsApp delivery", "Daily, weekly or only when it matters", "Uses the same Orion memory as chat"] },
+    dashboard: { title: "See blended revenue against blended spend", body: "Dashboard is the control room: profit, alerts and every channel Orion is watching, without asking a question first.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=720&h=420&fit=crop", points: ["Blended revenue vs spend, with profit", "Alerts and opportunities in one place", "No credits used to read the board"] },
+    pulse: { title: "Catch campaign drift the day it starts", body: "Pulse scorecards every campaign and opens AI Lens on any metric that moved, so you don't wait for month-end.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=720&h=420&fit=crop", points: ["Account-level ROAS and trend alerts", "Best and worst days at a glance", "AI Lens on any moved metric"] },
+    scheduler: { title: "Reports that arrive before you ask", body: "Scheduler sends Orion's digest to email, Slack or WhatsApp on the cadence you set. No credits for the send.", plan: "Control", badge: "Available on Control+", img: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=720&h=420&fit=crop", points: ["Email, Slack and WhatsApp delivery", "Daily, weekly or only when it matters", "Uses the same Orion memory as chat"] },
     product: { title: "Know which SKUs to back", body: "Product Insights reads Shopify, Meta Catalog and Google Shopping together so budget follows the products that actually convert.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=720&h=420&fit=crop", points: ["Shopify, Meta Catalog and Google Shopping", "Product-level ROAS, not campaign averages", "Spot catalogue gaps before they waste spend"] },
-    creative: { title: "Score every ad. Replicate the winners.", body: "Creative Insights ranks every ad to replicate, refresh or pause — with themes read by vision AI and landing-page overlap.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=720&h=420&fit=crop", points: ["Decision on every ad: replicate, refresh, pause", "Fatigue and funnel health in one table", "Landing pages where your ads overlap"] },
-    inventory: { title: "Stop spending on out-of-stock SKUs", body: "Inventory Health flags spend pushing traffic to products you cannot fulfil — the leak most brands find after the month closes.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=720&h=420&fit=crop", points: ["Spend at risk on OOS products", "Tied to your live catalogue", "Act before the next daily budget cycle"] },
-    attribution: { title: "Order-level truth, not platform ROAS", body: "Attribution credits every touchpoint before every order — COD and RTO aware, with POAS once the journeys are reconciled.", plan: "Complete", badge: "Available on Complete", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=720&h=420&fit=crop", points: ["Multi-touch journeys to the order", "COD and RTO-aware revenue", "POAS once orders are attributed"] },
+    creative: { title: "Score every ad. Replicate the winners.", body: "Creative Insights ranks every ad to replicate, refresh or pause, with themes read by vision AI and landing-page overlap.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=720&h=420&fit=crop", points: ["Decision on every ad: replicate, refresh, pause", "Fatigue and funnel health in one table", "Landing pages where your ads overlap"] },
+    inventory: { title: "Stop spending on out-of-stock SKUs", body: "Inventory Health flags spend pushing traffic to products you cannot fulfil. The leak most brands find after the month closes.", plan: "Intelligence", badge: "Available on Intelligence+", img: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=720&h=420&fit=crop", points: ["Spend at risk on OOS products", "Tied to your live catalogue", "Act before the next daily budget cycle"] },
+    attribution: { title: "Order-level truth, not platform ROAS", body: "Attribution credits every touchpoint before every order. COD and RTO aware, with POAS once the journeys are reconciled.", plan: "Complete", badge: "Available on Complete", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=720&h=420&fit=crop", points: ["Multi-touch journeys to the order", "COD and RTO-aware revenue", "POAS once orders are attributed"] },
     utm: { title: "Fix tracking before it costs you", body: "UTM Status finds broken tags across Meta and Google so Orion can actually tie revenue to the ads that earned it.", plan: "Complete", badge: "Available on Complete", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=720&h=420&fit=crop", points: ["Broken UTMs found before month end", "Suggested strings ready to apply", "No ad re-review when you auto-apply"] }
   };
 
   setOrion(patch) { this.setState((s) => ({ orion: { ...s.orion, ...patch } })); }
+
+  orionSelectedKpis() {
+    const o = this.state.orion;
+    return (o.kpis || []).concat(o.customKpis || []);
+  }
+
+  orionSelectedObjectives() {
+    const o = this.state.orion;
+    return (o.objectives || []).concat(o.customObjectives || []);
+  }
+
+  toggleOrionObjective(id) {
+    const o = this.state.orion;
+    const cur = (o.objectives || []).slice();
+    const j = cur.indexOf(id);
+    if (j > -1) cur.splice(j, 1);
+    else cur.push(id);
+    const allowed = {};
+    cur.forEach((oid) => {
+      const g = this.ORION_KPI_GROUPS[oid];
+      if (g) g.kpis.forEach((k) => { allowed[k] = true; });
+    });
+    const kpis = (o.kpis || []).filter((k) => allowed[k]);
+    this.setOrion({ objectives: cur, kpis, kpiHint: false, cadenceMenu: false, channelMenu: false });
+  }
+
+  addOrionObjective() {
+    const raw = (this.state.orion.objectiveDraft || "").trim();
+    if (!raw) return;
+    const cur = (this.state.orion.customObjectives || []).slice();
+    if (cur.indexOf(raw) > -1) { this.setOrion({ objectiveDraft: "" }); return; }
+    cur.push(raw);
+    this.setOrion({ customObjectives: cur, objectiveDraft: "" });
+  }
+
+  toggleOrionKpi(name) {
+    const o = this.state.orion;
+    const cur = (o.kpis || []).slice();
+    const j = cur.indexOf(name);
+    const custom = (o.customKpis || []).slice();
+    const total = cur.length + custom.length;
+    if (j > -1) {
+      cur.splice(j, 1);
+      this.setOrion({ kpis: cur, kpiHint: false });
+      return;
+    }
+    if (total >= this.ORION_KPI_MAX) { this.setOrion({ kpiHint: true }); return; }
+    cur.push(name);
+    this.setOrion({ kpis: cur, kpiHint: false });
+  }
+
+  addOrionKpi() {
+    const raw = (this.state.orion.kpiDraft || "").trim();
+    if (!raw) return;
+    const o = this.state.orion;
+    const cur = (o.customKpis || []).slice();
+    const total = (o.kpis || []).length + cur.length;
+    if (cur.indexOf(raw) > -1 || (o.kpis || []).indexOf(raw) > -1) { this.setOrion({ kpiDraft: "" }); return; }
+    if (total >= this.ORION_KPI_MAX) { this.setOrion({ kpiHint: true, kpiDraft: "" }); return; }
+    cur.push(raw);
+    this.setOrion({ customKpis: cur, kpiDraft: "", kpiHint: false });
+  }
+
+  toggleOrionPain(idx) {
+    const cur = (this.state.orion.pains || []).slice();
+    const j = cur.indexOf(idx);
+    if (j > -1) cur.splice(j, 1);
+    else cur.push(idx);
+    this.setOrion({ pains: cur });
+  }
+
+  addOrionPain() {
+    const raw = (this.state.orion.painDraft || "").trim();
+    if (!raw) return;
+    const cur = (this.state.orion.customPains || []).slice();
+    if (cur.indexOf(raw) > -1) { this.setOrion({ painDraft: "" }); return; }
+    cur.push(raw);
+    this.setOrion({ customPains: cur, painDraft: "" });
+  }
+
+  toggleOrionWindow(level, id) {
+    const o = this.state.orion;
+    const map = Object.assign({}, o.anomalies || {});
+    const cur = (map[level] || []).slice();
+    const j = cur.indexOf(id);
+    if (j > -1) {
+      if (cur.length === 1) return;
+      cur.splice(j, 1);
+    } else cur.push(id);
+    map[level] = cur;
+    this.setOrion({ anomalies: map });
+  }
 
   goScreen(s) { this.setState({ screen: s, menu: null }); }
 
@@ -2550,6 +3003,168 @@ class Component extends DCLogic {
       return;
     }
     this.setState({ nav: key, explainFeature: null, menu: null });
+  }
+
+  defaultMembers() {
+    return [
+      { id: "abbas", name: "Abbas", email: "abbas@flable.ai", role: "Admin", you: true },
+      { id: "priya", name: "Priya Shah", email: "priya@luminaryskincare.com", role: "Member", you: false }
+    ];
+  }
+
+  defaultFeatAccess() {
+    return {
+      priya: { chats: true, dashboard: true, pulse: true, scheduler: true, integrations: true, product: false, creative: false, inventory: false, attribution: false, utm: false }
+    };
+  }
+
+  planSeatCap() {
+    return this.PLAN_SEATS[this.state.planId || "intel"] || this.PLAN_SEATS.intel;
+  }
+
+  channelLabelFromAccounts(accounts) {
+    const names = { meta: "Meta", google: "Google", shopify: "Shopify", gsc: "Search Console", ga: "GA4" };
+    const keys = ["meta", "google", "shopify", "gsc", "ga"];
+    const on = keys.filter((k) => accounts && accounts[k]).map((k) => names[k]);
+    return on.length ? on.join(" · ") : "No channels yet";
+  }
+
+  confirmBrand() {
+    if (this.state.clientDraft) return this.state.clientDraft;
+    const sel = this.state.profileSel;
+    const hit = this.CLIENT_POOL.find((c) => c.id === sel);
+    return hit || this.CLIENT_POOL[0];
+  }
+
+  currentClient() {
+    const list = this.state.profiles || [];
+    return list.find((p) => p.id === this.state.profileSel) || list[0] || this.CLIENT_POOL[0];
+  }
+
+  nextClientDraft() {
+    const used = {};
+    (this.state.profiles || []).forEach((p) => { used[p.id] = true; });
+    return this.CLIENT_POOL.find((c) => !used[c.id]) || null;
+  }
+
+  startAddClient(from) {
+    const draft = this.nextClientDraft();
+    if (!draft) {
+      this.showToast("This demo holds four client IDs. Talk to sales for a larger portfolio.");
+      return;
+    }
+    const onApp = this.state.screen === "app" || this.state.steps.credits;
+    const returnTo = from || (onApp ? "app" : "profiles");
+    this.setState({
+      addingClient: true,
+      addClientReturn: returnTo,
+      clientDraft: Object.assign({}, draft),
+      accounts: { meta: false, google: false, shopify: false, gsc: false, ga: false },
+      screen: "connect",
+      menu: null,
+      referralOpen: false
+    });
+  }
+
+  cancelAddClient() {
+    const back = this.state.addClientReturn === "app" ? "app" : "profiles";
+    this.setState({
+      addingClient: false,
+      clientDraft: null,
+      screen: back,
+      menu: null,
+      referralOpen: false
+    });
+  }
+
+  finishAddClient() {
+    const d = this.state.clientDraft;
+    if (!d) return;
+    const ch = this.channelLabelFromAccounts(this.state.accounts);
+    const row = { id: d.id, clientId: d.clientId, name: d.name, role: "Client", ch };
+    const toApp = this.state.addClientReturn === "app" || this.state.steps.credits;
+    this.setState((st) => ({
+      profiles: st.profiles.concat([row]),
+      profileSel: row.id,
+      addingClient: false,
+      clientDraft: null,
+      screen: toApp ? "app" : "profiles",
+      referralOpen: false,
+      menu: null
+    }));
+    this.showToast(d.name + " is live · " + d.clientId);
+  }
+
+  selectClient(id) {
+    const p = (this.state.profiles || []).find((x) => x.id === id);
+    if (!p) return;
+    this.setState({ profileSel: id, menu: null });
+  }
+
+  inviteMember() {
+    const raw = (this.state.inviteEmail || "").trim().toLowerCase();
+    if (!raw || raw.indexOf("@") < 1) return;
+    const cap = this.planSeatCap();
+    if (this.state.members.length >= cap) {
+      this.showToast("You've used all seats on " + this.currentPlanDef().name + ".");
+      return;
+    }
+    if (this.state.members.some((m) => m.email === raw)) {
+      this.showToast("That person already has access.");
+      return;
+    }
+    const local = raw.split("@")[0];
+    const name = local.charAt(0).toUpperCase() + local.slice(1);
+    const id = "m" + Date.now();
+    const access = { chats: true, dashboard: true, pulse: true, scheduler: true, integrations: true, product: false, creative: false, inventory: false, attribution: false, utm: false };
+    this.setState((st) => ({
+      members: st.members.concat([{ id, name, email: raw, role: "Member", you: false }]),
+      featAccess: Object.assign({}, st.featAccess, { [id]: access }),
+      inviteEmail: "",
+      memberSel: id
+    }));
+    this.showToast("Invite sent to " + raw);
+  }
+
+  setMemberRole(id, role) {
+    if (role !== "Admin" && role !== "Member") return;
+    const target = this.state.members.find((m) => m.id === id);
+    if (!target) return;
+    const adminCount = this.state.members.filter((m) => m.role === "Admin").length;
+    if (target.role === "Admin" && role === "Member" && adminCount < 2) {
+      this.showToast("Keep at least one admin.");
+      return;
+    }
+    this.setState((st) => ({
+      members: st.members.map((m) => m.id === id ? Object.assign({}, m, { role }) : m)
+    }));
+  }
+
+  removeMember(id) {
+    const t = this.state.members.find((m) => m.id === id);
+    if (!t || t.you) return;
+    if (t.role === "Admin" && this.state.members.filter((m) => m.role === "Admin").length < 2) {
+      this.showToast("Keep at least one admin.");
+      return;
+    }
+    this.setState((st) => {
+      const members = st.members.filter((m) => m.id !== id);
+      const featAccess = Object.assign({}, st.featAccess);
+      delete featAccess[id];
+      const memberSel = st.memberSel === id ? (members[0] ? members[0].id : null) : st.memberSel;
+      return { members, featAccess, memberSel };
+    });
+  }
+
+  toggleMemberFeat(id, key) {
+    const member = this.state.members.find((m) => m.id === id);
+    if (!member || member.role === "Admin") return;
+    if (this.isFeatLocked(key) && this.PLAN_ALWAYS_OPEN.indexOf(key) === -1) return;
+    this.setState((st) => {
+      const cur = Object.assign({}, (st.featAccess[id] || {}));
+      cur[key] = !cur[key];
+      return { featAccess: Object.assign({}, st.featAccess, { [id]: cur }) };
+    });
   }
 
   pricingFmt(n) {
@@ -3309,8 +3924,8 @@ class Component extends DCLogic {
     const tabActiveStyle = "display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 15px;border-radius:9999px;border:none;cursor:pointer;font:500 13px var(--flb-font-body);background:var(--flb-surface);color:var(--flb-ink);box-shadow:var(--flb-shadow-sm);transition:all .15s ease";
     const tabInactiveStyle = "display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 15px;border-radius:9999px;border:none;cursor:pointer;font:500 13px var(--flb-font-body);background:transparent;color:var(--flb-ink-3);transition:all .15s ease";
 
-    const countActiveStyle = "display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:9999px;font:600 11px var(--flb-font-body);background:var(--flb-surface-3);color:var(--flb-ink)";
-    const countInactiveStyle = "display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:9999px;font:500 11px var(--flb-font-body);background:color-mix(in srgb, var(--flb-line) 60%, transparent);color:var(--flb-ink-4)";
+    const countActiveStyle = "display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;border-radius:9999px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 11px/1.2 var(--flb-font-body);white-space:nowrap";
+    const countInactiveStyle = "display:inline-flex;align-items:center;justify-content:center;padding:3px 8px;border-radius:9999px;background:var(--flb-surface-3);color:var(--flb-ink-3);font:500 11px/1.2 var(--flb-font-body);white-space:nowrap";
 
     // Filter Custom Reports
     const filteredCustom = S.schedCustomReports.filter(r => {
@@ -3554,10 +4169,23 @@ class Component extends DCLogic {
 
     const setDraft = (t) => this.setState({ draft: t });
     const composerPillDelay = ["1s", "1.12s", "1.24s"];
+    const chipWhen = (r) => {
+      if (r.schedule) return r.schedule;
+      const t = String(r.time || "").replace(":00 ", " ");
+      if (r.frequency === "Day") return "Daily · " + t;
+      if (r.frequency === "Week") return ((r.days || []).join(", ") || "Weekly") + " · " + t;
+      if (r.frequency === "Month") return "Monthly · " + t;
+      return t;
+    };
+    const schedChipRuns = (this.state.schedCustomReports || []).filter((r) => r.autoRun).map((r) => ({
+      title: r.title, when: chipWhen(r), format: r.format
+    })).concat((this.state.schedAutomatedReports || []).filter((a) => a.status === "Active").map((a) => ({
+      title: a.title, when: a.schedule, format: a.format
+    })));
+
     const composerPills = ["Live ad data", "Executes with approval", "AI-scored creatives"].map((label, i) => ({
       label,
-      style: "display:inline-flex;align-items:center;padding:8px 16px;border-radius:9999px;background:transparent;border:1px dotted var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3);cursor:pointer;animation:flbRise 420ms var(--flb-ease-out) " + composerPillDelay[i] + " backwards",
-      onClick: () => setDraft(label)
+      style: "display:inline-flex;align-items:center;padding:8px 16px;border-radius:9999px;background:transparent;border:1px dotted var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3);pointer-events:none;cursor:default;animation:flbRise 420ms var(--flb-ease-out) " + composerPillDelay[i] + " backwards"
     }));
 
     const send = () => {
@@ -3703,7 +4331,7 @@ class Component extends DCLogic {
     const selProfile = this.state.profiles.find((p) => p.id === this.state.profileSel);
     const profileCards = this.state.profiles.map((p, pi) => {
       const sel = this.state.profileSel === p.id;
-      return { id: p.id, name: p.name, meta: p.role, channelLabel: p.ch,
+      return { id: p.id, name: p.name, meta: p.clientId || p.role, channelLabel: p.ch,
         initials: p.name.split(" ").map((w) => w.charAt(0)).slice(0, 2).join(""),
         plateStyle: "position:relative;padding:10px;border-radius:26px;background:" + (sel ? "var(--flb-tint-violet)" : "transparent") + ";transition:background 160ms var(--flb-ease)",
         tileStyle: "display:flex;flex-direction:column;align-items:center;gap:4px;width:176px;padding:26px 18px 20px;border-radius:18px;border:none;background:var(--flb-surface-2);cursor:pointer;transition:box-shadow 160ms var(--flb-ease),transform 160ms var(--flb-ease);transform:translateY(" + (sel ? "-1px" : "0") + ");box-shadow:" + (sel ? "var(--flb-glow-violet),0 14px 34px rgba(8,6,24,.28)" : "0 1px 2px rgba(8,6,24,.10)"),
@@ -3716,66 +4344,205 @@ class Component extends DCLogic {
         onDelete: () => this.setState((st) => ({ profiles: st.profiles.filter((x) => x.id !== p.id), profileMenu: null, profileSel: st.profileSel === p.id ? null : st.profileSel })) };
     });
 
-    // ── Orion personalization wizard (v2 role-adaptive) ──
+    const addingClient = !!this.state.addingClient;
+    const brand = this.confirmBrand();
+    const liveClient = this.currentClient();
+    const poolById = {};
+    this.CLIENT_POOL.forEach((c) => { poolById[c.id] = c; });
+    const clientSwitchRows = this.state.profiles.map((p) => {
+      const meta = poolById[p.id] || {};
+      const current = p.id === (this.state.profileSel || (this.state.profiles[0] && this.state.profiles[0].id));
+      return {
+        id: p.id, name: p.name, clientId: p.clientId || meta.clientId || "",
+        initial: meta.initial || (p.name || "?").charAt(0),
+        color: meta.color || "var(--flb-magenta)",
+        current, notCurrent: !current, ch: p.ch,
+        rowStyle: "display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border:none;border-radius:10px;background:" + (current ? "var(--flb-tint-violet)" : "transparent") + ";cursor:pointer;text-align:left",
+        onSelect: () => this.selectClient(p.id),
+        onSwitch: () => this.selectClient(p.id)
+      };
+    });
+    const clientRows = clientSwitchRows;
+    const seatCap = this.planSeatCap();
+    const seatUsed = (this.state.members || []).length;
+    const seatsFull = seatUsed >= seatCap;
+    const seatFillPct = Math.min(100, Math.round((seatUsed / seatCap) * 100)) + "%";
+    const settingsPeople = this.state.settingsTab !== "clients";
+    const tabOn = "height:34px;padding:0 16px;border:none;border-radius:9999px;background:var(--flb-surface);color:var(--flb-ink);font:500 13px var(--flb-font-body);cursor:pointer;box-shadow:var(--flb-shadow-sm)";
+    const tabOff = "height:34px;padding:0 16px;border:none;border-radius:9999px;background:transparent;color:var(--flb-ink-3);font:500 13px var(--flb-font-body);cursor:pointer";
+    const memberRows = (this.state.members || []).map((m) => {
+      const sel = this.state.memberSel === m.id;
+      return {
+        id: m.id, name: m.name, email: m.email, role: m.role, you: !!m.you,
+        initial: (m.name || "?").charAt(0),
+        rowStyle: "display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:none;border-bottom:1px solid var(--flb-border-muted);background:" + (sel ? "var(--flb-tint-violet)" : "transparent") + ";cursor:pointer;text-align:left",
+        onSelect: () => this.setState({ memberSel: m.id })
+      };
+    });
+    const permMember = (this.state.members || []).find((m) => m.id === this.state.memberSel) || (this.state.members || [])[0];
+    const permIsAdmin = !!(permMember && permMember.role === "Admin");
+    const permFeatRows = this.PLAN_PERM_KEYS.map((key) => {
+      const planLocked = this.isFeatLocked(key);
+      const stored = permMember ? ((this.state.featAccess || {})[permMember.id] || {})[key] : false;
+      const on = planLocked ? false : (permIsAdmin ? true : !!stored);
+      const canToggle = !!(permMember && !permIsAdmin && !planLocked);
+      return {
+        key, label: this.PLAN_FEAT_MAP[key] || key, planLocked,
+        switchStyle: "width:36px;height:20px;flex-shrink:0;border-radius:9999px;border:none;padding:2px;display:flex;align-items:center;" + (on ? "justify-content:flex-end;background:var(--flb-purple);" : "justify-content:flex-start;background:var(--flb-surface-3);") + "cursor:" + (canToggle ? "pointer" : "not-allowed") + ";opacity:" + (planLocked ? ".45" : "1"),
+        knobStyle: "width:16px;height:16px;border-radius:9999px;background:#fcfcfc;display:block",
+        onToggle: () => { if (canToggle) this.toggleMemberFeat(permMember.id, key); }
+      };
+    });
+    const roleSegOn = "height:30px;padding:0 12px;border:none;border-radius:8px;background:var(--flb-surface);color:var(--flb-ink);font:500 12.5px var(--flb-font-body);cursor:pointer;box-shadow:var(--flb-shadow-sm)";
+    const roleSegOff = "height:30px;padding:0 12px;border:none;border-radius:8px;background:transparent;color:var(--flb-ink-3);font:500 12.5px var(--flb-font-body);cursor:pointer";
+
+    // ── Orion personalization wizard ──
     const o = this.state.orion;
     const BIZ = this.ORION_BIZ;
     const OFLOW = o.mode === "short" ? this.ORION_FLOW_SHORT : this.ORION_FLOW;
     const isShort = o.mode === "short";
     const oKey = OFLOW[o.step] || "role"; const oTotal = OFLOW.length;
     const oIs = (k) => oKey === k;
-    const oNextStep = () => Math.min(oTotal - 1, this.state.orion.step + 1);
+    const qKeys = OFLOW.filter((k) => !this.ORION_NON_QUESTION[k]);
+    const qCount = qKeys.length;
+    const qIdx = qKeys.indexOf(oKey);
+    const qNum = qIdx >= 0 ? qIdx + 1 : qCount;
     const R = o.role ? this.ORION_ROLES_V2[o.role] : null;
     const pct = (v, min, max) => Math.round(((Number(v) - min) / (max - min)) * 100) + "%";
-    const selCard = (on) => "display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:15px 18px;border-radius:13px;border:1px solid " + (on ? "color-mix(in srgb, var(--flb-violet-light) 55%, transparent)" : "transparent") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";cursor:pointer;transition:background 140ms var(--flb-ease)";
+    const selCard = (on) => "display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:13px;border:1px solid " + (on ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";cursor:pointer;transition:background 140ms var(--flb-ease),border-color 140ms var(--flb-ease)";
+    const objCard = (on) => "position:relative;display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px 14px;border-radius:12px;border:1px solid " + (on ? "transparent" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:500 13.5px var(--flb-font-body);cursor:pointer;text-align:center";
+    const pillChip = (on) => "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 13px;border-radius:9999px;border:1px solid " + (on ? "transparent" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:500 12.5px var(--flb-font-body);cursor:pointer";
+    const menuRow = (on) => "width:100%;text-align:left;padding:10px 12px;border:none;border-radius:8px;background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:400 13.5px var(--flb-font-body);cursor:pointer";
+    const involveCard = (on) => "width:100%;text-align:left;padding:14px 16px;border-radius:13px;border:1px solid " + (on ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";cursor:pointer;transition:background 140ms var(--flb-ease),border-color 140ms var(--flb-ease)";
     const segBtn = (on) => "flex:1;height:40px;border:none;background:" + (on ? "var(--flb-purple)" : "transparent") + ";color:" + (on ? "#fcfcfc" : "var(--flb-ink-2)") + ";font:500 13px var(--flb-font-body);cursor:pointer;transition:background 140ms var(--flb-ease)";
-    const orionDots = [0,1,2,3,4,5,6].map((i) => ({ i, dotStyle: "flex:1;height:4px;border-radius:9999px;background:" + (i <= o.step ? "var(--flb-purple)" : "var(--flb-surface-3)") + ";transition:background 200ms var(--flb-ease)" }));
-    // Role selector
-    const roleEntries = Object.entries(this.ORION_ROLES_V2);
-    const roleOpts = roleEntries.map(([k, r]) => ({ key: k, title: r.label, desc: r.desc, letter: r.label.charAt(0), cardStyle: selCard(o.role === k), onSelect: () => this.setOrion({ role: k, goal: r.goalPre, pain: r.painPre, metrics: [...r.metricsPre], focus: [...r.focusPre], step: oNextStep() }) }));
-    // Goal picker (single-select with add)
-    const goalOpts = R ? R.goals.map((g, i) => ({ title: g.t, desc: g.d, sel: o.goal === i, rowStyle: "display:flex;align-items:flex-start;gap:13px;width:100%;padding:13px 17px;border-radius:13px;border:1px solid " + (o.goal === i ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (o.goal === i ? "var(--flb-tint-violet)" : "var(--flb-surface)") + ";cursor:pointer;text-align:left;transition:all 140ms var(--flb-ease)", onSelect: () => this.setOrion({ goal: i }) })) : [];
-    // Pain picker (single-select with add)
-    const painOpts = R ? R.pains.map((p, i) => ({ title: p.t, desc: p.d, sel: o.pain === i, rowStyle: "display:flex;align-items:flex-start;gap:13px;width:100%;padding:13px 17px;border-radius:13px;border:1px solid " + (o.pain === i ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (o.pain === i ? "var(--flb-tint-violet)" : "var(--flb-surface)") + ";cursor:pointer;text-align:left;transition:all 140ms var(--flb-ease)", onSelect: () => this.setOrion({ pain: i }) })) : [];
-    // Metrics chips (ordered multi-select)
-    const metricChips = R ? R.metrics.map((m, i) => { const at = o.metrics.indexOf(i); const on = at > -1; return { name: m, showOrd: on, ord: on ? String(at + 1) : "", chipStyle: "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:9999px;border:1.5px solid " + (on ? "var(--flb-purple)" : "var(--flb-border-default)") + ";background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:var(--flb-ink-2);font:400 12.5px var(--flb-font-body);cursor:pointer;transition:all 120ms var(--flb-ease)", onToggle: () => { const cur = o.metrics.slice(); const j = cur.indexOf(i); if (j > -1) cur.splice(j, 1); else cur.push(i); this.setOrion({ metrics: cur }); } }; }) : [];
-    // Focus chips (ordered multi-select)
-    const focusChips = R ? R.focus.map((f, i) => { const at = o.focus.indexOf(i); const on = at > -1; return { name: f, showOrd: on, ord: on ? String(at + 1) : "", chipStyle: "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 14px;border-radius:9999px;border:1.5px solid " + (on ? "var(--flb-purple)" : "var(--flb-border-default)") + ";background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:var(--flb-ink-2);font:400 12.5px var(--flb-font-body);cursor:pointer;transition:all 120ms var(--flb-ease)", onToggle: () => { const cur = o.focus.slice(); const j = cur.indexOf(i); if (j > -1) cur.splice(j, 1); else cur.push(i); this.setOrion({ focus: cur }); } }; }) : [];
-    // Delivery cadence options
-    const cadenceOpts = ["Let Orion decide","Hourly","Daily","Daily + weekly review","Weekly","Only when something breaks"].map((c) => ({ label: c, sel: o.cadence === c, rowStyle: "width:100%;display:flex;align-items:center;gap:13px;padding:15px 17px;border-radius:12px;cursor:pointer;transition:all 130ms var(--flb-ease);text-align:left;border:1px solid " + (o.cadence === c ? "transparent" : "var(--flb-line)") + ";background:" + (o.cadence === c ? "var(--flb-tint-violet)" : "var(--flb-surface)") + ";font:400 14px var(--flb-font-body);color:var(--flb-ink)", onPick: () => this.setOrion({ cadence: c }) }));
-    const channelOpts = ["WhatsApp","Email","Slack","In-app only"].map((ch) => ({ label: ch, sel: o.channel === ch }));
-    // Adaptive schedules
-    const D = R ? this.decideSchedules(o.role, { cadence: o.cadence, channel: o.channel, pain: o.pain }) : { scheds: [], reasons: [] };
-    // Review card
-    const roleTitle = R ? R.label : "-";
-    const goalTitle = R && R.goals[o.goal] ? R.goals[o.goal].t : "-";
-    const painTitle = R && R.pains[o.pain] ? R.pains[o.pain].t : "-";
-    const metricsList = o.metrics.map(i => R ? R.metrics[i] : "").filter(Boolean);
-    const focusList = o.focus.map(i => R ? R.focus[i] : "").filter(Boolean);
-    // Step nav labels
-    const oStepLabels = ["Who you are","Your goal","Biggest pain","Daily watch","Focus","Delivery","Review"];
+    const qFill = qIdx >= 0 ? qIdx : qCount - 1;
+    const orionDots = Array.from({ length: qCount }, (_, i) => ({ i, dotStyle: "flex:1;height:4px;border-radius:9999px;background:" + (i <= qFill && !oIs("building") && !oIs("ready") ? "var(--flb-gradient-energetic)" : (i < o.step ? "var(--flb-gradient-energetic)" : "var(--flb-surface-3)")) + ";transition:background 200ms var(--flb-ease)" }));
+    const roleIcons = this.ORION_ROLE_ICONS;
+    const roleOpts = Object.entries(this.ORION_ROLES_V2).map(([k, r]) => {
+      const ic = roleIcons[k] || roleIcons.other;
+      return {
+        key: k, title: r.label, desc: r.desc, icon: ic.icon,
+        iconWrap: "width:36px;height:36px;border-radius:9999px;background:" + ic.bg + ";color:" + ic.fg + ";display:inline-flex;align-items:center;justify-content:center;flex-shrink:0",
+        cardStyle: selCard(o.role === k),
+        onSelect: () => this.setOrion({ role: k, goal: r.goalPre, pains: [], customPains: [], cadenceMenu: false, channelMenu: false })
+      };
+    });
+    const objRank = (id) => (o.objectives || []).indexOf(id);
+    const goalOpts = this.ORION_OBJECTIVES.map((g) => {
+      const at = objRank(g.id); const on = at > -1;
+      return { title: g.t, showOrd: on, ord: on ? String(at + 1) : "", rowStyle: objCard(on), onSelect: () => this.toggleOrionObjective(g.id) };
+    });
+    const customObjectiveChips = (o.customObjectives || []).map((t, i) => ({
+      title: t, ord: String((o.objectives || []).length + i + 1),
+      rowStyle: objCard(true),
+      onSelect: () => this.setOrion({ customObjectives: (o.customObjectives || []).filter((x) => x !== t) })
+    }));
+    const selectedKpis = this.orionSelectedKpis();
+    const kpiGroups = (o.objectives || []).map((id, gi) => {
+      const g = this.ORION_KPI_GROUPS[id];
+      if (!g) return null;
+      const obj = this.ORION_OBJECTIVES.find((x) => x.id === id);
+      return {
+        label: g.label.toUpperCase() + "  ·  PRIORITY " + (gi + 1),
+        chips: g.kpis.map((name) => {
+          const at = selectedKpis.indexOf(name); const on = at > -1;
+          return { name, showOrd: on, ord: on ? String(at + 1) : "", chipStyle: pillChip(on), onToggle: () => this.toggleOrionKpi(name) };
+        })
+      };
+    }).filter(Boolean);
+    if (!kpiGroups.length) {
+      const core = ["ROAS", "Revenue", "Spend", "CTR", "CAC", "AOV"];
+      kpiGroups.push({
+        label: "Core",
+        chips: core.map((name) => {
+          const at = selectedKpis.indexOf(name); const on = at > -1;
+          return { name, showOrd: on, ord: on ? String(at + 1) : "", chipStyle: pillChip(on), onToggle: () => this.toggleOrionKpi(name) };
+        })
+      });
+    }
+    if ((o.customKpis || []).length) {
+      kpiGroups.push({
+        label: "Yours",
+        chips: (o.customKpis || []).map((name) => {
+          const at = selectedKpis.indexOf(name);
+          return { name, showOrd: at > -1, ord: at > -1 ? String(at + 1) : "", chipStyle: pillChip(true), onToggle: () => this.setOrion({ customKpis: (o.customKpis || []).filter((x) => x !== name) }) };
+        })
+      });
+    }
+    const painSel = o.pains || [];
+    const painOpts = R ? R.pains.map((p, i) => {
+      const on = painSel.indexOf(i) > -1;
+      return { title: p.t, desc: p.d, sel: on, rowStyle: involveCard(on), onSelect: () => this.toggleOrionPain(i) };
+    }).concat((o.customPains || []).map((t) => ({
+      title: t, desc: "You added this", sel: true, rowStyle: involveCard(true),
+      onSelect: () => this.setOrion({ customPains: (o.customPains || []).filter((x) => x !== t) })
+    }))) : [];
+    const anomalyLevels = this.ORION_ANOMALY_LEVELS.map((lv) => ({
+      title: lv.t, desc: lv.d,
+      windows: this.ORION_WINDOWS.map((w) => {
+        const on = ((o.anomalies || {})[lv.id] || []).indexOf(w.id) > -1;
+        return { label: w.t, chipStyle: pillChip(on), onToggle: () => this.toggleOrionWindow(lv.id, w.id) };
+      })
+    }));
+    const involveOpts = this.ORION_INVOLVE.map((v) => ({
+      title: v.t, desc: v.d, rowStyle: involveCard(o.involve === v.id),
+      onSelect: () => this.setOrion({ involve: v.id })
+    }));
+    const voiceOpts = this.ORION_VOICE.map((v) => ({
+      title: v.t, desc: v.d, rowStyle: involveCard(o.voice === v.id),
+      onSelect: () => this.setOrion({ voice: v.id })
+    }));
+    const voiceOtherOn = o.voice === "other";
+    const voiceDef = this.ORION_VOICE.find((v) => v.id === o.voice);
+    const voiceOtherText = (o.voiceOther || "").trim();
+    const voiceTitle = voiceOtherOn ? (voiceOtherText || "Something else") : (voiceDef ? voiceDef.t : "Not set");
+    const cadenceOpts = this.ORION_CADENCES.map((c) => ({ label: c, sel: o.cadence === c, rowStyle: menuRow(o.cadence === c), onPick: () => this.setOrion({ cadence: c, cadenceMenu: false }) }));
+    const channelOpts = this.ORION_CHANNELS.map((ch) => ({ label: ch, sel: o.channel === ch, rowStyle: menuRow(o.channel === ch), onPick: () => this.setOrion({ channel: ch, channelMenu: false }) }));
+    const D = R ? this.decideSchedules(o.role, { cadence: o.cadence, channel: o.channel, pains: o.pains || [] }) : { scheds: [], reasons: [] };
+    const roleTitle = R ? R.label : "Not set";
+    const objLabels = this.ORION_OBJECTIVES.filter((g) => (o.objectives || []).indexOf(g.id) > -1).sort((a, b) => objRank(a.id) - objRank(b.id)).map((g) => g.t).concat(o.customObjectives || []);
+    const goalTitle = objLabels.length ? objLabels.join(", ") : "Not set";
+    const painTitle = (R ? painSel.map((i) => R.pains[i] && R.pains[i].t).filter(Boolean) : []).concat(o.customPains || []).join(", ") || "Not set";
+    const metricsList = selectedKpis;
+    const involveLabel = (this.ORION_INVOLVE.find((v) => v.id === o.involve) || this.ORION_INVOLVE[1]).t;
+    const winLabel = this.ORION_ANOMALY_LEVELS.map((lv) => {
+      const ids = (o.anomalies || {})[lv.id] || [];
+      const names = ids.map((id) => { const w = this.ORION_WINDOWS.find((x) => x.id === id); return w ? w.t : id; });
+      return lv.t + ": " + (names.join(", ") || "none");
+    }).join(" · ");
+    const oStepLabels = ["Who you are","Your goal","KPIs","What hurts","Catch windows","Involvement","Delivery","Voice"];
     const orionStepNav = oStepLabels.map((label, i) => {
       const done = i < o.step, active = i === o.step;
       const dotStyle = done ? "width:20px;height:20px;border-radius:9999px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.95)" : active ? "width:20px;height:20px;border-radius:9999px;flex-shrink:0;background:#fcfcfc;box-shadow:0 0 0 4px rgba(255,255,255,.22)" : "width:20px;height:20px;border-radius:9999px;flex-shrink:0;border:1.5px solid rgba(255,255,255,.32);box-sizing:border-box";
       const labelStyle = active ? "font:600 12.5px var(--flb-font-body);color:#fcfcfc" : done ? "font:400 12.5px var(--flb-font-body);color:rgba(255,255,255,.72)" : "font:400 12.5px var(--flb-font-body);color:rgba(255,255,255,.45)";
       return { label, done, dotStyle, labelStyle };
     });
-    // Legacy compat (still referenced by some old HTML)
-    const chanSeg = channelOpts.map((c) => ({ label: c.label, segStyle: segBtn(c.sel), onSel: () => this.setOrion({ channel: c.label }) }));
+    const chanSeg = channelOpts.map((c) => ({ label: c.label, segStyle: segBtn(c.sel), onSel: () => this.setOrion({ channel: c.label, channelMenu: false }) }));
     const toneSeg = [["blunt", "Blunt actions"], ["detailed", "Detailed reasoning"]].map(([v, label]) => ({ label, segStyle: segBtn(false), onSel: () => {} }));
     const guardList = this.ORION_CAMPS.map((c) => ({ n: c.n, s: c.s, rowStyle: "display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:12px;border:1.5px solid var(--flb-border-default);background:var(--flb-surface);cursor:pointer;transition:all 120ms var(--flb-ease)", boxStyle: "width:18px;height:18px;flex-shrink:0;border-radius:5px;border:1.5px solid var(--flb-ink-4);display:inline-flex;align-items:center;justify-content:center;color:#fcfcfc", checked: false, onToggle: () => {} }));
     const inheritedRows = [
-      { k: "Optimization goal", v: goalTitle, icon: "ph ph-target" },
-      { k: "Alert thresholds", v: "Built in — POAS floor · spend caps", icon: "ph ph-bell-ringing" },
+      { k: "Objectives", v: goalTitle, icon: "ph ph-target" },
+      { k: "Alert thresholds", v: "Built in. ROAS floor and spend caps", icon: "ph ph-bell-ringing" },
       { k: "POAS floor", v: "Always on", icon: "ph ph-chart-line-down" },
     ];
+    const receiptRow = (k, v, last) => ({ k, v, rowStyle: "display:flex;gap:14px;padding:8px 14px;font:400 12.5px var(--flb-font-body)" + (last ? "" : ";border-bottom:1px solid var(--flb-border-muted)") });
     const receiptRows = [
-      { k: "Role", v: roleTitle, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
-      { k: "Goal", v: goalTitle, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
-      { k: "Pain", v: painTitle, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
-      { k: "Metrics", v: metricsList.join(" → "), rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
-      { k: "Focus", v: focusList.join(" · "), rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body);border-bottom:1px solid var(--flb-border-muted)" },
-      { k: "Delivery", v: o.cadence + " · " + o.time + " · " + o.channel, rowStyle: "display:flex;gap:14px;padding:7px 14px;font:400 12.5px var(--flb-font-body)" },
+      receiptRow("Role", roleTitle, false),
+      receiptRow("Objectives", goalTitle, false),
+      receiptRow("KPIs", metricsList.join(", ") || "Not set", false),
+      receiptRow("Hurts", painTitle, false),
+      receiptRow("Catch", winLabel, false),
+      receiptRow("Involved", involveLabel, false),
+      receiptRow("Voice", voiceTitle, false),
+      receiptRow("Delivery", o.cadence + " · " + o.time + " · " + o.channel, true)
     ];
+    const canNext = oIs("role") ? !!o.role
+      : oIs("goal") ? this.orionSelectedObjectives().length > 0
+      : oIs("metrics") ? selectedKpis.length > 0
+      : oIs("voice") ? !!o.voice
+      : true;
+    const metricChips = [];
+    const focusChips = [];
     // Templates from role
     const orionTemplates = R ? R.tmpls.map((t) => ({ title: t.t, cat: "Starter", desc: t.d, avClass: "ph ph-file-text", sched: t.b, hasSched: false, prompt: "Run: " + t.t, onLoad: () => this.setState({ draft: "Run: " + t.t, orion: { ...this.state.orion, open: false } }) })).slice(0, this.state.tplOrder.length) : [];
 
@@ -3786,7 +4553,8 @@ class Component extends DCLogic {
       isScheduler: this.state.nav === "scheduler",
       isSchedulerNav: this.state.nav === "scheduler",
       isExplain: this.state.nav === "explain",
-      isHome: this.state.nav !== "creative" && this.state.nav !== "utm" && this.state.nav !== "explain" && this.state.nav !== "scheduler",
+      isSettings: this.state.nav === "settings",
+      isHome: this.state.nav !== "creative" && this.state.nav !== "utm" && this.state.nav !== "explain" && this.state.nav !== "scheduler" && this.state.nav !== "settings",
       goUtm: setNav("utm"),
       goScheduler: setNav("scheduler"),
       explainBadge: (this.FEAT_EXPLAIN[this.state.explainFeature] || this.FEAT_EXPLAIN.dashboard).badge,
@@ -3812,7 +4580,8 @@ class Component extends DCLogic {
       orionShort: isShort, orionFull: !isShort,
       orionInherited: oIs("inherited"), inheritedRows, accountOwner: this.ACCOUNT_OWNER,
       orionModeLabel: isShort ? "TEAM MEMBER SETUP" : "PERSONALIZE ORION",
-      orionStepCount: isShort ? "5 steps" : "7 steps",
+      orionStepCount: isShort ? (qCount + " steps") : (this.ORION_Q_COUNT + " questions"),
+      orionQBadge: (oIs("review") || oIs("inherited")) ? "REVIEW" : ("QUESTION " + qNum + " OF " + qCount),
       closeOrion: () => { if (this.state.orionOnboarding) this.skipAllPersonalization(); else this.setOrion({ open: false }); },
       skipOrionOnboarding: () => this.skipAllPersonalization(),
       orionOnboarding: this.state.orionOnboarding,
@@ -3822,44 +4591,61 @@ class Component extends DCLogic {
       orionStep2: oIs("pain"),
       orionStep3: oIs("metrics"),
       orionStep4: oIs("focus"),
+      orionStepAnomaly: oIs("anomaly"),
+      orionStepInvolve: oIs("involve"),
+      orionStepVoice: oIs("voice"),
       orionStep5: oIs("delivery") || (isShort && oIs("cadence")),
       orionStep6: oIs("review") || (isShort && oIs("inherited")),
       orionStep7: oIs("building"),
       orionReady: oIs("ready") || (isShort && oIs("receipt")),
-      orionStepLabel0: isShort ? "STEP 1 OF 5 · WHO YOU ARE" : "STEP 1 OF 7 · WHO YOU ARE",
-      orionStepLabel1: isShort ? "STEP 2 OF 5 · DAILY WATCH" : "STEP 2 OF 7 · YOUR GOAL",
-      orionStepLabel2: isShort ? "" : "STEP 3 OF 7 · BIGGEST PAIN",
-      orionStepLabel3: isShort ? "STEP 2 OF 5 · DAILY WATCH" : "STEP 4 OF 7 · DAILY WATCH",
-      orionStepLabel4: isShort ? "" : "STEP 5 OF 7 · FOCUS",
-      orionStepLabel5: isShort ? "STEP 3 OF 5 · DELIVERY" : "STEP 6 OF 7 · DELIVERY",
-      orionStepLabel6: isShort ? "STEP 4 OF 5 · REVIEW" : "FINAL REVIEW",
-      orionStepLabelReady: isShort ? "STEP 5 OF 5 · READY" : "",
+      orionStepLabel0: "", orionStepLabel1: "", orionStepLabel2: "", orionStepLabel3: "", orionStepLabel4: "", orionStepLabel5: "", orionStepLabel6: "", orionStepLabelReady: "",
       orionStory1: false, orionBeforeAfter: false, orionLikert: false, orionDreamTeam: false, orionCostCompare: false, orionStory2: false, orionStory3: false,
       orionBars1: [], orionBars2: [], orionBeforeBars: [], orionAfterBars: [], orionTeam: [], orionCostBars: [], orionLikertOpts: [], orionCadenceOpts: cadenceOpts, orionCadenceLegacy: false, orionIntroItems: [], orionMiniBars: [],
-      orionNotFirst: o.step > 0, orionShowSkip: oIs("pain") || oIs("focus") || this.state.orionOnboarding, orionIsLast: o.step === oTotal - 1,
-      orionShowNext: true,
-      orionSeg1Pct: o.step >= 0 ? "100%" : "0%",
-      orionSeg2Pct: o.step >= 1 ? "100%" : "0%",
-      orionSeg3Pct: o.step >= 2 ? "100%" : "0%",
-      orionSeg4Pct: o.step >= 3 ? "100%" : "0%",
-      orionSeg5Pct: o.step >= 4 ? "100%" : "0%",
-      orionSeg6Pct: o.step >= 5 ? "100%" : "0%",
-      orionSeg7Pct: o.step >= 6 ? "100%" : "0%",
-      orionSeg4Vis: true,
-      orionSeg5Vis: true,
-      orionSeg6Vis: !isShort,
-      orionSeg7Vis: !isShort,
-      orionNextLabel: oIs("review") ? "Generate my schedules & templates" : oIs("building") ? "" : "Continue →",
-      orionNextStyle: "display:" + (oIs("role") ? "none" : "flex") + ";align-items:center;justify-content:center;gap:8px;width:100%;height:48px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 15px var(--flb-font-body);box-shadow:var(--flb-glow-violet);cursor:pointer;opacity:" + (oIs("building") ? "0" : "1"),
+      orionNotFirst: o.step > 0 && !oIs("building"),
+      orionShowSkip: oIs("pain"),
+      orionIsLast: oIs("review"),
+      orionShowNext: !oIs("building"),
+      kpiGroups, anomalyLevels, involveOpts, customObjectiveChips,
+      hasCustomObjectives: (o.customObjectives || []).length > 0,
+      orionKpiHint: !!o.kpiHint,
+      orionObjectiveDraft: o.objectiveDraft || "",
+      onOrionObjectiveDraft: (e) => this.setOrion({ objectiveDraft: e.target.value }),
+      addOrionObjective: () => this.addOrionObjective(),
+      orionKpiDraft: o.kpiDraft || "",
+      onOrionKpiDraft: (e) => this.setOrion({ kpiDraft: e.target.value }),
+      addOrionKpi: () => this.addOrionKpi(),
+      orionPainDraft: o.painDraft || "",
+      onOrionPainDraft: (e) => this.setOrion({ painDraft: e.target.value }),
+      addOrionPain: () => this.addOrionPain(),
+      voiceOpts,
+      voiceOtherStyle: involveCard(voiceOtherOn),
+      onVoiceOther: () => this.setOrion({ voice: "other" }),
+      orionVoiceOtherOpen: voiceOtherOn,
+      orionVoiceOther: o.voiceOther || "",
+      onOrionVoiceOther: (e) => this.setOrion({ voiceOther: e.target.value }),
+      orionCadence: o.cadence,
+      orionCadenceMenu: !!o.cadenceMenu,
+      toggleCadenceMenu: () => this.setOrion({ cadenceMenu: !o.cadenceMenu, channelMenu: false }),
+      orionChannel: o.channel,
+      orionChannelMenu: !!o.channelMenu,
+      toggleChannelMenu: () => this.setOrion({ channelMenu: !o.channelMenu, cadenceMenu: false }),
+      orionChannelOpts: channelOpts,
+      orionNextLabel: oIs("ready") ? "Open Orion" : (oIs("review") ? "Generate my schedules & templates" : "Continue →"),
+      orionNextStyle: "display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 15px var(--flb-font-body);box-shadow:var(--flb-glow-violet);cursor:" + (canNext ? "pointer" : "not-allowed") + ";opacity:" + (canNext ? "1" : ".45"),
       orionNext: () => {
         const s = this.state.orion;
-        if (oIs("building") || oIs("ready")) return;
-        if (oIs("review")) { this.setOrion({ step: s.step + 1 }); setTimeout(() => this.setOrion({ step: this.state.orion.step + 1 }), 4000); return; }
-        if (s.step >= oTotal - 1) { if (this.state.orionOnboarding) this.finishOnboardingPersonalize(); else { this.setOrion({ open: false, done: true }); this.setState((st) => ({ steps: { ...st.steps, personalized: true } })); this.showToast("Your onboarding preferences have been saved"); } return; }
-        this.setOrion({ step: Math.min(oTotal - 1, s.step + 1) });
+        if (oIs("building")) return;
+        if (!canNext) return;
+        if (oIs("ready") || s.step >= oTotal - 1) { this.finishOnboardingPersonalize(); return; }
+        if (oIs("review")) { this.setOrion({ step: s.step + 1, cadenceMenu: false, channelMenu: false }); setTimeout(() => this.setOrion({ step: this.state.orion.step + 1 }), 4000); return; }
+        this.setOrion({ step: Math.min(oTotal - 1, s.step + 1), cadenceMenu: false, channelMenu: false });
       },
-      orionBack: () => { const s = this.state.orion; const prev = (s.step === 8) ? 6 : (s.step === 7) ? 6 : Math.max(0, s.step - 1); this.setOrion({ step: prev }); },
-      orionSkipStep: () => this.setOrion({ step: Math.min(oTotal - 1, this.state.orion.step + 1) }),
+      orionBack: () => {
+        const reviewIdx = OFLOW.indexOf("review");
+        if (oIs("ready") || oIs("building")) { this.setOrion({ step: Math.max(0, reviewIdx) }); return; }
+        this.setOrion({ step: Math.max(0, this.state.orion.step - 1), cadenceMenu: false, channelMenu: false });
+      },
+      orionSkipStep: () => this.setOrion({ step: Math.min(oTotal - 1, this.state.orion.step + 1), cadenceMenu: false, channelMenu: false }),
       selfAssessHighBorder: "var(--flb-line)", selfAssessHighBg: "transparent",
       selfAssessMedBorder: "var(--flb-line)", selfAssessMedBg: "transparent",
       selfAssessLowBorder: "var(--flb-line)", selfAssessLowBg: "transparent",
@@ -3913,6 +4699,12 @@ class Component extends DCLogic {
       model: this.state.model, effort: this.state.effort,
       modelOpen: this.state.menu === "model",
       toggleModelMenu: () => this.setState((s) => ({ menu: s.menu === "model" ? null : "model" })),
+      schedChipOpen: this.state.schedChipOpen,
+      toggleSchedChip: () => this.setState((s) => ({ schedChipOpen: !s.schedChipOpen })),
+      closeSchedChip: () => this.setState({ schedChipOpen: false }),
+      openSchedManage: () => this.setState({ schedChipOpen: false, nav: "scheduler" }),
+      schedChipRuns,
+      schedChipCount: String(schedChipRuns.length),
       isFast: this.state.model === "Fast", isStandard: this.state.model === "Standard", isPro: this.state.model === "Pro",
       FastStyle: modelRow(this.state.model === "Fast"), StandardStyle: modelRow(this.state.model === "Standard"), ProStyle: modelRow(this.state.model === "Pro"),
       setModelFast: () => this.setState({ model: "Fast" }), setModelStandard: () => this.setState({ model: "Standard" }), setModelPro: () => this.setState({ model: "Pro" }),
@@ -3943,9 +4735,9 @@ class Component extends DCLogic {
       expandedPasteText: (this.state.pastes.find((p) => p.id === this.state.expandedPaste) || {}).text || "",
       web: this.state.web,
       toggleWeb: (v) => this.setState({ web: typeof v === "boolean" ? v : !this.state.web }),
-      banner: this.state.banner && !o.done,
+      banner: this.state.banner && !o.done && this.state.nav !== "settings",
       dismissBanner: () => this.setState({ banner: false }),
-      checklistMinimized: !this.state.checklistOpen && !hasThread, checklistOpen: this.state.checklistOpen && !hasThread,
+      checklistMinimized: !this.state.checklistOpen && !hasThread && this.state.nav !== "settings", checklistOpen: this.state.checklistOpen && !hasThread && this.state.nav !== "settings",
       openChecklist: () => this.setState({ checklistOpen: true }),
       minimizeChecklist: () => this.setState({ checklistOpen: false }),
       messages,
@@ -3953,6 +4745,7 @@ class Component extends DCLogic {
       hasThread,
       msgActionBtn: actBtn,
       empty: !hasThread && !this.state.chatLoading,
+      showSchedChip: !hasThread && !this.state.chatLoading && !this.state.orion.open && this.state.nav !== "creative" && this.state.nav !== "utm" && this.state.nav !== "explain" && this.state.nav !== "scheduler" && this.state.nav !== "settings",
       chatLoading: this.state.chatLoading,
       startNewChat: () => {
         clearTimeout(this._t); clearTimeout(this._nc);
@@ -4005,21 +4798,21 @@ class Component extends DCLogic {
       screenOtp: this.state.screen === "otp",
       screenLoading: this.state.screen === "loading",
       screenProfiles: this.state.screen === "profiles",
-      loadTitle: ["Verifying your email", "Pulling your workspace", "Preparing your profiles", "Almost ready"][Math.min(this.state.loadStage, 3)],
-      loadSub: ["Confirming the code you just entered", "Checking connected ad accounts", "Loading brand profiles and permissions", "Opening your workspace"][Math.min(this.state.loadStage, 3)],
+      loadTitle: ["Verifying your email", "Pulling your workspace", "Preparing your client IDs", "Almost ready"][Math.min(this.state.loadStage, 3)],
+      loadSub: ["Confirming the code you just entered", "Checking connected ad accounts", "Loading client IDs and permissions", "Opening your workspace"][Math.min(this.state.loadStage, 3)],
       loadPct: ["18%", "46%", "78%", "100%"][Math.min(this.state.loadStage, 3)],
       obShowSteps: ["connect", "confirm", "plans", "settingup"].includes(this.state.screen),
-      profileCards, profileHint: "You can add more profiles later from Settings.",
-      profileCta: selProfile ? "Continue as " + selProfile.name : "Select a profile",
+      profileCards, profileHint: "Need another store or client? Add one. Same registration, new client ID.",
+      profileCta: selProfile ? "Continue as " + selProfile.name : "Select a client",
       pfBg: pfC.bg, pfColor: pfC.color, pfCursor: pfC.cursor, pfOpacity: pfC.opacity,
       profileContinue: () => { if (!this.state.profileSel) return; this.goScreen("connect"); },
-      addProfile: () => this.setState((st) => ({ profiles: st.profiles.concat([{ id: "w" + (st.profiles.length + 1), name: "New profile", role: "Not set up", ch: "No channels yet" }]) })),
+      addProfile: () => this.startAddClient("profiles"),
       signupSso: this.state.googleAuthed, signupNotSso: !this.state.googleAuthed,
       companyValid: compOk, pwRules, signupDisabled: !signupValid,
       suBg: suC.bg, suColor: suC.color, suCursor: suC.cursor, suOpacity: suC.opacity,
       liBg: liC.bg, liColor: liC.color, liCursor: liC.cursor, liOpacity: liC.opacity,
       refBg: refC.bg, refColor: refC.color, refCursor: refC.cursor, refOpacity: refC.opacity,
-      logOut: () => { clearInterval(this._ls); this.setState((st) => ({ menu: null, screen: "login", otp: "", authPassword: "", googleAuthed: false, tourStep: -1, tourRect: null, checklistOpen: false, profileSel: null, profileMenu: null, nav: "chats", draft: "", messages: [], pastes: [], banner: true, plan: 1, planId: "intel", spendBand: 1, billingCycle: "yr", currency: "usd", orionOnboarding: false, explainFeature: null, loadStage: 0, referralOpen: false, referralCode: "", steps: { connected: false, confirmed: false, referral: false, credits: false, personalized: false, utm: false }, profiles: [{ id: "lum", name: "Luminary Skincare", role: "Default", ch: "Meta · Google · Shopify" }], orion: { ...st.orion, open: false, step: 0, done: false } })); },
+      logOut: () => { clearInterval(this._ls); this.setState((st) => ({ menu: null, screen: "login", otp: "", authPassword: "", googleAuthed: false, tourStep: -1, tourRect: null, checklistOpen: false, profileSel: null, profileMenu: null, nav: "chats", draft: "", messages: [], pastes: [], banner: true, plan: 1, planId: "intel", spendBand: 1, billingCycle: "yr", currency: "usd", orionOnboarding: false, explainFeature: null, loadStage: 0, referralOpen: false, referralCode: "", addingClient: false, addClientReturn: "profiles", clientDraft: null, settingsTab: "people", inviteEmail: "", memberSel: "abbas", members: this.defaultMembers(), featAccess: this.defaultFeatAccess(), steps: { connected: false, confirmed: false, referral: false, credits: false, personalized: false, utm: false }, profiles: [{ id: "lum", clientId: "LS-2841", name: "Luminary Skincare", role: "Default", ch: "Meta · Google · Shopify" }], orion: { ...st.orion, open: false, step: 0, done: false } })); },
       screenConnect: this.state.screen === "connect",
       screenConfirm: this.state.screen === "confirm",
       screenPlans: this.state.screen === "plans",
@@ -4030,8 +4823,47 @@ class Component extends DCLogic {
       authThemeClass: this.state.theme === "light" ? "light" : "",
       authThemeIcon: this.icon(this.state.theme === "light" ? "moon" : "sun", 18),
       toggleAuthTheme: () => this.setState((s) => ({ theme: s.theme === "light" ? "dark" : "light" })),
-      obStep: ({ connect: 1, confirm: 2, plans: 3, settingup: 4 })[this.state.screen] || 1,
-      obPct: ({ connect: "22%", confirm: "50%", plans: "78%", settingup: "100%" })[this.state.screen] || "0%",
+      obStep: addingClient ? (this.state.screen === "confirm" ? 2 : 1) : (({ connect: 1, confirm: 2, plans: 3, settingup: 4 })[this.state.screen] || 1),
+      obTotal: addingClient ? 2 : 4,
+      obPct: addingClient ? (this.state.screen === "confirm" ? "100%" : "50%") : (({ connect: "22%", confirm: "50%", plans: "78%", settingup: "100%" })[this.state.screen] || "0%"),
+      addingClient,
+      notAddingClient: !addingClient,
+      cancelAddClient: () => this.cancelAddClient(),
+      connectTitle: addingClient ? ("Connect ads for " + (this.state.clientDraft && this.state.clientDraft.name || "this client")) : "Connect your ad accounts",
+      connectSub: addingClient ? ("Same registration as last time. This data stays on client ID " + (this.state.clientDraft && this.state.clientDraft.clientId || "") + ".") : "We'll pull 30 days of campaign data through read-only OAuth. Connect at least one to generate your free audit.",
+      confirmCompany: brand.company, confirmSite: brand.site, confirmIndustry: brand.industry, confirmCountry: brand.country, confirmAudience: brand.audience, confirmVoice: brand.voice, confirmUsp: brand.usp, confirmColor: brand.color, confirmInitial: brand.initial, confirmClientId: brand.clientId,
+      confirmCta: addingClient ? "Add client ID" : "Get My Free Audit",
+      clientChipName: liveClient.name || "Luminary Skincare",
+      clientChipId: liveClient.clientId || "LS-2841",
+      clientChipInitial: (poolById[liveClient.id] || brand).initial || "L",
+      clientChipColor: (poolById[liveClient.id] || brand).color || "var(--flb-magenta)",
+      clientMenuOpen: this.state.menu === "client",
+      clientChipZ: this.state.menu === "client" ? "56" : "1",
+      toggleClientMenu: () => this.setState((s) => ({ menu: s.menu === "client" ? null : "client" })),
+      clientSwitchRows, clientRows,
+      addClientFromApp: () => this.startAddClient("app"),
+      openSettings: () => { this.setState({ menu: null }); this.goFeat("settings"); },
+      settingsTabPeople: settingsPeople, settingsTabClients: !settingsPeople,
+      setSettingsPeople: () => this.setState({ settingsTab: "people" }),
+      setSettingsClients: () => this.setState({ settingsTab: "clients" }),
+      settingsPeopleTabStyle: settingsPeople ? tabOn : tabOff,
+      settingsClientsTabStyle: settingsPeople ? tabOff : tabOn,
+      seatLabel: seatUsed + " of " + seatCap + " seats on " + this.currentPlanDef().name,
+      seatFillPct, seatHint: seatsFull ? "Upgrade the plan for more seats." : "Invites use a seat on this plan.",
+      inviteEmail: this.state.inviteEmail,
+      onInviteEmail: (e) => this.setState({ inviteEmail: e.target.value }),
+      inviteMember: () => this.inviteMember(),
+      inviteBtnStyle: "height:40px;padding:0 16px;border-radius:10px;border:none;background:" + (seatsFull ? "var(--flb-surface-3)" : "var(--flb-purple)") + ";color:#fcfcfc;font:500 13.5px var(--flb-font-body);cursor:" + (seatsFull ? "not-allowed" : "pointer") + ";opacity:" + (seatsFull ? ".7" : "1"),
+      memberRows,
+      permName: permMember ? permMember.name : "",
+      permCaption: permIsAdmin ? "Admins see every module on this plan." : "Toggles only restrict modules this plan already includes.",
+      permAdminStyle: permIsAdmin ? roleSegOn : roleSegOff,
+      permMemberStyle: permIsAdmin ? roleSegOff : roleSegOn,
+      permSetAdmin: () => { if (permMember) this.setMemberRole(permMember.id, "Admin"); },
+      permSetMember: () => { if (permMember) this.setMemberRole(permMember.id, "Member"); },
+      permFeatRows,
+      permCanRemove: !!(permMember && !permMember.you),
+      permRemove: () => { if (permMember) this.removeMember(permMember.id); },
 
       // auth fields
       authName: this.state.authName, authEmail: this.state.authEmail, authCompany: this.state.authCompany, authPassword: this.state.authPassword,
@@ -4043,7 +4875,7 @@ class Component extends DCLogic {
       gotoForgot: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ screen: "reset", resetStep: "email", resetEmail: this.state.authEmail || "", resetCode: "", resetExpired: false, newPass: "", confirmPass: "" }); },
       ...rp,
       gotoSignup: () => this.goScreen("signup"),
-      signIn: () => { if (!loginValid) return; this.setState({ screen: "app" }); },
+      signIn: () => { if (!loginValid) return; const first = (this.state.profiles[0] && this.state.profiles[0].id) || "lum"; this.setState({ screen: "app", profileSel: this.state.profileSel || first }); },
       googleAuth: () => this.setState({ screen: "signup", googleAuthed: true, menu: null, authName: "Sarah Chen", authEmail: "sarah@luminaryskincare.com", authCompany: "", authPassword: "" }),
       signupContinue: () => { if (!signupValid) return; this.goScreen("otp"); },
 
@@ -4069,8 +4901,8 @@ class Component extends DCLogic {
       connectContinue: () => { if (Object.values(this.state.accounts).some(Boolean)) { this.setState((st) => ({ steps: { ...st.steps, connected: true } })); this.goScreen("confirm"); } },
 
       // confirm + referral
-      confirmSubmit: () => { this.setState((st) => ({ steps: { ...st.steps, confirmed: true }, referralOpen: true })); },
-      referralOpen: this.state.referralOpen,
+      confirmSubmit: () => { if (this.state.addingClient) { this.finishAddClient(); return; } this.setState((st) => ({ steps: { ...st.steps, confirmed: true }, referralOpen: true })); },
+      referralOpen: this.state.referralOpen && !this.state.addingClient,
       referralCode: this.state.referralCode,
       onReferral: (e) => this.setState({ referralCode: e.target.value }),
       applyReferral: () => { if (!refValid) return; this.setState((st) => ({ referralOpen: false, steps: { ...st.steps, referral: true }, screen: "plans" })); },
@@ -4165,15 +4997,15 @@ class Component extends DCLogic {
   var arrowSvg='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
 
   var tipData={
-    'Dashboard':['Dashboard','Your central command center — see alerts & opportunities, Meta Ads performance and Web Analytics at a glance.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/dashboard'],
-    'Pulse':['Pulse','Performance insights across all your Meta Ads accounts — track ROAS per account, spot trends with AI Lens alerts, and see each account\'s best & worst performing days at a glance.','https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=280&h=100&fit=crop','https://flable.ai/docs/pulse'],
+    'Dashboard':['Dashboard','Your central command center. See alerts & opportunities, Meta Ads performance and Web Analytics at a glance.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/dashboard'],
+    'Pulse':['Pulse','Performance insights across all your Meta Ads accounts. Track ROAS per account, spot trends with AI Lens alerts, and see each account\'s best & worst performing days at a glance.','https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=280&h=100&fit=crop','https://flable.ai/docs/pulse'],
     'Attribution':['Attribution','Track and credit the exact touchpoints driving your user conversions.','https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=280&h=100&fit=crop','https://flable.ai/docs/attribution'],
     'Insights':['Insights','Explore deep data analysis and trends automatically generated for your account.','https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=280&h=100&fit=crop','https://flable.ai/docs/insights'],
     'Product Insights':['Product Insights','Analyze how users are interacting with specific features inside your product.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/product-insights'],
-    'Creative Insights':['Creative Insights','AI-scored creative performance — see every ad ranked by decision, funnel health & fatigue. Filter by Replicate, Monitor, Refresh/Test or Reduce/Pause, with deep-dive insights per ad.','https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=280&h=100&fit=crop','https://flable.ai/docs/creative-insights'],
-    'Scheduler':['Scheduler','Reports to email, Slack or WhatsApp on the cadence you set — no credits for the send.','https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=280&h=100&fit=crop','https://flable.ai/docs/scheduler'],
+    'Creative Insights':['Creative Insights','AI-scored creative performance. See every ad ranked by decision, funnel health & fatigue. Filter by Replicate, Monitor, Refresh/Test or Reduce/Pause, with deep-dive insights per ad.','https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=280&h=100&fit=crop','https://flable.ai/docs/creative-insights'],
+    'Scheduler':['Scheduler','Reports to email, Slack or WhatsApp on the cadence you set. No credits for the send.','https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=280&h=100&fit=crop','https://flable.ai/docs/scheduler'],
     'Inventory Health':['Inventory Health','Flags spend pushing traffic to out-of-stock SKUs before the next daily budget cycle.','https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=280&h=100&fit=crop','https://flable.ai/docs/inventory-health'],
-    'Integrations':['Integrations','Connect your entire stack — CRM & channels, shipping, ad accounts, analytics and socials.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/integrations'],
+    'Integrations':['Integrations','Connect your entire stack. CRM & channels, shipping, ad accounts, analytics and socials.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/integrations'],
     'Bookmarks':['Bookmarks','Access your saved views, favorite reports, and pinned data points quickly.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/bookmarks'],
     'Optimizations':['Optimizations','Review and apply AI-driven recommendations to improve your efficiency.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/optimizations'],
     'UTM Status':['UTM Status','Audit your tracking links to ensure proper campaign tagging and data hygiene.','https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=280&h=100&fit=crop','https://flable.ai/docs/utm-status'],
