@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What we work on next · The return loop · Flable</title>
+<style>
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: block;
+    src: url("fonts/inter-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: url("fonts/poppins-500-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: url("fonts/poppins-600-latin.woff2") format("woff2");
+  }
+
+  :root {
+    --bg: rgb(252, 252, 252);
+    --canvas: rgb(234, 234, 234);
+    --card: rgb(252, 252, 252);
+    --wash: rgb(245, 245, 245);
+    --ink: rgb(21, 21, 23);
+    --ink-2: rgb(74, 74, 79);
+    --ink-3: rgb(137, 137, 137);
+    --line: rgb(229, 229, 231);
+    --violet: rgb(100, 60, 193);
+    --purple: rgb(127, 86, 217);
+    --violet-deep: rgb(83, 56, 158);
+    --tint: rgba(100, 60, 193, 0.10);
+    --on-violet: rgb(83, 56, 158);
+    --grad: linear-gradient(92deg, rgb(233, 52, 139) 0%, rgb(127, 86, 217) 52%, rgb(0, 158, 255) 100%);
+    --display: "Poppins", "Segoe UI", sans-serif;
+    --body: "Inter", "Segoe UI", sans-serif;
+    --slide-w: 1920;
+    --slide-h: 1080;
+    --nav-h: 56px;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --track: rgb(229, 229, 231);
+    --track-fill: rgb(137, 137, 137);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { overflow: hidden; }
+
+  .stage {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    background: var(--canvas);
+  }
+
+  .frame {
+    width: min(100vw, calc(100vh * 16 / 9));
+    height: min(100vh, calc(100vw * 9 / 16));
+    position: relative;
+    background: var(--bg);
+    box-shadow: 0 20px 48px rgba(10, 13, 18, 0.12), 0 0 0 1px rgba(10, 13, 18, 0.05);
+    overflow: hidden;
+  }
+
+  .slides {
+    position: absolute;
+    inset: 0 0 var(--nav-h) 0;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    padding: 4.6% 5.4% 3.4%;
+    background: var(--bg);
+    gap: 22px;
+  }
+  .slide.is-on { display: flex; }
+  .slide::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--grad);
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand svg { display: block; }
+  .brand-name {
+    font: 500 18px/1 var(--display);
+    letter-spacing: -0.02em;
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font: 500 13px/1 var(--body);
+    color: var(--ink-3);
+  }
+  .pill {
+    height: 26px;
+    padding: 0 11px;
+    border-radius: 9999px;
+    background: var(--tint);
+    color: var(--on-violet);
+    font: 500 12px/26px var(--body);
+  }
+  .pill.quiet {
+    background: var(--wash);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+  }
+
+  h1 {
+    font: 500 52px/1.12 var(--display);
+    letter-spacing: -0.03em;
+    max-width: 16em;
+  }
+  .lede {
+    font: 400 20px/1.45 var(--body);
+    color: var(--ink-2);
+    max-width: 36em;
+  }
+  .kicker {
+    font: 600 12px/1 var(--body);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--violet-deep);
+    margin-bottom: 10px;
+  }
+
+  .quote {
+    background: var(--tint);
+    border: 1px solid rgba(100, 60, 193, 0.14);
+    border-radius: 16px;
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: 4px 1fr;
+    gap: 18px;
+    max-width: 52em;
+  }
+  .quote-bar {
+    width: 4px;
+    border-radius: 9999px;
+    background: var(--grad);
+  }
+  .quote p {
+    font: 500 26px/1.35 var(--display);
+    letter-spacing: -0.02em;
+  }
+
+  .cols {
+    display: grid;
+    gap: 14px;
+    flex: 1;
+    min-height: 0;
+    align-content: start;
+  }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-5 { grid-template-columns: 1fr 1.28fr 1fr 1fr 1fr; }
+
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 22px 22px;
+    background: var(--card);
+    min-height: 0;
+  }
+  .card.wash { background: var(--wash); }
+  .card.hi {
+    background: var(--tint);
+    border-color: rgba(100, 60, 193, 0.18);
+  }
+  .card h2 {
+    font: 500 22px/1.25 var(--display);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .card p, .card li {
+    font: 400 16px/1.5 var(--body);
+    color: var(--ink-2);
+  }
+  .card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .card li {
+    color: var(--ink);
+    padding-left: 0;
+  }
+  .phase {
+    font: 600 12px/1 var(--body);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--violet-deep);
+    margin-bottom: 10px;
+  }
+  .when {
+    font: 500 13px/1 var(--body);
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+
+  .points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .points li {
+    display: grid;
+    grid-template-columns: 8px 1fr;
+    gap: 12px;
+    font: 400 18px/1.45 var(--body);
+    color: var(--ink);
+    max-width: 38em;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--purple);
+    margin-top: 8px;
+  }
+
+  .ask {
+    margin-top: auto;
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    font: 500 18px/1.4 var(--display);
+    letter-spacing: -0.015em;
+  }
+
+  .q {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 14px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .q:last-child { border-bottom: 0; }
+  .qn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--tint);
+    color: var(--on-violet);
+    font: 600 16px/40px var(--display);
+    text-align: center;
+  }
+  .q h2 { font: 500 20px/1.25 var(--display); letter-spacing: -0.02em; }
+  .q p { margin-top: 4px; font: 400 16px/1.45 var(--body); color: var(--ink-2); }
+
+  .feed {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .feed-h {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+    font: 500 14px/1 var(--body);
+  }
+  .live {
+    font: 500 12px/1 var(--body);
+    color: var(--on-violet);
+    background: var(--tint);
+    padding: 5px 9px;
+    border-radius: 9999px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .row:last-child { border-bottom: 0; }
+  .row b { display: block; font: 500 15px/1.3 var(--body); }
+  .row span { display: block; margin-top: 3px; font: 400 13px/1.35 var(--body); color: var(--ink-3); }
+  .go {
+    align-self: center;
+    font: 500 13px/1 var(--body);
+    color: var(--violet-deep);
+  }
+
+  .nav {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    background: var(--bg);
+    border-top: 1px solid var(--line);
+    z-index: 2;
+  }
+  .nav-btns { display: flex; gap: 8px; }
+  .nav button {
+    height: 34px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--wash);
+    color: var(--ink);
+    font: 500 13px/1 var(--body);
+    cursor: pointer;
+  }
+  .nav button:hover { background: rgb(234, 234, 234); }
+  .nav button:disabled { opacity: 0.38; cursor: default; }
+  .dots { display: flex; gap: 7px; align-items: center; }
+  .dots button {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border-radius: 9999px;
+    border: 0;
+    background: var(--track);
+    cursor: pointer;
+  }
+  .dots button[aria-current="true"] {
+    width: 22px;
+    background: var(--track-fill);
+  }
+  .count {
+    font: 500 12px/1 var(--body);
+    color: var(--ink-3);
+    min-width: 4.5em;
+    text-align: right;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dots button { transition: none; }
+  }
+
+  @page { size: 338.67mm 190.5mm; margin: 0; }
+  @media print {
+    html, body { background: var(--bg); overflow: visible; height: auto; }
+    .stage { display: block; width: auto; height: auto; background: var(--bg); }
+    .frame {
+      width: 338.67mm;
+      height: auto;
+      box-shadow: none;
+      overflow: visible;
+    }
+    .slides { position: static; }
+    .slide {
+      position: relative;
+      display: flex !important;
+      width: 338.67mm;
+      height: 190.5mm;
+      page-break-after: always;
+      break-after: page;
+    }
+    .slide:last-of-type { page-break-after: auto; }
+    .nav { display: none; }
+  }
+</style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <defs>
+      <linearGradient id="m0" x1="13.63" y1="12.66" x2="10.5" y2="22.67" gradientUnits="userSpaceOnUse"><stop stop-color="#8714D2"/><stop offset="1" stop-color="#2A32DD"/></linearGradient>
+      <linearGradient id="m1" x1="5.06" y1="25.35" x2="5" y2="29.67" gradientUnits="userSpaceOnUse"><stop stop-color="#157EF3"/><stop offset="1" stop-color="#02A2FA"/></linearGradient>
+      <linearGradient id="m2" x1="14" y1="2.67" x2="12.5" y2="15.67" gradientUnits="userSpaceOnUse"><stop stop-color="#FC2272"/><stop offset="1" stop-color="#B717B4"/></linearGradient>
+    </defs>
+  </svg>
+
+  <div class="stage">
+    <div class="frame" id="frame">
+      <div class="slides" id="slides">
+
+        <section class="slide is-on" data-title="What we work on next" aria-label="What we work on next">
+          <header class="top">
+            <div class="brand">
+              <svg width="28" height="28" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+                <path d="M13.34 12.6641H27.2616C26.6618 17.1915 23.1016 19.9872 19.7022 21.0785C17.0919 21.9166 14.6326 21.4709 13.34 21.7284C10.676 22.2592 8.22052 23.0242 5.67807 25.2174C3.91145 26.7413 2.17362 29.0181 0 32.2295V21.7969C2.77062 15.5031 7.90141 12.6641 13.34 12.6641Z" fill="url(#m0)"/>
+                <path d="M5.64386 25.2517C3.87725 26.7756 2.17362 29.1208 0 32.3321C2.12072 32.3321 4.68612 31.5553 6.80684 29.7325C10.9457 26.1752 8.41449 23.1651 13.3742 21.7285C10.7102 22.2592 8.18632 23.0585 5.64386 25.2517Z" fill="url(#m1)"/>
+                <path d="M0 13.5191V21.7284C0.410469 20.9074 0.684111 20.3602 1.19718 19.505C3.9336 12.8692 9.20121 10.2696 13.8189 10.2696L24.5594 10.2012C26.0087 10.2012 28.5599 9.35318 30.4769 7.70423C32.5864 5.88966 34 3.16838 34 1H13.5453C7.93561 1 0.855131 5.5835 0 13.5191Z" fill="url(#m2)"/>
+              </svg>
+              <span class="brand-name">flable.ai</span>
+            </div>
+            <div class="meta">
+              <span>Abbas · for the team</span>
+              <span class="pill quiet">Internal</span>
+            </div>
+          </header>
+          <p class="kicker">The return loop</p>
+          <h1>What we work on next</h1>
+          <p class="lede">Live first-run stays. The prototype will match those screens so we are looking at one product. Then we make the sign-in promise true, so people come back.</p>
+          <p class="ask">Today: the order of work, one idea for shipping UI without a hard cutover, and four questions I need you to answer.</p>
+        </section>
+
+        <section class="slide" data-title="The goal" aria-label="The goal">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span class="pill">Anirudh</span></div>
+          </header>
+          <p class="kicker">North star</p>
+          <div class="quote">
+            <div class="quote-bar"></div>
+            <p>Understand Orion. Understand Flable’s features. An experience that makes them want to come back.</p>
+          </div>
+          <div class="cols cols-3">
+            <article class="card">
+              <p class="phase">Orion</p>
+              <h2>They know what it is for</h2>
+              <p>Not an empty chat. A home that already did the work.</p>
+            </article>
+            <article class="card">
+              <p class="phase">Features</p>
+              <h2>They find Pulse and Insights</h2>
+              <p>From Orion, not from a sidebar tour.</p>
+            </article>
+            <article class="card hi">
+              <p class="phase">Return</p>
+              <h2>They have a reason to come back</h2>
+              <p>Next session is “while you were away.” That is the loop.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-title="The order of work" aria-label="The order of work">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span>Order is the point</span></div>
+          </header>
+          <p class="kicker">Timeline</p>
+          <h1>We do this in order</h1>
+          <div class="cols cols-5">
+            <article class="card wash">
+              <p class="phase">P0</p>
+              <p class="when">This week</p>
+              <h2>Match live first-run</h2>
+              <p>Same screens and gates. Keep the craft.</p>
+            </article>
+            <article class="card hi">
+              <p class="phase">P1 · the bet</p>
+              <p class="when">Highest leverage</p>
+              <h2>Orion home is the feed</h2>
+              <p>This is the work for the CEO goal.</p>
+            </article>
+            <article class="card">
+              <p class="phase">P2</p>
+              <p class="when">After home</p>
+              <h2>Setup that can finish</h2>
+              <p>One Meta path. Shopify that matches. Tracking unlocks.</p>
+            </article>
+            <article class="card">
+              <p class="phase">P3</p>
+              <p class="when">Then</p>
+              <h2>Features from Orion</h2>
+              <p>Not a tour of the sidebar.</p>
+            </article>
+            <article class="card">
+              <p class="phase">P4</p>
+              <p class="when">After home works</p>
+              <h2>Many client IDs</h2>
+              <p>Not in first-run.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-title="P0 · This week" aria-label="P0 this week">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span class="pill">P0</span></div>
+          </header>
+          <p class="kicker">This week</p>
+          <h1>Align the prototype to live first-run</h1>
+          <ul class="points">
+            <li><span class="dot"></span>Same screens. Same gates. Design-system craft stays.</li>
+            <li><span class="dot"></span>Not a new signup. Live first-run is already approved.</li>
+            <li><span class="dot"></span>We stop looking at two products.</li>
+          </ul>
+          <p class="ask">This is alignment, not a new onboarding bet.</p>
+        </section>
+
+        <section class="slide" data-title="P1 · The bet" aria-label="P1 the bet">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span class="pill">P1 · the bet</span></div>
+          </header>
+          <p class="kicker">Highest leverage for the goal</p>
+          <h1>Orion home becomes the activity feed</h1>
+          <div class="cols cols-2">
+            <div>
+              <ul class="points">
+                <li><span class="dot"></span>The sign-in teaser already says it: “While you were away, Orion found 3 things…”</li>
+                <li><span class="dot"></span>First audit after connect. Next session is that feed, not an empty chat.</li>
+                <li><span class="dot"></span>Rows open Pulse, Insights, or chat.</li>
+              </ul>
+            </div>
+            <div class="feed" aria-hidden="true">
+              <div class="feed-h">Orion · Activity Feed <span class="live">While you were away</span></div>
+              <div class="row"><div><b>Brand Search ROAS jumped +18%</b><span>Now at 6.2x</span></div><span class="go">Pulse</span></div>
+              <div class="row"><div><b>Pmax fatigue warning</b><span>Frequency hit 4.6</span></div><span class="go">Insights</span></div>
+              <div class="row"><div><b>Budget shift plan ready</b><span>Needs your review</span></div><span class="go">Chat</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="P2 · Setup that can finish" aria-label="P2 setup that can finish">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span class="pill quiet">P2</span></div>
+          </header>
+          <p class="kicker">After the home works</p>
+          <h1>Setup that can finish</h1>
+          <div class="cols cols-2">
+            <article class="card">
+              <h2>One Meta story</h2>
+              <p>Live has OAuth on first-run and paste-token in Integrations. We pick one product story.</p>
+            </article>
+            <article class="card">
+              <h2>Shopify like first-run</h2>
+              <p>Not a logistics API-key form. Same connect language as the rest of setup.</p>
+            </article>
+            <article class="card">
+              <h2>Repair Ad Tracking unlocks</h2>
+              <p>The step should open when the product can actually do the work.</p>
+            </article>
+            <article class="card">
+              <h2>Templates they can use</h2>
+              <p>After personalization, something they can run, not a dead end.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-title="P3 then P4" aria-label="P3 then P4">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span>After home</span></div>
+          </header>
+          <p class="kicker">Then, not now</p>
+          <h1>Features from Orion, then many clients</h1>
+          <div class="cols cols-2">
+            <article class="card">
+              <p class="phase">P3</p>
+              <h2>Discover features from Orion</h2>
+              <p>Pulse, Insights, the rest of Flable — found from the feed and from Orion. Not a sidebar tour we hope they remember.</p>
+            </article>
+            <article class="card wash">
+              <p class="phase">P4 · Anirudh</p>
+              <h2>One account, many client IDs</h2>
+              <p>Repeat Connect → Confirm only. Not in first-run. We do this after Orion home delivers the sign-in promise.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-title="Idea · Opt-in new UI" aria-label="Idea opt-in new UI">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span class="pill">Proposal · not committed</span></div>
+          </header>
+          <p class="kicker">Concern, then an idea</p>
+          <h1>Do not rip out live UI. Let people opt in.</h1>
+          <div class="cols cols-3">
+            <article class="card">
+              <p class="phase">Problem</p>
+              <h2>Live already has users</h2>
+              <p>Engineering is right to be unsure about overriding the current UI. A hard cutover is risky.</p>
+            </article>
+            <article class="card hi">
+              <p class="phase">Pattern</p>
+              <h2>Writesonic-style switch</h2>
+              <p>They shipped a new UI. Users chose to switch. Prompts at onboarding, in notifications, and in the product: “try the new UI — you can do X here.”</p>
+            </article>
+            <article class="card">
+              <p class="phase">Ask</p>
+              <h2>Opt-in, not a big bang</h2>
+              <p>Are we open to an opt-in new experience instead of replacing live for everyone?</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="slide" data-title="The new UI has to teach itself" aria-label="The new UI has to teach itself">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span class="pill">Design implication</span></div>
+          </header>
+          <p class="kicker">If we go this way</p>
+          <h1>The new UI has to teach itself</h1>
+          <ul class="points">
+            <li><span class="dot"></span>I will need to really improve the prototype — not just prettier screens.</li>
+            <li><span class="dot"></span>Educational, informative guidance at every point, so the product explains itself.</li>
+            <li><span class="dot"></span>Prompts while they work: this is better in the new UI, and you can switch back.</li>
+            <li><span class="dot"></span>If the new experience does not teach, the switch fails. That is on design, not on a flag.</li>
+          </ul>
+          <p class="ask">This is an idea for the team. Not engineering work until we agree.</p>
+        </section>
+
+        <section class="slide" data-title="Questions for the team" aria-label="Questions for the team">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span>Still unknown · from live</span></div>
+          </header>
+          <p class="kicker">I need answers, not guesses</p>
+          <div>
+            <div class="q">
+              <div class="qn">1</div>
+              <div>
+                <h2>Confirm Details and pricing</h2>
+                <p>Never painted (0 connections). What is actually on those screens? Is pricing still in first-run?</p>
+              </div>
+            </div>
+            <div class="q">
+              <div class="qn">2</div>
+              <div>
+                <h2>Setup stays 0 of 3</h2>
+                <p>Ads are connected, Shopify is pending. Is that intended?</p>
+              </div>
+            </div>
+            <div class="q">
+              <div class="qn">3</div>
+              <div>
+                <h2>Two Meta connect UIs</h2>
+                <p>OAuth on first-run vs paste token in Integrations. Which is the product story?</p>
+              </div>
+            </div>
+            <div class="q">
+              <div class="qn">4</div>
+              <div>
+                <h2>First-run does not grow yet</h2>
+                <p>No client picker, no plan grid, until Orion home delivers the sign-in promise. Do we agree?</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-title="From this room" aria-label="From this room">
+          <header class="top">
+            <div class="brand"><span class="brand-name">flable.ai</span></div>
+            <div class="meta"><span>Close</span></div>
+          </header>
+          <p class="kicker">What I need</p>
+          <h1>From this room</h1>
+          <div class="cols cols-3">
+            <article class="card hi">
+              <p class="phase">1</p>
+              <h2>P1 is the bet</h2>
+              <p>Orion home is the feed. That is what we work toward after this week’s alignment.</p>
+            </article>
+            <article class="card">
+              <p class="phase">2</p>
+              <h2>Opt-in or override?</h2>
+              <p>If we are open to a Writesonic-style switch, I will design the new UI to teach itself.</p>
+            </article>
+            <article class="card">
+              <p class="phase">3</p>
+              <h2>The four answers</h2>
+              <p>Pricing, Setup 0 of 3, one Meta story, and first-run stays small until home works.</p>
+            </article>
+          </div>
+          <p class="ask">Then I go make the return loop real.</p>
+        </section>
+
+      </div>
+
+      <nav class="nav" aria-label="Deck">
+        <div class="nav-btns">
+          <button type="button" id="prev" aria-label="Previous slide">Prev</button>
+          <button type="button" id="next" aria-label="Next slide">Next</button>
+        </div>
+        <div class="dots" id="dots"></div>
+        <div class="count" id="count" aria-live="polite"></div>
+      </nav>
+    </div>
+  </div>
+
+<script>
+(function () {
+  const FIRST_INDEX = 0;
+  const STEP = 1;
+  const HASH_OFFSET = 1;
+  const KEYS_NEXT = ["ArrowRight", "ArrowDown", "PageDown", " ", "Space"];
+  const KEYS_PREV = ["ArrowLeft", "ArrowUp", "PageUp", "Backspace"];
+  const KEY_HOME = "Home";
+  const KEY_END = "End";
+  const CLASS_ON = "is-on";
+  const ARIA_CURRENT = "true";
+
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const lastIndex = slides.length - STEP;
+  const dotsRoot = document.getElementById("dots");
+  const countEl = document.getElementById("count");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const slideCount = slides.length;
+
+  let index = FIRST_INDEX;
+
+  function indexFromHash() {
+    const raw = window.location.hash.replace("#", "");
+    const parsed = parseInt(raw, 10);
+    if (Number.isNaN(parsed)) return FIRST_INDEX;
+    const zero = parsed - HASH_OFFSET;
+    if (zero < FIRST_INDEX || zero > lastIndex) return FIRST_INDEX;
+    return zero;
+  }
+
+  function render() {
+    slides.forEach(function (slide, i) {
+      const on = i === index;
+      slide.classList.toggle(CLASS_ON, on);
+      slide.setAttribute("aria-hidden", on ? "false" : "true");
+    });
+    Array.from(dotsRoot.children).forEach(function (dot, i) {
+      if (i === index) dot.setAttribute("aria-current", ARIA_CURRENT);
+      else dot.removeAttribute("aria-current");
+    });
+    const human = index + HASH_OFFSET;
+    countEl.textContent = human + " / " + slideCount;
+    prevBtn.disabled = index === FIRST_INDEX;
+    nextBtn.disabled = index === lastIndex;
+    const title = slides[index].getAttribute("data-title") || "";
+    if (title) document.title = title + " · Flable";
+    const nextHash = "#" + human;
+    if (window.location.hash !== nextHash) {
+      history.replaceState(null, "", nextHash);
+    }
+  }
+
+  function go(next) {
+    if (next < FIRST_INDEX || next > lastIndex) return;
+    index = next;
+    render();
+  }
+
+  slides.forEach(function (slide, i) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    const human = i + HASH_OFFSET;
+    const label = slide.getAttribute("data-title") || ("Slide " + human);
+    btn.setAttribute("aria-label", label);
+    btn.addEventListener("click", function () { go(i); });
+    dotsRoot.appendChild(btn);
+  });
+
+  prevBtn.addEventListener("click", function () { go(index - STEP); });
+  nextBtn.addEventListener("click", function () { go(index + STEP); });
+
+  document.addEventListener("keydown", function (event) {
+    const key = event.key;
+    const inField = event.target && /^(INPUT|TEXTAREA)$/.test(event.target.tagName);
+    if (inField) return;
+    if (KEYS_NEXT.indexOf(key) !== -1) {
+      event.preventDefault();
+      go(index + STEP);
+      return;
+    }
+    if (KEYS_PREV.indexOf(key) !== -1) {
+      event.preventDefault();
+      go(index - STEP);
+      return;
+    }
+    if (key === KEY_HOME) {
+      event.preventDefault();
+      go(FIRST_INDEX);
+      return;
+    }
+    if (key === KEY_END) {
+      event.preventDefault();
+      go(lastIndex);
+    }
+  });
+
+  window.addEventListener("hashchange", function () {
+    go(indexFromHash());
+  });
+
+  index = indexFromHash();
+  render();
+})();
+</script>
+</body>
+</html>
