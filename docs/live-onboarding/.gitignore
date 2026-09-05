@@ -1,0 +1,7 @@
+raw/
+_storage*.json
+_network.json
+_capture-log.json
+_notes*.md
+_localstorage*.json
+*-vp.png
