@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What we work on next · Orion return loop · Flable</title>
+<style>
+  @font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: block;
+    src: url("fonts/inter-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: url("fonts/poppins-500-latin.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: url("fonts/poppins-600-latin.woff2") format("woff2");
+  }
+
+  :root {
+    --bg: #fcfcfc;
+    --canvas: rgb(245, 245, 245);
+    --card: rgb(245, 245, 245);
+    --ink: rgb(21, 21, 23);
+    --ink-2: rgb(74, 74, 79);
+    --ink-3: rgb(137, 137, 137);
+    --line: rgb(229, 229, 231);
+    --violet: rgb(100, 60, 193);
+    --purple: rgb(127, 86, 217);
+    --violet-deep: rgb(83, 56, 158);
+    --tint: rgba(100, 60, 193, 0.10);
+    --tint-line: rgba(100, 60, 193, 0.18);
+    --on-violet: rgb(83, 56, 158);
+    --grad: linear-gradient(92deg, rgb(233, 52, 139) 0%, rgb(127, 86, 217) 52%, rgb(0, 158, 255) 100%);
+    --display: "Poppins", "Segoe UI", sans-serif;
+    --body: "Inter", "Segoe UI", sans-serif;
+    --stage-w: 1920px;
+    --stage-h: 1080px;
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--body);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { overflow: hidden; }
+
+  .stage {
+    position: absolute;
+    width: var(--stage-w);
+    height: var(--stage-h);
+    background: var(--bg);
+    overflow: hidden;
+    transform-origin: top left;
+  }
+  .stage::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--grad);
+    z-index: 2;
+  }
+
+  .slide {
+    display: none;
+    position: absolute;
+    inset: 0;
+    padding: 48px 64px 108px;
+    flex-direction: column;
+    background: var(--bg);
+  }
+  .slide.is-on { display: flex; }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    flex-shrink: 0;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand svg { display: block; }
+  .brand-name {
+    font: 500 18px/1 var(--display);
+    letter-spacing: -0.02em;
+  }
+  .meta {
+    font: 500 15px/1 var(--body);
+    color: var(--ink-3);
+  }
+
+  .kicker {
+    font: 600 13px/1 var(--body);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--violet-deep);
+    margin-bottom: 14px;
+  }
+  h1 {
+    font: 500 52px/1.12 var(--display);
+    letter-spacing: -0.03em;
+    max-width: 18em;
+  }
+  .lede {
+    margin-top: 16px;
+    font: 400 22px/1.45 var(--body);
+    color: var(--ink-2);
+    max-width: 34em;
+  }
+  .note {
+    margin-top: auto;
+    font: 400 18px/1.45 var(--body);
+    color: var(--ink-3);
+    max-width: 40em;
+  }
+
+  .quote {
+    display: grid;
+    grid-template-columns: 6px 1fr;
+    gap: 28px;
+    background: var(--tint);
+    border: 1px solid var(--tint-line);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-top: 8px;
+  }
+  .quote-bar {
+    border-radius: 9999px;
+    background: var(--grad);
+  }
+  .quote .said {
+    font: 500 36px/1.28 var(--display);
+    letter-spacing: -0.025em;
+  }
+  .quote .why {
+    margin-top: 18px;
+    font: 400 20px/1.5 var(--body);
+    color: var(--ink-2);
+    max-width: 38em;
+  }
+
+  .row5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .row3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+    margin-top: 8px;
+  }
+  .row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 8px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px 24px 26px;
+    min-height: 0;
+  }
+  .card.hi {
+    background: var(--tint);
+    border-color: var(--tint-line);
+  }
+  .tag {
+    display: inline-block;
+    height: 28px;
+    padding: 0 10px;
+    border-radius: 9999px;
+    background: var(--tint);
+    color: var(--on-violet);
+    font: 600 12px/28px var(--body);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .card.hi .tag {
+    background: rgba(100, 60, 193, 0.16);
+  }
+  .card h2 {
+    font: 500 22px/1.25 var(--display);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .card p, .card li {
+    font: 400 17px/1.45 var(--body);
+    color: var(--ink-2);
+  }
+  .card.wide { padding: 32px 36px; }
+  .card.wide h2 { font-size: 28px; margin-bottom: 12px; }
+  .card.wide p { font-size: 20px; line-height: 1.5; }
+
+  ul.plain {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  ul.plain li {
+    display: grid;
+    grid-template-columns: 8px 1fr;
+    gap: 12px;
+    font: 400 20px/1.4 var(--body);
+    color: var(--ink);
+  }
+  .dot-mark {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--purple);
+    margin-top: 8px;
+  }
+
+  .split-feed {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 28px;
+    align-items: start;
+    margin-top: 4px;
+    flex: 1;
+    min-height: 0;
+  }
+  .feed {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .feed-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--line);
+    font: 500 15px/1 var(--body);
+  }
+  .live {
+    font: 600 12px/1 var(--body);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--violet-deep);
+  }
+  .feed-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--line);
+  }
+  .feed-row:last-child { border-bottom: 0; }
+  .feed-row strong {
+    display: block;
+    font: 500 18px/1.3 var(--body);
+  }
+  .feed-row span {
+    display: block;
+    margin-top: 4px;
+    font: 400 15px/1.4 var(--body);
+    color: var(--ink-3);
+  }
+  .open-as {
+    font: 500 13px/1 var(--body);
+    color: var(--on-violet);
+    background: var(--tint);
+    border-radius: 9999px;
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+
+  .q-list { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+  .q {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 18px;
+    align-items: start;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 22px;
+    background: var(--bg);
+  }
+  .q-n {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--tint);
+    color: var(--on-violet);
+    font: 600 20px/48px var(--display);
+    text-align: center;
+  }
+  .q p {
+    font: 400 20px/1.4 var(--body);
+    color: var(--ink);
+    padding-top: 10px;
+  }
+
+  .ask {
+    margin-top: 22px;
+    background: var(--tint);
+    border: 1px solid var(--tint-line);
+    border-radius: 16px;
+    padding: 22px 26px;
+    font: 500 22px/1.35 var(--display);
+    letter-spacing: -0.02em;
+  }
+
+  .nav {
+    position: absolute;
+    left: 64px;
+    right: 64px;
+    bottom: 28px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    background: var(--bg);
+  }
+  .nav button {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 10px;
+    font: 500 14px/1 var(--body);
+    cursor: pointer;
+  }
+  .nav button:hover:not(:disabled) {
+    border-color: var(--violet);
+    color: var(--violet-deep);
+  }
+  .nav button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .dots {
+    display: flex;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+  }
+  .dots button {
+    width: 10px;
+    height: 10px;
+    padding: 0;
+    border-radius: 9999px;
+    background: rgb(213, 213, 213);
+    border: 0;
+  }
+  .dots button[aria-current="true"] {
+    background: var(--violet);
+    width: 22px;
+  }
+  .count {
+    font: 500 14px/1 var(--body);
+    color: var(--ink-3);
+    min-width: 3.5em;
+    text-align: right;
+  }
+  .hint-keys {
+    font: 400 13px/1 var(--body);
+    color: var(--ink-3);
+  }
+
+  @media print {
+    @page { size: 13.333in 7.5in; margin: 0; }
+    html, body {
+      background: var(--bg);
+      overflow: visible;
+      height: auto;
+      width: auto;
+    }
+    .stage {
+      position: static;
+      transform: none !important;
+      width: 13.333in;
+      height: auto;
+      overflow: visible;
+    }
+    .slide {
+      display: flex !important;
+      position: relative;
+      width: 13.333in;
+      height: 7.5in;
+      page-break-after: always;
+      break-after: page;
+    }
+    .slide:last-of-type { page-break-after: auto; break-after: auto; }
+    .nav { display: none !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage" id="stage">
+    <!-- 1 -->
+    <section class="slide is-on" data-title="What we work on next">
+      <header class="top">
+        <div class="brand">
+          <svg width="28" height="28" viewBox="0 0 34 34" fill="none" aria-hidden="true">
+            <path d="M13.34 12.6641H27.2616C26.6618 17.1915 23.1016 19.9872 19.7022 21.0785C17.0919 21.9166 14.6326 21.4709 13.34 21.7284C10.676 22.2592 8.22052 23.0242 5.67807 25.2174C3.91145 26.7413 2.17362 29.0181 0 32.2295V21.7969C2.77062 15.5031 7.90141 12.6641 13.34 12.6641Z" fill="url(#dg0)"/>
+            <path d="M5.64386 25.2517C3.87725 26.7756 2.17362 29.1208 0 32.3321C2.12072 32.3321 4.68612 31.5553 6.80684 29.7325C10.9457 26.1752 8.41449 23.1651 13.3742 21.7285C10.7102 22.2592 8.18632 23.0585 5.64386 25.2517Z" fill="url(#dg1)"/>
+            <path d="M0 13.5191V21.7284C0.410469 20.9074 0.684111 20.3602 1.19718 19.505C3.9336 12.8692 9.20121 10.2696 13.8189 10.2696L24.5594 10.2012C26.0087 10.2012 28.5599 9.35318 30.4769 7.70423C32.5864 5.88966 34 3.16838 34 1H13.5453C7.93561 1 0.855131 5.5835 0 13.5191Z" fill="url(#dg2)"/>
+            <defs>
+              <linearGradient id="dg0" x1="13.63" y1="12.66" x2="10.5" y2="22.67" gradientUnits="userSpaceOnUse"><stop stop-color="#8714D2"/><stop offset="1" stop-color="#2A32DD"/></linearGradient>
+              <linearGradient id="dg1" x1="5.06" y1="25.35" x2="5" y2="29.67" gradientUnits="userSpaceOnUse"><stop stop-color="#157EF3"/><stop offset="1" stop-color="#02A2FA"/></linearGradient>
+              <linearGradient id="dg2" x1="14" y1="2.67" x2="12.5" y2="15.67" gradientUnits="userSpaceOnUse"><stop stop-color="#FC2272"/><stop offset="1" stop-color="#B717B4"/></linearGradient>
+            </defs>
+          </svg>
+          <span class="brand-name">flable.ai</span>
+        </div>
+        <div class="meta">Abbas · for Anirudh, product, engineering</div>
+      </header>
+      <p class="kicker">The Orion return loop</p>
+      <h1>What we work on next</h1>
+      <p class="lede">One goal. An ordered plan. A few questions only you can answer. And one idea for shipping a new UI without ripping out the live one.</p>
+      <p class="note">The prototype will match live first-run, so we are looking at one product.</p>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" data-title="The goal">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">North star</div>
+      </header>
+      <p class="kicker">Anirudh’s goal</p>
+      <div class="quote">
+        <div class="quote-bar"></div>
+        <div>
+          <p class="said">Users understand Orion. They understand Flable’s features. The experience makes them want to come back.</p>
+          <p class="why">That is the grade. First-run is already approved. The work now is the return: they know what Orion did, they see the rest of Flable, and they have a reason to open it again.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" data-title="The order of work">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">P0 to P4</div>
+      </header>
+      <p class="kicker">Order is the point</p>
+      <h1>We do this in this order</h1>
+      <div class="row5" style="margin-top:28px">
+        <article class="card">
+          <span class="tag">P0 · this week</span>
+          <h2>Match live first-run</h2>
+          <p>Same screens and gates. Keep the craft. Not a new signup.</p>
+        </article>
+        <article class="card hi">
+          <span class="tag">P1 · the bet</span>
+          <h2>Orion home is the feed</h2>
+          <p>“While you were away.” Highest leverage for the goal.</p>
+        </article>
+        <article class="card">
+          <span class="tag">P2</span>
+          <h2>Setup that can finish</h2>
+          <p>One Meta path. Shopify that matches. Tracking unlocks. Templates they can use.</p>
+        </article>
+        <article class="card">
+          <span class="tag">P3</span>
+          <h2>Discover from Orion</h2>
+          <p>Features found because Orion sent them there. Not a sidebar tour.</p>
+        </article>
+        <article class="card">
+          <span class="tag">P4 · after home</span>
+          <h2>Multi-client IDs</h2>
+          <p>One account, many clients. Connect then Confirm only. Not in first-run.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide" data-title="This week — match live first-run">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">P0 · this week</div>
+      </header>
+      <p class="kicker">Not a new signup</p>
+      <h1>Align the prototype to live first-run</h1>
+      <div class="row3" style="margin-top:28px">
+        <article class="card wide">
+          <h2>Same screens</h2>
+          <p>The live path is the path. We stop designing a different first visit against a product Anirudh already approved.</p>
+        </article>
+        <article class="card wide">
+          <h2>Same gates</h2>
+          <p>Connect still has to unlock Continue. We do not add Skip, a client picker, or a plan grid here.</p>
+        </article>
+        <article class="card wide hi">
+          <h2>Keep the craft</h2>
+          <p>Design-system type, color, and motion stay. The job is alignment, not a visual reset.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" data-title="The bet — Orion home is the feed">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">P1 · the bet</div>
+      </header>
+      <div class="split-feed">
+        <div>
+          <p class="kicker">Highest leverage for the goal</p>
+          <h1>Orion home becomes the activity feed</h1>
+          <p class="lede">Sign-in already says this. Next session should not be an empty chat. First audit after connect. Then, when they come back: while you were away.</p>
+          <ul class="plain">
+            <li><span class="dot-mark"></span>Feed rows open Pulse, Insights, or chat.</li>
+            <li><span class="dot-mark"></span>They learn Orion and the rest of Flable from the work, not a tour.</li>
+          </ul>
+        </div>
+        <aside class="feed" aria-label="Activity feed, as promised at sign-in">
+          <div class="feed-head">
+            <span>Orion · Activity Feed</span>
+            <span class="live">While you were away</span>
+          </div>
+          <div class="feed-row">
+            <div>
+              <strong>Brand Search ROAS jumped +18%</strong>
+              <span>Now at 6.2x — your best campaign this month</span>
+            </div>
+            <span class="open-as">Opens Pulse</span>
+          </div>
+          <div class="feed-row">
+            <div>
+              <strong>Pmax Catch-all fatigue warning</strong>
+              <span>Frequency hit 4.6 · creative refresh suggested</span>
+            </div>
+            <span class="open-as">Opens Insights</span>
+          </div>
+          <div class="feed-row">
+            <div>
+              <strong>Orion drafted a $1.8k budget shift</strong>
+              <span>Ready for your review</span>
+            </div>
+            <span class="open-as">Opens chat</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" data-title="Setup that can finish">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">P2</div>
+      </header>
+      <p class="kicker">After the home bet</p>
+      <h1>Setup that can actually finish</h1>
+      <div class="row2" style="margin-top:28px">
+        <article class="card wide">
+          <h2>One Meta connect path</h2>
+          <p>Live has OAuth on first-run and paste-token in Integrations. We pick the product story. Users should not meet two Metas.</p>
+        </article>
+        <article class="card wide">
+          <h2>Shopify matching first-run</h2>
+          <p>Not a logistics API-key form. Same promise they saw when they connected the first channel.</p>
+        </article>
+        <article class="card wide">
+          <h2>Repair Ad Tracking unlocks</h2>
+          <p>The step exists. It has to become available when the connections that unlock it are done.</p>
+        </article>
+        <article class="card wide">
+          <h2>Templates they can use</h2>
+          <p>Personalization should end in something they send, not a dead “generate” with nowhere to go.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" data-title="After home works">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">P3 and P4</div>
+      </header>
+      <p class="kicker">Not before the feed</p>
+      <h1>After home works</h1>
+      <div class="row2" style="margin-top:28px">
+        <article class="card wide">
+          <span class="tag">P3</span>
+          <h2>Features discovered from Orion</h2>
+          <p>Pulse, Insights, Dashboard — they get there because a feed row or a chat sent them. We do not teach the product with a sidebar tour.</p>
+        </article>
+        <article class="card wide">
+          <span class="tag">P4 · Anirudh</span>
+          <h2>Multi-client IDs</h2>
+          <p>One account. Many client IDs. Repeat Connect, then Confirm, only. This does not belong in first-run. We do it after the return loop is real.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" data-title="The problem with overriding live">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">Concern</div>
+      </header>
+      <p class="kicker">We already have users</p>
+      <h1>Ripping out the live UI is risky</h1>
+      <p class="lede">The team has not fully integrated the prototype. Engineering is unsure about overriding the current live UI. That hesitation is correct. A hard cutover is a product risk, not a design preference.</p>
+      <div class="row3" style="margin-top:28px">
+        <article class="card">
+          <h2>Live has users</h2>
+          <p>They already know today’s screens. We do not get to pretend this is a greenfield app.</p>
+        </article>
+        <article class="card">
+          <h2>Prototype is not integrated</h2>
+          <p>Until it is, “replace live” is a leap, not a ship plan.</p>
+        </article>
+        <article class="card hi">
+          <h2>So we need another way</h2>
+          <p>Not a big-bang override. A way people can move when the new experience is actually better.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide" data-title="Opt-in the new UI">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">Proposal · not committed engineering</div>
+      </header>
+      <p class="kicker">Writesonic-style · smart AB</p>
+      <h1>Let people switch. Prompt them. Do not force it.</h1>
+      <div class="row3" style="margin-top:22px">
+        <article class="card">
+          <span class="tag">Onboarding</span>
+          <h2>Offer the new UI</h2>
+          <p>At first-run, invite them to try the new experience. They can stay on live.</p>
+        </article>
+        <article class="card">
+          <span class="tag">Notifications</span>
+          <h2>Ask again, later</h2>
+          <p>A quiet prompt after they are in: the new UI is ready, you can switch back.</p>
+        </article>
+        <article class="card">
+          <span class="tag">In product</span>
+          <h2>This is better there</h2>
+          <p>“Try the new UI — you can do this here.” In context, while they are already working.</p>
+        </article>
+      </div>
+      <p class="ask">For this to work I have to make the prototype a guided product — educational at every point — or the switch will fail. Are we open to opt-in new UI rather than a big-bang override?</p>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" data-title="Four questions">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">From the live capture · still unknown</div>
+      </header>
+      <p class="kicker">I need answers. I will not invent them.</p>
+      <h1>Four questions for the team</h1>
+      <div class="q-list" style="margin-top:22px">
+        <div class="q">
+          <div class="q-n">1</div>
+          <p>Confirm Details and /onboarding/pricing were never painted (0 connections). What is actually on those screens? Is pricing still in first-run?</p>
+        </div>
+        <div class="q">
+          <div class="q-n">2</div>
+          <p>Setup stays 0 of 3 when ads are connected but Shopify is pending. Is that intended?</p>
+        </div>
+        <div class="q">
+          <div class="q-n">3</div>
+          <p>Two Meta connect UIs — OAuth vs paste token. Which is the product story?</p>
+        </div>
+        <div class="q">
+          <div class="q-n">4</div>
+          <p>Agreement: first-run does not grow — no client picker, no plan grid — until Orion home delivers the sign-in promise.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" data-title="What I need from you">
+      <header class="top">
+        <div class="brand"><span class="brand-name">flable.ai</span></div>
+        <div class="meta">Ask</div>
+      </header>
+      <p class="kicker">Then I start this week</p>
+      <h1>What I need from you</h1>
+      <div class="row3" style="margin-top:28px">
+        <article class="card wide">
+          <span class="tag">1</span>
+          <h2>The four answers</h2>
+          <p>Pricing, Setup 0 of 3, which Meta, and the first-run freeze until home works.</p>
+        </article>
+        <article class="card wide hi">
+          <span class="tag">2</span>
+          <h2>Yes or no on opt-in</h2>
+          <p>Are we open to a Writesonic-style switch, or is live staying as the only UI for existing users?</p>
+        </article>
+        <article class="card wide">
+          <span class="tag">3</span>
+          <h2>Then P0, then the bet</h2>
+          <p>I align the prototype to live this week. Then Orion home becomes the feed we already promise at sign-in.</p>
+        </article>
+      </div>
+    </section>
+
+    <nav class="nav" aria-label="Deck">
+      <button type="button" id="prev">Previous</button>
+      <p class="hint-keys">Arrow keys or space</p>
+      <div class="dots" id="dots"></div>
+      <p class="count" id="counter"></p>
+      <button type="button" id="next">Next</button>
+    </nav>
+  </div>
+
+<script>
+(function () {
+  const STAGE_WIDTH = 1920;
+  const STAGE_HEIGHT = 1080;
+  const FIRST_INDEX = 0;
+  const HASH_OFFSET = 1;
+  const NEXT_KEYS = ["ArrowRight", "ArrowDown", "PageDown", " ", "Spacebar"];
+  const PREV_KEYS = ["ArrowLeft", "ArrowUp", "PageUp", "Backspace"];
+  const HOME_KEYS = ["Home"];
+  const END_KEYS = ["End"];
+
+  const stage = document.getElementById("stage");
+  const slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  const dotsRoot = document.getElementById("dots");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const counter = document.getElementById("counter");
+  const slideCount = slides.length;
+  const lastIndex = slideCount - 1;
+  const dotButtons = [];
+
+  let currentIndex = FIRST_INDEX;
+
+  function clampIndex(index) {
+    if (index < FIRST_INDEX) return FIRST_INDEX;
+    if (index > lastIndex) return lastIndex;
+    return index;
+  }
+
+  function indexFromHash() {
+    const raw = window.location.hash.replace("#", "");
+    const asNumber = parseInt(raw, 10);
+    if (isNaN(asNumber)) return FIRST_INDEX;
+    return clampIndex(asNumber - HASH_OFFSET);
+  }
+
+  function fitStage() {
+    const scale = Math.min(
+      window.innerWidth / STAGE_WIDTH,
+      window.innerHeight / STAGE_HEIGHT
+    );
+    const left = (window.innerWidth - STAGE_WIDTH * scale) / 2;
+    const top = (window.innerHeight - STAGE_HEIGHT * scale) / 2;
+    stage.style.transform = "scale(" + scale + ")";
+    stage.style.left = left + "px";
+    stage.style.top = top + "px";
+  }
+
+  function render() {
+    var i;
+    for (i = 0; i < slideCount; i += 1) {
+      const on = i === currentIndex;
+      slides[i].classList.toggle("is-on", on);
+      if (dotButtons[i]) {
+        if (on) dotButtons[i].setAttribute("aria-current", "true");
+        else dotButtons[i].removeAttribute("aria-current");
+      }
+    }
+    prevBtn.disabled = currentIndex === FIRST_INDEX;
+    nextBtn.disabled = currentIndex === lastIndex;
+    counter.textContent = (currentIndex + HASH_OFFSET) + " / " + slideCount;
+    const hashValue = "#" + (currentIndex + HASH_OFFSET);
+    if (window.location.hash !== hashValue) {
+      window.history.replaceState(null, "", hashValue);
+    }
+    document.title = slides[currentIndex].getAttribute("data-title") + " · Orion return loop";
+  }
+
+  function goTo(index) {
+    currentIndex = clampIndex(index);
+    render();
+  }
+
+  function goNext() { goTo(currentIndex + 1); }
+  function goPrev() { goTo(currentIndex - 1); }
+
+  function onKey(event) {
+    const key = event.key;
+    if (NEXT_KEYS.indexOf(key) !== -1) {
+      event.preventDefault();
+      goNext();
+      return;
+    }
+    if (PREV_KEYS.indexOf(key) !== -1) {
+      event.preventDefault();
+      goPrev();
+      return;
+    }
+    if (HOME_KEYS.indexOf(key) !== -1) {
+      event.preventDefault();
+      goTo(FIRST_INDEX);
+      return;
+    }
+    if (END_KEYS.indexOf(key) !== -1) {
+      event.preventDefault();
+      goTo(lastIndex);
+    }
+  }
+
+  function buildDots() {
+    var i;
+    for (i = 0; i < slideCount; i += 1) {
+      const button = document.createElement("button");
+      const slideIndex = i;
+      const title = slides[i].getAttribute("data-title") || ("Slide " + (i + HASH_OFFSET));
+      button.type = "button";
+      button.setAttribute("aria-label", title);
+      button.addEventListener("click", function () { goTo(slideIndex); });
+      dotsRoot.appendChild(button);
+      dotButtons.push(button);
+    }
+  }
+
+  buildDots();
+  prevBtn.addEventListener("click", goPrev);
+  nextBtn.addEventListener("click", goNext);
+  window.addEventListener("keydown", onKey);
+  window.addEventListener("resize", fitStage);
+  window.addEventListener("hashchange", function () { goTo(indexFromHash()); });
+  fitStage();
+  goTo(indexFromHash());
+})();
+</script>
+</body>
+</html>
