@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flable — Choose your plan</title>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -85,7 +86,7 @@ h1{font-size:36px;letter-spacing:-.02em;font-weight:600;margin:0 0 6px}
 
 .save{font-size:11.8px;color:var(--ink-3);margin:0 0 13px;padding-top:11px;border-top:1px solid var(--line-2);line-height:1.4}
 .cta{width:100%;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:14px;
-  font-weight:500;padding:11px;border-radius:11px;cursor:pointer}
+  font-weight:500;padding:11px;border-radius:11px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
 .cta:hover{border-color:#C9C2EC;background:#FAF9FE}
 .cta.solid{background:var(--grad);color:#fff;border-color:transparent;font-weight:600}
 .cta:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
@@ -130,9 +131,9 @@ tr.sec td{background:#FCFBFE;font-weight:600;font-size:10.5px;letter-spacing:.09
   background:rgba(251,250,253,.93);backdrop-filter:blur(10px);border-top:1px solid var(--line);
   display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .footer .fine{font-size:12.5px;color:var(--ink-3);flex:1 1 300px;margin:0}
-.footer .back{border:0;background:none;font:inherit;font-size:14px;color:var(--ink-2);cursor:pointer;padding:8px 4px}
+.footer .back{border:0;background:none;font:inherit;font-size:14px;color:var(--ink-2);cursor:pointer;padding:8px 4px;display:inline-flex;align-items:center;gap:6px}
 .footer .go{background:var(--grad);color:#fff;border:0;font:inherit;font-size:15px;font-weight:600;
-  padding:12px 26px;border-radius:11px;cursor:pointer}
+  padding:12px 26px;border-radius:11px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
 .footer button:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
 
 @media (max-width:1060px){.grid{grid-template-columns:repeat(2,1fr)}}
@@ -193,7 +194,7 @@ tr.sec td{background:#FCFBFE;font-weight:600;font-size:10.5px;letter-spacing:.09
       <h3>Over $100K a month, or running several brands?</h3>
       <p>More than one brand, hourly data refresh, 10 connectors including custom ones, an uptime SLA and a dedicated CSM.</p>
     </div>
-    <button class="cta">Talk to sales →</button>
+    <button class="cta">Talk to sales <i class="ph-bold ph-arrow-right" style="font-size:15px;line-height:1"></i></button>
   </div>
 
   <details class="cmp">
@@ -235,9 +236,9 @@ tr.sec td{background:#FCFBFE;font-weight:600;font-size:10.5px;letter-spacing:.09
   </details>
 
   <div class="footer">
-    <button class="back">← Back</button>
+    <button class="back"><i class="ph-bold ph-arrow-left" style="font-size:14px;line-height:1"></i>Back</button>
     <p class="fine"><b id="sel-name">Intelligence</b> · <b id="sel-price">$179/mo</b> · <b id="sel-cr">19,000 credits</b>. Prices exclude 18% GST. Change plan any time. Your data stays intact for 90 days after a downgrade.</p>
-    <button class="go">Continue →</button>
+    <button class="go">Continue <i class="ph-bold ph-arrow-right" style="font-size:16px;line-height:1"></i></button>
   </div>
 
 </div>
