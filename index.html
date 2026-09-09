@@ -54,6 +54,11 @@
     input[data-range]::-moz-range-track{height:4px;border-radius:9999px;background:var(--flb-line)}
     input[data-range]::-moz-range-progress{height:4px;border-radius:9999px;background:var(--flb-violet)}
     input[data-range]::-moz-range-thumb{width:16px;height:16px;border:1px solid var(--flb-violet);border-radius:9999px;background:#fcfcfc}
+    /* Preferred time: hide native clock; keep its hit-area on the custom icon */
+    input.flb-time::-webkit-calendar-picker-indicator{
+      position:absolute;right:8px;top:50%;width:28px;height:28px;margin:0;padding:0;
+      transform:translateY(-50%);opacity:0;cursor:pointer;z-index:2;
+    }
     [data-tour="sidebar"] button:hover{background:var(--app-raised)}
     @keyframes flbAngle{to{--flb-angle:1turn}}
     [data-grad-ring]{position:relative}
@@ -67,6 +72,27 @@
     @keyframes flbOrionCard{from{transform:translateY(14px) scale(.985)}to{transform:translateY(0) scale(1)}}
     @keyframes flbStepIn{from{transform:translateY(10px)}to{transform:translateY(0)}}
     @keyframes flbFadeUp{from{transform:translateY(9px)}to{transform:translateY(0)}}
+    /* Orion questionnaire — hover + confetti only */
+    .flb-orion-shell .flb-orion-opt,
+    .flb-orion-shell .flb-orion-chip{
+      transition:background 140ms var(--flb-ease),border-color 140ms var(--flb-ease),color 140ms var(--flb-ease) !important;
+    }
+    .flb-orion-shell .flb-orion-opt:hover{
+      border-color:var(--flb-purple) !important;
+      background:var(--flb-tint-violet) !important;
+    }
+    .flb-orion-shell .flb-orion-chip:hover{
+      border-color:var(--flb-purple) !important;
+      background:var(--flb-tint-violet) !important;
+      color:var(--flb-on-violet) !important;
+    }
+    .flb-orion-shell .flb-orion-cta{
+      transition:background 260ms var(--flb-ease),opacity 160ms var(--flb-ease) !important;
+    }
+    .flb-orion-shell .flb-orion-cta:hover{
+      background:radial-gradient(165% 150% at 108% 55%,rgb(251,71,159) 0%,rgb(251,71,159) 6%,var(--flb-purple) 34%,var(--flb-violet) 100%) !important;
+    }
+    .flb-orion-confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:120}
     @keyframes flbLoadProgress{0%{width:0%}100%{width:100%}}
     [data-client-logo]{filter:grayscale(1) brightness(0) invert(1)}
     .light [data-client-logo]{filter:grayscale(1) brightness(0)}
@@ -2082,9 +2108,23 @@
               <div style="margin:2px 6px 4px;max-height:150px;overflow:auto;border-radius:10px;background:var(--flb-bg);border:1px solid var(--flb-border-muted);padding:10px 12px;font:400 12.5px/1.55 var(--flb-font-body);color:var(--flb-ink-2);white-space:pre-wrap;word-break:break-word">{{ expandedPasteText }}</div>
               </sc-if>
               </sc-if>
+              <sc-if value="{{ hasAttachments }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:8px;padding:5px 6px 3px">
+                <sc-for list="{{ attachments }}" as="a" hint-placeholder-count="0">
+                  <div style="position:relative;display:inline-flex">
+                    <div style="display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 12px 0 4px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-surface-3);font-family:var(--flb-font-body)">
+                      <sc-if value="{{ a.isImage }}" hint-placeholder-val="{{ false }}"><span style="{{ a.thumbStyle }}"></span></sc-if>
+                      <sc-if value="{{ a.isVideo }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;border-radius:7px;background:var(--flb-tint-violet);color:var(--flb-on-violet)"><i class="ph ph-video-camera" style="font-size:15px;line-height:1"></i></span></sc-if>
+                      <span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;min-width:0;max-width:140px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%">{{ a.name }}</span><span style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">{{ a.meta }}</span></span>
+                    </div>
+                    <button onClick="{{ a.onRemove }}" data-tip="Remove" data-tip-left="" aria-label="Remove" style="position:absolute;top:-6px;right:-6px;z-index:2;width:20px;height:20px;border-radius:50%;border:1px solid var(--flb-border-default);background:var(--flb-surface);color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="color:var(--flb-ink)"><i class="ph-bold ph-x" style="font-size:10px;line-height:1"></i></button>
+                  </div>
+                </sc-for>
+              </div>
+              </sc-if>
               <textarea value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onKey }}" onPaste="{{ onPaste }}" data-autosize="" rows="1" placeholder="Plan and execute your campaigns… or type / for commands" style="width:100%;resize:none;border:none;outline:none;background:transparent;color:var(--flb-ink);font-family:var(--flb-font-body);font-size:14.5px;line-height:1.5;padding:11px 11px 7px;min-height:44px;max-height:220px"></textarea>
               <div style="position:relative;z-index:2;display:flex;align-items:center;gap:10px;padding:5px 6px 5px 5px">
-                <button data-tip="Upload creative(s)" data-tip-top="" aria-label="Upload creative(s)" onClick="{{ noop }}" style="width:32px;height:32px;flex-shrink:0;border-radius:9px;border:none;background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background 140ms var(--flb-ease)" style-hover="background:var(--flb-surface-3)"><i class="ph ph-plus" style="font-size:16px;line-height:1"></i></button>
+                <button data-tip="Upload creative(s)" data-tip-top="" aria-label="Upload creative(s)" onClick="{{ uploadCreative }}" style="width:32px;height:32px;flex-shrink:0;border-radius:9px;border:none;background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background 140ms var(--flb-ease)" style-hover="background:var(--flb-surface-3)"><i class="ph ph-plus" style="font-size:16px;line-height:1"></i></button>
                 <span style="flex:1;min-width:0"></span>
                 <div style="position:relative;flex-shrink:0">
                   <button onClick="{{ toggleModelMenu }}" style="display:flex;align-items:center;gap:6px;height:32px;padding:0 8px;border-radius:9px;border:none;background:transparent;cursor:pointer;font-family:var(--flb-font-body)" style-hover="background:var(--flb-surface-3)">
@@ -2093,12 +2133,12 @@
                     <i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-3);line-height:1"></i>
                   </button>
                   <sc-if value="{{ modelOpen }}" hint-placeholder-val="{{ false }}">
-                    <div style="position:absolute;bottom:42px;right:0;z-index:60;width:216px;border-radius:13px;background:var(--flb-surface);border:1px solid var(--flb-border-default);box-shadow:var(--flb-shadow-lg);padding:5px;animation:flbRise 150ms var(--flb-ease-out) backwards">
-                      <button onClick="{{ setModelFast }}" style="{{ FastStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Fast</span></span><sc-if value="{{ isFast }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
-                      <button onClick="{{ setModelStandard }}" style="{{ StandardStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Standard</span></span><sc-if value="{{ isStandard }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
-                      <button onClick="{{ setModelPro }}" style="{{ ProStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Pro</span></span><sc-if value="{{ isPro }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
-                      <div style="height:1px;background:var(--flb-line);margin:5px 6px"></div>
-                      <button onClick="{{ cycleEffort }}" style="display:flex;align-items:center;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer" style-hover="background:var(--flb-surface-3)"><span style="flex:1;text-align:left;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Effort</span><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3);margin-right:7px">{{ effort }}</span><i class="ph-bold ph-caret-right" style="font-size:11px;color:var(--flb-ink-3);line-height:1"></i></button>
+                    <div style="position:absolute;bottom:38px;right:0;z-index:60;width:168px;border-radius:10px;background:var(--flb-surface);border:1px solid var(--flb-border-default);box-shadow:var(--flb-shadow-lg);padding:3px;animation:flbRise 150ms var(--flb-ease-out) backwards">
+                      <button onClick="{{ setModelFast }}" style="{{ FastStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Fast</span></span><sc-if value="{{ isFast }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
+                      <button onClick="{{ setModelStandard }}" style="{{ StandardStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Standard</span></span><sc-if value="{{ isStandard }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
+                      <button onClick="{{ setModelPro }}" style="{{ ProStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Pro</span></span><sc-if value="{{ isPro }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
+                      <div style="height:1px;background:var(--flb-line);margin:3px 4px"></div>
+                      <button onClick="{{ cycleEffort }}" style="display:flex;align-items:center;width:100%;padding:6px 8px;border:none;border-radius:8px;background:transparent;cursor:pointer" style-hover="background:var(--flb-surface-3)"><span style="flex:1;text-align:left;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Effort</span><span style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3);margin-right:5px">{{ effort }}</span><i class="ph-bold ph-caret-right" style="font-size:10px;color:var(--flb-ink-3);line-height:1"></i></button>
                     </div>
                   </sc-if>
                 </div>
@@ -2230,9 +2270,23 @@
               <div style="margin:0 4px 6px;max-height:150px;overflow:auto;border-radius:10px;background:var(--flb-bg);border:1px solid var(--flb-border-muted);padding:10px 12px;font:400 12.5px/1.55 var(--flb-font-body);color:var(--flb-ink-2);white-space:pre-wrap;word-break:break-word">{{ expandedPasteText }}</div>
               </sc-if>
               </sc-if>
+              <sc-if value="{{ hasAttachments }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-wrap:wrap;gap:8px;padding:4px 4px 4px">
+                <sc-for list="{{ attachments }}" as="a" hint-placeholder-count="0">
+                  <div style="position:relative;display:inline-flex">
+                    <div style="display:inline-flex;align-items:center;gap:9px;height:40px;padding:0 12px 0 4px;border-radius:10px;border:1px solid var(--flb-border-default);background:var(--flb-surface-3);font-family:var(--flb-font-body)">
+                      <sc-if value="{{ a.isImage }}" hint-placeholder-val="{{ false }}"><span style="{{ a.thumbStyle }}"></span></sc-if>
+                      <sc-if value="{{ a.isVideo }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;flex-shrink:0;border-radius:7px;background:var(--flb-tint-violet);color:var(--flb-on-violet)"><i class="ph ph-video-camera" style="font-size:15px;line-height:1"></i></span></sc-if>
+                      <span style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;min-width:0;max-width:140px"><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%">{{ a.name }}</span><span style="font:400 11px var(--flb-font-body);color:var(--flb-ink-4)">{{ a.meta }}</span></span>
+                    </div>
+                    <button onClick="{{ a.onRemove }}" data-tip="Remove" data-tip-left="" aria-label="Remove" style="position:absolute;top:-6px;right:-6px;z-index:2;width:20px;height:20px;border-radius:50%;border:1px solid var(--flb-border-default);background:var(--flb-surface);color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="color:var(--flb-ink)"><i class="ph-bold ph-x" style="font-size:10px;line-height:1"></i></button>
+                  </div>
+                </sc-for>
+              </div>
+              </sc-if>
               <textarea value="{{ draft }}" onChange="{{ onDraft }}" onKeyDown="{{ onKey }}" onPaste="{{ onPaste }}" data-autosize="" rows="1" placeholder="Reply to Orion…" style="position:relative;z-index:2;width:100%;resize:none;border:none;outline:none;background:transparent;color:var(--flb-ink);font-family:var(--flb-font-body);font-size:15.5px;line-height:1.5;padding:12px 12px 6px;min-height:46px;max-height:180px"></textarea>
               <div style="position:relative;z-index:2;display:flex;align-items:center;gap:10px;padding:5px 6px 5px 5px">
-                <button data-tip="Upload creative(s)" data-tip-top="" aria-label="Upload creative(s)" onClick="{{ noop }}" style="width:32px;height:32px;flex-shrink:0;border-radius:9px;border:none;background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background 140ms var(--flb-ease)" style-hover="background:var(--flb-surface-3)"><i class="ph ph-plus" style="font-size:16px;line-height:1"></i></button>
+                <button data-tip="Upload creative(s)" data-tip-top="" aria-label="Upload creative(s)" onClick="{{ uploadCreative }}" style="width:32px;height:32px;flex-shrink:0;border-radius:9px;border:none;background:transparent;color:var(--flb-ink-2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background 140ms var(--flb-ease)" style-hover="background:var(--flb-surface-3)"><i class="ph ph-plus" style="font-size:16px;line-height:1"></i></button>
                 <span style="flex:1"></span>
                 <div style="position:relative;flex-shrink:0">
                   <button onClick="{{ toggleModelMenu }}" style="display:flex;align-items:center;gap:6px;height:32px;padding:0 8px;border-radius:9px;border:none;background:transparent;cursor:pointer;font-family:var(--flb-font-body)" style-hover="background:var(--flb-surface-3)">
@@ -2241,12 +2295,12 @@
                     <i class="ph ph-caret-down" style="font-size:12px;color:var(--flb-ink-3);line-height:1"></i>
                   </button>
                   <sc-if value="{{ modelOpen }}" hint-placeholder-val="{{ false }}">
-                    <div style="position:absolute;bottom:42px;right:0;z-index:60;width:216px;border-radius:13px;background:var(--flb-surface);border:1px solid var(--flb-border-default);box-shadow:var(--flb-shadow-lg);padding:5px;animation:flbRise 150ms var(--flb-ease-out) backwards">
-                      <button onClick="{{ setModelFast }}" style="{{ FastStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Fast</span></span><sc-if value="{{ isFast }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
-                      <button onClick="{{ setModelStandard }}" style="{{ StandardStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Standard</span></span><sc-if value="{{ isStandard }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
-                      <button onClick="{{ setModelPro }}" style="{{ ProStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Pro</span></span><sc-if value="{{ isPro }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:14px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
-                      <div style="height:1px;background:var(--flb-line);margin:5px 6px"></div>
-                      <button onClick="{{ cycleEffort }}" style="display:flex;align-items:center;width:100%;padding:9px 10px;border:none;border-radius:10px;background:transparent;cursor:pointer" style-hover="background:var(--flb-surface-3)"><span style="flex:1;text-align:left;font:500 13px var(--flb-font-body);color:var(--flb-ink)">Effort</span><span style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3);margin-right:7px">{{ effort }}</span><i class="ph-bold ph-caret-right" style="font-size:11px;color:var(--flb-ink-3);line-height:1"></i></button>
+                    <div style="position:absolute;bottom:38px;right:0;z-index:60;width:168px;border-radius:10px;background:var(--flb-surface);border:1px solid var(--flb-border-default);box-shadow:var(--flb-shadow-lg);padding:3px;animation:flbRise 150ms var(--flb-ease-out) backwards">
+                      <button onClick="{{ setModelFast }}" style="{{ FastStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Fast</span></span><sc-if value="{{ isFast }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
+                      <button onClick="{{ setModelStandard }}" style="{{ StandardStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Standard</span></span><sc-if value="{{ isStandard }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
+                      <button onClick="{{ setModelPro }}" style="{{ ProStyle }}" style-hover="background:var(--flb-surface-3)"><span style="flex:1;min-width:0"><span style="display:block;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Pro</span></span><sc-if value="{{ isPro }}" hint-placeholder-val="{{ false }}"><i class="ph-bold ph-check" style="font-size:12px;color:var(--flb-on-violet);line-height:1"></i></sc-if></button>
+                      <div style="height:1px;background:var(--flb-line);margin:3px 4px"></div>
+                      <button onClick="{{ cycleEffort }}" style="display:flex;align-items:center;width:100%;padding:6px 8px;border:none;border-radius:8px;background:transparent;cursor:pointer" style-hover="background:var(--flb-surface-3)"><span style="flex:1;text-align:left;font:500 12px var(--flb-font-body);color:var(--flb-ink)">Effort</span><span style="font:400 11.5px var(--flb-font-body);color:var(--flb-ink-3);margin-right:5px">{{ effort }}</span><i class="ph-bold ph-caret-right" style="font-size:10px;color:var(--flb-ink-3);line-height:1"></i></button>
                     </div>
                   </sc-if>
                 </div>
@@ -2429,18 +2483,18 @@
     </div>
     <!-- content -->
     <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 24px;overflow:hidden">
-      <div style="width:100%;max-width:560px;height:100%;max-height:640px;min-height:0;display:flex;flex-direction:column;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:20px;overflow:hidden;animation:flbOrionCard 520ms var(--flb-ease-out) 180ms backwards" class="flb-orion-card">
-      <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 28px 8px;overflow-y:auto">
+      <div class="flb-orion-card" style="width:100%;max-width:560px;height:100%;max-height:640px;min-height:0;display:flex;flex-direction:column;background:var(--flb-surface);border:1px solid var(--flb-line);border-radius:20px;overflow:hidden;animation:flbOrionCard 520ms var(--flb-ease-out) 180ms backwards">
+      <div class="flb-orion-body" style="flex:1;min-height:0;display:flex;flex-direction:column;padding:16px 28px 8px;overflow-y:auto">
 
       <!-- Q1 · ROLE -->
       <sc-if value="{{ orionStep0 }}" hint-placeholder-val="{{ true }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Who is Orion working for?</h2>
         <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Everything after this (questions, defaults, schedules, templates) adapts to your role.</p>
         <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
           <sc-for list="{{ roleOpts }}" as="r" hint-placeholder-count="6">
-            <button onClick="{{ r.onSelect }}" style="{{ r.cardStyle }}" style-hover="border-color:var(--flb-purple)">
+            <button class="flb-orion-opt" onClick="{{ r.onSelect }}" style="{{ r.cardStyle }}">
               <span style="{{ r.iconWrap }}"><i class="{{ r.icon }}" style="font-size:16px;line-height:1"></i></span>
               <div style="flex:1;min-width:0"><div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ r.title }}</div><sc-if value="{{ r.hasDesc }}" hint-placeholder-val="{{ true }}"><div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin-top:1px">{{ r.desc }}</div></sc-if></div>
               <sc-if value="{{ r.showArrow }}" hint-placeholder-val="{{ true }}"><i class="ph ph-arrow-right" style="font-size:14px;color:var(--flb-ink-4);flex-shrink:0"></i></sc-if>
@@ -2456,12 +2510,12 @@
       <!-- Q2 · OBJECTIVES -->
       <sc-if value="{{ orionStep1 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What should Orion help your brand achieve?</h2>
         <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Tap in priority order. 1 is your top objective. Tap again to remove.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left">
           <sc-for list="{{ goalOpts }}" as="g" hint-placeholder-count="4">
-            <button onClick="{{ g.onSelect }}" style="{{ g.rowStyle }}" style-hover="border-color:var(--flb-purple)">
+            <button class="flb-orion-opt" onClick="{{ g.onSelect }}" style="{{ g.rowStyle }}">
               <span>{{ g.title }}</span>
               <sc-if value="{{ g.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-6px;width:20px;height:20px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 11px/20px var(--flb-font-body);text-align:center">{{ g.ord }}</span></sc-if>
             </button>
@@ -2474,7 +2528,7 @@
         <sc-if value="{{ hasCustomObjectives }}" hint-placeholder-val="{{ false }}">
         <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:center">
           <sc-for list="{{ customObjectiveChips }}" as="c" hint-placeholder-count="1">
-            <button onClick="{{ c.onSelect }}" style="{{ c.rowStyle }}">{{ c.title }}<span style="margin-left:6px;font:600 11px var(--flb-font-body);color:var(--flb-on-violet)">{{ c.ord }}</span></button>
+            <button class="flb-orion-opt" onClick="{{ c.onSelect }}" style="{{ c.rowStyle }}">{{ c.title }}<span style="margin-left:6px;font:600 11px var(--flb-font-body);color:var(--flb-on-violet)">{{ c.ord }}</span></button>
           </sc-for>
         </div>
         </sc-if>
@@ -2484,7 +2538,7 @@
       <!-- Q3 · KPIs -->
       <sc-if value="{{ orionStep3 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Pick up to 6 KPIs to track</h2>
         <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Shown based on your objectives. Selection order = report order.</p>
         <div style="text-align:left;display:flex;flex-direction:column;gap:14px">
@@ -2493,7 +2547,7 @@
               <div style="font:600 10.5px var(--flb-font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:8px">{{ g.label }}</div>
               <div style="display:flex;flex-wrap:wrap;gap:8px">
                 <sc-for list="{{ g.chips }}" as="m" hint-placeholder-count="4">
-                  <button onClick="{{ m.onToggle }}" style="{{ m.chipStyle }}" style-hover="border-color:var(--flb-purple)">
+                  <button class="flb-orion-chip" onClick="{{ m.onToggle }}" style="{{ m.chipStyle }}">
                     {{ m.name }}
                     <sc-if value="{{ m.showOrd }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:-7px;right:-5px;width:18px;height:18px;border-radius:9999px;background:var(--flb-purple);color:#fcfcfc;font:600 10px/18px var(--flb-font-body);text-align:center">{{ m.ord }}</span></sc-if>
                   </button>
@@ -2513,12 +2567,12 @@
       <!-- Q4 · PAIN -->
       <sc-if value="{{ orionStep2 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">What hurts the most right now?</h2>
         <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Orion attacks these first. Select as many as apply, or add your own.</p>
         <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
           <sc-for list="{{ painExamples }}" as="p" hint-placeholder-count="3">
-            <button onClick="{{ p.onSelect }}" style="{{ p.rowStyle }}" style-hover="border-color:var(--flb-purple)">
+            <button class="flb-orion-opt" onClick="{{ p.onSelect }}" style="{{ p.rowStyle }}">
               <div style="font:500 13.5px var(--flb-font-body);color:var(--flb-ink)">{{ p.title }}</div>
               <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3);line-height:1.45;margin-top:2px">{{ p.desc }}</div>
             </button>
@@ -2534,7 +2588,7 @@
       <!-- Q5 · ANOMALY -->
       <sc-if value="{{ orionStepAnomaly }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How should Orion detect anomalies?</h2>
         <p style="margin:0 auto 16px;max-width:460px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Per level, pick the comparison windows Orion watches. Defaults are tuned to how fast each level moves.</p>
         <div style="text-align:left;display:flex;flex-direction:column;gap:16px">
@@ -2544,7 +2598,7 @@
               <div style="font:400 12px var(--flb-font-body);color:var(--flb-ink-3);margin-bottom:8px">{{ lv.desc }}</div>
               <div style="display:flex;flex-wrap:wrap;gap:8px">
                 <sc-for list="{{ lv.windows }}" as="w" hint-placeholder-count="4">
-                  <button onClick="{{ w.onToggle }}" style="{{ w.chipStyle }}" style-hover="border-color:var(--flb-purple)">{{ w.label }}</button>
+                  <button class="flb-orion-chip" onClick="{{ w.onToggle }}" style="{{ w.chipStyle }}">{{ w.label }}</button>
                 </sc-for>
               </div>
             </div>
@@ -2556,7 +2610,7 @@
       <!-- Q6 · DELIVERY -->
       <sc-if value="{{ orionStep5 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How often should Orion reach you?</h2>
         <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Pick a cadence, or let Orion set it per schedule from your role, spend and live signals.</p>
         <div style="text-align:left;display:flex;flex-direction:column;gap:12px">
@@ -2575,8 +2629,8 @@
             <div>
               <label style="display:block;font:600 10.5px var(--flb-font-body);letter-spacing:.08em;text-transform:uppercase;color:var(--flb-ink-3);margin-bottom:6px">Preferred time</label>
               <div style="position:relative">
-                <input type="time" value="{{ orionTime }}" onChange="{{ onOrionTime }}" style="width:100%;height:44px;padding:0 36px 0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 14px var(--flb-font-body);outline:none">
-                <i class="ph ph-clock" style="position:absolute;right:12px;top:14px;font-size:16px;color:var(--flb-ink-4);pointer-events:none"></i>
+                <input class="flb-time" type="time" value="{{ orionTime }}" onChange="{{ onOrionTime }}" style="position:relative;width:100%;height:44px;padding:0 40px 0 14px;border-radius:12px;border:1px solid var(--flb-line);background:var(--flb-surface-2);color:var(--flb-ink);font:400 14px var(--flb-font-body);outline:none;cursor:pointer">
+                <i class="ph ph-clock" style="position:absolute;right:12px;top:14px;font-size:16px;color:var(--flb-ink-3);pointer-events:none;z-index:1" aria-hidden="true"></i>
               </div>
             </div>
             <div style="position:relative">
@@ -2605,17 +2659,17 @@
       <!-- Q7 · VOICE -->
       <sc-if value="{{ orionStepVoice }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">How should Orion talk to you?</h2>
         <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">This shapes how briefings and alerts are written.</p>
         <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
           <sc-for list="{{ voiceOpts }}" as="v" hint-placeholder-count="3">
-            <button onClick="{{ v.onSelect }}" style="{{ v.rowStyle }}" style-hover="border-color:var(--flb-purple)">
+            <button class="flb-orion-opt" onClick="{{ v.onSelect }}" style="{{ v.rowStyle }}">
               <div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">{{ v.title }}</div>
               <div style="font:400 12.5px var(--flb-font-body);color:var(--flb-ink-3);line-height:1.45;margin-top:3px">{{ v.desc }}</div>
             </button>
           </sc-for>
-          <button onClick="{{ onVoiceOther }}" style="{{ voiceOtherStyle }}" style-hover="border-color:var(--flb-purple)">
+          <button class="flb-orion-opt" onClick="{{ onVoiceOther }}" style="{{ voiceOtherStyle }}">
             <div style="font:500 14px var(--flb-font-body);color:var(--flb-ink)">+ Something else</div>
           </button>
         </div>
@@ -2630,12 +2684,12 @@
       <!-- REVIEW (receipt, not a counted question) -->
       <sc-if value="{{ orionStep6 }}" hint-placeholder-val="{{ false }}">
       <div style="animation:flbStepIn 330ms var(--flb-ease-out) backwards;text-align:center">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:var(--flb-tint-violet);color:var(--flb-on-violet);font:500 10.5px var(--flb-font-body);letter-spacing:.08em;padding:5px 12px;border-radius:9999px;margin-bottom:14px" class="flb-orion-badge"><i class="ph ph-clock" style="font-size:12px"></i>{{ orionQBadge }}</span>
         <h2 style="margin:0 0 6px;font:500 22px/1.3 var(--flb-font-display);letter-spacing:-.02em;color:var(--flb-ink)">Here's what Orion will set up for you</h2>
         <p style="margin:0 auto 16px;max-width:440px;font:400 13px/1.5 var(--flb-font-body);color:var(--flb-ink-3)">Confirm and Orion generates your templates, or edit any answer first.</p>
-        <div style="background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:16px;overflow:hidden;text-align:left">
+        <div style="background:var(--flb-surface-2);border:1px solid var(--flb-line);border-radius:16px;overflow:visible;text-align:left">
           <sc-for list="{{ receiptRows }}" as="r" hint-placeholder-count="7">
-            <div style="{{ r.rowStyle }}"><span style="width:132px;flex-shrink:0;color:var(--flb-ink-4);font-weight:500">{{ r.k }}</span><span style="flex:1;color:var(--flb-ink);line-height:1.45;min-width:0">{{ r.v }}</span><button onClick="{{ r.onEdit }}" data-tip="Edit" aria-label="Edit {{ r.k }}" style="width:28px;height:28px;flex-shrink:0;border:none;border-radius:8px;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:var(--flb-surface-3);color:var(--flb-ink)"><i class="ph ph-pencil-simple" style="font-size:14px;line-height:1"></i></button></div>
+            <div style="{{ r.rowStyle }}"><span style="width:132px;flex-shrink:0;color:var(--flb-ink-4);font-weight:500">{{ r.k }}</span><span style="flex:1;color:var(--flb-ink);line-height:1.45;min-width:0">{{ r.v }}</span><button onClick="{{ r.onEdit }}" data-tip="Edit" data-tip-top="" data-tip-left="" aria-label="Edit {{ r.k }}" style="width:28px;height:28px;flex-shrink:0;border:none;border-radius:8px;background:transparent;color:var(--flb-ink-3);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;position:relative;z-index:2" style-hover="background:var(--flb-surface-3);color:var(--flb-ink)"><i class="ph ph-pencil-simple" style="font-size:14px;line-height:1"></i></button></div>
           </sc-for>
         </div>
       </div>
@@ -2691,10 +2745,10 @@
       </sc-if>
 
         </div><!-- /step region -->
-        <div style="flex-shrink:0;padding:8px 28px 16px">
-        <sc-if value="{{ orionShowSkip }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:0 0 12px"><button onClick="{{ orionSkipStep }}" style="border:none;background:transparent;color:var(--flb-ink-4);font:400 13px var(--flb-font-body);cursor:pointer;padding:4px 8px" style-hover="color:var(--flb-ink-2)">Skip for now</button></div></sc-if>
+        <div class="flb-orion-footer" style="flex-shrink:0;padding:8px 28px 16px">
+        <sc-if value="{{ orionShowSkip }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:0 0 8px"><button onClick="{{ orionSkipStep }}" style="border:none;background:transparent;color:var(--flb-ink-4);font:400 12px var(--flb-font-body);cursor:pointer;padding:4px 8px" style-hover="color:var(--flb-ink-2)">Skip for now</button></div></sc-if>
         <sc-if value="{{ orionShowNext }}" hint-placeholder-val="{{ true }}">
-        <button onClick="{{ orionNext }}" style="{{ orionNextStyle }}">{{ orionNextLabel }}<sc-if value="{{ orionNextArrow }}" hint-placeholder-val="{{ true }}"><i class="ph-bold ph-arrow-right" style="font-size:16px;line-height:1"></i></sc-if><sc-if value="{{ orionIsLast }}" hint-placeholder-val="{{ false }}"><i class="ph-fill ph-sparkle" style="font-size:15px"></i></sc-if></button>
+        <button class="flb-orion-cta" onClick="{{ orionNext }}" style="{{ orionNextStyle }}">{{ orionNextLabel }}<sc-if value="{{ orionNextArrow }}" hint-placeholder-val="{{ true }}"><i class="ph-bold ph-arrow-right" style="font-size:15px;line-height:1"></i></sc-if><sc-if value="{{ orionIsLast }}" hint-placeholder-val="{{ false }}"><i class="ph-fill ph-sparkle" style="font-size:14px"></i></sc-if></button>
         </sc-if>
         </div>
       </div><!-- /card -->
@@ -2738,7 +2792,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:940}}">
 class Component extends DCLogic {
-  state = { theme: "dark", agent: "orion", nav: "chats", ciMode: "scoring", ciChannel: "google", ciDecision: "all", ciOpenRow: "0707DCSIFTBL", ciMenu: null, ciFiltersOpen: false, ciObjective: "All", ciSort: "Creative Score", ciDir: "high", ciDateRange: "Last 7 days", ciMatch: "any", ciKpi: { ROAS: true }, ciType: {}, ciFat: {}, ciAdActive: false, ciCols: { roas: true, spend: true, ctr: true, fatigue: true }, optOpen: true, deepAd: null, deepTrendTab: "DoD", utmChannel: "meta", utmFilter: "all", utmModal: null, tgtOpen: false, tgtObjective: "Sales", tgtKpis: { Spend: true, ROAS: true, CPP: true, CTR: true }, tgtVals: { Spend: "115000", ROAS: "1.41", CPP: "", CTR: "1.61", MinSpend: "1000" }, draft: "", pastes: [], expandedPaste: null, web: false, banner: true, checklistOpen: false, schedChipOpen: false, tplOrder: [0,1,2,3], insightsOpen: false, menu: null, model: "Standard", effort: "Medium", groups: { workspace: true, analytics: true, setup: true }, messages: [], thinking: false, sidebarCollapsed: !(typeof window !== "undefined" && window.innerWidth < 1024), mobileNavOpen: false, viewportNarrow: (typeof window !== "undefined" && window.innerWidth < 1024), mode: "analytics", notif: 2, hintOpen: true,
+  state = { theme: "dark", agent: "orion", nav: "chats", ciMode: "scoring", ciChannel: "google", ciDecision: "all", ciOpenRow: "0707DCSIFTBL", ciMenu: null, ciFiltersOpen: false, ciObjective: "All", ciSort: "Creative Score", ciDir: "high", ciDateRange: "Last 7 days", ciMatch: "any", ciKpi: { ROAS: true }, ciType: {}, ciFat: {}, ciAdActive: false, ciCols: { roas: true, spend: true, ctr: true, fatigue: true }, optOpen: true, deepAd: null, deepTrendTab: "DoD", utmChannel: "meta", utmFilter: "all", utmModal: null, tgtOpen: false, tgtObjective: "Sales", tgtKpis: { Spend: true, ROAS: true, CPP: true, CTR: true }, tgtVals: { Spend: "115000", ROAS: "1.41", CPP: "", CTR: "1.61", MinSpend: "1000" }, draft: "", pastes: [], expandedPaste: null, attachments: [], web: false, banner: true, checklistOpen: false, schedChipOpen: false, tplOrder: [0,1,2,3], insightsOpen: false, menu: null, model: "Standard", effort: "Medium", groups: { workspace: true, analytics: true, setup: true }, messages: [], thinking: false, sidebarCollapsed: !(typeof window !== "undefined" && window.innerWidth < 1024), mobileNavOpen: false, viewportNarrow: (typeof window !== "undefined" && window.innerWidth < 1024), mode: "analytics", notif: 2, hintOpen: true,
     // ── scheduler ──
     schedTab: "custom", schedSearch: "", schedModalOpen: false, schedToast: null, schedCardMenu: null, schedRunning: {}, schedFormatTip: false, schedFreqMenuOpen: false, schedStartDateMenuOpen: false, schedEndDateMenuOpen: false,
     schedNew: { prompt: "Test prompt", title: "Test", model: "Standard", recipients: ["admin@karmikh.com"], recipientInput: "", format: "PDF", autoRun: false, frequency: "Week", time: "09:30:00 AM", days: ["Mon"], startDate: "August 18, 2026", endDate: "" },
@@ -3473,8 +3527,87 @@ class Component extends DCLogic {
     }), () => this.beginWorkspaceSetup());
   }
 
+  fireOrionConfetti() {
+    if (typeof document === "undefined") return;
+    const COLORS = ["#7F56D9", "#643CC1", "#A08BFF", "#E9348B", "#FB479F", "#009EFF", "#4A259A", "#FC2272"];
+    const DURATION_MS = 1800;
+    const COUNT = 90;
+    const existing = document.querySelector(".flb-orion-confetti");
+    if (existing) existing.remove();
+    const canvas = document.createElement("canvas");
+    canvas.className = "flb-orion-confetti";
+    canvas.setAttribute("aria-hidden", "true");
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const resize = () => {
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    const cx = window.innerWidth * 0.5;
+    const cy = window.innerHeight * 0.38;
+    const parts = Array.from({ length: COUNT }, () => {
+      const angle = (Math.random() * Math.PI) - Math.PI / 2;
+      const speed = 6 + Math.random() * 9;
+      return {
+        x: cx + (Math.random() - 0.5) * 40,
+        y: cy,
+        vx: Math.cos(angle) * speed * (0.55 + Math.random()),
+        vy: Math.sin(angle) * speed - (4 + Math.random() * 6),
+        w: 4 + Math.random() * 5,
+        h: 6 + Math.random() * 8,
+        rot: Math.random() * Math.PI * 2,
+        vr: (Math.random() - 0.5) * 0.35,
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        grad: Math.random() > 0.55
+      };
+    });
+    const started = performance.now();
+    let raf = 0;
+    const tick = (now) => {
+      const t = now - started;
+      const fade = Math.max(0, 1 - t / DURATION_MS);
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const p of parts) {
+        p.vy += 0.22;
+        p.vx *= 0.992;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.rot += p.vr;
+        ctx.save();
+        ctx.globalAlpha = fade;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        if (p.grad) {
+          const g = ctx.createLinearGradient(-p.w, 0, p.w, p.h);
+          g.addColorStop(0, "#E9348B");
+          g.addColorStop(0.5, "#7F56D9");
+          g.addColorStop(1, "#009EFF");
+          ctx.fillStyle = g;
+        } else {
+          ctx.fillStyle = p.color;
+        }
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+      }
+      if (t < DURATION_MS) raf = requestAnimationFrame(tick);
+      else {
+        cancelAnimationFrame(raf);
+        canvas.remove();
+        window.removeEventListener("resize", resize);
+      }
+    };
+    window.addEventListener("resize", resize);
+    raf = requestAnimationFrame(tick);
+  }
+
   finishOnboardingPersonalize() {
     const continueSetup = this.state.orionOnboarding;
+    this.fireOrionConfetti();
     this.setState((st) => ({
       orionOnboarding: false,
       steps: { ...st.steps, personalized: true },
@@ -4449,14 +4582,30 @@ class Component extends DCLogic {
       style: "display:inline-flex;align-items:center;padding:8px 16px;border-radius:9999px;background:transparent;border:1px dotted var(--flb-border-muted);font:400 12px var(--flb-font-body);color:var(--flb-ink-3);pointer-events:none;cursor:default;animation:flbRise 420ms var(--flb-ease-out) " + composerPillDelay[i] + " backwards"
     }));
 
+    const formatBytes = (n) => {
+      const size = Number(n) || 0;
+      if (size < 1024) return size + " B";
+      if (size < 1024 * 1024) return Math.round(size / 1024) + " KB";
+      return (size / (1024 * 1024)).toFixed(1) + " MB";
+    };
+
+    const clearAttachments = (list) => {
+      (list || []).forEach((a) => { if (a && a.url) try { URL.revokeObjectURL(a.url); } catch (e) {} });
+    };
+
     const send = () => {
       const pastes = this.state.pastes || [];
+      const attachments = this.state.attachments || [];
       const typed = (this.state.draft || "").trim();
       const parts = pastes.map((p) => p.text);
       if (typed) parts.push(typed);
+      if (attachments.length) {
+        parts.push("Uploaded creative(s): " + attachments.map((a) => a.name).join(", "));
+      }
       const text = parts.join("\n\n").trim();
       if (!text || this.state.thinking) return;
-      this.setState((s) => ({ messages: [...s.messages, { role: "user", text }], draft: "", pastes: [], expandedPaste: null, thinking: true }));
+      clearAttachments(attachments);
+      this.setState((s) => ({ messages: [...s.messages, { role: "user", text }], draft: "", pastes: [], attachments: [], expandedPaste: null, thinking: true }));
       const reply = this.replyFor(typed || (pastes[0] && pastes[0].text) || text);
       clearTimeout(this._t);
       this._t = setTimeout(() => {
@@ -4557,7 +4706,7 @@ class Component extends DCLogic {
     const narrow = !!this.state.viewportNarrow;
     const collapsed = narrow ? false : this.state.sidebarCollapsed;
     const g = this.state.groups;
-    const modelRow = (on) => ({ display: "flex", alignItems: "center", gap: 9, width: "100%", padding: "9px 10px", border: "none", borderRadius: 9, background: on ? "var(--flb-tint-violet)" : "transparent", cursor: "pointer", textAlign: "left" });
+    const modelRow = (on) => ({ display: "flex", alignItems: "center", gap: 6, width: "100%", padding: "6px 8px", border: "none", borderRadius: 7, background: on ? "var(--flb-tint-violet)" : "transparent", cursor: "pointer", textAlign: "left" });
     const mobileNavOpen = narrow && !!this.state.mobileNavOpen;
     const mobileNavOpenAttr = mobileNavOpen ? "true" : "false";
 
@@ -4680,12 +4829,12 @@ class Component extends DCLogic {
     const pct = (v, min, max) => Math.round(((Number(v) - min) / (max - min)) * 100) + "%";
     const selCard = (on) => "display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:13px;border:1px solid " + (on ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";cursor:pointer;transition:background 140ms var(--flb-ease),border-color 140ms var(--flb-ease)";
     const objCard = (on) => "position:relative;display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px 14px;border-radius:12px;border:1px solid " + (on ? "transparent" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:500 13.5px var(--flb-font-body);cursor:pointer;text-align:center";
-    const pillChip = (on) => "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 13px;border-radius:9999px;border:1px solid " + (on ? "transparent" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:500 12.5px var(--flb-font-body);cursor:pointer";
-    const menuRow = (on) => "width:100%;text-align:left;padding:10px 12px;border:none;border-radius:8px;background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:400 13.5px var(--flb-font-body);cursor:pointer";
+    const pillChip = (on) => "position:relative;display:inline-flex;align-items:center;height:34px;padding:0 13px;border-radius:9999px;border:1px solid " + (on ? "transparent" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:500 12px var(--flb-font-body);cursor:pointer";
+    const menuRow = (on) => "width:100%;text-align:left;padding:10px 12px;border:none;border-radius:8px;background:" + (on ? "var(--flb-tint-violet)" : "transparent") + ";color:" + (on ? "var(--flb-on-violet)" : "var(--flb-ink)") + ";font:400 12.5px var(--flb-font-body);cursor:pointer";
     const involveCard = (on) => "width:100%;text-align:left;padding:14px 16px;border-radius:13px;border:1px solid " + (on ? "var(--flb-purple)" : "var(--flb-line)") + ";background:" + (on ? "var(--flb-tint-violet)" : "var(--flb-surface-2)") + ";cursor:pointer;transition:background 140ms var(--flb-ease),border-color 140ms var(--flb-ease)";
-    const segBtn = (on) => "flex:1;height:40px;border:none;background:" + (on ? "var(--flb-purple)" : "transparent") + ";color:" + (on ? "#fcfcfc" : "var(--flb-ink-2)") + ";font:500 13px var(--flb-font-body);cursor:pointer;transition:background 140ms var(--flb-ease)";
+    const segBtn = (on) => "flex:1;height:40px;border:none;background:" + (on ? "var(--flb-purple)" : "transparent") + ";color:" + (on ? "#fcfcfc" : "var(--flb-ink-2)") + ";font:500 12.5px var(--flb-font-body);cursor:pointer;transition:background 140ms var(--flb-ease)";
     const qFill = qIdx >= 0 ? qIdx : qCount - 1;
-    const orionDots = Array.from({ length: qCount }, (_, i) => ({ i, dotStyle: "flex:1;height:4px;border-radius:9999px;background:" + (i <= qFill && !oIs("building") && !oIs("ready") ? "var(--flb-gradient-energetic)" : (i < o.step ? "var(--flb-gradient-energetic)" : "var(--flb-surface-3)")) + ";transition:background 200ms var(--flb-ease)" }));
+    const orionDots = Array.from({ length: qCount }, (_, i) => ({ i, dotStyle: "flex:1;height:4px;border-radius:9999px;background:" + (i <= qFill && !oIs("building") && !oIs("ready") ? "var(--flb-gradient-primary-focus)" : (i < o.step ? "var(--flb-gradient-primary-focus)" : "var(--flb-surface-3)")) + ";transition:background 200ms var(--flb-ease)" }));
     const roleIcons = this.ORION_ROLE_ICONS;
     const roleOpts = Object.entries(this.ORION_ROLES_V2).map(([k, r]) => {
       const ic = roleIcons[k] || roleIcons.other;
@@ -4827,20 +4976,20 @@ class Component extends DCLogic {
       if (idx < 0) return;
       this.setOrion({ step: idx, cadenceMenu: false, channelMenu: false });
     };
-    const receiptRow = (k, v, last, editKey) => ({
+    const receiptRow = (k, v, last, editKey, first) => ({
       k, v,
-      rowStyle: "display:flex;align-items:center;gap:12px;padding:11px 14px;font:400 12.5px var(--flb-font-body)" + (last ? "" : ";border-bottom:1px solid var(--flb-border-muted)"),
+      rowStyle: "display:flex;align-items:center;gap:12px;padding:11px 14px;font:400 12.5px var(--flb-font-body);overflow:visible;position:relative" + (first ? ";border-radius:12px 12px 0 0" : "") + (last ? ";border-radius:0 0 12px 12px" : "") + (last ? "" : ";border-bottom:1px solid var(--flb-border-muted)"),
       onEdit: () => goOrionStep(editKey)
     });
     const cadenceReceipt = o.cadence + " " + o.time + " via " + (String(o.channel).indexOf("WhatsApp") === 0 ? "WhatsApp" : o.channel);
     const receiptRows = [
-      receiptRow("Role", roleTitle, false, "role"),
-      receiptRow("Brand objectives", goalTitle, false, "goal"),
-      receiptRow("KPIs to track", metricsList.join(", ") || "Not set", false, "metrics"),
-      receiptRow("Your pain", painTitle, false, "pain"),
-      receiptRow("Anomaly detection", winLabel, false, "anomaly"),
-      receiptRow("Cadence", cadenceReceipt, false, "delivery"),
-      receiptRow("Tone", voiceTitle, true, "voice")
+      receiptRow("Role", roleTitle, false, "role", true),
+      receiptRow("Brand objectives", goalTitle, false, "goal", false),
+      receiptRow("KPIs to track", metricsList.join(", ") || "Not set", false, "metrics", false),
+      receiptRow("Your pain", painTitle, false, "pain", false),
+      receiptRow("Anomaly detection", winLabel, false, "anomaly", false),
+      receiptRow("Cadence", cadenceReceipt, false, "delivery", false),
+      receiptRow("Tone", voiceTitle, true, "voice", false)
     ];
     const firstObjId = (o.objectives || [])[0];
     const firstObjGroup = firstObjId ? this.ORION_KPI_GROUPS[firstObjId] : null;
@@ -4946,7 +5095,7 @@ class Component extends DCLogic {
       toggleChannelMenu: () => this.setOrion({ channelMenu: !o.channelMenu, cadenceMenu: false }),
       orionChannelOpts: channelOpts,
       orionNextLabel: oIs("ready") ? "Open Orion" : (oIs("review") ? "Generate my templates" : "Continue"),
-      orionNextStyle: "display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 15px var(--flb-font-body);box-shadow:var(--flb-glow-violet);cursor:" + (canNext ? "pointer" : "not-allowed") + ";opacity:" + (canNext ? "1" : ".45"),
+      orionNextStyle: "display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:48px;border-radius:12px;border:none;background:var(--flb-gradient-energetic);color:#fcfcfc;font:600 15px var(--flb-font-body);cursor:" + (canNext ? "pointer" : "not-allowed") + ";opacity:" + (canNext ? "1" : ".45"),
       orionNext: () => {
         const s = this.state.orion;
         if (oIs("building")) return;
